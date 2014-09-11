@@ -1,0 +1,121 @@
+﻿@model AvaliacaoDesempenho.Models.CiclosAvaliacao.GestaoCompentenciasCargosViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutInterno.cshtml";
+}
+
+@if (Model.CicloAvaliacaoSelecionadoID.HasValue)
+{
+    @Html.Action("CicloAvaliacaoSelecionado", "CiclosAvaliacao", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID.Value })
+}
+
+<div class="row">
+    <div class="col-md-100">
+        @Html.ActionLink("Consolidar Cargos Rubi", "ConsolidarCargosRubi", new { id = Model.CicloAvaliacaoSelecionadoID }, new { @class = "btn btn-default" })
+
+        @Html.ActionLink("Importar Competências", "", null, new { @class = "btn btn-default" })
+    </div>
+</div>
+
+<div class="row top30">
+    <div class="col-md-100">
+        <label class="control-label">
+            Relações estabelecidas entre cargos e competèncias
+        </label>
+    </div>
+</div>
+
+@if (Model != null && Model.AssociacoesCargosCompetencias != null)
+{
+    using (Html.BeginForm("GestaoCompetenciasCargos",
+                           "CiclosAvaliacao",
+                           FormMethod.Post,
+                           new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(modelCiclo => Model.CicloAvaliacaoSelecionadoID)
+
+        <div class="row top20">
+            <div class="col-md-100">
+                <table class="table">
+                    <tr>
+                        <th>
+                            Cargo Rubi
+                        </th>
+                        <th>
+                            Área Rubi
+                        </th>
+                        <th>
+                            Setor Rubi
+                        </th>
+                        <th>
+                            Cargo Competência
+                        </th>
+                        <th>
+                            Área Competência
+                        </th>
+                        <th>
+                            Setor Competência
+                        </th>
+                    </tr>
+
+                    @for (int i = 0; i < Model.AssociacoesCargosCompetencias.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.AssociacoesCargosCompetencias[i].CargoRubi)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.AssociacoesCargosCompetencias[i].AreaRubi)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.AssociacoesCargosCompetencias[i].SetorRubi)
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(modelItem => Model.AssociacoesCargosCompetencias[i].CargoCompetenciaID,
+                                  new SelectList(Model.CargosCompentencia,
+                                                 "Value",
+                                                 "Text",
+                                                 Model.AssociacoesCargosCompetencias[i].CargoCompetenciaID),
+                                                 "Não participa",
+                                                 new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(modelItem => Model.AssociacoesCargosCompetencias[i].AreaCompetenciaID,
+                                  new SelectList(Model.AreasCompentencia,
+                                                 "Value",
+                                                 "Text",
+                                                 Model.AssociacoesCargosCompetencias[i].AreaCompetenciaID),
+                                                 "Não participa",
+                                                 new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(modelItem => Model.AssociacoesCargosCompetencias[i].SetorCompetenciaID,
+                                  new SelectList(Model.SetoresCompentencia,
+                                                 "Value",
+                                                 "Text",
+                                                 Model.AssociacoesCargosCompetencias[i].SetorCompetenciaID),
+                                                 "Não participa",
+                                                 new { @class = "form-control" })
+                            </td>
+                        </tr>
+                        @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].ID)
+                        @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].CargoRubiID)
+                        @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].CargoRubi)
+                        @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].AreaRubiID)
+                        @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].AreaRubi)
+                        @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].SetorRubiID)
+                        @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].SetorRubi)
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="row top30">
+            <div class="col-md-100">
+                @Html.ActionLink("Copiar último ciclo", "Index", "Relatorios", null, new { @class = "btn btn-default" })
+                <input type="submit" value="Salvar" class="btn btn-default" />
+            </div>
+        </div>
+    }
+}

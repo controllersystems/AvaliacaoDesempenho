@@ -1,0 +1,28 @@
+﻿@model AvaliacaoDesempenho.Models.CiclosAvaliacao.SelecaoCicloAvaliacaoViewModel
+
+<div class="row">
+    @using (Html.BeginForm("GestaoAvaliacaoColaborador", "Avaliacoes"))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="col-md-027">
+            <label class="control-label">
+                Selecione um Ciclo de Avaliação
+            </label>
+        </div>
+        <div class="col-md-050">
+
+            @Html.DropDownListFor(model => model.CicloAvaliacaoSelecionadoID,
+                                  new SelectList(Model.CiclosAvaliacao,
+                                                 "Value",
+                                                 "Text",
+                                                 Model.CicloAvaliacaoSelecionadoID),
+                                                 "",
+                                  new { @class = "form-control" })
+        </div>
+        <div class="col-md-015">
+            <input type="submit" value="Selecionar" class="btn btn-default" />
+        </div>
+    }
+</div>
+<hr />

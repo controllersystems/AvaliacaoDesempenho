@@ -1,0 +1,116 @@
+﻿@model AvaliacaoDesempenho.Models.Usuarios.CabecalhoColaboradorViewModel
+
+@{
+    const string SEM_INFORMACAO = "---";
+}
+
+<div class="row">
+    <div class="col-md-100">
+        <h4>@Model.CicloAvaliacaoDescricao</h4>
+    </div>
+</div>
+<div class="row top20">
+    <div class="col-md-020">
+        <img src="@Url.Action("GetImage", "Avaliacoes", new { byteImg = Model.FOTEMP })" />
+    </div>
+    <div class="col-md-080">
+        <div class="row">
+            <div class="col-md-030">
+                @Model.Nome
+            </div>
+            <div class="col-md-010">
+                <label>Cargo</label>
+            </div>
+            <div class="col-md-020">
+                @if (Model.Cargo != null)
+                {
+                    @Html.DisplayFor(model => Model.Cargo)
+                }
+                else
+                {
+                    @SEM_INFORMACAO
+                }
+            </div>
+            <div class="col-md-010">
+                <label>Diretoria</label>
+            </div>
+            <div class="col-md-030">
+                @if (Model.Diretoria != null)
+                {
+                    @Html.DisplayFor(model => Model.Diretoria)
+                }
+                else
+                {
+                    @SEM_INFORMACAO
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-030">
+                @Model.Login
+            </div>
+            <div class="col-md-015">
+                <label>Tempo no cargo</label>
+            </div>
+            <div class="col-md-015">
+                @Model.TempoCargo
+            </div>
+            <div class="col-md-010">
+                <label>Área</label>
+            </div>
+            <div class="col-md-030">
+                @if (Model.Area != null)
+                {
+                    @Html.DisplayFor(model => Model.Area)
+                }
+                else
+                {
+                    @SEM_INFORMACAO
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-010">
+                <label>Admissão</label>
+            </div>
+            <div class="col-md-020">
+                @if (Model.DataAdmissao != null)
+                {
+                    @Html.DisplayFor(model => Model.DataAdmissao)
+                }
+                else
+                {
+                    @SEM_INFORMACAO
+                }
+            </div>
+            <div class="col-md-010">
+                <label>Gestor</label>
+            </div>
+            <div class="col-md-020">
+                @if (Model.NomeGestor != null)
+                {
+                    @Html.DisplayFor(model => Model.NomeGestor)
+                }
+                else
+                {
+                    @SEM_INFORMACAO
+                }
+            </div>
+            <div class="col-md-015">
+                <label>Localidade</label>
+            </div>
+            <div class="col-md-025">
+                @if (Model.Localidade != null)
+                {
+                    @Html.DisplayFor(model => Model.Localidade)
+                }
+                else
+                {
+                    @SEM_INFORMACAO
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />

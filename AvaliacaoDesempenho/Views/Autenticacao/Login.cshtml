@@ -1,0 +1,52 @@
+﻿@model AvaliacaoDesempenho.Models.Autenticacao.LoginViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row top100">
+    <div class="col-md-12 text-center">
+        <img src="~/Content/Images/logo_rh.png" alt="Transformação RH" />
+        <img src="~/Content/Images/logo_omni.png" alt="Transformação RH" />
+    </div>
+</div>
+<div class="row top20">
+    <div class="col-md-12 text-center">
+        <h4>Sistema de Avaliação de Desempenho</h4>
+    </div>
+</div>
+<div class="row top30">
+    <div class="col-md-offset-4">
+        @using (Html.BeginForm("Login", "Autenticacao", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+
+            <div class="form-group">
+                <div class="col-md-1">
+                    @Html.LabelFor(m => m.Login, new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Html.EditorFor(m => m.Login, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Login, string.Empty, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-1">
+                    @Html.LabelFor(m => m.Senha, new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Html.PasswordFor(m => m.Senha, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Senha, string.Empty, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-1 col-md-5">
+                    <input type="submit" value="Entrar" class="btn btn-default" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

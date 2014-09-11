@@ -1,0 +1,132 @@
+﻿@using AvaliacaoDesempenho.Dominio.BusinessEntities
+
+@model AvaliacaoDesempenho.Models.Avaliacoes.ManterAvaliacaoPDIColaboradorViewModel
+
+@{
+    ViewBag.Title = "ManterPDIColaborador";
+    Layout = "~/Views/Shared/_LayoutInterno.cshtml";
+}
+
+@Html.Action("CabecalhoColaborador", "Usuarios", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID })
+
+<div class="row">
+    <div class="col-md-100">
+        <label>PDI - Plano de Desenvolvimento Individual</label>
+    </div>
+</div>
+<hr />
+
+@using (Html.BeginForm("ManterAvaliacaoPDIColaborador",
+                       "Avaliacoes",
+                       FormMethod.Post,
+                       new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.HiddenFor(model => Model.CicloAvaliacaoSelecionadoID)
+    @Html.HiddenFor(model => Model.AvaliacaoPDIColaboradorID)
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+
+    <div class="row top30">
+        <div class="col-md-030">
+            @Html.LabelFor(model => Model.Idiomas, new { @class = "control-label" })
+        </div>
+        <div class="col-md-070">
+            @Html.LabelFor(model => Model.Graduacao, new { @class = "control-label" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-030">
+            @Html.TextAreaFor(model => Model.Idiomas, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => Model.Idiomas, string.Empty, new { @class = "text-danger" })
+        </div>
+        <div class="col-md-070">
+            @Html.TextAreaFor(model => Model.Graduacao, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => Model.Graduacao, string.Empty, new { @class = "text-danger" })
+        </div>
+    </div>
+    <hr />
+    <div class="row top30">
+        <div class="col-md-100">
+            @Html.LabelFor(model => Model.PontosFortes, new { @class = "control-label" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-100">
+            @Html.TextAreaFor(model => Model.PontosFortes, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => Model.PontosFortes, string.Empty, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-100">
+            @Html.LabelFor(model => Model.PontosDesenvolvimento, new { @class = "control-label" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-100">
+            @Html.TextAreaFor(model => Model.PontosDesenvolvimento, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => Model.PontosDesenvolvimento, string.Empty, new { @class = "text-danger" })
+        </div>
+    </div>
+    <hr />
+    <div class="row top30">
+        <div class="col-md-100">
+            @Html.LabelFor(model => Model.ComentariosColaborador, new { @class = "control-label" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-100">
+            @Html.TextAreaFor(model => Model.ComentariosColaborador, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => Model.ComentariosColaborador, string.Empty, new { @class = "text-danger" })
+        </div>
+    </div>
+    if (Model.ListaDesenvolvimentoCompetenciaViewModel != null)
+    {
+        foreach (var item in Model.ListaDesenvolvimentoCompetenciaViewModel)
+        {
+            <div class="row top30">
+                <div class="col-md-100">
+                    @Html.LabelFor(model => item.AcaoDesenvolvimento, new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-100">
+                    @Html.TextAreaFor(model => item.AcaoDesenvolvimento, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => item.AcaoDesenvolvimento, string.Empty, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row top20">
+                <div class="col-md-100">
+                    @Html.LabelFor(model => item.RecursoSuporte, new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-100">
+                    @Html.TextAreaFor(model => item.RecursoSuporte, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => item.RecursoSuporte, string.Empty, new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+    }
+    <hr class="top30" />
+    <div class="row top20">
+        <div class="col-md-095 col-md-offset-005 text-right">
+            <input type="submit" value="Salvar" class="btn btn-default" />
+            @if (Model.ListaDesenvolvimentoCompetenciaViewModel != null
+                    && !Model.IncluirDesenvolvimentoCompetencia
+                    && Model.AvaliacaoPDIColaboradorID.HasValue
+                    && !Model.AcessoGestor)
+            {
+                @Html.ActionLink("Submeter à aprovação do seu gestor",
+                                 "SubmeterAvaliacaoColaboradorAvaliacaoGestor",
+                                 new
+                                 {
+                                     cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID,
+                                     avaliacaoPDIColaboradorID = Model.AvaliacaoPDIColaboradorID
+                                 },
+                                 new { @class = "btn btn-default" })
+            }
+        </div>
+    </div>
+
+}

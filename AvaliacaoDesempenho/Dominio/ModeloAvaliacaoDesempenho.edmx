@@ -1,0 +1,1221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="avaliacao_desempenhoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AssociacaoCargoCompetencia">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CargoRubiID" Type="int" Nullable="false" />
+          <Property Name="CargoRubi" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="AreaRubiID" Type="int" Nullable="false" />
+          <Property Name="AreaRubi" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="SetorRubiID" Type="int" />
+          <Property Name="SetorRubi" Type="nvarchar" MaxLength="200" />
+          <Property Name="CargoCompetenciaID" Type="int" />
+          <Property Name="CargoCompetencia" Type="nvarchar" MaxLength="200" />
+          <Property Name="AreaCompetenciaID" Type="int" />
+          <Property Name="AreaCompetencia" Type="nvarchar" MaxLength="200" />
+          <Property Name="SetorCompetenciaID" Type="int" />
+          <Property Name="SetorCompetencia" Type="nvarchar" MaxLength="200" />
+          <Property Name="CicloAvaliacao_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AvaliacaoColaborador">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataCriacao" Type="datetime" Nullable="false" />
+          <Property Name="JustificativaReprovacao" Type="nvarchar(max)" />
+          <Property Name="Aprovada" Type="bit" Nullable="false" />
+          <Property Name="CicloAvaliacao_ID" Type="int" Nullable="false" />
+          <Property Name="Colaborador_ID" Type="int" Nullable="false" />
+          <Property Name="GestorRubiID" Type="int" />
+          <Property Name="StatusAvaliacaoColaborador_ID" Type="int" Nullable="false" />
+          <Property Name="CargoRubiID" Type="int" />
+          <Property Name="AreaRubiID" Type="int" />
+          <Property Name="SetorRubiID" Type="int" />
+        </EntityType>
+        <EntityType Name="AvaliacaoGestor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Avaliacao" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AvaliacaoPDIColaborador">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataCriacao" Type="date" Nullable="false" />
+          <Property Name="Idiomas" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Graduacao" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PontosFortes" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PontosDesenvolvimento" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ComentariosColaborador" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ComentariosGestor" Type="nvarchar(max)" />
+          <Property Name="Aprovada" Type="bit" Nullable="false" />
+          <Property Name="CicloAvaliacao_ID" Type="int" Nullable="false" />
+          <Property Name="StatusPDI_ID" Type="int" Nullable="false" />
+          <Property Name="Colaborador_ID" Type="int" Nullable="false" />
+          <Property Name="GestorRubiID" Type="int" />
+        </EntityType>
+        <EntityType Name="CicloAvaliacao">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descricao" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="DataInicioVigencia" Type="date" Nullable="false" />
+          <Property Name="DataFimVigencia" Type="date" Nullable="false" />
+          <Property Name="URLCompetencia" Type="nvarchar" MaxLength="200" />
+          <Property Name="OrientacaoCompetencia" Type="nvarchar" MaxLength="200" />
+          <Property Name="DataInicioObjetivosMetas" Type="date" />
+          <Property Name="DataTerminoObjetivosMetas" Type="date" />
+          <Property Name="TituloOrientacaoObjetivosMetas" Type="nvarchar" MaxLength="200" />
+          <Property Name="TextoOrientacaoObjetivosMetas" Type="nvarchar(max)" />
+          <Property Name="DataInicioAutoAvaliacao" Type="date" />
+          <Property Name="DataTerminoAutoAvaliacao" Type="date" />
+          <Property Name="TituloOrientacaoAutoAvaliacao" Type="nvarchar" MaxLength="200" />
+          <Property Name="TextoOrientacaoAutoAvaliacao" Type="nvarchar(max)" />
+          <Property Name="DataInicioAvaliacaoGestor" Type="date" />
+          <Property Name="DataTerminoAvaliacaoGestor" Type="date" />
+          <Property Name="TituloOrientacaoAvaliacaoGestor" Type="nvarchar" MaxLength="200" />
+          <Property Name="TextoOrientacaoAvaliacaoGestor" Type="nvarchar(max)" />
+          <Property Name="DataInicioGerenciamentoPDI" Type="date" />
+          <Property Name="DataTerminoGerenciamentoPDI" Type="date" />
+          <Property Name="SituacaoCicloAvaliacao_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="CompetenciaColaborador">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="AvaliacaoColaborador_ID" Type="int" Nullable="false" />
+          <Property Name="CompetenciaID" Type="int" Nullable="false" />
+          <Property Name="NivelColaborador" Type="int" />
+          <Property Name="NivelRequerido" Type="int" />
+          <Property Name="NivelGestor" Type="int" />
+          <Property Name="ComentariosGestor" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="ContribuicaoColaborador">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Contribuicao" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AvaliacaoGestor_ID" Type="int" />
+          <Property Name="AvaliacaoColaborador_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DesenvolvimentoCompetencia">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AcaoDesenvolvimento" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RescursoSuporte" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AvaliacaoPDIColaborador_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MetaColaborador">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Meta" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ResultadoAtingidoColaborador_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="ObjetivoColaborador">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Objetivo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MetaColaborador_ID" Type="int" />
+          <Property Name="AvaliacaoColaborador_ID" Type="int" />
+          <Property Name="AutoAvaliacao" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Papel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ResultadoAtingidoColaborador">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ResultadoAtingido" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AvaliacaoGestor_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="SituacaoCicloAvaliacao">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StatusAvaliacaoColaborador">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StatusPDI">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Papel_ID" Type="int" Nullable="false" />
+          <Property Name="GestorRubiID" Type="int" />
+          <Property Name="UsuarioRubiID" Type="int" Nullable="false" />
+          <Property Name="CodigoEmpresaRubiUD" Type="int" Nullable="false" />
+          <Property Name="Login" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AvaliacaoPDIColaborador_CicloAvaliacao">
+          <End Role="CicloAvaliacao" Type="Self.CicloAvaliacao" Multiplicity="1" />
+          <End Role="AvaliacaoPDIColaborador" Type="Self.AvaliacaoPDIColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CicloAvaliacao">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AvaliacaoPDIColaborador">
+              <PropertyRef Name="CicloAvaliacao_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AvaliacaoPDIColaborador_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="AvaliacaoPDIColaborador" Type="Self.AvaliacaoPDIColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AvaliacaoPDIColaborador">
+              <PropertyRef Name="Colaborador_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompetenciaColaborador_AvaliacaoColaborador">
+          <End Role="AvaliacaoColaborador" Type="Self.AvaliacaoColaborador" Multiplicity="1" />
+          <End Role="CompetenciaColaborador" Type="Self.CompetenciaColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AvaliacaoColaborador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CompetenciaColaborador">
+              <PropertyRef Name="AvaliacaoColaborador_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AssociacaoCargoCompetencia_dbo_CicloAvaliacao_CicloAvaliacao_ID">
+          <End Role="CicloAvaliacao" Type="Self.CicloAvaliacao" Multiplicity="1" />
+          <End Role="AssociacaoCargoCompetencia" Type="Self.AssociacaoCargoCompetencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CicloAvaliacao">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AssociacaoCargoCompetencia">
+              <PropertyRef Name="CicloAvaliacao_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AvaliacaoColaborador_dbo_CicloAvaliacao_CicloAvaliacao_ID">
+          <End Role="CicloAvaliacao" Type="Self.CicloAvaliacao" Multiplicity="1" />
+          <End Role="AvaliacaoColaborador" Type="Self.AvaliacaoColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CicloAvaliacao">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AvaliacaoColaborador">
+              <PropertyRef Name="CicloAvaliacao_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AvaliacaoColaborador_dbo_StatusAvaliacaoColaborador_StatusAvaliacaoColaborador_ID">
+          <End Role="StatusAvaliacaoColaborador" Type="Self.StatusAvaliacaoColaborador" Multiplicity="1" />
+          <End Role="AvaliacaoColaborador" Type="Self.AvaliacaoColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusAvaliacaoColaborador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AvaliacaoColaborador">
+              <PropertyRef Name="StatusAvaliacaoColaborador_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AvaliacaoColaborador_dbo_Usuario_Colaborador_ID">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="AvaliacaoColaborador" Type="Self.AvaliacaoColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AvaliacaoColaborador">
+              <PropertyRef Name="Colaborador_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AvaliacaoPDIColaborador_dbo_StatusPDI_StatusPDI_ID">
+          <End Role="StatusPDI" Type="Self.StatusPDI" Multiplicity="1" />
+          <End Role="AvaliacaoPDIColaborador" Type="Self.AvaliacaoPDIColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusPDI">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AvaliacaoPDIColaborador">
+              <PropertyRef Name="StatusPDI_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_CicloAvaliacao_dbo_SituacaoCicloAvaliacao_SituacaoCicloAvaliacao_ID">
+          <End Role="SituacaoCicloAvaliacao" Type="Self.SituacaoCicloAvaliacao" Multiplicity="0..1" />
+          <End Role="CicloAvaliacao" Type="Self.CicloAvaliacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SituacaoCicloAvaliacao">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CicloAvaliacao">
+              <PropertyRef Name="SituacaoCicloAvaliacao_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ContribuicaoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID">
+          <End Role="AvaliacaoColaborador" Type="Self.AvaliacaoColaborador" Multiplicity="1" />
+          <End Role="ContribuicaoColaborador" Type="Self.ContribuicaoColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AvaliacaoColaborador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ContribuicaoColaborador">
+              <PropertyRef Name="AvaliacaoColaborador_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ContribuicaoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID">
+          <End Role="AvaliacaoGestor" Type="Self.AvaliacaoGestor" Multiplicity="0..1" />
+          <End Role="ContribuicaoColaborador" Type="Self.ContribuicaoColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AvaliacaoGestor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ContribuicaoColaborador">
+              <PropertyRef Name="AvaliacaoGestor_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_DesenvolvimentoCompetencia_dbo_AvaliacaoPDIColaborador_AvaliacaoPDIColaborador_ID">
+          <End Role="AvaliacaoPDIColaborador" Type="Self.AvaliacaoPDIColaborador" Multiplicity="1" />
+          <End Role="DesenvolvimentoCompetencia" Type="Self.DesenvolvimentoCompetencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AvaliacaoPDIColaborador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DesenvolvimentoCompetencia">
+              <PropertyRef Name="AvaliacaoPDIColaborador_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_MetaColaborador_dbo_ResultadoAtingidoColaborador_ResultadoAtingidoColaborador_ID">
+          <End Role="ResultadoAtingidoColaborador" Type="Self.ResultadoAtingidoColaborador" Multiplicity="0..1" />
+          <End Role="MetaColaborador" Type="Self.MetaColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResultadoAtingidoColaborador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MetaColaborador">
+              <PropertyRef Name="ResultadoAtingidoColaborador_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ObjetivoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID">
+          <End Role="AvaliacaoColaborador" Type="Self.AvaliacaoColaborador" Multiplicity="0..1" />
+          <End Role="ObjetivoColaborador" Type="Self.ObjetivoColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AvaliacaoColaborador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ObjetivoColaborador">
+              <PropertyRef Name="AvaliacaoColaborador_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ObjetivoColaborador_dbo_MetaColaborador_MetaColaborador_ID">
+          <End Role="MetaColaborador" Type="Self.MetaColaborador" Multiplicity="0..1" />
+          <End Role="ObjetivoColaborador" Type="Self.ObjetivoColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MetaColaborador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ObjetivoColaborador">
+              <PropertyRef Name="MetaColaborador_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ResultadoAtingidoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID">
+          <End Role="AvaliacaoGestor" Type="Self.AvaliacaoGestor" Multiplicity="0..1" />
+          <End Role="ResultadoAtingidoColaborador" Type="Self.ResultadoAtingidoColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AvaliacaoGestor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ResultadoAtingidoColaborador">
+              <PropertyRef Name="AvaliacaoGestor_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Papel">
+          <End Role="Papel" Type="Self.Papel" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Papel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="Papel_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="avaliacao_desempenhoModelStoreContainer">
+          <EntitySet Name="AssociacaoCargoCompetencia" EntityType="Self.AssociacaoCargoCompetencia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AvaliacaoColaborador" EntityType="Self.AvaliacaoColaborador" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AvaliacaoGestor" EntityType="Self.AvaliacaoGestor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AvaliacaoPDIColaborador" EntityType="Self.AvaliacaoPDIColaborador" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CicloAvaliacao" EntityType="Self.CicloAvaliacao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompetenciaColaborador" EntityType="Self.CompetenciaColaborador" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContribuicaoColaborador" EntityType="Self.ContribuicaoColaborador" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DesenvolvimentoCompetencia" EntityType="Self.DesenvolvimentoCompetencia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MetaColaborador" EntityType="Self.MetaColaborador" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ObjetivoColaborador" EntityType="Self.ObjetivoColaborador" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Papel" EntityType="Self.Papel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResultadoAtingidoColaborador" EntityType="Self.ResultadoAtingidoColaborador" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SituacaoCicloAvaliacao" EntityType="Self.SituacaoCicloAvaliacao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StatusAvaliacaoColaborador" EntityType="Self.StatusAvaliacaoColaborador" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StatusPDI" EntityType="Self.StatusPDI" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AvaliacaoPDIColaborador_CicloAvaliacao" Association="Self.FK_AvaliacaoPDIColaborador_CicloAvaliacao">
+            <End Role="CicloAvaliacao" EntitySet="CicloAvaliacao" />
+            <End Role="AvaliacaoPDIColaborador" EntitySet="AvaliacaoPDIColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AvaliacaoPDIColaborador_Usuario" Association="Self.FK_AvaliacaoPDIColaborador_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="AvaliacaoPDIColaborador" EntitySet="AvaliacaoPDIColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompetenciaColaborador_AvaliacaoColaborador" Association="Self.FK_CompetenciaColaborador_AvaliacaoColaborador">
+            <End Role="AvaliacaoColaborador" EntitySet="AvaliacaoColaborador" />
+            <End Role="CompetenciaColaborador" EntitySet="CompetenciaColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AssociacaoCargoCompetencia_dbo_CicloAvaliacao_CicloAvaliacao_ID" Association="Self.FK_dbo_AssociacaoCargoCompetencia_dbo_CicloAvaliacao_CicloAvaliacao_ID">
+            <End Role="CicloAvaliacao" EntitySet="CicloAvaliacao" />
+            <End Role="AssociacaoCargoCompetencia" EntitySet="AssociacaoCargoCompetencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AvaliacaoColaborador_dbo_CicloAvaliacao_CicloAvaliacao_ID" Association="Self.FK_dbo_AvaliacaoColaborador_dbo_CicloAvaliacao_CicloAvaliacao_ID">
+            <End Role="CicloAvaliacao" EntitySet="CicloAvaliacao" />
+            <End Role="AvaliacaoColaborador" EntitySet="AvaliacaoColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AvaliacaoColaborador_dbo_StatusAvaliacaoColaborador_StatusAvaliacaoColaborador_ID" Association="Self.FK_dbo_AvaliacaoColaborador_dbo_StatusAvaliacaoColaborador_StatusAvaliacaoColaborador_ID">
+            <End Role="StatusAvaliacaoColaborador" EntitySet="StatusAvaliacaoColaborador" />
+            <End Role="AvaliacaoColaborador" EntitySet="AvaliacaoColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AvaliacaoColaborador_dbo_Usuario_Colaborador_ID" Association="Self.FK_dbo_AvaliacaoColaborador_dbo_Usuario_Colaborador_ID">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="AvaliacaoColaborador" EntitySet="AvaliacaoColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AvaliacaoPDIColaborador_dbo_StatusPDI_StatusPDI_ID" Association="Self.FK_dbo_AvaliacaoPDIColaborador_dbo_StatusPDI_StatusPDI_ID">
+            <End Role="StatusPDI" EntitySet="StatusPDI" />
+            <End Role="AvaliacaoPDIColaborador" EntitySet="AvaliacaoPDIColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_CicloAvaliacao_dbo_SituacaoCicloAvaliacao_SituacaoCicloAvaliacao_ID" Association="Self.FK_dbo_CicloAvaliacao_dbo_SituacaoCicloAvaliacao_SituacaoCicloAvaliacao_ID">
+            <End Role="SituacaoCicloAvaliacao" EntitySet="SituacaoCicloAvaliacao" />
+            <End Role="CicloAvaliacao" EntitySet="CicloAvaliacao" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ContribuicaoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID" Association="Self.FK_dbo_ContribuicaoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID">
+            <End Role="AvaliacaoColaborador" EntitySet="AvaliacaoColaborador" />
+            <End Role="ContribuicaoColaborador" EntitySet="ContribuicaoColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ContribuicaoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID" Association="Self.FK_dbo_ContribuicaoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID">
+            <End Role="AvaliacaoGestor" EntitySet="AvaliacaoGestor" />
+            <End Role="ContribuicaoColaborador" EntitySet="ContribuicaoColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_DesenvolvimentoCompetencia_dbo_AvaliacaoPDIColaborador_AvaliacaoPDIColaborador_ID" Association="Self.FK_dbo_DesenvolvimentoCompetencia_dbo_AvaliacaoPDIColaborador_AvaliacaoPDIColaborador_ID">
+            <End Role="AvaliacaoPDIColaborador" EntitySet="AvaliacaoPDIColaborador" />
+            <End Role="DesenvolvimentoCompetencia" EntitySet="DesenvolvimentoCompetencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_MetaColaborador_dbo_ResultadoAtingidoColaborador_ResultadoAtingidoColaborador_ID" Association="Self.FK_dbo_MetaColaborador_dbo_ResultadoAtingidoColaborador_ResultadoAtingidoColaborador_ID">
+            <End Role="ResultadoAtingidoColaborador" EntitySet="ResultadoAtingidoColaborador" />
+            <End Role="MetaColaborador" EntitySet="MetaColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ObjetivoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID" Association="Self.FK_dbo_ObjetivoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID">
+            <End Role="AvaliacaoColaborador" EntitySet="AvaliacaoColaborador" />
+            <End Role="ObjetivoColaborador" EntitySet="ObjetivoColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ObjetivoColaborador_dbo_MetaColaborador_MetaColaborador_ID" Association="Self.FK_dbo_ObjetivoColaborador_dbo_MetaColaborador_MetaColaborador_ID">
+            <End Role="MetaColaborador" EntitySet="MetaColaborador" />
+            <End Role="ObjetivoColaborador" EntitySet="ObjetivoColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ResultadoAtingidoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID" Association="Self.FK_dbo_ResultadoAtingidoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID">
+            <End Role="AvaliacaoGestor" EntitySet="AvaliacaoGestor" />
+            <End Role="ResultadoAtingidoColaborador" EntitySet="ResultadoAtingidoColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Papel" Association="Self.FK_Usuario_Papel">
+            <End Role="Papel" EntitySet="Papel" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="avaliacao_desempenhoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AssociacaoCargoCompetencia">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CargoRubiID" Type="Int32" Nullable="false" />
+          <Property Name="CargoRubi" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AreaRubiID" Type="Int32" Nullable="false" />
+          <Property Name="AreaRubi" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SetorRubiID" Type="Int32" />
+          <Property Name="SetorRubi" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CargoCompetenciaID" Type="Int32" />
+          <Property Name="CargoCompetencia" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="AreaCompetenciaID" Type="Int32" />
+          <Property Name="AreaCompetencia" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SetorCompetenciaID" Type="Int32" />
+          <Property Name="SetorCompetencia" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CicloAvaliacao_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CicloAvaliacao" Relationship="Self.FK_dbo_AssociacaoCargoCompetencia_dbo_CicloAvaliacao_CicloAvaliacao_ID" FromRole="AssociacaoCargoCompetencia" ToRole="CicloAvaliacao" />
+        </EntityType>
+        <EntityType Name="AvaliacaoColaborador">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataCriacao" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="JustificativaReprovacao" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Aprovada" Type="Boolean" Nullable="false" />
+          <Property Name="CicloAvaliacao_ID" Type="Int32" Nullable="false" />
+          <Property Name="Colaborador_ID" Type="Int32" Nullable="false" />
+          <Property Name="GestorRubiID" Type="Int32" />
+          <Property Name="StatusAvaliacaoColaborador_ID" Type="Int32" Nullable="false" />
+          <Property Name="CargoRubiID" Type="Int32" />
+          <Property Name="AreaRubiID" Type="Int32" />
+          <Property Name="SetorRubiID" Type="Int32" />
+          <NavigationProperty Name="CompetenciaColaborador" Relationship="Self.FK_CompetenciaColaborador_AvaliacaoColaborador" FromRole="AvaliacaoColaborador" ToRole="CompetenciaColaborador" />
+          <NavigationProperty Name="CicloAvaliacao" Relationship="Self.FK_dbo_AvaliacaoColaborador_dbo_CicloAvaliacao_CicloAvaliacao_ID" FromRole="AvaliacaoColaborador" ToRole="CicloAvaliacao" />
+          <NavigationProperty Name="StatusAvaliacaoColaborador" Relationship="Self.FK_dbo_AvaliacaoColaborador_dbo_StatusAvaliacaoColaborador_StatusAvaliacaoColaborador_ID" FromRole="AvaliacaoColaborador" ToRole="StatusAvaliacaoColaborador" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_dbo_AvaliacaoColaborador_dbo_Usuario_Colaborador_ID" FromRole="AvaliacaoColaborador" ToRole="Usuario" />
+          <NavigationProperty Name="ContribuicaoColaborador" Relationship="Self.FK_dbo_ContribuicaoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID" FromRole="AvaliacaoColaborador" ToRole="ContribuicaoColaborador" />
+          <NavigationProperty Name="ObjetivoColaborador" Relationship="Self.FK_dbo_ObjetivoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID" FromRole="AvaliacaoColaborador" ToRole="ObjetivoColaborador" />
+        </EntityType>
+        <EntityType Name="AvaliacaoGestor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Avaliacao" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ContribuicaoColaborador" Relationship="Self.FK_dbo_ContribuicaoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID" FromRole="AvaliacaoGestor" ToRole="ContribuicaoColaborador" />
+          <NavigationProperty Name="ResultadoAtingidoColaborador" Relationship="Self.FK_dbo_ResultadoAtingidoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID" FromRole="AvaliacaoGestor" ToRole="ResultadoAtingidoColaborador" />
+        </EntityType>
+        <EntityType Name="AvaliacaoPDIColaborador">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataCriacao" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Idiomas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Graduacao" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PontosFortes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PontosDesenvolvimento" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ComentariosColaborador" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ComentariosGestor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Aprovada" Type="Boolean" Nullable="false" />
+          <Property Name="CicloAvaliacao_ID" Type="Int32" Nullable="false" />
+          <Property Name="StatusPDI_ID" Type="Int32" Nullable="false" />
+          <Property Name="Colaborador_ID" Type="Int32" Nullable="false" />
+          <Property Name="GestorRubiID" Type="Int32" />
+          <NavigationProperty Name="CicloAvaliacao" Relationship="Self.FK_AvaliacaoPDIColaborador_CicloAvaliacao" FromRole="AvaliacaoPDIColaborador" ToRole="CicloAvaliacao" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_AvaliacaoPDIColaborador_Usuario" FromRole="AvaliacaoPDIColaborador" ToRole="Usuario" />
+          <NavigationProperty Name="StatusPDI" Relationship="Self.FK_dbo_AvaliacaoPDIColaborador_dbo_StatusPDI_StatusPDI_ID" FromRole="AvaliacaoPDIColaborador" ToRole="StatusPDI" />
+          <NavigationProperty Name="DesenvolvimentoCompetencia" Relationship="Self.FK_dbo_DesenvolvimentoCompetencia_dbo_AvaliacaoPDIColaborador_AvaliacaoPDIColaborador_ID" FromRole="AvaliacaoPDIColaborador" ToRole="DesenvolvimentoCompetencia" />
+        </EntityType>
+        <EntityType Name="CicloAvaliacao">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descricao" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DataInicioVigencia" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DataFimVigencia" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="URLCompetencia" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="OrientacaoCompetencia" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DataInicioObjetivosMetas" Type="DateTime" Precision="0" />
+          <Property Name="DataTerminoObjetivosMetas" Type="DateTime" Precision="0" />
+          <Property Name="TituloOrientacaoObjetivosMetas" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TextoOrientacaoObjetivosMetas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DataInicioAutoAvaliacao" Type="DateTime" Precision="0" />
+          <Property Name="DataTerminoAutoAvaliacao" Type="DateTime" Precision="0" />
+          <Property Name="TituloOrientacaoAutoAvaliacao" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TextoOrientacaoAutoAvaliacao" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DataInicioAvaliacaoGestor" Type="DateTime" Precision="0" />
+          <Property Name="DataTerminoAvaliacaoGestor" Type="DateTime" Precision="0" />
+          <Property Name="TituloOrientacaoAvaliacaoGestor" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TextoOrientacaoAvaliacaoGestor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DataInicioGerenciamentoPDI" Type="DateTime" Precision="0" />
+          <Property Name="DataTerminoGerenciamentoPDI" Type="DateTime" Precision="0" />
+          <Property Name="SituacaoCicloAvaliacao_ID" Type="Int32" />
+          <NavigationProperty Name="AssociacaoCargoCompetencia" Relationship="Self.FK_dbo_AssociacaoCargoCompetencia_dbo_CicloAvaliacao_CicloAvaliacao_ID" FromRole="CicloAvaliacao" ToRole="AssociacaoCargoCompetencia" />
+          <NavigationProperty Name="AvaliacaoColaborador" Relationship="Self.FK_dbo_AvaliacaoColaborador_dbo_CicloAvaliacao_CicloAvaliacao_ID" FromRole="CicloAvaliacao" ToRole="AvaliacaoColaborador" />
+          <NavigationProperty Name="AvaliacaoPDIColaborador" Relationship="Self.FK_AvaliacaoPDIColaborador_CicloAvaliacao" FromRole="CicloAvaliacao" ToRole="AvaliacaoPDIColaborador" />
+          <NavigationProperty Name="SituacaoCicloAvaliacao" Relationship="Self.FK_dbo_CicloAvaliacao_dbo_SituacaoCicloAvaliacao_SituacaoCicloAvaliacao_ID" FromRole="CicloAvaliacao" ToRole="SituacaoCicloAvaliacao" />
+        </EntityType>
+        <EntityType Name="CompetenciaColaborador">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="AvaliacaoColaborador_ID" Type="Int32" Nullable="false" />
+          <Property Name="CompetenciaID" Type="Int32" Nullable="false" />
+          <Property Name="NivelColaborador" Type="Int32" />
+          <Property Name="NivelRequerido" Type="Int32" />
+          <Property Name="NivelGestor" Type="Int32" />
+          <Property Name="ComentariosGestor" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AvaliacaoColaborador" Relationship="Self.FK_CompetenciaColaborador_AvaliacaoColaborador" FromRole="CompetenciaColaborador" ToRole="AvaliacaoColaborador" />
+        </EntityType>
+        <EntityType Name="ContribuicaoColaborador">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Contribuicao" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AvaliacaoGestor_ID" Type="Int32" />
+          <Property Name="AvaliacaoColaborador_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AvaliacaoColaborador" Relationship="Self.FK_dbo_ContribuicaoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID" FromRole="ContribuicaoColaborador" ToRole="AvaliacaoColaborador" />
+          <NavigationProperty Name="AvaliacaoGestor" Relationship="Self.FK_dbo_ContribuicaoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID" FromRole="ContribuicaoColaborador" ToRole="AvaliacaoGestor" />
+        </EntityType>
+        <EntityType Name="DesenvolvimentoCompetencia">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AcaoDesenvolvimento" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RescursoSuporte" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AvaliacaoPDIColaborador_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AvaliacaoPDIColaborador" Relationship="Self.FK_dbo_DesenvolvimentoCompetencia_dbo_AvaliacaoPDIColaborador_AvaliacaoPDIColaborador_ID" FromRole="DesenvolvimentoCompetencia" ToRole="AvaliacaoPDIColaborador" />
+        </EntityType>
+        <EntityType Name="MetaColaborador">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ResultadoAtingidoColaborador_ID" Type="Int32" />
+          <NavigationProperty Name="ResultadoAtingidoColaborador" Relationship="Self.FK_dbo_MetaColaborador_dbo_ResultadoAtingidoColaborador_ResultadoAtingidoColaborador_ID" FromRole="MetaColaborador" ToRole="ResultadoAtingidoColaborador" />
+          <NavigationProperty Name="ObjetivoColaborador" Relationship="Self.FK_dbo_ObjetivoColaborador_dbo_MetaColaborador_MetaColaborador_ID" FromRole="MetaColaborador" ToRole="ObjetivoColaborador" />
+        </EntityType>
+        <EntityType Name="ObjetivoColaborador">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Objetivo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MetaColaborador_ID" Type="Int32" />
+          <Property Name="AvaliacaoColaborador_ID" Type="Int32" />
+          <Property Name="AutoAvaliacao" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AvaliacaoColaborador" Relationship="Self.FK_dbo_ObjetivoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID" FromRole="ObjetivoColaborador" ToRole="AvaliacaoColaborador" />
+          <NavigationProperty Name="MetaColaborador" Relationship="Self.FK_dbo_ObjetivoColaborador_dbo_MetaColaborador_MetaColaborador_ID" FromRole="ObjetivoColaborador" ToRole="MetaColaborador" />
+        </EntityType>
+        <EntityType Name="Papel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Papel" FromRole="Papel" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="ResultadoAtingidoColaborador">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ResultadoAtingido" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AvaliacaoGestor_ID" Type="Int32" />
+          <NavigationProperty Name="AvaliacaoGestor" Relationship="Self.FK_dbo_ResultadoAtingidoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID" FromRole="ResultadoAtingidoColaborador" ToRole="AvaliacaoGestor" />
+          <NavigationProperty Name="MetaColaborador" Relationship="Self.FK_dbo_MetaColaborador_dbo_ResultadoAtingidoColaborador_ResultadoAtingidoColaborador_ID" FromRole="ResultadoAtingidoColaborador" ToRole="MetaColaborador" />
+        </EntityType>
+        <EntityType Name="SituacaoCicloAvaliacao">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CicloAvaliacao" Relationship="Self.FK_dbo_CicloAvaliacao_dbo_SituacaoCicloAvaliacao_SituacaoCicloAvaliacao_ID" FromRole="SituacaoCicloAvaliacao" ToRole="CicloAvaliacao" />
+        </EntityType>
+        <EntityType Name="StatusAvaliacaoColaborador">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AvaliacaoColaborador" Relationship="Self.FK_dbo_AvaliacaoColaborador_dbo_StatusAvaliacaoColaborador_StatusAvaliacaoColaborador_ID" FromRole="StatusAvaliacaoColaborador" ToRole="AvaliacaoColaborador" />
+        </EntityType>
+        <EntityType Name="StatusPDI">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AvaliacaoPDIColaborador" Relationship="Self.FK_dbo_AvaliacaoPDIColaborador_dbo_StatusPDI_StatusPDI_ID" FromRole="StatusPDI" ToRole="AvaliacaoPDIColaborador" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Papel_ID" Type="Int32" Nullable="false" />
+          <Property Name="GestorRubiID" Type="Int32" />
+          <Property Name="UsuarioRubiID" Type="Int32" Nullable="false" />
+          <Property Name="CodigoEmpresaRubiUD" Type="Int32" Nullable="false" />
+          <Property Name="Login" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="AvaliacaoColaborador" Relationship="Self.FK_dbo_AvaliacaoColaborador_dbo_Usuario_Colaborador_ID" FromRole="Usuario" ToRole="AvaliacaoColaborador" />
+          <NavigationProperty Name="AvaliacaoPDIColaborador" Relationship="Self.FK_AvaliacaoPDIColaborador_Usuario" FromRole="Usuario" ToRole="AvaliacaoPDIColaborador" />
+          <NavigationProperty Name="Papel" Relationship="Self.FK_Usuario_Papel" FromRole="Usuario" ToRole="Papel" />
+        </EntityType>
+        <Association Name="FK_dbo_AssociacaoCargoCompetencia_dbo_CicloAvaliacao_CicloAvaliacao_ID">
+          <End Role="CicloAvaliacao" Type="Self.CicloAvaliacao" Multiplicity="1" />
+          <End Role="AssociacaoCargoCompetencia" Type="Self.AssociacaoCargoCompetencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CicloAvaliacao">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AssociacaoCargoCompetencia">
+              <PropertyRef Name="CicloAvaliacao_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompetenciaColaborador_AvaliacaoColaborador">
+          <End Role="AvaliacaoColaborador" Type="Self.AvaliacaoColaborador" Multiplicity="1" />
+          <End Role="CompetenciaColaborador" Type="Self.CompetenciaColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AvaliacaoColaborador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CompetenciaColaborador">
+              <PropertyRef Name="AvaliacaoColaborador_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AvaliacaoColaborador_dbo_CicloAvaliacao_CicloAvaliacao_ID">
+          <End Role="CicloAvaliacao" Type="Self.CicloAvaliacao" Multiplicity="1" />
+          <End Role="AvaliacaoColaborador" Type="Self.AvaliacaoColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CicloAvaliacao">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AvaliacaoColaborador">
+              <PropertyRef Name="CicloAvaliacao_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AvaliacaoColaborador_dbo_StatusAvaliacaoColaborador_StatusAvaliacaoColaborador_ID">
+          <End Role="StatusAvaliacaoColaborador" Type="Self.StatusAvaliacaoColaborador" Multiplicity="1" />
+          <End Role="AvaliacaoColaborador" Type="Self.AvaliacaoColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusAvaliacaoColaborador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AvaliacaoColaborador">
+              <PropertyRef Name="StatusAvaliacaoColaborador_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AvaliacaoColaborador_dbo_Usuario_Colaborador_ID">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="AvaliacaoColaborador" Type="Self.AvaliacaoColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AvaliacaoColaborador">
+              <PropertyRef Name="Colaborador_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ContribuicaoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID">
+          <End Role="AvaliacaoColaborador" Type="Self.AvaliacaoColaborador" Multiplicity="1" />
+          <End Role="ContribuicaoColaborador" Type="Self.ContribuicaoColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AvaliacaoColaborador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ContribuicaoColaborador">
+              <PropertyRef Name="AvaliacaoColaborador_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ObjetivoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID">
+          <End Role="AvaliacaoColaborador" Type="Self.AvaliacaoColaborador" Multiplicity="0..1" />
+          <End Role="ObjetivoColaborador" Type="Self.ObjetivoColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AvaliacaoColaborador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ObjetivoColaborador">
+              <PropertyRef Name="AvaliacaoColaborador_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ContribuicaoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID">
+          <End Role="AvaliacaoGestor" Type="Self.AvaliacaoGestor" Multiplicity="0..1" />
+          <End Role="ContribuicaoColaborador" Type="Self.ContribuicaoColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AvaliacaoGestor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ContribuicaoColaborador">
+              <PropertyRef Name="AvaliacaoGestor_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ResultadoAtingidoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID">
+          <End Role="AvaliacaoGestor" Type="Self.AvaliacaoGestor" Multiplicity="0..1" />
+          <End Role="ResultadoAtingidoColaborador" Type="Self.ResultadoAtingidoColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AvaliacaoGestor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ResultadoAtingidoColaborador">
+              <PropertyRef Name="AvaliacaoGestor_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AvaliacaoPDIColaborador_CicloAvaliacao">
+          <End Role="CicloAvaliacao" Type="Self.CicloAvaliacao" Multiplicity="1" />
+          <End Role="AvaliacaoPDIColaborador" Type="Self.AvaliacaoPDIColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CicloAvaliacao">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AvaliacaoPDIColaborador">
+              <PropertyRef Name="CicloAvaliacao_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AvaliacaoPDIColaborador_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="AvaliacaoPDIColaborador" Type="Self.AvaliacaoPDIColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AvaliacaoPDIColaborador">
+              <PropertyRef Name="Colaborador_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AvaliacaoPDIColaborador_dbo_StatusPDI_StatusPDI_ID">
+          <End Role="StatusPDI" Type="Self.StatusPDI" Multiplicity="1" />
+          <End Role="AvaliacaoPDIColaborador" Type="Self.AvaliacaoPDIColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusPDI">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AvaliacaoPDIColaborador">
+              <PropertyRef Name="StatusPDI_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_DesenvolvimentoCompetencia_dbo_AvaliacaoPDIColaborador_AvaliacaoPDIColaborador_ID">
+          <End Role="AvaliacaoPDIColaborador" Type="Self.AvaliacaoPDIColaborador" Multiplicity="1" />
+          <End Role="DesenvolvimentoCompetencia" Type="Self.DesenvolvimentoCompetencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AvaliacaoPDIColaborador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DesenvolvimentoCompetencia">
+              <PropertyRef Name="AvaliacaoPDIColaborador_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_CicloAvaliacao_dbo_SituacaoCicloAvaliacao_SituacaoCicloAvaliacao_ID">
+          <End Role="SituacaoCicloAvaliacao" Type="Self.SituacaoCicloAvaliacao" Multiplicity="0..1" />
+          <End Role="CicloAvaliacao" Type="Self.CicloAvaliacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SituacaoCicloAvaliacao">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CicloAvaliacao">
+              <PropertyRef Name="SituacaoCicloAvaliacao_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_MetaColaborador_dbo_ResultadoAtingidoColaborador_ResultadoAtingidoColaborador_ID">
+          <End Role="ResultadoAtingidoColaborador" Type="Self.ResultadoAtingidoColaborador" Multiplicity="0..1" />
+          <End Role="MetaColaborador" Type="Self.MetaColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResultadoAtingidoColaborador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MetaColaborador">
+              <PropertyRef Name="ResultadoAtingidoColaborador_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ObjetivoColaborador_dbo_MetaColaborador_MetaColaborador_ID">
+          <End Role="MetaColaborador" Type="Self.MetaColaborador" Multiplicity="0..1" />
+          <End Role="ObjetivoColaborador" Type="Self.ObjetivoColaborador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MetaColaborador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ObjetivoColaborador">
+              <PropertyRef Name="MetaColaborador_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Papel">
+          <End Role="Papel" Type="Self.Papel" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Papel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="Papel_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AssociacaoCargoCompetencia" EntityType="Self.AssociacaoCargoCompetencia" />
+          <EntitySet Name="AvaliacaoColaborador" EntityType="Self.AvaliacaoColaborador" />
+          <EntitySet Name="AvaliacaoGestor" EntityType="Self.AvaliacaoGestor" />
+          <EntitySet Name="AvaliacaoPDIColaborador" EntityType="Self.AvaliacaoPDIColaborador" />
+          <EntitySet Name="CicloAvaliacao" EntityType="Self.CicloAvaliacao" />
+          <EntitySet Name="CompetenciaColaborador" EntityType="Self.CompetenciaColaborador" />
+          <EntitySet Name="ContribuicaoColaborador" EntityType="Self.ContribuicaoColaborador" />
+          <EntitySet Name="DesenvolvimentoCompetencia" EntityType="Self.DesenvolvimentoCompetencia" />
+          <EntitySet Name="MetaColaborador" EntityType="Self.MetaColaborador" />
+          <EntitySet Name="ObjetivoColaborador" EntityType="Self.ObjetivoColaborador" />
+          <EntitySet Name="Papel" EntityType="Self.Papel" />
+          <EntitySet Name="ResultadoAtingidoColaborador" EntityType="Self.ResultadoAtingidoColaborador" />
+          <EntitySet Name="SituacaoCicloAvaliacao" EntityType="Self.SituacaoCicloAvaliacao" />
+          <EntitySet Name="StatusAvaliacaoColaborador" EntityType="Self.StatusAvaliacaoColaborador" />
+          <EntitySet Name="StatusPDI" EntityType="Self.StatusPDI" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <AssociationSet Name="FK_dbo_AssociacaoCargoCompetencia_dbo_CicloAvaliacao_CicloAvaliacao_ID" Association="Self.FK_dbo_AssociacaoCargoCompetencia_dbo_CicloAvaliacao_CicloAvaliacao_ID">
+            <End Role="CicloAvaliacao" EntitySet="CicloAvaliacao" />
+            <End Role="AssociacaoCargoCompetencia" EntitySet="AssociacaoCargoCompetencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompetenciaColaborador_AvaliacaoColaborador" Association="Self.FK_CompetenciaColaborador_AvaliacaoColaborador">
+            <End Role="AvaliacaoColaborador" EntitySet="AvaliacaoColaborador" />
+            <End Role="CompetenciaColaborador" EntitySet="CompetenciaColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AvaliacaoColaborador_dbo_CicloAvaliacao_CicloAvaliacao_ID" Association="Self.FK_dbo_AvaliacaoColaborador_dbo_CicloAvaliacao_CicloAvaliacao_ID">
+            <End Role="CicloAvaliacao" EntitySet="CicloAvaliacao" />
+            <End Role="AvaliacaoColaborador" EntitySet="AvaliacaoColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AvaliacaoColaborador_dbo_StatusAvaliacaoColaborador_StatusAvaliacaoColaborador_ID" Association="Self.FK_dbo_AvaliacaoColaborador_dbo_StatusAvaliacaoColaborador_StatusAvaliacaoColaborador_ID">
+            <End Role="StatusAvaliacaoColaborador" EntitySet="StatusAvaliacaoColaborador" />
+            <End Role="AvaliacaoColaborador" EntitySet="AvaliacaoColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AvaliacaoColaborador_dbo_Usuario_Colaborador_ID" Association="Self.FK_dbo_AvaliacaoColaborador_dbo_Usuario_Colaborador_ID">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="AvaliacaoColaborador" EntitySet="AvaliacaoColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ContribuicaoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID" Association="Self.FK_dbo_ContribuicaoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID">
+            <End Role="AvaliacaoColaborador" EntitySet="AvaliacaoColaborador" />
+            <End Role="ContribuicaoColaborador" EntitySet="ContribuicaoColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ObjetivoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID" Association="Self.FK_dbo_ObjetivoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID">
+            <End Role="AvaliacaoColaborador" EntitySet="AvaliacaoColaborador" />
+            <End Role="ObjetivoColaborador" EntitySet="ObjetivoColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ContribuicaoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID" Association="Self.FK_dbo_ContribuicaoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID">
+            <End Role="AvaliacaoGestor" EntitySet="AvaliacaoGestor" />
+            <End Role="ContribuicaoColaborador" EntitySet="ContribuicaoColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ResultadoAtingidoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID" Association="Self.FK_dbo_ResultadoAtingidoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID">
+            <End Role="AvaliacaoGestor" EntitySet="AvaliacaoGestor" />
+            <End Role="ResultadoAtingidoColaborador" EntitySet="ResultadoAtingidoColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AvaliacaoPDIColaborador_CicloAvaliacao" Association="Self.FK_AvaliacaoPDIColaborador_CicloAvaliacao">
+            <End Role="CicloAvaliacao" EntitySet="CicloAvaliacao" />
+            <End Role="AvaliacaoPDIColaborador" EntitySet="AvaliacaoPDIColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AvaliacaoPDIColaborador_Usuario" Association="Self.FK_AvaliacaoPDIColaborador_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="AvaliacaoPDIColaborador" EntitySet="AvaliacaoPDIColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AvaliacaoPDIColaborador_dbo_StatusPDI_StatusPDI_ID" Association="Self.FK_dbo_AvaliacaoPDIColaborador_dbo_StatusPDI_StatusPDI_ID">
+            <End Role="StatusPDI" EntitySet="StatusPDI" />
+            <End Role="AvaliacaoPDIColaborador" EntitySet="AvaliacaoPDIColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_DesenvolvimentoCompetencia_dbo_AvaliacaoPDIColaborador_AvaliacaoPDIColaborador_ID" Association="Self.FK_dbo_DesenvolvimentoCompetencia_dbo_AvaliacaoPDIColaborador_AvaliacaoPDIColaborador_ID">
+            <End Role="AvaliacaoPDIColaborador" EntitySet="AvaliacaoPDIColaborador" />
+            <End Role="DesenvolvimentoCompetencia" EntitySet="DesenvolvimentoCompetencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_CicloAvaliacao_dbo_SituacaoCicloAvaliacao_SituacaoCicloAvaliacao_ID" Association="Self.FK_dbo_CicloAvaliacao_dbo_SituacaoCicloAvaliacao_SituacaoCicloAvaliacao_ID">
+            <End Role="SituacaoCicloAvaliacao" EntitySet="SituacaoCicloAvaliacao" />
+            <End Role="CicloAvaliacao" EntitySet="CicloAvaliacao" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_MetaColaborador_dbo_ResultadoAtingidoColaborador_ResultadoAtingidoColaborador_ID" Association="Self.FK_dbo_MetaColaborador_dbo_ResultadoAtingidoColaborador_ResultadoAtingidoColaborador_ID">
+            <End Role="ResultadoAtingidoColaborador" EntitySet="ResultadoAtingidoColaborador" />
+            <End Role="MetaColaborador" EntitySet="MetaColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ObjetivoColaborador_dbo_MetaColaborador_MetaColaborador_ID" Association="Self.FK_dbo_ObjetivoColaborador_dbo_MetaColaborador_MetaColaborador_ID">
+            <End Role="MetaColaborador" EntitySet="MetaColaborador" />
+            <End Role="ObjetivoColaborador" EntitySet="ObjetivoColaborador" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Papel" Association="Self.FK_Usuario_Papel">
+            <End Role="Papel" EntitySet="Papel" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="avaliacao_desempenhoModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="AssociacaoCargoCompetencia">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.AssociacaoCargoCompetencia">
+              <MappingFragment StoreEntitySet="AssociacaoCargoCompetencia">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CargoRubiID" ColumnName="CargoRubiID" />
+                <ScalarProperty Name="CargoRubi" ColumnName="CargoRubi" />
+                <ScalarProperty Name="AreaRubiID" ColumnName="AreaRubiID" />
+                <ScalarProperty Name="AreaRubi" ColumnName="AreaRubi" />
+                <ScalarProperty Name="SetorRubiID" ColumnName="SetorRubiID" />
+                <ScalarProperty Name="SetorRubi" ColumnName="SetorRubi" />
+                <ScalarProperty Name="CargoCompetenciaID" ColumnName="CargoCompetenciaID" />
+                <ScalarProperty Name="CargoCompetencia" ColumnName="CargoCompetencia" />
+                <ScalarProperty Name="AreaCompetenciaID" ColumnName="AreaCompetenciaID" />
+                <ScalarProperty Name="AreaCompetencia" ColumnName="AreaCompetencia" />
+                <ScalarProperty Name="SetorCompetenciaID" ColumnName="SetorCompetenciaID" />
+                <ScalarProperty Name="SetorCompetencia" ColumnName="SetorCompetencia" />
+                <ScalarProperty Name="CicloAvaliacao_ID" ColumnName="CicloAvaliacao_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AvaliacaoColaborador">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.AvaliacaoColaborador">
+              <MappingFragment StoreEntitySet="AvaliacaoColaborador">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DataCriacao" ColumnName="DataCriacao" />
+                <ScalarProperty Name="JustificativaReprovacao" ColumnName="JustificativaReprovacao" />
+                <ScalarProperty Name="Aprovada" ColumnName="Aprovada" />
+                <ScalarProperty Name="CicloAvaliacao_ID" ColumnName="CicloAvaliacao_ID" />
+                <ScalarProperty Name="Colaborador_ID" ColumnName="Colaborador_ID" />
+                <ScalarProperty Name="GestorRubiID" ColumnName="GestorRubiID" />
+                <ScalarProperty Name="StatusAvaliacaoColaborador_ID" ColumnName="StatusAvaliacaoColaborador_ID" />
+                <ScalarProperty Name="CargoRubiID" ColumnName="CargoRubiID" />
+                <ScalarProperty Name="AreaRubiID" ColumnName="AreaRubiID" />
+                <ScalarProperty Name="SetorRubiID" ColumnName="SetorRubiID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AvaliacaoGestor">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.AvaliacaoGestor">
+              <MappingFragment StoreEntitySet="AvaliacaoGestor">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Avaliacao" ColumnName="Avaliacao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AvaliacaoPDIColaborador">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.AvaliacaoPDIColaborador">
+              <MappingFragment StoreEntitySet="AvaliacaoPDIColaborador">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DataCriacao" ColumnName="DataCriacao" />
+                <ScalarProperty Name="Idiomas" ColumnName="Idiomas" />
+                <ScalarProperty Name="Graduacao" ColumnName="Graduacao" />
+                <ScalarProperty Name="PontosFortes" ColumnName="PontosFortes" />
+                <ScalarProperty Name="PontosDesenvolvimento" ColumnName="PontosDesenvolvimento" />
+                <ScalarProperty Name="ComentariosColaborador" ColumnName="ComentariosColaborador" />
+                <ScalarProperty Name="ComentariosGestor" ColumnName="ComentariosGestor" />
+                <ScalarProperty Name="Aprovada" ColumnName="Aprovada" />
+                <ScalarProperty Name="CicloAvaliacao_ID" ColumnName="CicloAvaliacao_ID" />
+                <ScalarProperty Name="StatusPDI_ID" ColumnName="StatusPDI_ID" />
+                <ScalarProperty Name="Colaborador_ID" ColumnName="Colaborador_ID" />
+                <ScalarProperty Name="GestorRubiID" ColumnName="GestorRubiID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CicloAvaliacao">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.CicloAvaliacao">
+              <MappingFragment StoreEntitySet="CicloAvaliacao">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="DataInicioVigencia" ColumnName="DataInicioVigencia" />
+                <ScalarProperty Name="DataFimVigencia" ColumnName="DataFimVigencia" />
+                <ScalarProperty Name="URLCompetencia" ColumnName="URLCompetencia" />
+                <ScalarProperty Name="OrientacaoCompetencia" ColumnName="OrientacaoCompetencia" />
+                <ScalarProperty Name="DataInicioObjetivosMetas" ColumnName="DataInicioObjetivosMetas" />
+                <ScalarProperty Name="DataTerminoObjetivosMetas" ColumnName="DataTerminoObjetivosMetas" />
+                <ScalarProperty Name="TituloOrientacaoObjetivosMetas" ColumnName="TituloOrientacaoObjetivosMetas" />
+                <ScalarProperty Name="TextoOrientacaoObjetivosMetas" ColumnName="TextoOrientacaoObjetivosMetas" />
+                <ScalarProperty Name="DataInicioAutoAvaliacao" ColumnName="DataInicioAutoAvaliacao" />
+                <ScalarProperty Name="DataTerminoAutoAvaliacao" ColumnName="DataTerminoAutoAvaliacao" />
+                <ScalarProperty Name="TituloOrientacaoAutoAvaliacao" ColumnName="TituloOrientacaoAutoAvaliacao" />
+                <ScalarProperty Name="TextoOrientacaoAutoAvaliacao" ColumnName="TextoOrientacaoAutoAvaliacao" />
+                <ScalarProperty Name="DataInicioAvaliacaoGestor" ColumnName="DataInicioAvaliacaoGestor" />
+                <ScalarProperty Name="DataTerminoAvaliacaoGestor" ColumnName="DataTerminoAvaliacaoGestor" />
+                <ScalarProperty Name="TituloOrientacaoAvaliacaoGestor" ColumnName="TituloOrientacaoAvaliacaoGestor" />
+                <ScalarProperty Name="TextoOrientacaoAvaliacaoGestor" ColumnName="TextoOrientacaoAvaliacaoGestor" />
+                <ScalarProperty Name="DataInicioGerenciamentoPDI" ColumnName="DataInicioGerenciamentoPDI" />
+                <ScalarProperty Name="DataTerminoGerenciamentoPDI" ColumnName="DataTerminoGerenciamentoPDI" />
+                <ScalarProperty Name="SituacaoCicloAvaliacao_ID" ColumnName="SituacaoCicloAvaliacao_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompetenciaColaborador">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.CompetenciaColaborador">
+              <MappingFragment StoreEntitySet="CompetenciaColaborador">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AvaliacaoColaborador_ID" ColumnName="AvaliacaoColaborador_ID" />
+                <ScalarProperty Name="CompetenciaID" ColumnName="CompetenciaID" />
+                <ScalarProperty Name="NivelColaborador" ColumnName="NivelColaborador" />
+                <ScalarProperty Name="NivelRequerido" ColumnName="NivelRequerido" />
+                <ScalarProperty Name="NivelGestor" ColumnName="NivelGestor" />
+                <ScalarProperty Name="ComentariosGestor" ColumnName="ComentariosGestor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContribuicaoColaborador">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.ContribuicaoColaborador">
+              <MappingFragment StoreEntitySet="ContribuicaoColaborador">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Contribuicao" ColumnName="Contribuicao" />
+                <ScalarProperty Name="AvaliacaoGestor_ID" ColumnName="AvaliacaoGestor_ID" />
+                <ScalarProperty Name="AvaliacaoColaborador_ID" ColumnName="AvaliacaoColaborador_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DesenvolvimentoCompetencia">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.DesenvolvimentoCompetencia">
+              <MappingFragment StoreEntitySet="DesenvolvimentoCompetencia">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AcaoDesenvolvimento" ColumnName="AcaoDesenvolvimento" />
+                <ScalarProperty Name="RescursoSuporte" ColumnName="RescursoSuporte" />
+                <ScalarProperty Name="AvaliacaoPDIColaborador_ID" ColumnName="AvaliacaoPDIColaborador_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MetaColaborador">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.MetaColaborador">
+              <MappingFragment StoreEntitySet="MetaColaborador">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Meta" ColumnName="Meta" />
+                <ScalarProperty Name="ResultadoAtingidoColaborador_ID" ColumnName="ResultadoAtingidoColaborador_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjetivoColaborador">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.ObjetivoColaborador">
+              <MappingFragment StoreEntitySet="ObjetivoColaborador">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Objetivo" ColumnName="Objetivo" />
+                <ScalarProperty Name="MetaColaborador_ID" ColumnName="MetaColaborador_ID" />
+                <ScalarProperty Name="AvaliacaoColaborador_ID" ColumnName="AvaliacaoColaborador_ID" />
+                <ScalarProperty Name="AutoAvaliacao" ColumnName="AutoAvaliacao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Papel">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.Papel">
+              <MappingFragment StoreEntitySet="Papel">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResultadoAtingidoColaborador">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.ResultadoAtingidoColaborador">
+              <MappingFragment StoreEntitySet="ResultadoAtingidoColaborador">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ResultadoAtingido" ColumnName="ResultadoAtingido" />
+                <ScalarProperty Name="AvaliacaoGestor_ID" ColumnName="AvaliacaoGestor_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SituacaoCicloAvaliacao">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.SituacaoCicloAvaliacao">
+              <MappingFragment StoreEntitySet="SituacaoCicloAvaliacao">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusAvaliacaoColaborador">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.StatusAvaliacaoColaborador">
+              <MappingFragment StoreEntitySet="StatusAvaliacaoColaborador">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusPDI">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.StatusPDI">
+              <MappingFragment StoreEntitySet="StatusPDI">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Papel_ID" ColumnName="Papel_ID" />
+                <ScalarProperty Name="GestorRubiID" ColumnName="GestorRubiID" />
+                <ScalarProperty Name="UsuarioRubiID" ColumnName="UsuarioRubiID" />
+                <ScalarProperty Name="CodigoEmpresaRubiUD" ColumnName="CodigoEmpresaRubiUD" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

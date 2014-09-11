@@ -1,0 +1,159 @@
+﻿@model AvaliacaoDesempenho.Models.Avaliacoes.GestaoAvaliacoesColaboradoresViewModel
+
+@{
+    ViewBag.Title = "GestaoAvaliacaoColaborador";
+    Layout = "~/Views/Shared/_LayoutInterno.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-025">
+        <label class="control-label">
+            Descrição do Ciclo de Avaliação:
+        </label>
+    </div>
+    <div class="col-md-075">
+        <label class="control-label">
+            Ciclo 1
+        </label>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-100">
+        <label class="control-label">
+            Relação de Avaliações
+        </label>
+    </div>
+</div>
+@using (Html.BeginForm("PesquisarAvaliacoes",
+                       "Avaliacoes",
+                       FormMethod.Post,
+                       new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.CicloAvaliacaoSelecionadoID)
+
+    <div class="row top20">
+        <div class="col-md-015">
+            @Html.LabelFor(model => model.NomeAvaliadoPesquisado, new { @class = "control-label" })
+        </div>
+        <div class="col-md-035">
+            @Html.EditorFor(model => model.NomeAvaliadoPesquisado, new { @class = "form-control" })
+        </div>
+        <div class="col-md-010 col-md-offset-005">
+            @Html.LabelFor(model => model.StatusAvaliacaoColaborador, new { @class = "control-label" })
+        </div>
+        <div class="col-md-035">
+            @Html.DropDownListFor(model => model.StatusAvaliacaoPesquisadoID,
+                                  new SelectList(Model.StatusAvaliacaoColaborador,
+                                                 "Value",
+                                                 "Text",
+                                                 Model.StatusAvaliacaoPesquisadoID),
+                                                 "",
+                                  new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-005">
+            @Html.LabelFor(model => model.AreaPesquisada, new { @class = "control-label" })
+        </div>
+        <div class="col-md-025">
+            @Html.EditorFor(model => model.AreaPesquisada, new { @class = "form-control" })
+        </div>
+        <div class="col-md-005 col-md-offset-005">
+            @Html.LabelFor(model => model.CargoPesquisado, new { @class = "control-label" })
+        </div>
+        <div class="col-md-025">
+            @Html.EditorFor(model => model.CargoPesquisado, new { @class = "form-control" })
+        </div>
+        <div class="col-md-010 col-md-offset-005">
+            @Html.LabelFor(model => model.GestorPesquisado, new { @class = "control-label" })
+        </div>
+        <div class="col-md-025">
+            @Html.EditorFor(model => model.GestorPesquisado, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-095 col-md-offset-005 text-right">
+            <input type="submit" value="Pesquisar" class="btn btn-default" />
+        </div>
+    </div>
+}
+<div class="row top30">
+    @using (Html.BeginForm("AlterarStatusAvaliacoes",
+                       "Avaliacoes",
+                       FormMethod.Post,
+                       new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(model => model.CicloAvaliacaoSelecionadoID)
+
+        <div class="row top20">
+            <div class="col-md-100">
+                <table class="table">
+                    <tr>
+                        <th>
+                            Gestor
+                        </th>
+                        <th>
+                            Área
+                        </th>
+                        <th>
+                            Avaliado
+                        </th>
+                        <th>
+                            Cargo
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            Alterar
+                        </th>
+                    </tr>
+
+                    @for (int i = 0; i < Model.AvaliacoesColaboradores.Count; i++)
+                    {
+                        @Html.HiddenFor(modelItem => Model.AvaliacoesColaboradores[i].ID)
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.AvaliacoesColaboradores[i].NomeGestor)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.AvaliacoesColaboradores[i].Area)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.AvaliacoesColaboradores[i].UsuarioNome)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.AvaliacoesColaboradores[i].Cargo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.AvaliacoesColaboradores[i].StatusAvaliacaoColaboradorNome)
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(model => Model.AvaliacoesColaboradores[i].StatusAvaliacaoColaboradorID,
+                                  new SelectList(Model.StatusAvaliacaoColaborador,
+                                                 "Value",
+                                                 "Text",
+                                                 Model.AvaliacoesColaboradores[i].StatusAvaliacaoColaboradorID),
+                                                 "",
+                                  new { @class = "form-control" })
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div class="row top20">
+                <div class="col-md-12 text-right">
+                    @Html.ActionLink("Relatórios", "Index", "Relatorios", null, new { @class = "btn btn-default" })
+                    <input type="submit" value="Alterar" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+</div>

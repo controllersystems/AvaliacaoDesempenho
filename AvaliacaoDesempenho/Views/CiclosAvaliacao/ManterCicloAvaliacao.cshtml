@@ -1,0 +1,405 @@
+﻿@using AvaliacaoDesempenho.Models.CiclosAvaliacao;
+@using AvaliacaoDesempenho.Dominio.BusinessEntities;
+
+@model ManterCicloAvaliacaoViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutInterno.cshtml";
+}
+
+@using (Html.BeginForm("ManterCicloAvaliacao",
+                       "CiclosAvaliacao",
+                       FormMethod.Post,
+                       new { @class = "form-horizontal top100", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ID)
+
+    @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+
+    <h4>Dados Básicos</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-027">
+            <label class="control-label">Descrição do Ciclo de Avaliação</label>            
+        </div>
+        <div class="col-md-073">
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                @Html.EditorFor(model => model.Descricao, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Descricao, string.Empty, new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.TextBoxFor(model => model.Descricao, new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-025">
+            <label class="control-label">Data de início da vigência</label>
+                
+        </div>
+        <div class="col-md-012">
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                @Html.EditorFor(model => model.DataInicioVigencia, new { @class = "form-control" })
+
+                @Html.ValidationMessageFor(model => model.DataInicioVigencia, string.Empty, new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.TextBoxFor(model => model.DataInicioVigencia, new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+        <div class="col-md-025 col-md-offset-005">
+            <label class="control-label">Data de fim da vigência</label>
+        </div>
+        <div class="col-md-012">
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                @Html.EditorFor(model => model.DataFimVigencia, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DataFimVigencia, string.Empty, new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.TextBoxFor(model => model.DataFimVigencia, new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+    </div>
+    <hr />
+    <h4 class="top50">Grupo de Competências</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-027">
+            <label class="control-label">URL do guia de competências</label>
+        </div>
+        <div class="col-md-073">
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                @Html.EditorFor(model => model.URLCompetencia, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.URLCompetencia, string.Empty, new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.TextBoxFor(model => model.URLCompetencia, new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-027">
+            <label class="control-label">Orientação para colaborador</label>
+        </div>
+        <div class="col-md-073">
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                @Html.EditorFor(model => model.OrientacaoCompetencia, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.OrientacaoCompetencia, string.Empty, new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.TextBoxFor(model => model.OrientacaoCompetencia, new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+    </div>
+    <hr />
+    <h4 class="top50">Definição de Objetivos e Metas</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-015">
+            <label class="control-label">Data de início</label>
+        </div>
+        <div class="col-md-012">
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                @Html.EditorFor(model => model.DataInicioObjetivosMetas, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DataInicioObjetivosMetas, string.Empty, new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.TextBoxFor(model => model.DataInicioObjetivosMetas, new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+        <div class="col-md-015 col-md-offset-005">
+            <label class="control-label">Data de término</label>
+        </div>
+        <div class="col-md-012">
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                @Html.EditorFor(model => model.DataTerminoObjetivosMetas, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DataTerminoObjetivosMetas, string.Empty, new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.TextBoxFor(model => model.DataTerminoObjetivosMetas, new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-020">
+            <label class="control-label">Título da orientação</label>            
+        </div>
+        <div class="col-md-080">
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                @Html.EditorFor(model => model.TituloOrientacaoObjetivosMetas, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TituloOrientacaoObjetivosMetas, string.Empty, new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.TextBoxFor(model => model.TituloOrientacaoObjetivosMetas, new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-100">
+            <label class="control-label">Texto da orientação</label>
+        </div>
+        <div class="col-md-100">
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                @Html.TextAreaFor(model => model.TextoOrientacaoObjetivosMetas, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TextoOrientacaoObjetivosMetas, string.Empty, new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.TextAreaFor(model => model.TextoOrientacaoObjetivosMetas, new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+    </div>
+    <hr />
+    <h4 class="top50">Auto-avaliação</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-015">
+            <label class="control-label">Data de início</label>
+        </div>
+        <div class="col-md-012">
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                @Html.EditorFor(model => model.DataInicioAutoAvaliacao, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DataInicioAutoAvaliacao, string.Empty, new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.TextBoxFor(model => model.DataInicioAutoAvaliacao, new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+        <div class="col-md-015 col-md-offset-005">
+            <label class="control-label">Data de término</label>
+        </div>
+        <div class="col-md-012">
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                @Html.EditorFor(model => model.DataTerminoAutoAvaliacao, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DataTerminoAutoAvaliacao, string.Empty, new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.TextBoxFor(model => model.DataTerminoAutoAvaliacao, new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-020">
+            <label class="control-label">Título da orientação</label>
+        </div>
+        <div class="col-md-080">
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                @Html.EditorFor(model => model.TituloOrientacaoAutoAvaliacao, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TituloOrientacaoAutoAvaliacao, string.Empty, new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.TextBoxFor(model => model.TituloOrientacaoAutoAvaliacao, new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-100">
+            <label class="control-label">Texto da orientação</label>
+        </div>
+        <div class="col-md-100">
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                @Html.TextAreaFor(model => model.TextoOrientacaoAutoAvaliacao, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TextoOrientacaoAutoAvaliacao, string.Empty, new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.TextAreaFor(model => model.TextoOrientacaoAutoAvaliacao, new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+    </div>
+    <hr />
+    <h4 class="top50">Avaliação do Gestor</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-015">
+            <label class="control-label">Data de início</label>
+        </div>
+        <div class="col-md-012">
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                @Html.EditorFor(model => model.DataInicioAvaliacaoGestor, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DataInicioAvaliacaoGestor, string.Empty, new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.TextBoxFor(model => model.DataInicioAvaliacaoGestor, new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+        <div class="col-md-015 col-md-offset-005">
+            <label class="control-label">Data de término</label>
+        </div>
+        <div class="col-md-012">
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                @Html.EditorFor(model => model.DataTerminoAvaliacaoGestor, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DataTerminoAvaliacaoGestor, string.Empty, new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.TextBoxFor(model => model.DataTerminoAvaliacaoGestor, new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-020">
+            <label class="control-label">Título da orientação</label>
+        </div>
+        <div class="col-md-080">
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                @Html.EditorFor(model => model.TituloOrientacaoAvaliacaoGestor, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TituloOrientacaoAvaliacaoGestor, string.Empty, new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.TextBoxFor(model => model.TituloOrientacaoAvaliacaoGestor, new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-100">
+            <label class="control-label">Texto da orientação</label>
+        </div>
+        <div class="col-md-100">
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                @Html.TextAreaFor(model => model.TextoOrientacaoAvaliacaoGestor, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TextoOrientacaoAvaliacaoGestor, string.Empty, new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.TextAreaFor(model => model.TextoOrientacaoAvaliacaoGestor, new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+    </div>
+    <hr />
+    <h4 class="top50">Gerenciamento do Ciclo</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-030">
+            <label class="control-label">Situação do Ciclo de Avaliação</label>
+
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                @Html.DropDownListFor(model => model.SituacaoCicloAvaliacaoSelecionadoID,
+                                  new SelectList(Model.SituacoesCicloAvaliacao,
+                                                 "Value",
+                                                 "Text",
+                                                 Model.SituacaoCicloAvaliacaoSelecionadoID),
+                                  new { @class = "form-control" })
+            }
+            else
+            {
+                @Html.DropDownListFor(model => model.SituacaoCicloAvaliacaoSelecionadoID,
+                                  new SelectList(Model.SituacoesCicloAvaliacao,
+                                                 "Value",
+                                                 "Text",
+                                                Model.SituacaoCicloAvaliacaoSelecionadoID),
+                                  new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+        <div class="col-md-050 col-md-offset-020">
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Criar)
+            {
+                <div class="row">
+                    <div class="col-md-070">
+                        @Html.ActionLink("Gerenciar Avaliações", "GestaoAvaliacoesColaboradores", "Avaliacoes", new { id = Model.ID }, new { @class = "btn btn-default width100" })
+                    </div>
+                </div>
+                <div class="row top10">
+                    <div class="col-md-070">
+                        @Html.ActionLink("Importar e Equivaler Cargos e Competências", "GestaoCompetenciasCargos", new { id = Model.ID }, new { @class = "btn btn-default width100" })
+                    </div>
+                </div>
+                <div class="row top10">
+                    <div class="col-md-070">
+                        @Html.ActionLink("Enviar/Liberar Avaliação para Gestores", "EnvioEmails", null, new { @class = "btn btn-default width100" })
+                    </div>
+                </div>
+                <div class="row top10">
+                    <div class="col-md-070">
+                        @Html.ActionLink("Enviar/Liberar Avaliação para Colaboradores", "EnvioEmails", null, new { @class = "btn btn-default width100" })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <hr />
+    <h4 class="top50">Gerenciamento de PDI</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-015">
+            <label class="control-label">Data de início</label>
+        </div>
+        <div class="col-md-012">
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                @Html.EditorFor(model => model.DataInicioGerenciamentoPDI, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DataInicioGerenciamentoPDI, string.Empty, new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.TextBoxFor(model => model.DataInicioGerenciamentoPDI, new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+        <div class="col-md-015 col-md-offset-005">
+            <label class="control-label">Data de término</label>
+        </div>
+        <div class="col-md-012">
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                @Html.EditorFor(model => model.DataTerminoGerenciamentoPDI, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DataTerminoGerenciamentoPDI, string.Empty, new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.TextBoxFor(model => model.DataTerminoGerenciamentoPDI, new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+    </div>
+    <div class="row top30">
+        <div class="col-md-100">
+            @Html.ActionLink("Gerenciar PDIs", "GestaoPDIs", "Avaliacoes", null, new { @class = "btn btn-default" })
+        </div>
+    </div>
+    <hr />
+    <div class="row top50">
+        <div class="col-md-095 col-md-offset-005 text-right">
+            @Html.ActionLink("Voltar", "GestaoCiclosAvaliacao", null, new { @class = "btn btn-default" })
+
+            @if (Model.AcaoPagina != Enumeradores.AcaoPagina.Visualizar)
+            {
+                <input type="submit" value="Salvar" class="btn btn-default" />
+            }
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,98 @@
+﻿@model AvaliacaoDesempenho.Models.Usuarios.GestaoAdministradoresViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutInterno.cshtml";
+}
+
+<h4>
+    Logins de rede com perfil de administrador
+</h4>
+<div class="row top20">
+    <div class="col-md-12">
+        <table class="table">
+            <tr>
+                <th>
+                </th>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Login
+                </th>
+            </tr>
+
+            @for (int i = 0; i < Model.Admnistradores.Count; i++ )
+            {
+                <tr>
+                    <td>
+                        @Html.CheckBoxFor(modelItem => Model.Admnistradores[i].Selecionado)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.Admnistradores[i].Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.Admnistradores[i].Login)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+@*<div class="row">
+    <div class="col-md-100 text-right">
+        @Html.ActionLink("Excluir selecionados", "ManterCicloAvaliacao", null, new { @class = "btn btn-default" })
+    </div>
+</div>
+<div class="row  top10">
+    <div class="col-md-100">
+        <hr />
+    </div>
+</div>*@
+<div class="row">
+    @using (Html.BeginForm("PesquisarUsuario",
+                           "Usuarios",
+                           FormMethod.Post,
+                           new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+
+        <div class="col-md-005">
+            @Html.LabelFor(model => model.NomeUsuarioPesquisa, new { @class = "control-label" })
+        </div>
+        <div class="col-md-050">
+            @Html.EditorFor(model => model.NomeUsuarioPesquisa, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.NomeUsuarioPesquisa, string.Empty, new { @class = "text-danger" })
+        </div>
+        <div class="col-md-045">
+            <input type="submit" value="Pesquisar" class="btn btn-default" />
+        </div>
+
+    }
+</div>
+@*@if (Model.UsuarioPesquisado != null)
+{
+    var nomeApresentacaoUsuarioSelecionado = string.Format("{0}, {1}", Model.UsuarioPesquisado.Nome, Model.UsuarioPesquisado.Login);
+
+    <div class="row top20">
+        @using (Html.BeginForm("IncluirUsuario",
+                       "Usuarios",
+                       FormMethod.Post,
+                       new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.HiddenFor(model => model.UsuarioPesquisado)
+
+            <div class="col-md-050 col-md-offset-005">
+                <label class="control-label">
+                    nomeApresentacaoUsuarioSelecionado
+                </label>
+            </div>
+            <div class="col-md-045">
+                <input type="submit" value="Incluir" class="btn btn-default" />
+            </div>
+        }
+    </div>
+}*@

@@ -1,0 +1,55 @@
+﻿@using AvaliacaoDesempenho.Dominio.BusinessEntities
+
+@model AvaliacaoDesempenho.Models.CiclosAvaliacao.GestaoCiclosAvaliacaoViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutInterno.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <tr>
+                <th>
+                    Descrição
+                </th>
+                <th>
+                    Data de Início
+                </th>
+                <th>
+                    Data de Fim
+                </th>
+                <th>
+                    Situação
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.CiclosAvaliacao)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.Descricao, "ManterCicloAvaliacao", new { id = item.ID, acaoPagina = Enumeradores.AcaoPagina.Visualizar })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataInicioVigencia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataFimVigencia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SituacaoCicloAvaliacaoNome)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "ManterCicloAvaliacao", new { id = item.ID, acaoPagina = Enumeradores.AcaoPagina.Editar })
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <p>
+            @Html.ActionLink("Voltar", "../Home/Index", null, new { @class = "btn btn-default" })
+            @Html.ActionLink("Criar um novo ciclo", "ManterCicloAvaliacao", null, new { @class = "btn btn-default" })
+        </p>
+    </div>
+</div>

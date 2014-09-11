@@ -1,0 +1,14 @@
+﻿@using AvaliacaoDesempenho.Dominio.BusinessEntities
+
+@model AvaliacaoDesempenho.Models.Home.HomeViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutInterno.cshtml";
+}
+
+@Html.Action("SelecaoCicloAvaliacao", "CiclosAvaliacao", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID })
+
+@if (HttpContext.Current.User.IsInRole(Enumeradores.Papeis.ADMINISTRADOR))
+{
+    @Html.Partial("MenuAdministracao")
+}

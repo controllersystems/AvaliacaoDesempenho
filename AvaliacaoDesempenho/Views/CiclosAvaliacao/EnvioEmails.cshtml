@@ -1,0 +1,72 @@
+﻿@model AvaliacaoDesempenho.Models.CiclosAvaliacao.EnvioEmailsViewModel
+
+@{
+    ViewBag.Title = "EnvioEmails";
+    Layout = "~/Views/Shared/_LayoutInterno.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-025">
+        <label class="control-label">
+            Descrição do Ciclo de Avaliação:
+        </label>
+    </div>
+    <div class="col-md-075">
+        <label class="control-label">
+            Ciclo 1
+        </label>
+    </div>
+</div>
+<hr />
+@using (Html.BeginForm("ManterCicloAvaliacao",
+                       "CiclosAvaliacao",
+                       FormMethod.Post,
+                       new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+
+    <div class="row">
+        <div class="col-md-010">
+            @Html.LabelFor(model => model.Email.Assunto, new { @class = "control-label" })
+        </div>
+        <div class="col-md-090">
+            @Html.EditorFor(model => model.Email.Assunto, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Email.Assunto, string.Empty, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-100">
+            @Html.LabelFor(model => model.Email.CabecalhoHTML, new { @class = "control-label" })
+        </div>
+        <div class="col-md-100">
+            @Html.TextAreaFor(model => model.Email.CabecalhoHTML, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Email.CabecalhoHTML, string.Empty, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-100">
+            @Html.LabelFor(model => model.Email.Mensagem, new { @class = "control-label" })
+        </div>
+        <div class="col-md-100">
+            @Html.TextAreaFor(model => model.Email.Mensagem, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Email.Mensagem, string.Empty, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-100">
+            @Html.LabelFor(model => model.Email.RodapeHTML, new { @class = "control-label" })
+        </div>
+        <div class="col-md-100">
+            @Html.TextAreaFor(model => model.Email.RodapeHTML, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Email.RodapeHTML, string.Empty, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row top40">
+        <div class="col-md-100">
+            @Html.ActionLink("Visualizar", "", null, new { @class = "btn btn-default" })
+            <input type="submit" value="Enviar" class="btn btn-default" />
+        </div>
+    </div>
+}
