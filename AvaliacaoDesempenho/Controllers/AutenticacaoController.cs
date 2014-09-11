@@ -24,8 +24,6 @@ namespace AvaliacaoDesempenho.Controllers
         {
             if (ModelState.IsValid)
             {
-                CadastrarUsuario(model.Login, 492, 1);
-
                 string path = HttpContext.Server.MapPath("~/Web.config");
                 path = path.Replace("Web.config", string.Empty);
 
