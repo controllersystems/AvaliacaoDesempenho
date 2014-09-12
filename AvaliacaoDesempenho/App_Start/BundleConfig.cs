@@ -29,7 +29,7 @@ namespace AvaliacaoDesempenho
 
             bundles.Add(new StyleBundle("~/Styles/bootstrap")
                             .Include("~/Content/Styles/bootstrap.css"));
-
+            
             // TODO
             BundleTable.EnableOptimizations = false;
         }

@@ -12,7 +12,7 @@ using System.Web.Security;
 
 namespace AvaliacaoDesempenho
 {
-    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
+    // Note: For instructions on enabling IIS6 or IIS7 classic mode,
     // visit http://go.microsoft.com/?LinkId=9394801
 
     public class MvcApplication : System.Web.HttpApplication
@@ -44,7 +44,7 @@ namespace AvaliacaoDesempenho
                         Usuario usuario = new UsuarioDAO().Obter(username);
 
                         if (usuario != null)
-                            HttpContext.Current.User =
+                            HttpContext.Current.User = 
                                 new GenericPrincipal(new GenericIdentity(username, "Forms"),
                                                      usuario.Papel.Nome.Split(','));
                     }

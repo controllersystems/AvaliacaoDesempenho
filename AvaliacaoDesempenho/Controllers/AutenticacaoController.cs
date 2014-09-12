@@ -7,7 +7,6 @@ using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using System.Web.Mvc;
 using System.Web.Security;
-using System.IO;
 
 namespace AvaliacaoDesempenho.Controllers
 {
@@ -24,67 +23,32 @@ namespace AvaliacaoDesempenho.Controllers
         {
             if (ModelState.IsValid)
             {
-                string path = HttpContext.Server.MapPath("~/Web.config");
-                path = path.Replace("Web.config", string.Empty);
+                //MembershipUser usuario = Membership.GetUser(model.Login);
 
-                MembershipUser usuario = Membership.GetUser(model.Login);
-
-                using (StreamWriter sw = new StreamWriter(path + "log.txt"))
-                {
-                    if (usuario == null)
-                    {
-                        sw.WriteLine("usuario está nulo");
-                    }
-                    else
-                    {
-                        sw.WriteLine("usuario não está nulo");
-                    }
-
-                    if (usuario != null && Membership.ValidateUser(model.Login, model.Senha))
-                    {
-                        sw.WriteLine("usuario e senha validados");
-                        if (!VerificarExistenciaUsuario(model.Login))
-                        {
-                            FormsAuthentication.SetAuthCookie(model.Login, false);
-
-                            PrincipalContext principalContext = new PrincipalContext(ContextType.Domain);
-
-                            DirectorySearcher directorySearcher = new DirectorySearcher(principalContext.ConnectedServer);
-
-                            directorySearcher.Filter = "(sAMAccountName=" + model.Login + ")";
-
-                            SearchResult searchResult = directorySearcher.FindOne();
-
-                            DirectoryEntry directoryEntry = searchResult.GetDirectoryEntry();
-
-                            if (directoryEntry.Properties.Count > 0)
-                            {
-                                int numEmp = int.Parse(directoryEntry.Properties["company"][0].ToString());
-                                int numCad = int.Parse(directoryEntry.Properties["department"][0].ToString());
-
-                                CadastrarUsuario(model.Login, numEmp, numCad);
-                            }
-                        }
-
-                        if (Url.IsLocalUrl(URLRetorno)
-                            && URLRetorno.Length > 1
-                            && URLRetorno.StartsWith("/")
-                            && !URLRetorno.StartsWith("//")
-                            && !URLRetorno.StartsWith("/\\"))
-                        {
-                            return Redirect(URLRetorno);
-                        }
-                        else
-                        {
-                            return RedirectToAction("Index", "Home");
-                        }
-                    }
-                }
-
-                // BYPASS AD
-                //if (VerificarExistenciaUsuario(model.Login))
+                //if (usuario != null && Membership.ValidateUser(model.Login, model.Senha))
                 //{
                 //    FormsAuthentication.SetAuthCookie(model.Login, false);
+
+                //    if (!VerificarExistenciaUsuario(model.Login))
+                //    {
+                //        PrincipalContext principalContext = new PrincipalContext(ContextType.Domain);
+
+                //        DirectorySearcher directorySearcher = new DirectorySearcher(principalContext.ConnectedServer);
+
+                //        directorySearcher.Filter = "(sAMAccountName=" + model.Login + ")";
+
+                //        SearchResult searchResult = directorySearcher.FindOne();
+
+                //        DirectoryEntry directoryEntry = searchResult.GetDirectoryEntry();
+
+                //        if (directoryEntry.Properties.Count > 0)
+                //        {
+                //            int numEmp = int.Parse(directoryEntry.Properties["company"][0].ToString());
+                //            int numCad = int.Parse(directoryEntry.Properties["department"][0].ToString());
+
+                //            CadastrarUsuario(model.Login, numEmp, numCad);
+                //        }
+                //    }
 
                 //    if (Url.IsLocalUrl(URLRetorno)
                 //        && URLRetorno.Length > 1
@@ -99,6 +63,25 @@ namespace AvaliacaoDesempenho.Controllers
                 //        return RedirectToAction("Index", "Home");
                 //    }
                 //}
+
+                // BYPASS AD
+                if (VerificarExistenciaUsuario(model.Login))
+                {
+                    FormsAuthentication.SetAuthCookie(model.Login, false);
+
+                    if (Url.IsLocalUrl(URLRetorno)
+                        && URLRetorno.Length > 1
+                        && URLRetorno.StartsWith("/")
+                        && !URLRetorno.StartsWith("//")
+                        && !URLRetorno.StartsWith("/\\"))
+                    {
+                        return Redirect(URLRetorno);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
             }
 
             return View(model);

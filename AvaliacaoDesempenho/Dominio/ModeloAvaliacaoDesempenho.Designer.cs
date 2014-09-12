@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'c:\users\rodrigo cruz\documents\visual studio 2013\Projects\AvaliacaoDesempenho\AvaliacaoDesempenho\Dominio\ModeloAvaliacaoDesempenho.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\projects\OMNI\AvaliacaoDesempenho\Main\Source\AvaliacaoDesempenho\Dominio\ModeloAvaliacaoDesempenho.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

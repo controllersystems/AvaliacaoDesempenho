@@ -30,16 +30,6 @@ namespace AvaliacaoDesempenho.Controllers
             return CarregarAvaliacoesColaboradoresPorCiclo(model);
         }
 
-        public FileContentResult GetImage(byte[] byteImg)
-        {
-            if (byteImg != null)
-            {
-                return new FileContentResult(byteImg, "image/jpeg");
-            }
-            byteImg = new byte[1];
-            return new FileContentResult(byteImg, "image/jpeg");
-        }
-
         [Authorize]
         [HttpPost]
         public ActionResult PesquisarAvaliacoes(GestaoAvaliacoesColaboradoresViewModel model)
