@@ -4,6 +4,14 @@
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
 }
 
+<section id="bread">
+    <ul class="breadcrumb">
+        <li>@Html.ActionLink("Administração", "Index", "Home")<span class="divider"></span></li>
+        <li>@Html.ActionLink("Gerenciamento de Ciclos de Avaliação", "GestaoCiclosAvaliacao", "CiclosAvaliacao")<span class="divider"></span></li>
+        <li class="active">Gerenciar PDI</li>
+    </ul>
+</section>
+
 <div class="row">
     <div class="col-md-025">
         <label class="control-label">
@@ -60,17 +68,20 @@
         <div class="col-md-025">
             @Html.EditorFor(model => model.AreaPesquisada, new { @class = "form-control" })
         </div>
-        <div class="col-md-005 col-md-offset-005">
+        <div class="col-md-005 col-md-offset-001">
             @Html.LabelFor(model => model.CargoPesquisado, new { @class = "control-label" })
         </div>
         <div class="col-md-025">
             @Html.EditorFor(model => model.CargoPesquisado, new { @class = "form-control" })
         </div>
-        <div class="col-md-010 col-md-offset-005">
+        <div class="col-md-005 col-md-offset-001">
             @Html.LabelFor(model => model.GestorPesquisado, new { @class = "control-label" })
         </div>
         <div class="col-md-025">
             @Html.EditorFor(model => model.GestorPesquisado, new { @class = "form-control" })
+        </div>
+        <div class="col-md-010">
+            @Html.ActionLink("Pesquisar", "", "", null, new { @class = "btn btn-default" })
         </div>
     </div>
 }
@@ -107,19 +118,19 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Usuario.Gestor.Nome)
+                                @*Html.DisplayFor(modelItem => item.Usuario.Gestor.Nome)*@
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Usuario.Area.Descricao)
+                                @*Html.DisplayFor(modelItem => item.Usuario.Area.Descricao)*@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Usuario.Nome)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Usuario.Cargo.Nome)
+                                @*Html.DisplayFor(modelItem => item.Usuario.Cargo.Nome)*@
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.StatusPDI.Descrição)
+                                @*Html.DisplayFor(modelItem => item.StatusPDI.Descrição)*@
                             </td>
                             <td></td>
                         </tr>

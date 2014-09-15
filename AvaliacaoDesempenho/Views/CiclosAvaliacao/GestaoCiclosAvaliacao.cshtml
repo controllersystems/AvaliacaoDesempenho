@@ -6,6 +6,13 @@
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
 }
 
+<section id="bread">
+    <ul class="breadcrumb">
+        <li>@Html.ActionLink("Administração", "Index", "Home")<span class="divider"></span></li>
+        <li class="active">Gerenciamento de ciclos de avaliação</li>
+    </ul>
+</section>
+
 <div class="row">
     <div class="col-md-12">
         <table class="table">
@@ -48,8 +55,7 @@
         </table>
 
         <p>
-            @Html.ActionLink("Voltar", "../Home/Index", null, new { @class = "btn btn-default" })
-            @Html.ActionLink("Criar um novo ciclo", "ManterCicloAvaliacao", null, new { @class = "btn btn-default" })
+            @Html.ActionLink("Criar um novo ciclo", "ManterCicloAvaliacao", null, new { @class = "pull-right btn btn-default" })
         </p>
     </div>
 </div>

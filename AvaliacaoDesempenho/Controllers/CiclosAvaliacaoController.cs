@@ -101,16 +101,18 @@ namespace AvaliacaoDesempenho.Controllers
 
         [HttpGet]
         [Authorize]
-        [CriacaoMapeamento(typeof(DeAssociacaoCargoCompetenciaParaItemListaGestaoCompetenciasCargosViewModel))]
+        [CriacaoMapeamento(typeof(DeListAssociacaoCargoCompetenciaParaListItemListaGestaoCompetenciasCargosViewModel))]
         [CriacaoMapeamento(typeof(DeUSU_V092ESTParaAssociacaoParaAssociacaoCargoCompetenciaViewModel))]
         [CriacaoMapeamento(typeof(Detbl_cargo_sccParaSelectListItem))]
         [CriacaoMapeamento(typeof(Detbl_area_sccParaSelectListItem))]
         [CriacaoMapeamento(typeof(Detbl_setor_sccParaSelectListItem))]
-        public ActionResult GestaoCompetenciasCargos(int? id)
+        public ActionResult GestaoCompetenciasCargos(int? id, int? pagina = 1)
         {
             GestaoCompentenciasCargosViewModel model = new GestaoCompentenciasCargosViewModel();
 
             model.CicloAvaliacaoSelecionadoID = id;
+
+            model.Pagina = pagina.Value;
 
             CarregarAssociacoesCargoCompetencias(model);
 
@@ -156,7 +158,7 @@ namespace AvaliacaoDesempenho.Controllers
                     item.CicloAvaliacaoID = model.CicloAvaliacaoSelecionadoID.Value;
                 }
 
-                var associacoesCargoCompetencia = Mapper.Map<List<ItemListaGestaoCompetenciasCargosViewModel>, 
+                var associacoesCargoCompetencia = Mapper.Map<List<ItemListaGestaoCompetenciasCargosViewModel>,
                                                              List<AssociacaoCargoCompetencia>>(model.AssociacoesCargosCompetencias);
 
                 associacaoCargoCompetenciaDAO.PersistirColecao(associacoesCargoCompetencia);
@@ -168,10 +170,10 @@ namespace AvaliacaoDesempenho.Controllers
         private void CarregarAssociacoesCargoCompetencias(GestaoCompentenciasCargosViewModel model)
         {
             model.AssociacoesCargosCompetencias =
-                Mapper.Map<List<AssociacaoCargoCompetencia>,
-                           List<ItemListaGestaoCompetenciasCargosViewModel>>
-                                (new AssociacaoCargoCompetenciaDAO().
-                                    ListarPorCicloAvaliacao(model.CicloAvaliacaoSelecionadoID.Value));
+                    Mapper.Map<List<AssociacaoCargoCompetencia>,
+                               List<ItemListaGestaoCompetenciasCargosViewModel>>
+                                    (new AssociacaoCargoCompetenciaDAO().
+                                        ListarPorCicloAvaliacao(model.CicloAvaliacaoSelecionadoID.Value));
 
             if (!model.AssociacoesCargosCompetencias.Any())
                 CarregarInformacoesRubi(model);

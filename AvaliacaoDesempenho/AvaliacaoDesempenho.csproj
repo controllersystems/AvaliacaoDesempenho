@@ -68,6 +68,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\app\RodrigoCruz\product\11.2.0\client_4\odp.net\bin\4\Oracle.DataAccess.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -293,6 +299,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Seguranca\Identidade.cs" />
     <Compile Include="Seguranca\IdentidadeModelBinder.cs" />
+    <Compile Include="Util\Mapeamentos\DeListAssociacaoCargoCompetenciaParaListItemListaGestaoCompetenciasCargosViewModel.cs" />
     <Compile Include="Util\Mapeamentos\DeAvaliacaoColaboradorParaGestaoAvaliacaoColaboradorViewModel.cs" />
     <Compile Include="Util\Mapeamentos\DeAvaliacaoColaboradorParaItemListaGestaoAvaliacaoColaboradorViewModel.cs" />
     <Compile Include="Util\Mapeamentos\DeCicloAvaliacaoParaCicloAvaliacaoSelecionadoViewModel.cs" />
@@ -328,6 +335,7 @@
     <Content Include="Content\Images\logo_rh.png" />
     <Content Include="Content\Images\logo_transformacao_rh.jpg" />
     <Content Include="Content\Images\topo.png" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\Styles\bootstrap-theme.css" />
     <Content Include="Content\Styles\bootstrap-theme.min.css" />
     <Content Include="Content\Styles\bootstrap.css" />

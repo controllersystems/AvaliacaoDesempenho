@@ -4,6 +4,14 @@
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
 }
 
+<section id="bread">
+    <ul class="breadcrumb">
+        <li>@Html.ActionLink("Administração", "Index", "Home")<span class="divider"></span></li>
+        <li>@Html.ActionLink("Gerenciamento de Ciclos de Avaliação", "GestaoCiclosAvaliacao", "CiclosAvaliacao")<span class="divider"></span></li>
+        <li class="active">Importar e Equivaler Cargos e Competências</li>
+    </ul>
+</section>
+
 @if (Model.CicloAvaliacaoSelecionadoID.HasValue)
 {
     @Html.Action("CicloAvaliacaoSelecionado", "CiclosAvaliacao", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID.Value })
@@ -60,7 +68,7 @@
                         </th>
                     </tr>
 
-                    @for (int i = 0; i < Model.AssociacoesCargosCompetencias.Count; i++)
+                    @for (int i = (Model.Pagina - 1) * 20; i < (((Model.Pagina * 20) > Model.AssociacoesCargosCompetencias.Count) ?  Model.AssociacoesCargosCompetencias.Count : (Model.Pagina * 20)); i++)
                     {
                         <tr>
                             <td>
@@ -109,6 +117,54 @@
                         @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].SetorRubi)
                     }
                 </table>
+                <div class="text-center">
+                    <ul class="pagination">
+                        @{
+                            var ultimaPagina = 1;
+                            if (Model.AssociacoesCargosCompetencias.Count > Math.Ceiling(Convert.ToDouble(Model.AssociacoesCargosCompetencias.Count / 20)) * 20)
+                            {
+                                ultimaPagina = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(Model.AssociacoesCargosCompetencias.Count / 20))) + 1;
+                            }
+                            else
+                            {
+                                ultimaPagina = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(Model.AssociacoesCargosCompetencias.Count / 20)));
+                            }
+                            var count = 0;
+                            var parada = 5;
+                            for (int i = ((Model.Pagina <= 3) ? 1 : Model.Pagina - 3); i <= ultimaPagina; i++)
+                            {
+                                if (i == Model.Pagina)
+                                {
+                                    <li class="active">@Html.ActionLink(i.ToString(), "GestaoCompetenciasCargos", new { id = Model.CicloAvaliacaoSelecionadoID, pagina = i })</li>
+                                }
+                                else
+                                {
+                                    if (count == parada || i == ultimaPagina)
+                                    {
+                                        <li>@Html.ActionLink(">>", "GestaoCompetenciasCargos", new { id = Model.CicloAvaliacaoSelecionadoID, pagina = i })</li>
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        if (count == 0)
+                                        {
+                                            if (Model.Pagina > 1)
+                                            {
+                                                <li>@Html.ActionLink("<<", "GestaoCompetenciasCargos", new { id = Model.CicloAvaliacaoSelecionadoID, pagina = i })</li>
+                                                parada = 6;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <li>@Html.ActionLink(i.ToString(), "GestaoCompetenciasCargos", new { id = Model.CicloAvaliacaoSelecionadoID, pagina = i })</li>
+                                        }
+                                    }
+                                }
+                                count++;
+                            }
+                        }
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="row top30">
@@ -118,4 +174,4 @@
             </div>
         </div>
     }
-}
+    }

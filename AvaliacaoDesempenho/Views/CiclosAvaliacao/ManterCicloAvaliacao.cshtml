@@ -17,6 +17,14 @@
 
     @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
 
+    <section id="bread">
+        <ul class="breadcrumb">
+            <li>@Html.ActionLink("Administração", "Index", "Home")<span class="divider"></span></li>
+            <li>@Html.ActionLink("Gerenciamento de Ciclos de Avaliação", "GestaoCiclosAvaliacao", "CiclosAvaliacao")<span class="divider"></span></li>
+            <li class="active">Gerenciamento de um Ciclo de Avaliação e PDI</li>
+        </ul>
+    </section>
+
     <h4>Dados Básicos</h4>
     <hr />
     <div class="row">

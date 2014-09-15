@@ -35,7 +35,7 @@ namespace AvaliacaoDesempenho.Controllers
 
                 //        DirectorySearcher directorySearcher = new DirectorySearcher(principalContext.ConnectedServer);
 
-                //        directorySearcher.Filter = "(sAMAccountName=" + model.Login + ")";
+                //        directorySearcher.Filter = "(&(sAMAccountName=" + model.Login + ")" + System.Configuration.ConfigurationManager.ConnectionStrings["ADFilterConnectionString"].ConnectionString + ")";
 
                 //        SearchResult searchResult = directorySearcher.FindOne();
 

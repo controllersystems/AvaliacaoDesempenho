@@ -14,6 +14,8 @@ namespace AvaliacaoDesempenho.Models.CiclosAvaliacao
         public List<SelectListItem> AreasCompentencia { get; set; }
 
         public List<SelectListItem> SetoresCompentencia { get; set; }
+
+        public int Pagina { get; set; }
     }
 
     public class ItemListaGestaoCompetenciasCargosViewModel
