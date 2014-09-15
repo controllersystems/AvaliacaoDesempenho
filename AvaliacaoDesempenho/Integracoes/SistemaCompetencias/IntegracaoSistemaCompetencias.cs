@@ -15,7 +15,7 @@ namespace AvaliacaoDesempenho.Integracoes.SistemaCompetencias
         {
             using (db = new SistemaCompetenciasContext())
             {
-                return db.tbl_cargo_scc.ToList();
+                return db.tbl_cargo_scc.OrderBy(x => x.titulo_cargo).ToList();
             }
         }
 
@@ -23,7 +23,7 @@ namespace AvaliacaoDesempenho.Integracoes.SistemaCompetencias
         {
             using (db = new SistemaCompetenciasContext())
             {
-                return db.tbl_area_scc.ToList();
+                return db.tbl_area_scc.OrderBy(x => x.titulo_area).ToList();
             }
         }
 
@@ -39,7 +39,7 @@ namespace AvaliacaoDesempenho.Integracoes.SistemaCompetencias
         {
             using (db = new SistemaCompetenciasContext())
             {
-                return db.tbl_setor_scc.ToList();
+                return db.tbl_setor_scc.OrderBy(x => x.titulo_setor).ToList();
             }
         }
 

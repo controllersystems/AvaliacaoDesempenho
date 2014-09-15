@@ -135,7 +135,8 @@ namespace AvaliacaoDesempenho.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        [CriacaoMapeamento(typeof(DeItemListaGestaoCompetenciasCargosViewModelParaAssociacaoCargoCompetencia))]
+        //[CriacaoMapeamento(typeof(DeItemListaGestaoCompetenciasCargosViewModelParaAssociacaoCargoCompetencia))]
+        //[CriacaoMapeamento(typeof(DeListaItemListaGestaoCompetenciasCargosViewModelParaListaAssociacaoCargoCompetencia))]
         public ActionResult GestaoCompetenciasCargos(GestaoCompentenciasCargosViewModel model)
         {
             if (ModelState.IsValid)
@@ -158,22 +159,71 @@ namespace AvaliacaoDesempenho.Controllers
                     item.CicloAvaliacaoID = model.CicloAvaliacaoSelecionadoID.Value;
                 }
 
-                var associacoesCargoCompetencia = Mapper.Map<List<ItemListaGestaoCompetenciasCargosViewModel>,
-                                                             List<AssociacaoCargoCompetencia>>(model.AssociacoesCargosCompetencias);
+                var cicloAvaliacaoDAO = new CicloAvaliacaoDAO();
+                CicloAvaliacao ciclo = cicloAvaliacaoDAO.Obter(model.CicloAvaliacaoSelecionadoID.Value);
+
+                var associacoesCargoCompetencia = new List<AssociacaoCargoCompetencia>();
+
+                foreach (var item in model.AssociacoesCargosCompetencias)
+                {
+                    associacoesCargoCompetencia.Add(new AssociacaoCargoCompetencia
+                        {
+                            AreaCompetencia = item.AreaCompetencia,
+                            AreaCompetenciaID = item.AreaCompetenciaID,
+                            AreaRubi = item.AreaRubi,
+                            AreaRubiID = item.AreaRubiID,
+                            CargoCompetencia = item.CargoCompetencia,
+                            CargoCompetenciaID = item.CargoCompetenciaID,
+                            CargoRubi = item.CargoRubi,
+                            CargoRubiID = item.CargoRubiID,
+                            CicloAvaliacao_ID = item.CicloAvaliacaoID,
+                            ID = item.ID,
+                            SetorCompetencia = item.SetorCompetencia,
+                            SetorCompetenciaID = item.SetorCompetenciaID,
+                            SetorRubi = item.SetorRubi,
+                            SetorRubiID = item.SetorRubiID
+                        });
+                }
 
                 associacaoCargoCompetenciaDAO.PersistirColecao(associacoesCargoCompetencia);
             }
 
-            return View(model);
+            return GestaoCompetenciasCargos(model.CicloAvaliacaoSelecionadoID, model.Pagina);
+
+            //return View("/Views/CiclosAvaliacao/GestaoCompetenciasCargos/" + model.CicloAvaliacaoSelecionadoID + "?pagina=" + model.Pagina );
         }
 
         private void CarregarAssociacoesCargoCompetencias(GestaoCompentenciasCargosViewModel model)
         {
-            model.AssociacoesCargosCompetencias =
-                    Mapper.Map<List<AssociacaoCargoCompetencia>,
-                               List<ItemListaGestaoCompetenciasCargosViewModel>>
-                                    (new AssociacaoCargoCompetenciaDAO().
-                                        ListarPorCicloAvaliacao(model.CicloAvaliacaoSelecionadoID.Value));
+            //model.AssociacoesCargosCompetencias =
+            //        Mapper.Map<List<AssociacaoCargoCompetencia>,
+            //                   List<ItemListaGestaoCompetenciasCargosViewModel>>
+            //                        (new AssociacaoCargoCompetenciaDAO().
+            //                            ListarPorCicloAvaliacao(model.CicloAvaliacaoSelecionadoID.Value));
+
+            model.AssociacoesCargosCompetencias = new List<ItemListaGestaoCompetenciasCargosViewModel>();
+
+            foreach (var item in new AssociacaoCargoCompetenciaDAO().
+                                        ListarPorCicloAvaliacao(model.CicloAvaliacaoSelecionadoID.Value))
+            {
+                model.AssociacoesCargosCompetencias.Add(new ItemListaGestaoCompetenciasCargosViewModel
+                {
+                    AreaCompetencia = item.AreaCompetencia,
+                    AreaCompetenciaID = item.AreaCompetenciaID,
+                    AreaRubi = item.AreaRubi,
+                    AreaRubiID = item.AreaRubiID,
+                    CargoCompetencia = item.CargoCompetencia,
+                    CargoCompetenciaID = item.CargoCompetenciaID,
+                    CargoRubi = item.CargoRubi,
+                    CargoRubiID = item.CargoRubiID,
+                    CicloAvaliacaoID = item.CicloAvaliacao_ID,
+                    ID = item.ID,
+                    SetorCompetencia = item.SetorCompetencia,
+                    SetorCompetenciaID = item.SetorCompetenciaID,
+                    SetorRubi = item.SetorRubi,
+                    SetorRubiID = item.SetorRubiID
+                });
+            }
 
             if (!model.AssociacoesCargosCompetencias.Any())
                 CarregarInformacoesRubi(model);
