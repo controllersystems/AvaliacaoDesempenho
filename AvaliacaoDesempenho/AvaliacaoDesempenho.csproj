@@ -423,7 +423,6 @@
     <Content Include="Views\CiclosAvaliacao\CicloAvaliacaoSelecionado.cshtml" />
     <Content Include="Views\Avaliacoes\ManterAvaliacaoColaboradorAutoAvaliacao.cshtml" />
     <Content Include="Views\Avaliacoes\ManterAvaliacaoPDIColaborador.cshtml" />
-    <Content Include="Views\CiclosAvaliacao\ManterAssociacoesCargosCompetencias.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_GlobalResources\" />

@@ -48,4 +48,11 @@ namespace AvaliacaoDesempenho.Models.CiclosAvaliacao
 
         public int CicloAvaliacaoID { get; set; }
     }
+
+    public class ListaItemListaGestaoCompetenciasCargosViewModel
+    {
+        public int CicloAvaliacaoID { get; set; }
+
+        public List<ItemListaGestaoCompetenciasCargosViewModel> AssociacoesCargosCompetencias { get; set; }
+    }
 }

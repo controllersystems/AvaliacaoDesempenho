@@ -4,6 +4,13 @@
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
 }
 
+<section id="bread">
+    <ul class="breadcrumb">
+        <li>@Html.ActionLink("Administração", "Index", "Home")<span class="divider"></span></li>
+        <li class="active">Gerenciamento de administradores</li>
+    </ul>
+</section>
+
 <h4>
     Logins de rede com perfil de administrador
 </h4>

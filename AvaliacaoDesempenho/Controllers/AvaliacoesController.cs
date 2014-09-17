@@ -432,6 +432,24 @@ namespace AvaliacaoDesempenho.Controllers
         }
 
         [Authorize]
+        [CriacaoMapeamento(typeof(DeAvaliacaoColaboradorParaGestaoAvaliacaoColaboradorViewModel))]
+        [CriacaoMapeamento(typeof(DeAvaliacaoColaboradorParaItemListaGestaoAvaliacaoColaboradorViewModel))]
+        public ActionResult SubmeterPDIColaboradorAvaliacaoGestor(int? cicloAvaliacaoSelecionadoID,
+                                                                  [ModelBinder(typeof(IdentidadeModelBinder))] Identidade identidade)
+        {
+            AvaliacaoPDIColaboradorDAO avaliacaoPDIColaboradorDAO = new AvaliacaoPDIColaboradorDAO();
+
+            var avaliacaoPDIColaborador = avaliacaoPDIColaboradorDAO.Obter(cicloAvaliacaoSelecionadoID.Value, identidade.UsuarioID);
+
+            avaliacaoPDIColaborador.StatusPDI_ID = (int)Enumeradores.StatusPDI.AprovacaoGestor;
+
+            avaliacaoPDIColaboradorDAO.Editar(avaliacaoPDIColaborador);
+
+            return CarregarGestaoAvaliacaoColaborador(cicloAvaliacaoSelecionadoID,
+                                                      identidade);
+        }
+
+        [Authorize]
         [HttpGet]
         public ActionResult AprovarAvaliacaoColaborador(int? cicloAvaliacaoSelecionadoID, int? avaliacaoColaboradorObjetivosMetasID)
         {
@@ -669,9 +687,9 @@ namespace AvaliacaoDesempenho.Controllers
             {
                 model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
 
-                //var associacaoCargoCompentencia = new AssociacaoCargoCompetenciaDAO().Obter(avaliacaoColaborador.CargoRubiID, avaliacaoColaborador.AreaRubiID, avaliacaoColaborador.SetorRubiID);
+                var associacaoCargoCompentencia = new AssociacaoCargoCompetenciaDAO().Obter(id.Value, identidade.CargoRubiID.Value, identidade.AreaRubiID.Value, identidade.SetorRubiID.Value);
 
-                //var competencias = new IntegracaoSistemaCompetencias().ListarCompentenciasCargo(avaliacaoColaborador.ca)
+                var competencias = new Integracoes.SistemaCompetencias.IntegracaoSistemaCompetencias().ListarCompentenciasCargo(associacaoCargoCompentencia.CargoCompetenciaID.Value, associacaoCargoCompentencia.AreaCompetenciaID.Value, associacaoCargoCompentencia.SetorCompetenciaID.Value);
 
                 //model.ListaObjetivosMetasResultadosatingidosViewModel =
                 //    Mapper.Map<List<ObjetivoColaborador>,

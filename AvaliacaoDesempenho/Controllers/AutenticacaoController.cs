@@ -48,6 +48,10 @@ namespace AvaliacaoDesempenho.Controllers
 
                 //            CadastrarUsuario(model.Login, numEmp, numCad);
                 //        }
+                //        else
+                //        {
+                //            model.Validado = false;
+                //        }
                 //    }
 
                 //    if (Url.IsLocalUrl(URLRetorno)
@@ -62,6 +66,10 @@ namespace AvaliacaoDesempenho.Controllers
                 //    {
                 //        return RedirectToAction("Index", "Home");
                 //    }
+                //}
+                //else
+                //{
+                //    model.Validado = false;
                 //}
 
                 // BYPASS AD

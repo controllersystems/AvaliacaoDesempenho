@@ -9,5 +9,12 @@ namespace AvaliacaoDesempenho.Models.Autenticacao
 
         [Required]
         public string Senha { get; set; }
+
+        public bool Validado { get; set; }
+
+        public LoginViewModel()
+        {
+            Validado = true;
+        }
     }
 }

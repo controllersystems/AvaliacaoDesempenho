@@ -38,18 +38,39 @@ namespace AvaliacaoDesempenho.Dominio.DAL
             }
         }
 
-        public List<AssociacaoCargoCompetencia> Obter(int cicloAvaliacaoID, int? cargoRubiID, int? areaRubiID, int? setorRubiID)
+        //public List<AssociacaoCargoCompetencia> Obter(int cicloAvaliacaoID, int? cargoRubiID, int? areaRubiID, int? setorRubiID)
+        //{
+        //    List<AssociacaoCargoCompetencia> resultado = null;
+
+        //    using (var db = new AvaliacaoDesempenhoContextEntities())
+        //    {
+        //        var query = db.AssociacaoCargoCompetencia
+        //                            .Where(p => p.CicloAvaliacao.ID == cicloAvaliacaoID
+        //                                     && p.CargoRubiID == cargoRubiID.Value 
+        //                                     && p.AreaRubiID == areaRubiID.Value
+        //                                     && p.SetorRubiID == setorRubiID.Value);
+
+        //        if (query.Any())
+        //            resultado = query.ToList();
+        //    }
+
+        //    return resultado;
+        //}
+
+        public AssociacaoCargoCompetencia Obter(int cicloAvaliacaoID, int cargoRubiID, int areaRubiID, int setorRubiID)
         {
-            List<AssociacaoCargoCompetencia> resultado = null;
+            AssociacaoCargoCompetencia resultado = null;
 
             using (var db = new AvaliacaoDesempenhoContextEntities())
             {
                 var query = db.AssociacaoCargoCompetencia
-                                    .Where(p => p.CicloAvaliacao.ID == cicloAvaliacaoID);
-                                             //&& (p.CargoRubiID = (cargoRubiID.HasValue ? cargoRubiID.Value : p.CargoRubiID)));
+                                    .Where(p => p.CicloAvaliacao.ID == cicloAvaliacaoID
+                                             && p.CargoRubiID == cargoRubiID
+                                             && p.AreaRubiID == areaRubiID
+                                             && p.SetorRubiID == setorRubiID);
 
                 if (query.Any())
-                    resultado = query.ToList();
+                    resultado = query.First();
             }
 
             return resultado;

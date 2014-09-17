@@ -28,7 +28,7 @@
 <div class="row top30">
     <div class="col-md-100">
         <label class="control-label">
-            Relações estabelecidas entre cargos e competèncias
+            Relações estabelecidas entre cargos e competências
         </label>
     </div>
 </div>
@@ -69,7 +69,7 @@
                         </th>
                     </tr>
 
-                    @for (int i = (Model.Pagina - 1) * 20; i < (((Model.Pagina * 20) > Model.AssociacoesCargosCompetencias.Count) ?  Model.AssociacoesCargosCompetencias.Count : (Model.Pagina * 20)); i++)
+                    @for (int i = (Model.Pagina - 1) * 20; i < (((Model.Pagina * 20) > Model.AssociacoesCargosCompetencias.Count) ? Model.AssociacoesCargosCompetencias.Count : (Model.Pagina * 20)); i++)
                     {
                         <tr>
                             <td>
@@ -83,91 +83,92 @@
                             </td>
                             <td>
                                 @Html.DropDownListFor(modelItem => Model.AssociacoesCargosCompetencias[i].CargoCompetenciaID,
-                                  new SelectList(Model.CargosCompentencia,
-                                                 "Value",
-                                                 "Text",
-                                                 Model.AssociacoesCargosCompetencias[i].CargoCompetenciaID),
-                                                 "Não participa",
-                                                 new { @class = "form-control" })
+                                      new SelectList(Model.CargosCompentencia,
+                                                     "Value",
+                                                     "Text",
+                                                     Model.AssociacoesCargosCompetencias[i].CargoCompetenciaID),
+                                                     "Não participa",
+                                                     new { @class = "form-control" })
                             </td>
                             <td>
                                 @Html.DropDownListFor(modelItem => Model.AssociacoesCargosCompetencias[i].AreaCompetenciaID,
-                                  new SelectList(Model.AreasCompentencia,
-                                                 "Value",
-                                                 "Text",
-                                                 Model.AssociacoesCargosCompetencias[i].AreaCompetenciaID),
-                                                 "Não participa",
-                                                 new { @class = "form-control" })
+                                      new SelectList(Model.AreasCompentencia,
+                                                     "Value",
+                                                     "Text",
+                                                     Model.AssociacoesCargosCompetencias[i].AreaCompetenciaID),
+                                                     "Não participa",
+                                                     new { @class = "form-control" })
                             </td>
                             <td>
                                 @Html.DropDownListFor(modelItem => Model.AssociacoesCargosCompetencias[i].SetorCompetenciaID,
-                                  new SelectList(Model.SetoresCompentencia,
-                                                 "Value",
-                                                 "Text",
-                                                 Model.AssociacoesCargosCompetencias[i].SetorCompetenciaID),
-                                                 "Não participa",
-                                                 new { @class = "form-control" })
+                                      new SelectList(Model.SetoresCompentencia,
+                                                     "Value",
+                                                     "Text",
+                                                     Model.AssociacoesCargosCompetencias[i].SetorCompetenciaID),
+                                                     "Não participa",
+                                                     new { @class = "form-control" })
                             </td>
+                            @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].ID)
+                            @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].CargoRubiID)
+                            @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].CargoRubi)
+                            @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].AreaRubiID)
+                            @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].AreaRubi)
+                            @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].SetorRubiID)
+                            @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].SetorRubi)
                         </tr>
-                        @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].ID)
-                        @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].CargoRubiID)
-                        @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].CargoRubi)
-                        @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].AreaRubiID)
-                        @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].AreaRubi)
-                        @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].SetorRubiID)
-                        @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].SetorRubi)
                     }
                 </table>
                 <div class="text-center">
                     <ul class="pagination">
                         @{
-                            var ultimaPagina = 1;
-                            if (Model.AssociacoesCargosCompetencias.Count > Math.Ceiling(Convert.ToDouble(Model.AssociacoesCargosCompetencias.Count / 20)) * 20)
+                    var ultimaPagina = 1;
+                    if (Model.AssociacoesCargosCompetencias.Count > Math.Ceiling(Convert.ToDouble(Model.AssociacoesCargosCompetencias.Count / 20)) * 20)
+                    {
+                        ultimaPagina = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(Model.AssociacoesCargosCompetencias.Count / 20))) + 1;
+                    }
+                    else
+                    {
+                        ultimaPagina = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(Model.AssociacoesCargosCompetencias.Count / 20)));
+                    }
+                    var count = 0;
+                    var parada = 5;
+                    for (int i = ((Model.Pagina <= 3) ? 1 : Model.Pagina - 3); i <= ultimaPagina; i++)
+                    {
+                        if (i == Model.Pagina)
+                        {
+                            <li class="active">@Html.ActionLink(i.ToString(), "GestaoCompetenciasCargos", new { id = Model.CicloAvaliacaoSelecionadoID, pagina = i })</li>
+                        }
+                        else
+                        {
+                            if (count == parada || i == ultimaPagina)
                             {
-                                ultimaPagina = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(Model.AssociacoesCargosCompetencias.Count / 20))) + 1;
+                                <li>@Html.ActionLink(">>", "GestaoCompetenciasCargos", new { id = Model.CicloAvaliacaoSelecionadoID, pagina = i })</li>
+                                break;
                             }
                             else
                             {
-                                ultimaPagina = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(Model.AssociacoesCargosCompetencias.Count / 20)));
-                            }
-                            var count = 0;
-                            var parada = 5;
-                            for (int i = ((Model.Pagina <= 3) ? 1 : Model.Pagina - 3); i <= ultimaPagina; i++)
-                            {
-                                if (i == Model.Pagina)
+                                if (count == 0)
                                 {
-                                    <li class="active">@Html.ActionLink(i.ToString(), "GestaoCompetenciasCargos", new { id = Model.CicloAvaliacaoSelecionadoID, pagina = i })</li>
+                                    if (Model.Pagina > 1)
+                                    {
+                                        <li>@Html.ActionLink("<<", "GestaoCompetenciasCargos", new { id = Model.CicloAvaliacaoSelecionadoID, pagina = i })</li>
+                                        parada = 6;
+                                    }
                                 }
                                 else
                                 {
-                                    if (count == parada || i == ultimaPagina)
-                                    {
-                                        <li>@Html.ActionLink(">>", "GestaoCompetenciasCargos", new { id = Model.CicloAvaliacaoSelecionadoID, pagina = i })</li>
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        if (count == 0)
-                                        {
-                                            if (Model.Pagina > 1)
-                                            {
-                                                <li>@Html.ActionLink("<<", "GestaoCompetenciasCargos", new { id = Model.CicloAvaliacaoSelecionadoID, pagina = i })</li>
-                                                parada = 6;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <li>@Html.ActionLink(i.ToString(), "GestaoCompetenciasCargos", new { id = Model.CicloAvaliacaoSelecionadoID, pagina = i })</li>
-                                        }
-                                    }
+                                    <li>@Html.ActionLink(i.ToString(), "GestaoCompetenciasCargos", new { id = Model.CicloAvaliacaoSelecionadoID, pagina = i })</li>
                                 }
-                                count++;
                             }
+                        }
+                        count++;
+                    }
                         }
                     </ul>
                 </div>
             </div>
         </div>
+
         <div class="row top30">
             <div class="col-md-100">
                 @Html.ActionLink("Copiar último ciclo", "Index", "Relatorios", null, new { @class = "btn btn-default" })
@@ -175,4 +176,4 @@
             </div>
         </div>
     }
-    }
+}

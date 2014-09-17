@@ -118,11 +118,10 @@
                     && !Model.AcessoGestor)
             {
                 @Html.ActionLink("Submeter à aprovação do seu gestor",
-                                 "SubmeterAvaliacaoColaboradorAvaliacaoGestor",
+                                 "SubmeterPDIColaboradorAvaliacaoGestor",
                                  new
                                  {
-                                     cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID,
-                                     avaliacaoPDIColaboradorID = Model.AvaliacaoPDIColaboradorID
+                                     cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID
                                  },
                                  new { @class = "btn btn-default" })
             }

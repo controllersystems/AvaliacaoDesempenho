@@ -1,6 +1,120 @@
-﻿@{
-    ViewBag.Title = "ManterAvaliacaoColaboradorCompetencias";
+﻿@using AvaliacaoDesempenho.Dominio.BusinessEntities
+@model AvaliacaoDesempenho.Models.Avaliacoes.ManterAvaliacaoColaboradorCompetenciasViewModel
+
+@{
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
 }
 
-<h2>ManterAvaliacaoColaboradorCompetencias</h2>
+@Html.Action("CabecalhoColaborador", "Usuarios", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID })
+
+
+
+<label>Competências</label>
+<hr />
+
+@if (Model.ListaCompetenciasCorporativas != null)
+{
+    <div class="row top20">
+        <div class="col-md-100">
+            <table class="table">
+                <tr>
+                    <th>
+                        Competências Corporativas
+                    </th>
+                    <th>
+                        Avaliação Colaborador
+                    </th>
+                    
+                </tr>
+                @foreach (var item in Model.ListaCompetenciasCorporativas)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Competencia)
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(modelItem => item.NivelColaborador,
+                                      new SelectList(Enumeradores.NivelAvaliacao,
+                                                     "Value",
+                                                     "Text",
+                                                     item.NivelColaborador),
+                                                     " ",
+                                                     new { @class = "form-control" })
+                        </td>
+                    </tr>
+                }
+                </table>
+            </div>
+        </div>
+}
+
+@if (Model.ListaCompetenciasLideranca != null)
+{
+    <div class="row top20">
+        <div class="col-md-100">
+            <table class="table">
+                <tr>
+                    <th>
+                        Competências de Liderança
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+                @foreach (var item in Model.ListaCompetenciasLideranca)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Competencia)
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(modelItem => item.NivelColaborador,
+                                      new SelectList(Enumeradores.NivelAvaliacao,
+                                                     "Value",
+                                                     "Text",
+                                                     item.NivelColaborador),
+                                                     " ",
+                                                     new { @class = "form-control" })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+}
+
+@if (Model.ListaCompetenciasFuncionais != null)
+{
+    <div class="row top20">
+        <div class="col-md-100">
+            <table class="table">
+                <tr>
+                    <th>
+                        Competências Funcionais
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+
+                </tr>
+                @foreach (var item in Model.ListaCompetenciasFuncionais)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Competencia)
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(modelItem => item.NivelColaborador,
+                                      new SelectList(Enumeradores.NivelAvaliacao,
+                                                     "Value",
+                                                     "Text",
+                                                     item.NivelColaborador),
+                                                     " ",
+                                                     new { @class = "form-control" })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+}

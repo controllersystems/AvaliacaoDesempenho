@@ -12,6 +12,7 @@ using AvaliacaoDesempenho.Util.Mapeamentos.CriacaoMapeamento;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using PagedList;
 
 namespace AvaliacaoDesempenho.Controllers
 {
@@ -129,6 +130,45 @@ namespace AvaliacaoDesempenho.Controllers
 
             CarregarInformacoesRubi(model);
 
+            AssociacaoCargoCompetenciaDAO associacaoCargoCompetenciaDAO = new AssociacaoCargoCompetenciaDAO();
+
+            if (model.AssociacoesCargosCompetencias != null)
+            {                
+                var associacoesCargoCompetencia = new List<AssociacaoCargoCompetencia>();
+
+                foreach (var item in model.AssociacoesCargosCompetencias)
+                {
+                    var associacao = associacaoCargoCompetenciaDAO.Obter(id.Value, item.CargoRubiID, item.AreaRubiID, item.SetorRubiID.Value);
+
+                    if (associacao == null)
+                    {
+                        associacoesCargoCompetencia.Add(new AssociacaoCargoCompetencia
+                        {
+                            AreaCompetencia = item.AreaCompetencia,
+                            AreaCompetenciaID = item.AreaCompetenciaID,
+                            AreaRubi = item.AreaRubi,
+                            AreaRubiID = item.AreaRubiID,
+                            CargoCompetencia = item.CargoCompetencia,
+                            CargoCompetenciaID = item.CargoCompetenciaID,
+                            CargoRubi = item.CargoRubi,
+                            CargoRubiID = item.CargoRubiID,
+                            CicloAvaliacao_ID = id.Value,
+                            ID = item.ID,
+                            SetorCompetencia = item.SetorCompetencia,
+                            SetorCompetenciaID = item.SetorCompetenciaID,
+                            SetorRubi = item.SetorRubi,
+                            SetorRubiID = item.SetorRubiID
+                        });
+                    }
+                }
+
+                associacaoCargoCompetenciaDAO.PersistirColecao(associacoesCargoCompetencia);
+            }
+
+            CarregarAssociacoesCargoCompetencias(model);
+
+            model.Pagina = 1;
+
             return View("/Views/CiclosAvaliacao/GestaoCompetenciasCargos.cshtml", model);
         }
 
@@ -145,47 +185,50 @@ namespace AvaliacaoDesempenho.Controllers
 
                 CarregarInformacoesSistemaCompentencias(model);
 
-                foreach (var item in model.AssociacoesCargosCompetencias)
+                if (model.AssociacoesCargosCompetencias != null)
                 {
-                    if (item.CargoCompetenciaID.HasValue)
-                        item.CargoCompetencia = model.CargosCompentencia.First(p => p.Value.Equals(item.CargoCompetenciaID.Value.ToString())).Text;
+                    foreach (var item in model.AssociacoesCargosCompetencias)
+                    {
+                        if (item.CargoCompetenciaID.HasValue)
+                            item.CargoCompetencia = model.CargosCompentencia.First(p => p.Value.Equals(item.CargoCompetenciaID.Value.ToString())).Text;
 
-                    if (item.AreaCompetenciaID.HasValue)
-                        item.AreaCompetencia = model.AreasCompentencia.First(p => p.Value.Equals(item.AreaCompetenciaID.ToString())).Text;
+                        if (item.AreaCompetenciaID.HasValue)
+                            item.AreaCompetencia = model.AreasCompentencia.First(p => p.Value.Equals(item.AreaCompetenciaID.ToString())).Text;
 
-                    if (item.SetorCompetenciaID.HasValue)
-                        item.SetorCompetencia = model.SetoresCompentencia.First(p => p.Value.Equals(item.SetorCompetenciaID.ToString())).Text;
+                        if (item.SetorCompetenciaID.HasValue)
+                            item.SetorCompetencia = model.SetoresCompentencia.First(p => p.Value.Equals(item.SetorCompetenciaID.ToString())).Text;
 
-                    item.CicloAvaliacaoID = model.CicloAvaliacaoSelecionadoID.Value;
+                        item.CicloAvaliacaoID = model.CicloAvaliacaoSelecionadoID.Value;
+                    }
+
+                    var cicloAvaliacaoDAO = new CicloAvaliacaoDAO();
+                    CicloAvaliacao ciclo = cicloAvaliacaoDAO.Obter(model.CicloAvaliacaoSelecionadoID.Value);
+
+                    var associacoesCargoCompetencia = new List<AssociacaoCargoCompetencia>();
+
+                    foreach (var item in model.AssociacoesCargosCompetencias)
+                    {
+                        associacoesCargoCompetencia.Add(new AssociacaoCargoCompetencia
+                            {
+                                AreaCompetencia = item.AreaCompetencia,
+                                AreaCompetenciaID = item.AreaCompetenciaID,
+                                AreaRubi = item.AreaRubi,
+                                AreaRubiID = item.AreaRubiID,
+                                CargoCompetencia = item.CargoCompetencia,
+                                CargoCompetenciaID = item.CargoCompetenciaID,
+                                CargoRubi = item.CargoRubi,
+                                CargoRubiID = item.CargoRubiID,
+                                CicloAvaliacao_ID = item.CicloAvaliacaoID,
+                                ID = item.ID,
+                                SetorCompetencia = item.SetorCompetencia,
+                                SetorCompetenciaID = item.SetorCompetenciaID,
+                                SetorRubi = item.SetorRubi,
+                                SetorRubiID = item.SetorRubiID
+                            });
+                    }
+
+                    associacaoCargoCompetenciaDAO.PersistirColecao(associacoesCargoCompetencia);
                 }
-
-                var cicloAvaliacaoDAO = new CicloAvaliacaoDAO();
-                CicloAvaliacao ciclo = cicloAvaliacaoDAO.Obter(model.CicloAvaliacaoSelecionadoID.Value);
-
-                var associacoesCargoCompetencia = new List<AssociacaoCargoCompetencia>();
-
-                foreach (var item in model.AssociacoesCargosCompetencias)
-                {
-                    associacoesCargoCompetencia.Add(new AssociacaoCargoCompetencia
-                        {
-                            AreaCompetencia = item.AreaCompetencia,
-                            AreaCompetenciaID = item.AreaCompetenciaID,
-                            AreaRubi = item.AreaRubi,
-                            AreaRubiID = item.AreaRubiID,
-                            CargoCompetencia = item.CargoCompetencia,
-                            CargoCompetenciaID = item.CargoCompetenciaID,
-                            CargoRubi = item.CargoRubi,
-                            CargoRubiID = item.CargoRubiID,
-                            CicloAvaliacao_ID = item.CicloAvaliacaoID,
-                            ID = item.ID,
-                            SetorCompetencia = item.SetorCompetencia,
-                            SetorCompetenciaID = item.SetorCompetenciaID,
-                            SetorRubi = item.SetorRubi,
-                            SetorRubiID = item.SetorRubiID
-                        });
-                }
-
-                associacaoCargoCompetenciaDAO.PersistirColecao(associacoesCargoCompetencia);
             }
 
             return GestaoCompetenciasCargos(model.CicloAvaliacaoSelecionadoID, model.Pagina);
@@ -203,30 +246,35 @@ namespace AvaliacaoDesempenho.Controllers
 
             model.AssociacoesCargosCompetencias = new List<ItemListaGestaoCompetenciasCargosViewModel>();
 
-            foreach (var item in new AssociacaoCargoCompetenciaDAO().
-                                        ListarPorCicloAvaliacao(model.CicloAvaliacaoSelecionadoID.Value))
+            var associacoesCargosCompetencias = new AssociacaoCargoCompetenciaDAO().
+                                        ListarPorCicloAvaliacao(model.CicloAvaliacaoSelecionadoID.Value);
+
+            if (associacoesCargosCompetencias != null)
             {
-                model.AssociacoesCargosCompetencias.Add(new ItemListaGestaoCompetenciasCargosViewModel
+                foreach (var item in associacoesCargosCompetencias)
                 {
-                    AreaCompetencia = item.AreaCompetencia,
-                    AreaCompetenciaID = item.AreaCompetenciaID,
-                    AreaRubi = item.AreaRubi,
-                    AreaRubiID = item.AreaRubiID,
-                    CargoCompetencia = item.CargoCompetencia,
-                    CargoCompetenciaID = item.CargoCompetenciaID,
-                    CargoRubi = item.CargoRubi,
-                    CargoRubiID = item.CargoRubiID,
-                    CicloAvaliacaoID = item.CicloAvaliacao_ID,
-                    ID = item.ID,
-                    SetorCompetencia = item.SetorCompetencia,
-                    SetorCompetenciaID = item.SetorCompetenciaID,
-                    SetorRubi = item.SetorRubi,
-                    SetorRubiID = item.SetorRubiID
-                });
+                    model.AssociacoesCargosCompetencias.Add(new ItemListaGestaoCompetenciasCargosViewModel
+                    {
+                        AreaCompetencia = item.AreaCompetencia,
+                        AreaCompetenciaID = item.AreaCompetenciaID,
+                        AreaRubi = item.AreaRubi,
+                        AreaRubiID = item.AreaRubiID,
+                        CargoCompetencia = item.CargoCompetencia,
+                        CargoCompetenciaID = item.CargoCompetenciaID,
+                        CargoRubi = item.CargoRubi,
+                        CargoRubiID = item.CargoRubiID,
+                        CicloAvaliacaoID = item.CicloAvaliacao_ID,
+                        ID = item.ID,
+                        SetorCompetencia = item.SetorCompetencia,
+                        SetorCompetenciaID = item.SetorCompetenciaID,
+                        SetorRubi = item.SetorRubi,
+                        SetorRubiID = item.SetorRubiID
+                    });
+                }
             }
 
-            if (!model.AssociacoesCargosCompetencias.Any())
-                CarregarInformacoesRubi(model);
+            //if (!model.AssociacoesCargosCompetencias.Any())
+            //    CarregarInformacoesRubi(model);
 
             CarregarInformacoesSistemaCompentencias(model);
         }

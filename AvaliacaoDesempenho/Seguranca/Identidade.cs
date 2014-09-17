@@ -26,6 +26,8 @@ namespace AvaliacaoDesempenho.Seguranca
 
         public string Cargo { get; private set; }
 
+        public int CodigoEmpresaRubiUD { get; set; }
+
         public string TempoCargo
         {
             get
@@ -103,6 +105,7 @@ namespace AvaliacaoDesempenho.Seguranca
                 NomePapel = usuario.Papel.Nome;
                 UsuarioRubiID = usuario.UsuarioRubiID;
                 GestorRubiID = usuario.GestorRubiID;
+                CodigoEmpresaRubiUD = usuario.CodigoEmpresaRubiUD;
             }
         }
 
@@ -132,7 +135,7 @@ namespace AvaliacaoDesempenho.Seguranca
 
         private void CarregarInformacoesUsuarioRubi()
         {
-            var informacoesRubi = new IntegracaoRubi().ObterUSU_V034FADPorEmail(Email);
+            var informacoesRubi = new IntegracaoRubi().ObterUSU_V034FAD(CodigoEmpresaRubiUD, UsuarioRubiID.Value);
 
             if (informacoesRubi != null)
             {

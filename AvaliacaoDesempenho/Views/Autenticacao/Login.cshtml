@@ -13,6 +13,10 @@
 <div class="row top20">
     <div class="col-md-12 text-center">
         <h4>Sistema de Avaliação de Desempenho</h4>
+        @if (Model != null && !Model.Validado)
+        {
+            <h6 style="color: red">Usuário e/ou senha inválido(s)</h6>
+        }
     </div>
 </div>
 <div class="row top30">
