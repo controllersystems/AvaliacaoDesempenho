@@ -187,18 +187,18 @@ namespace AvaliacaoDesempenho.Controllers
 
                 if (model.AssociacoesCargosCompetencias != null)
                 {
-                    foreach (var item in model.AssociacoesCargosCompetencias)
+                    for (int i = (model.Pagina - 1) * 20; i < (((model.Pagina * 20) > model.AssociacoesCargosCompetencias.Count) ? model.AssociacoesCargosCompetencias.Count : (model.Pagina * 20)); i++)
                     {
-                        if (item.CargoCompetenciaID.HasValue)
-                            item.CargoCompetencia = model.CargosCompentencia.First(p => p.Value.Equals(item.CargoCompetenciaID.Value.ToString())).Text;
+                        if (model.AssociacoesCargosCompetencias[i].CargoCompetenciaID.HasValue)
+                            model.AssociacoesCargosCompetencias[i].CargoCompetencia = model.CargosCompentencia.First(p => p.Value.Equals(model.AssociacoesCargosCompetencias[i].CargoCompetenciaID.Value.ToString())).Text;
 
-                        if (item.AreaCompetenciaID.HasValue)
-                            item.AreaCompetencia = model.AreasCompentencia.First(p => p.Value.Equals(item.AreaCompetenciaID.ToString())).Text;
+                        if (model.AssociacoesCargosCompetencias[i].AreaCompetenciaID.HasValue)
+                            model.AssociacoesCargosCompetencias[i].AreaCompetencia = model.AreasCompentencia.First(p => p.Value.Equals(model.AssociacoesCargosCompetencias[i].AreaCompetenciaID.ToString())).Text;
 
-                        if (item.SetorCompetenciaID.HasValue)
-                            item.SetorCompetencia = model.SetoresCompentencia.First(p => p.Value.Equals(item.SetorCompetenciaID.ToString())).Text;
+                        if (model.AssociacoesCargosCompetencias[i].SetorCompetenciaID.HasValue)
+                            model.AssociacoesCargosCompetencias[i].SetorCompetencia = model.SetoresCompentencia.First(p => p.Value.Equals(model.AssociacoesCargosCompetencias[i].SetorCompetenciaID.ToString())).Text;
 
-                        item.CicloAvaliacaoID = model.CicloAvaliacaoSelecionadoID.Value;
+                        model.AssociacoesCargosCompetencias[i].CicloAvaliacaoID = model.CicloAvaliacaoSelecionadoID.Value;
                     }
 
                     var cicloAvaliacaoDAO = new CicloAvaliacaoDAO();
@@ -206,24 +206,24 @@ namespace AvaliacaoDesempenho.Controllers
 
                     var associacoesCargoCompetencia = new List<AssociacaoCargoCompetencia>();
 
-                    foreach (var item in model.AssociacoesCargosCompetencias)
+                    for (int i = (model.Pagina - 1) * 20; i < (((model.Pagina * 20) > model.AssociacoesCargosCompetencias.Count) ? model.AssociacoesCargosCompetencias.Count : (model.Pagina * 20)); i++)
                     {
                         associacoesCargoCompetencia.Add(new AssociacaoCargoCompetencia
                             {
-                                AreaCompetencia = item.AreaCompetencia,
-                                AreaCompetenciaID = item.AreaCompetenciaID,
-                                AreaRubi = item.AreaRubi,
-                                AreaRubiID = item.AreaRubiID,
-                                CargoCompetencia = item.CargoCompetencia,
-                                CargoCompetenciaID = item.CargoCompetenciaID,
-                                CargoRubi = item.CargoRubi,
-                                CargoRubiID = item.CargoRubiID,
-                                CicloAvaliacao_ID = item.CicloAvaliacaoID,
-                                ID = item.ID,
-                                SetorCompetencia = item.SetorCompetencia,
-                                SetorCompetenciaID = item.SetorCompetenciaID,
-                                SetorRubi = item.SetorRubi,
-                                SetorRubiID = item.SetorRubiID
+                                AreaCompetencia = model.AssociacoesCargosCompetencias[i].AreaCompetencia,
+                                AreaCompetenciaID = model.AssociacoesCargosCompetencias[i].AreaCompetenciaID,
+                                AreaRubi = model.AssociacoesCargosCompetencias[i].AreaRubi,
+                                AreaRubiID = model.AssociacoesCargosCompetencias[i].AreaRubiID,
+                                CargoCompetencia = model.AssociacoesCargosCompetencias[i].CargoCompetencia,
+                                CargoCompetenciaID = model.AssociacoesCargosCompetencias[i].CargoCompetenciaID,
+                                CargoRubi = model.AssociacoesCargosCompetencias[i].CargoRubi,
+                                CargoRubiID = model.AssociacoesCargosCompetencias[i].CargoRubiID,
+                                CicloAvaliacao_ID = model.AssociacoesCargosCompetencias[i].CicloAvaliacaoID,
+                                ID = model.AssociacoesCargosCompetencias[i].ID,
+                                SetorCompetencia = model.AssociacoesCargosCompetencias[i].SetorCompetencia,
+                                SetorCompetenciaID = model.AssociacoesCargosCompetencias[i].SetorCompetenciaID,
+                                SetorRubi = model.AssociacoesCargosCompetencias[i].SetorRubi,
+                                SetorRubiID = model.AssociacoesCargosCompetencias[i].SetorRubiID
                             });
                     }
 

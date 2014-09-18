@@ -44,6 +44,11 @@
 
         @Html.HiddenFor(modelCiclo => Model.CicloAvaliacaoSelecionadoID)
         @Html.HiddenFor(modelCiclo => Model.Pagina)
+   
+        for (int i = 0; i < Model.Pagina * 20; i++)
+        {
+            @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].ID)
+        }
 
         <div class="row top20">
             <div class="col-md-100">
@@ -108,6 +113,7 @@
                                                      "Não participa",
                                                      new { @class = "form-control" })
                             </td>
+
                             @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].ID)
                             @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].CargoRubiID)
                             @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].CargoRubi)

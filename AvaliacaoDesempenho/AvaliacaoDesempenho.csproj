@@ -209,6 +209,7 @@
     <Compile Include="Dominio\DAL\AvaliacaoColaboradorDAO.cs" />
     <Compile Include="Dominio\DAL\AvaliacaoPDIColaboradorDAO.cs" />
     <Compile Include="Dominio\DAL\CicloAvaliacaoDAO.cs" />
+    <Compile Include="Dominio\DAL\CompetenciaColaboradorDAO.cs" />
     <Compile Include="Dominio\DAL\ContribuicaoColaboradorDAO.cs" />
     <Compile Include="Dominio\DAL\DesenvolvimentoCompetenciaDAO.cs" />
     <Compile Include="Dominio\DAL\ObjetivoColaboradorDAO.cs" />

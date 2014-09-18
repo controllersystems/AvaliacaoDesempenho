@@ -110,9 +110,6 @@ GO
 ALTER DATABASE [avaliacao_desempenho] SET TARGET_RECOVERY_TIME = 0 SECONDS 
 GO
 
-ALTER DATABASE [avaliacao_desempenho] SET DELAYED_DURABILITY = DISABLED 
-GO
-
 ALTER DATABASE [avaliacao_desempenho] SET  READ_WRITE 
 GO
 

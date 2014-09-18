@@ -34,7 +34,7 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
     public class ItemListaCompetenciasColaborador
     {
-        public int ID { get; set; }
+        public int? ID { get; set; }
 
         public int CompentenciaID { get; set; }
 

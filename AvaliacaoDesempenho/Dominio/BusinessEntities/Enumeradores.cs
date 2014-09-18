@@ -54,11 +54,18 @@
             public const string COLABORADOR = "Colaborador";
         }
 
-        public class TipoCompetencia
+        //public class TipoCompetencia
+        //{
+        //    public const string CORPORATIVA = "Competências Corporativas";
+        //    public const string LIDERANCA = "Competências de Liderança";
+        //    public const string FUNCIONAIS = "Competências Funcionais";
+        //}
+
+        public enum TipoCompetencia
         {
-            public const string CORPORATIVA = "Competências Corporativas";
-            public const string LIDERANCA = "Competências de Liderança";
-            public const string FUNCIONAIS = "Competências Funcionais";
+            Funcionais = 1,
+            Corporativa = 2,
+            Lideranca = 3
         }
     }
 }
