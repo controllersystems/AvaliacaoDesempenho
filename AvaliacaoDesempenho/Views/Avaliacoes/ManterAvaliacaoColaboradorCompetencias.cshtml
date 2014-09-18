@@ -34,12 +34,7 @@
                         </td>
                         <td>
                             @Html.DropDownListFor(modelItem => item.NivelColaborador,
-                                      new SelectList(Enumeradores.NivelAvaliacao,
-                                                     "Value",
-                                                     "Text",
-                                                     item.NivelColaborador),
-                                                     " ",
-                                                     new { @class = "form-control" })
+                                                  Model.ListaNivelAvaliacao)
                         </td>
                     </tr>
                 }
@@ -48,7 +43,7 @@
         </div>
 }
 
-@if (Model.ListaCompetenciasLideranca != null)
+@*@if (Model.ListaCompetenciasLideranca != null)
 {
     <div class="row top20">
         <div class="col-md-100">
@@ -117,4 +112,10 @@
             </table>
         </div>
     </div>
-}
+}*@
+
+<div class="row top20">
+    <div class="col-md-095 col-md-offset-005 text-right">
+        @Html.ActionLink("Anterior", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID }, new { @class = "btn btn-default" })
+    </div>
+</div>

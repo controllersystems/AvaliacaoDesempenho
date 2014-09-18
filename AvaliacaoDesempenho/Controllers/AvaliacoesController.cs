@@ -441,6 +441,7 @@ namespace AvaliacaoDesempenho.Controllers
 
             var avaliacaoPDIColaborador = avaliacaoPDIColaboradorDAO.Obter(cicloAvaliacaoSelecionadoID.Value, identidade.UsuarioID);
 
+            avaliacaoPDIColaborador.StatusPDI = new StatusPDIDAO().Obter((int)Enumeradores.StatusPDI.AprovacaoGestor);
             avaliacaoPDIColaborador.StatusPDI_ID = (int)Enumeradores.StatusPDI.AprovacaoGestor;
 
             avaliacaoPDIColaboradorDAO.Editar(avaliacaoPDIColaborador);
@@ -690,6 +691,31 @@ namespace AvaliacaoDesempenho.Controllers
                 var associacaoCargoCompentencia = new AssociacaoCargoCompetenciaDAO().Obter(id.Value, identidade.CargoRubiID.Value, identidade.AreaRubiID.Value, identidade.SetorRubiID.Value);
 
                 var competencias = new Integracoes.SistemaCompetencias.IntegracaoSistemaCompetencias().ListarCompentenciasCargo(associacaoCargoCompentencia.CargoCompetenciaID.Value, associacaoCargoCompentencia.AreaCompetenciaID.Value, associacaoCargoCompentencia.SetorCompetenciaID.Value);
+
+                if (competencias != null)
+                {
+                    model.ListaCompetenciasCorporativas = new List<ItemListaCompetenciasColaborador>();
+                    foreach (var item in competencias)
+                    {
+                        model.ListaCompetenciasCorporativas.Add(new ItemListaCompetenciasColaborador
+                        {
+                            ID = item.id_comp,
+                            NivelColaborador = item.id_nivel_comp.Value,
+                            Competencia = item.descricao_comp
+                        });
+                    }
+                }
+
+                var listaAval = new List<SelectListItem>();
+
+                listaAval.Add(new SelectListItem() { Text = "", Value = "" });
+
+                for (int i = 0; i < 5; i++)
+                {
+                    listaAval.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
+                }
+                
+                model.ListaNivelAvaliacao = listaAval;
 
                 //model.ListaObjetivosMetasResultadosatingidosViewModel =
                 //    Mapper.Map<List<ObjetivoColaborador>,

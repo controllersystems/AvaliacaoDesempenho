@@ -1,6 +1,10 @@
 ﻿@{
-    ViewBag.Title = "ManterAvaliacaoColaboradorPerformance";
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
 }
 
-<h2>ManterAvaliacaoColaboradorPerformance</h2>
+@Html.Action("CabecalhoColaborador", "Usuarios", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID })
+
+
+
+<label>Performance</label>
+<hr />

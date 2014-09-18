@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace AvaliacaoDesempenho.Models.Avaliacoes
 {
@@ -13,6 +14,8 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         public int? UsuarioRubiID { get; set; }
 
         public int StatusAvaliacaoColaboradorID { get; set; }
+
+        public IEnumerable<SelectListItem> ListaNivelAvaliacao { get; set; }
 
         public List<ItemListaCompetenciasColaborador> ListaCompetenciasCorporativas { get; set; }
 

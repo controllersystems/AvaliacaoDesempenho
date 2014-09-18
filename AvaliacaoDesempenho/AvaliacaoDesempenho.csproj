@@ -214,6 +214,7 @@
     <Compile Include="Dominio\DAL\ObjetivoColaboradorDAO.cs" />
     <Compile Include="Dominio\DAL\SituacaoCicloAvaliacaoDAO.cs" />
     <Compile Include="Dominio\DAL\StatusAvaliacaoColaboradorDAO.cs" />
+    <Compile Include="Dominio\DAL\StatusPDIDAO.cs" />
     <Compile Include="Dominio\DAL\UsuarioDAO.cs" />
     <Compile Include="Dominio\DesenvolvimentoCompetencia.cs">
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
