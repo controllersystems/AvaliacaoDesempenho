@@ -17,9 +17,6 @@ CREATE DATABASE [avaliacao_desempenho]
 ( NAME = N'avaliacao_desempenho_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\avaliacao_desempenho_log.ldf' , SIZE = 2048KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
 GO
 
-ALTER DATABASE [avaliacao_desempenho] SET COMPATIBILITY_LEVEL = 120
-GO
-
 IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
 begin
 EXEC [avaliacao_desempenho].[dbo].[sp_fulltext_database] @action = 'enable'

@@ -16,7 +16,8 @@
             DefinicaoObjetivosMetas = 2,
             AprovacaoDefinicaoObjetivosMetas = 3,
             ObjetivosMetasDefinidos = 4,
-            AutoAvaliacao = 5
+            AutoAvaliacao = 5,
+            EmAvaliacaoPelosGestores = 6
         }
 
         public enum StatusPDI

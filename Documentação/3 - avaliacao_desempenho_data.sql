@@ -40,6 +40,8 @@ GO
 INSERT INTO [dbo].[StatusAvaliacaoColaborador] ([Nome]) VALUES ('Realização de auto-avaliação')
 GO
 
+INSERT INTO [dbo].[StatusAvaliacaoColaborador] ([Nome]) VALUES ('Em avaliação pelos gestores')
+GO
 
 /****************************************************************************************************
 * StatusPDI

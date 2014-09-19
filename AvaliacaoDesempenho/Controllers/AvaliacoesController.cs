@@ -275,7 +275,11 @@ namespace AvaliacaoDesempenho.Controllers
                 else
                     return ManterAvaliacaoColaboradorAutoAvaliacao(id, false, false, colaboradorID);
             }
-
+            else if (avaliacaoColaborador.StatusAvaliacaoColaborador_ID
+                        .Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
+            {
+                return ManterAvaliacaoColaboradorAutoAvaliacao(id, false, false, colaboradorID);
+            }
             return RedirectToAction("Index", "Home");
         }
 
@@ -424,6 +428,25 @@ namespace AvaliacaoDesempenho.Controllers
             var avaliacaoColaborador = avaliacaoColaboradorDAO.Obter(avaliacaoColaboradorObjetivosMetasID.Value);
 
             avaliacaoColaborador.StatusAvaliacaoColaborador_ID = (int)Enumeradores.StatusAvaliacaoColaborador.AprovacaoDefinicaoObjetivosMetas;
+
+            avaliacaoColaboradorDAO.Editar(avaliacaoColaborador);
+
+            return CarregarGestaoAvaliacaoColaborador(cicloAvaliacaoSelecionadoID,
+                                                      identidade);
+        }
+
+        [Authorize]
+        [CriacaoMapeamento(typeof(DeAvaliacaoColaboradorParaGestaoAvaliacaoColaboradorViewModel))]
+        [CriacaoMapeamento(typeof(DeAvaliacaoColaboradorParaItemListaGestaoAvaliacaoColaboradorViewModel))]
+        public ActionResult SubmeterAutoAvaliacaoColaboradorAvaliacaoGestor(int? cicloAvaliacaoSelecionadoID,
+                                                                            int? avaliacaoColaboradorID,
+                                                                            [ModelBinder(typeof(IdentidadeModelBinder))] Identidade identidade)
+        {
+            AvaliacaoColaboradorDAO avaliacaoColaboradorDAO = new AvaliacaoColaboradorDAO();
+
+            var avaliacaoColaborador = avaliacaoColaboradorDAO.Obter(avaliacaoColaboradorID.Value);
+
+            avaliacaoColaborador.StatusAvaliacaoColaborador_ID = (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores;
 
             avaliacaoColaboradorDAO.Editar(avaliacaoColaborador);
 
