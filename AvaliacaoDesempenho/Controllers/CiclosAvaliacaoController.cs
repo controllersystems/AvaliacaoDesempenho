@@ -335,7 +335,7 @@ namespace AvaliacaoDesempenho.Controllers
 
             model.CiclosAvaliacao
                 = Mapper.Map<List<CicloAvaliacao>,
-                             List<SelectListItem>>(new CicloAvaliacaoDAO().Listar());
+                             List<SelectListItem>>(new CicloAvaliacaoDAO().ListarCiclosDisponiveis());
 
             if (cicloAvaliacaoSelecionadoID.HasValue)
                 model.CicloAvaliacaoSelecionadoID = cicloAvaliacaoSelecionadoID.Value;

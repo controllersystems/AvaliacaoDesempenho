@@ -15,6 +15,8 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public int StatusAvaliacaoColaboradorID { get; set; }
 
+        public int StatusCicloAvaliacaoID { get; set; }
+
         public IEnumerable<SelectListItem> ListaNivelAvaliacao { get; set; }
 
         public List<ItemListaCompetenciasColaborador> ListaCompetenciasCorporativas { get; set; }

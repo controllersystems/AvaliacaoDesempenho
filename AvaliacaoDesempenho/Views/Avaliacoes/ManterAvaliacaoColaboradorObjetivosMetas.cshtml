@@ -90,7 +90,7 @@
                 </div>
             </div>
 
-            if (!Model.Aprovada && Model.StatusAvaliacaoColaboradorID >= 3)
+            if (!Model.Aprovada && Model.JustificativaReprovacao != null)
             {
                 <div class="row top20">
                     <div class="col-md-100">
@@ -141,7 +141,7 @@
             <hr />
         }
 
-        if (!Model.Aprovada && !Model.Aprovar)
+        if (!Model.Aprovada && Model.JustificativaReprovacao != null)
         {
             <div class="row top20">
                 <div class="col-md-100">

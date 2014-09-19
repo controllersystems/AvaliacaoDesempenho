@@ -14,6 +14,14 @@ namespace AvaliacaoDesempenho.Dominio.DAL
             }
         }
 
+        public List<CicloAvaliacao> ListarCiclosDisponiveis()
+        {
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                return db.CicloAvaliacao.Include("SituacaoCicloAvaliacao").Where(x => x.SituacaoCicloAvaliacao_ID > 1 && x.SituacaoCicloAvaliacao_ID < 7).ToList();
+            }
+        }
+
         public CicloAvaliacao Obter(int id)
         {
             using (var db = new AvaliacaoDesempenhoContextEntities())

@@ -78,7 +78,7 @@ namespace AvaliacaoDesempenho.Seguranca
 
         public Identidade(int usuarioID)
         {
-            Login = new UsuarioDAO().Obter(usuarioID).Email;
+            Login = new UsuarioDAO().Obter(usuarioID).Login;
 
             CarregarInformacoesUsuario();
         }

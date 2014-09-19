@@ -140,7 +140,10 @@
         @Html.ActionLink("Anterior", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID }, new { @class = "btn btn-default" })
         <input type="submit" value="Salvar" class="btn btn-default" />
 
-        @Html.ActionLink("Submeter ao Gestor", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID }, new { @class = "btn btn-default" })
+        @if ( Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao)
+        { 
+            @Html.ActionLink("Submeter ao Gestor", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID }, new { @class = "btn btn-default" })
+        }
     </div>
 </div>
     
