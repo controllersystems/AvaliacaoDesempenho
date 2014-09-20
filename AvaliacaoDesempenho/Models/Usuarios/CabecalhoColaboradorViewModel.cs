@@ -4,6 +4,8 @@
     {
         public string CicloAvaliacaoDescricao { get; set; }
 
+        public int UsuarioID { get; private set; }
+
         public string Nome { get; private set; }
 
         public string Login { get; private set; }

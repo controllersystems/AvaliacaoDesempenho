@@ -152,6 +152,20 @@ namespace AvaliacaoDesempenho.Controllers
         }
 
         [Authorize]
+        [HttpGet]
+        public ActionResult GetImage(int colaboradorID)
+        {
+            Identidade usuario = new Identidade(colaboradorID);
+
+            if (usuario.FOTEMP == null)
+            {
+                return File("~/Content/Images/sem_img.jpg", "image/jpg");
+            }
+
+            return File(usuario.FOTEMP, "image/jpg");
+        }
+
+        [Authorize]
         [HttpPost]
         [CriacaoMapeamento(typeof(DeAvaliacaoColaboradorParaGestaoAvaliacaoColaboradorViewModel))]
         [CriacaoMapeamento(typeof(DeAvaliacaoColaboradorParaItemListaGestaoAvaliacaoColaboradorViewModel))]
@@ -278,7 +292,7 @@ namespace AvaliacaoDesempenho.Controllers
             else if (avaliacaoColaborador.StatusAvaliacaoColaborador_ID
                         .Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
             {
-                return ManterAvaliacaoColaboradorAutoAvaliacao(id, false, false, colaboradorID);
+                return ManterAvaliacaoColaboradorAutoAvaliacao(id, true, true, colaboradorID);
             }
             return RedirectToAction("Index", "Home");
         }

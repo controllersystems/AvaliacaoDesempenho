@@ -337,6 +337,7 @@
     <Content Include="Content\Images\logo_omni.png" />
     <Content Include="Content\Images\logo_rh.png" />
     <Content Include="Content\Images\logo_transformacao_rh.jpg" />
+    <Content Include="Content\Images\sem_img.jpg" />
     <Content Include="Content\Images\topo.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Styles\bootstrap-theme.css" />
