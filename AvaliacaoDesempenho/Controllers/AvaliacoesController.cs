@@ -572,6 +572,9 @@ namespace AvaliacaoDesempenho.Controllers
                                List<OutrasContribuicoesViewModel>>
                                    (new ContribuicaoColaboradorDAO().Listar(avaliacaoColaborador.ID));
 
+                model.ListaAvaliacaoGestor = new List<Models.Avaliacoes.AvaliacaoGestor>();
+                model.ListaAvaliacaoGestor.Add(new Models.Avaliacoes.AvaliacaoGestor { ID = 0, Avaliacao = string.Empty  });
+
                 model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
 
                 model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
@@ -890,6 +893,11 @@ namespace AvaliacaoDesempenho.Controllers
             }
 
             return ManterAvaliacaoColaboradorCompetencias(model.AvaliacaoColaboradorID, null);
+        }
+
+        public ActionResult ManterAvaliacaoColaboradorPerformance(ManterAvaliacaoColaboradorAutoAvaliacaoViewModel model)
+        {
+            return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorPerformance.cshtml", model);
         }
 
         //[Authorize]

@@ -17,6 +17,7 @@ namespace AvaliacaoDesempenho.Dominio.DAL
             }
         }
 
+
         public ContribuicaoColaborador Obter(int contribuicaoColaboradorID)
         {
             using (var db = new AvaliacaoDesempenhoContextEntities())
