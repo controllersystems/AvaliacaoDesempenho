@@ -43,5 +43,11 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         public string Competencia { get; set; }
 
         public int NivelColaborador { get; set; }
+
+        public int NivelRequerido { get; set; }
+
+        public int NivelGestor { get; set; }
+
+        public string ComentarioGestor { get; set; }
     }
 }

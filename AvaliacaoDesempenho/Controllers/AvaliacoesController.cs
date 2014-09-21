@@ -823,7 +823,8 @@ namespace AvaliacaoDesempenho.Controllers
                                         ID = (competenciasColaborador == null) ? 0 : competenciasColaborador.ID,
                                         NivelColaborador = (competenciasColaborador == null) ? 0 : ((competenciasColaborador.NivelColaborador.HasValue) ? competenciasColaborador.NivelColaborador.Value : 0),
                                         Competencia = item.descricao_comp,
-                                        CompentenciaID = item.id_comp
+                                        CompentenciaID = item.id_comp,
+                                        NivelRequerido = (competenciasColaborador == null) ? 0 : ((competenciasColaborador.NivelRequerido.HasValue) ? competenciasColaborador.NivelRequerido.Value : 0)
                                     });
                                     break;
                                 }
@@ -834,7 +835,8 @@ namespace AvaliacaoDesempenho.Controllers
                                         ID = (competenciasColaborador == null) ? 0 : competenciasColaborador.ID,
                                         NivelColaborador = (competenciasColaborador == null) ? 0 : ((competenciasColaborador.NivelColaborador.HasValue) ? competenciasColaborador.NivelColaborador.Value : 0),
                                         Competencia = item.descricao_comp,
-                                        CompentenciaID = item.id_comp
+                                        CompentenciaID = item.id_comp,
+                                        NivelRequerido = (competenciasColaborador == null) ? 0 : ((competenciasColaborador.NivelRequerido.HasValue) ? competenciasColaborador.NivelRequerido.Value : 0)
                                     });
                                     break;
                                 }
@@ -845,7 +847,8 @@ namespace AvaliacaoDesempenho.Controllers
                                         ID = (competenciasColaborador == null) ? 0 : competenciasColaborador.ID,
                                         NivelColaborador = (competenciasColaborador == null) ? 0 : ((competenciasColaborador.NivelColaborador.HasValue) ? competenciasColaborador.NivelColaborador.Value : 0),
                                         Competencia = item.descricao_comp,
-                                        CompentenciaID = item.id_comp
+                                        CompentenciaID = item.id_comp,
+                                        NivelRequerido = (competenciasColaborador == null) ? 0 : ((competenciasColaborador.NivelRequerido.HasValue) ? competenciasColaborador.NivelRequerido.Value : 0)
                                     });
                                     break;
                                 }
