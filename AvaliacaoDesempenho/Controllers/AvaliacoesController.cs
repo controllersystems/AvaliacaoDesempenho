@@ -259,6 +259,11 @@ namespace AvaliacaoDesempenho.Controllers
             var avaliacaoColaborador =
                 new AvaliacaoColaboradorDAO().Obter(id.Value, usuarioID);
 
+            //if (avaliacaoColaborador.StatusAvaliacaoColaborador_ID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
+            //{
+
+            //}
+            //else
             if (avaliacaoColaborador == null
                 || avaliacaoColaborador.StatusAvaliacaoColaborador_ID
                         .Equals((int)Enumeradores.StatusAvaliacaoColaborador.DefinicaoObjetivosMetas)
