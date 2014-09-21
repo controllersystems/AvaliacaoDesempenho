@@ -302,8 +302,8 @@ namespace AvaliacaoDesempenho.Controllers
                 {
                     switch (etapaAutoAvaliacao.Value)
                     {
-                        case ((int)Enumeradores.EtapasAutoAvaliacao.Performance):
-                            return ManterAvaliacaoDesempenho(id, false, colaboradorID);
+                        case ((int)Enumeradores.EtapasAutoAvaliacao.Competencias):
+                            return ManterAvaliacaoColaboradorCompetencias(id, colaboradorID);
                         default:
                             return ManterAvaliacaoColaboradorAutoAvaliacao(id, true, true, colaboradorID);
                     }
@@ -322,8 +322,8 @@ namespace AvaliacaoDesempenho.Controllers
                                                                     bool incluirMeta = false,
                                                                     int? colaboradorID = null)
     {
-        ManterAvaliacaoColaboradorObjetivosMetasViewModel model =
-            new ManterAvaliacaoColaboradorObjetivosMetasViewModel();
+        ManterAvaliacaoColaboradorCompetenciasViewModel model =
+            new ManterAvaliacaoColaboradorCompetenciasViewModel();
 
         var identidade = new Identidade();
 
@@ -332,7 +332,7 @@ namespace AvaliacaoDesempenho.Controllers
         if (colaboradorID.HasValue)
         {
             usuarioID = colaboradorID.Value;
-            model.Aprovar = true;
+            //model.Aprovar = true;
         }
         else
             usuarioID = identidade.UsuarioID;
@@ -346,26 +346,26 @@ namespace AvaliacaoDesempenho.Controllers
         {
             model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
 
-            model.ListaObjetivosMetasViewModel =
-                Mapper.Map<List<ObjetivoColaborador>,
-                            List<ObjetivoMetaViewModel>>
-                                (new ObjetivoColaboradorDAO().Listar(avaliacaoColaborador.ID));
+            //model.ListaObjetivosMetasViewModel =
+            //    Mapper.Map<List<ObjetivoColaborador>,
+            //                List<ObjetivoMetaViewModel>>
+            //                    (new ObjetivoColaboradorDAO().Listar(avaliacaoColaborador.ID));
 
             model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
 
             model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
 
-            model.Aprovada = avaliacaoColaborador.Aprovada;
+            //model.Aprovada = avaliacaoColaborador.Aprovada;
 
-            model.JustificativaReprovacao = avaliacaoColaborador.JustificativaReprovacao;
+            //model.JustificativaReprovacao = avaliacaoColaborador.JustificativaReprovacao;
         }
         else
             model.GestorRubiID = identidade.GestorRubiID;
 
         model.CicloAvaliacaoSelecionadoID = id.Value;
-        model.IncluirMeta = incluirMeta;
+       // model.IncluirMeta = incluirMeta;
 
-        return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorPerformance.cshtml", model);
+        return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorCompetencias.cshtml", model);
     }
 
         #endregion
