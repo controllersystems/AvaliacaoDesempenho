@@ -369,6 +369,7 @@ namespace AvaliacaoDesempenho.Controllers
     }
 
         #endregion
+ 
         #region Objetivos e metas
 
         [Authorize]
@@ -905,7 +906,7 @@ namespace AvaliacaoDesempenho.Controllers
                 
                 model.ListaNivelAvaliacao = listaAval;
 
-                model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
+                model.AvaliacaoColaboradorID = avaliacaoColaborador.Colaborador_ID;
 
                 model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
             }
@@ -939,7 +940,7 @@ namespace AvaliacaoDesempenho.Controllers
                 {
                     model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
 
-                    model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
+                    model.AvaliacaoColaboradorID = avaliacaoColaborador.Colaborador_ID;
 
                     model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
 
@@ -1006,9 +1007,96 @@ namespace AvaliacaoDesempenho.Controllers
             return ManterAvaliacaoColaboradorCompetencias(model.AvaliacaoColaboradorID, null);
         }
 
-        public ActionResult ManterAvaliacaoColaboradorPerformance(ManterAvaliacaoColaboradorAutoAvaliacaoViewModel model)
+        #endregion Competências
+
+        #region Performance
+        [Authorize]
+        [HttpGet]
+        [CriacaoMapeamento(typeof(DeObjetivoColaboradorParaObjetivoMetaResultadoAtingidoViewModel))]
+        [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
+        public ActionResult ManterAvaliacaoColaboradorPerformance(int? id,
+                                                                   int? colaboradorID = null)
         {
+            ManterAvaliacaoColaboradorPerformanceViewModel model =
+                new ManterAvaliacaoColaboradorPerformanceViewModel();
+
+            var identidade = new Identidade();
+
+            int usuarioID;
+
+            if (colaboradorID.HasValue)
+                usuarioID = colaboradorID.Value;
+            else
+                usuarioID = identidade.UsuarioID;
+
+            model.UsuarioRubiID = identidade.UsuarioRubiID;
+
+            var avaliacaoColaborador =
+                new AvaliacaoColaboradorDAO().Obter(id.Value, usuarioID);
+
+            if (avaliacaoColaborador != null)
+            {
+                model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+
+                 model.AvaliacaoColaboradorID = avaliacaoColaborador.Colaborador_ID;
+
+                model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
+            }
+            else
+                model.GestorRubiID = identidade.GestorRubiID;
+
+            model.CicloAvaliacaoSelecionadoID = id.Value;
+
             return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorPerformance.cshtml", model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [CriacaoMapeamento(typeof(DeObjetivoColaboradorParaObjetivoMetaResultadoAtingidoViewModel))]
+        [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
+        public ActionResult ManterAvaliacaoColaboradorPerformance(ManterAvaliacaoColaboradorPerformanceViewModel model)
+        {
+            //return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorPerformance.cshtml", model);
+            if (ModelState.IsValid)
+            {
+                var identidade = new Identidade();
+
+                int usuarioID = identidade.UsuarioID;
+
+                model.UsuarioRubiID = identidade.UsuarioRubiID;
+
+                var avaliacaoColaborador =
+                    new AvaliacaoColaboradorDAO().Obter(model.CicloAvaliacaoSelecionadoID.Value, usuarioID);
+
+                if (avaliacaoColaborador != null)
+                {
+                    model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+
+                    model.AvaliacaoColaboradorID = avaliacaoColaborador.Colaborador_ID;
+
+                    model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
+
+                    var competenciasCorporativas = new List<CompetenciaColaborador>();
+
+                    if (model.ListaAvaliacaoPerformanceGerais != null)
+                    {
+                        foreach (var item in model.ListaAvaliacaoPerformanceGerais)
+                        {
+                            
+                        }
+
+                        new CompetenciaColaboradorDAO().PersistirColecao(competenciasCorporativas);
+                    }
+                                        
+                }
+                else
+                    model.GestorRubiID = identidade.GestorRubiID;
+
+                model.CicloAvaliacaoSelecionadoID = model.CicloAvaliacaoSelecionadoID.Value;
+            }
+
+            return ManterAvaliacaoColaboradorCompetencias(model.AvaliacaoColaboradorID, null);
         }
 
         //[Authorize]
@@ -1084,7 +1172,7 @@ namespace AvaliacaoDesempenho.Controllers
         //    return ManterAvaliacaoColaboradorAutoAvaliacao(model.CicloAvaliacaoSelecionadoID);
         //}
 
-        #endregion Competências
+        #endregion Performance
 
         #region Manutenção PDI colaborador
 

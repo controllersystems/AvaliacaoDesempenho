@@ -296,7 +296,7 @@
                         @Html.ActionLink("Cancelar", "ManterAvaliacaoColaboradorAutoAval", new { id = Model.CicloAvaliacaoSelecionadoID }, new { @class = "btn btn-default" })
                     }*@
                     <input type="submit" value="Salvar" class="btn btn-default" />
-                    @Html.ActionLink("Próxima", "RotearManutencaoAvaliacaoColaborador", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.AvaliacaoColaboradorID.Value, etapaAutoAvaliacao = 2 }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("Próxima Etapa", "RotearManutencaoAvaliacaoColaborador", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.AvaliacaoColaboradorID.Value, etapaAutoAvaliacao = 2 }, new { @class = "btn btn-default" })
                 </div>
             </div>
         }

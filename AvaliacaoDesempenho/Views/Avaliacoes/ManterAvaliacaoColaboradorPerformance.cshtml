@@ -4,17 +4,42 @@
 
 @Html.Action("CabecalhoColaborador", "Usuarios", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID })
 
-
-
 <label>Performance</label>
 <hr />
 
-<div class="row top30">
-        <div class="col-md-050">
-            <label>Avaliação da performance Geral</label>
-        </div>
-        <div class="col-md-050">
-            @*@Html.TextAreaFor(model => Model.ListaObjetivosMetasViewModel[i].Objetivo, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => Model.ListaObjetivosMetasViewModel[i].Objetivo, string.Empty, new { @class = "text-danger" })*@
+@using (Html.BeginForm("ManterAvaliacaoColaboradorPerformance",
+                              "Avaliacoes",
+                              FormMethod.Post,
+                              new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+
+    
+    <div class="row top20">
+            <div class="col-md-100">
+                <table class="table">
+                    <tr>
+                        <th>
+                            Avaliação da performance Geral
+                        </th>
+                       
+                    </tr>
+                     <tr>
+                        <td>
+                            @*@Html.TextAreaFor(model => Model.ListaObjetivosMetasViewModel[i].Objetivo, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => Model.ListaObjetivosMetasViewModel[i].Objetivo, string.Empty, new { @class = "text-danger" })*@                         
+                        </td>
+                </table>
+            </div>
+   </div>
+
+   <div class="row top20">
+        <div class="col-md-095 col-md-offset-005 text-right">
+            @Html.ActionLink("Anterior", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.AvaliacaoColaboradorID.Value, etapaAutoAvaliacao = 1 }, new { @class = "btn btn-default" })
+            <input type="submit" value="Salvar" class="btn btn-default" />
+            @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorPerformance", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.AvaliacaoColaboradorID.Value, etapaAutoAvaliacao = 3 }, new { @class = "btn btn-default" })
         </div>
     </div>
+
+}

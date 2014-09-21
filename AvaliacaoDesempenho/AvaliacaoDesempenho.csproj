@@ -285,6 +285,7 @@
     <Compile Include="Models\Avaliacoes\ManterAvaliacaoColaboradorAutoAvaliacaoViewModel.cs" />
     <Compile Include="Models\Avaliacoes\ManterAvaliacaoColaboradorCompetenciasViewModel.cs" />
     <Compile Include="Models\Avaliacoes\ManterAvaliacaoColaboradorObjetivosMetasViewModel.cs" />
+    <Compile Include="Models\Avaliacoes\ManterAvaliacaoColaboradorPerformanceViewModel.cs" />
     <Compile Include="Models\Avaliacoes\ManterAvaliacaoColaboradorViewModel.cs" />
     <Compile Include="Models\Avaliacoes\ManterAvaliacaoPDIColaboradorViewModel.cs" />
     <Compile Include="Models\Avaliacoes\PesquisaAvaliacoesViewModel.cs" />

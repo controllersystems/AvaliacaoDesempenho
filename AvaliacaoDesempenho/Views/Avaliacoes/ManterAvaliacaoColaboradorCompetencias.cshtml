@@ -83,7 +83,7 @@
                 </table>
             </div>
         </div>
-}
+    }
 
     if (Model.ListaCompetenciasLideranca != null)
     {
@@ -193,13 +193,16 @@
 
 <div class="row top20">
     <div class="col-md-095 col-md-offset-005 text-right">
-        @Html.ActionLink("Anterior", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID }, new { @class = "btn btn-default" })
+        @Html.ActionLink("Anterior", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.AvaliacaoColaboradorID.Value, etapaAutoAvaliacao = 1 }, new { @class = "btn btn-default" })
         <input type="submit" value="Salvar" class="btn btn-default" />
 
-        @if ( Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao)
+        @if ( Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.DefinicaoObjetivosMetas)
         { 
             @Html.ActionLink("Submeter ao Gestor", "SubmeterAutoAvaliacaoColaboradorAvaliacaoGestor", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, avaliacaoColaboradorID = Model.AvaliacaoColaboradorID }, new { @class = "btn btn-default" })
         }
+        @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorPerformance", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.AvaliacaoColaboradorID.Value, etapaAutoAvaliacao = 3}, new { @class = "btn btn-default" })
+
+
     </div>
 </div>
     
