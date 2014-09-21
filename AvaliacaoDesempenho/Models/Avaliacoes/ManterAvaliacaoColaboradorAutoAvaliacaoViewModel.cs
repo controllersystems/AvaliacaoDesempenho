@@ -26,7 +26,10 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public List<OutrasContribuicoesViewModel> ListaOutrasContribuicoesViewModel { get; set; }
 
-        public List<AvaliacaoGestor> ListaAvaliacaoGestor { get; set; }
+        public List<AvaliacaoGestorContribuinte> ListaAvaliacaoGestorMetas { get; set; }
+
+        public List<AvaliacaoGestorContribuinte> ListaAvaliacaoGestorOutrasContribuicoes { get; set; }
+
 
         public bool AcessoGestor
         {
@@ -57,7 +60,7 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         public string Contribuicao { get; set; }
     }
 
-    public class AvaliacaoGestor
+    public class AvaliacaoGestorContribuinte
     {
         public int ID { get; set; }
         public string Avaliacao { get; set; }

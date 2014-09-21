@@ -207,6 +207,7 @@
     </Compile>
     <Compile Include="Dominio\DAL\AssociacaoCargoCompetenciaDAO.cs" />
     <Compile Include="Dominio\DAL\AvaliacaoColaboradorDAO.cs" />
+    <Compile Include="Dominio\DAL\AvaliacaoGestorDAO.cs" />
     <Compile Include="Dominio\DAL\AvaliacaoPDIColaboradorDAO.cs" />
     <Compile Include="Dominio\DAL\CicloAvaliacaoDAO.cs" />
     <Compile Include="Dominio\DAL\CompetenciaColaboradorDAO.cs" />

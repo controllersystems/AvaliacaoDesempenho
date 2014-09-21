@@ -644,8 +644,35 @@ namespace AvaliacaoDesempenho.Controllers
                                List<OutrasContribuicoesViewModel>>
                                    (new ContribuicaoColaboradorDAO().Listar(avaliacaoColaborador.ID));
 
-                model.ListaAvaliacaoGestor = new List<Models.Avaliacoes.AvaliacaoGestor>();
-                model.ListaAvaliacaoGestor.Add(new Models.Avaliacoes.AvaliacaoGestor { ID = 0, Avaliacao = string.Empty  });
+                model.ListaAvaliacaoGestorMetas = 
+                    Mapper.Map<List<AvaliacaoGestor>, 
+                               List<AvaliacaoGestorContribuinte>>
+                               (new AvaliacaoGestorDAO().ListarPorAvaliacaoID(avaliacaoColaborador.ID));
+
+                model.ListaAvaliacaoGestorOutrasContribuicoes =
+                    Mapper.Map<List<AvaliacaoGestor>,
+                               List<AvaliacaoGestorContribuinte>>
+                               (new AvaliacaoGestorDAO().ListarPorAvaliacaoID(avaliacaoColaborador.ID));
+
+                if (model.ListaAvaliacaoGestorMetas.Count == 0 )
+                {
+                    model.ListaAvaliacaoGestorMetas = new List<Models.Avaliacoes.AvaliacaoGestorContribuinte>();
+                    foreach (var item in model.ListaObjetivosMetasResultadosatingidosViewModel)
+                    {
+                        model.ListaAvaliacaoGestorMetas.Add(new Models.Avaliacoes.AvaliacaoGestorContribuinte { ID = item.ID, Avaliacao = string.Empty });
+                    }
+                }
+
+                if (model.ListaAvaliacaoGestorOutrasContribuicoes.Count == 0)
+                {
+                    model.ListaAvaliacaoGestorOutrasContribuicoes = new List<Models.Avaliacoes.AvaliacaoGestorContribuinte>();
+                    foreach (var item in model.ListaOutrasContribuicoesViewModel)
+                    {
+                        model.ListaAvaliacaoGestorOutrasContribuicoes.Add(new Models.Avaliacoes.AvaliacaoGestorContribuinte { ID = item.ID , Avaliacao = string.Empty });
+                    }
+
+                }
+
 
                 model.AvaliacaoColaboradorID = avaliacaoColaborador.Colaborador_ID;//avaliacaoColaborador.ID;
 
@@ -659,6 +686,15 @@ namespace AvaliacaoDesempenho.Controllers
             model.IncluirContribuicao = incluirContribuicao;
 
             return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorAutoAvaliacao.cshtml", model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ManterAvaliacaoGestor(ManterAvaliacaoColaboradorAutoAvaliacaoViewModel model)
+        {
+
+            return ManterAvaliacaoColaboradorAutoAvaliacao(model.CicloAvaliacaoSelecionadoID);
         }
 
         [Authorize]
