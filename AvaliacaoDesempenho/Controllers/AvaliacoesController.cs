@@ -259,11 +259,6 @@ namespace AvaliacaoDesempenho.Controllers
             var avaliacaoColaborador =
                 new AvaliacaoColaboradorDAO().Obter(id.Value, usuarioID);
 
-            //if (avaliacaoColaborador.StatusAvaliacaoColaborador_ID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
-            //{
-
-            //}
-            //else
             if (avaliacaoColaborador == null
                 || avaliacaoColaborador.StatusAvaliacaoColaborador_ID
                         .Equals((int)Enumeradores.StatusAvaliacaoColaborador.DefinicaoObjetivosMetas)
@@ -272,7 +267,11 @@ namespace AvaliacaoDesempenho.Controllers
                 || avaliacaoColaborador.StatusAvaliacaoColaborador_ID
                         .Equals((int)Enumeradores.StatusAvaliacaoColaborador.ObjetivosMetasDefinidos))
             {
-                return ManterAvaliacaoColaboradorObjetivosMetas(id, false, colaboradorID);
+               // if (etapaAutoAvaliacao.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
+
+                  //  return ManterAvaliacaoDesempenho(id, false, colaboradorID);
+               // else
+                    return ManterAvaliacaoColaboradorObjetivosMetas(id, false, colaboradorID);
             }
             else if (avaliacaoColaborador.StatusAvaliacaoColaborador_ID
                         .Equals((int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao))
@@ -286,6 +285,8 @@ namespace AvaliacaoDesempenho.Controllers
 
                         case ((int)Enumeradores.EtapasAutoAvaliacao.Competencias):
                             return ManterAvaliacaoColaboradorCompetencias(id, colaboradorID);
+                        case ((int)Enumeradores.EtapasAutoAvaliacao.Performance):
+                            return ManterAvaliacaoDesempenho(id, false, colaboradorID);
 
                         default:
                             return ManterAvaliacaoColaboradorAutoAvaliacao(id, false, false, colaboradorID);
@@ -297,11 +298,77 @@ namespace AvaliacaoDesempenho.Controllers
             else if (avaliacaoColaborador.StatusAvaliacaoColaborador_ID
                         .Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
             {
-                return ManterAvaliacaoColaboradorAutoAvaliacao(id, true, true, colaboradorID);
+                if (etapaAutoAvaliacao.HasValue)
+                {
+                    switch (etapaAutoAvaliacao.Value)
+                    {
+                        case ((int)Enumeradores.EtapasAutoAvaliacao.Performance):
+                            return ManterAvaliacaoDesempenho(id, false, colaboradorID);
+                        default:
+                            return ManterAvaliacaoColaboradorAutoAvaliacao(id, true, true, colaboradorID);
+                    }
+                    
+                }
             }
             return RedirectToAction("Index", "Home");
         }
 
+        #region Desempenho e recomendações
+
+        [Authorize]
+    [HttpGet]
+    [CriacaoMapeamento(typeof(DeObjetivoColaboradorParaObjetivoMetaViewModel))]
+    public ActionResult ManterAvaliacaoDesempenho(int? id,
+                                                                    bool incluirMeta = false,
+                                                                    int? colaboradorID = null)
+    {
+        ManterAvaliacaoColaboradorObjetivosMetasViewModel model =
+            new ManterAvaliacaoColaboradorObjetivosMetasViewModel();
+
+        var identidade = new Identidade();
+
+        int usuarioID;
+
+        if (colaboradorID.HasValue)
+        {
+            usuarioID = colaboradorID.Value;
+            model.Aprovar = true;
+        }
+        else
+            usuarioID = identidade.UsuarioID;
+
+        model.UsuarioRubiID = identidade.UsuarioRubiID;
+
+        var avaliacaoColaborador =
+            new AvaliacaoColaboradorDAO().Obter(id.Value, usuarioID);
+
+        if (avaliacaoColaborador != null)
+        {
+            model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+
+            model.ListaObjetivosMetasViewModel =
+                Mapper.Map<List<ObjetivoColaborador>,
+                            List<ObjetivoMetaViewModel>>
+                                (new ObjetivoColaboradorDAO().Listar(avaliacaoColaborador.ID));
+
+            model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
+
+            model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
+
+            model.Aprovada = avaliacaoColaborador.Aprovada;
+
+            model.JustificativaReprovacao = avaliacaoColaborador.JustificativaReprovacao;
+        }
+        else
+            model.GestorRubiID = identidade.GestorRubiID;
+
+        model.CicloAvaliacaoSelecionadoID = id.Value;
+        model.IncluirMeta = incluirMeta;
+
+        return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorPerformance.cshtml", model);
+    }
+
+        #endregion
         #region Objetivos e metas
 
         [Authorize]
@@ -354,7 +421,7 @@ namespace AvaliacaoDesempenho.Controllers
             model.CicloAvaliacaoSelecionadoID = id.Value;
             model.IncluirMeta = incluirMeta;
 
-            return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorObjetivosMetas.cshtml", model);
+             return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorObjetivosMetas.cshtml", model);
         }
 
         [Authorize]
@@ -580,7 +647,7 @@ namespace AvaliacaoDesempenho.Controllers
                 model.ListaAvaliacaoGestor = new List<Models.Avaliacoes.AvaliacaoGestor>();
                 model.ListaAvaliacaoGestor.Add(new Models.Avaliacoes.AvaliacaoGestor { ID = 0, Avaliacao = string.Empty  });
 
-                model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
+                model.AvaliacaoColaboradorID = avaliacaoColaborador.Colaborador_ID;//avaliacaoColaborador.ID;
 
                 model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
             }
