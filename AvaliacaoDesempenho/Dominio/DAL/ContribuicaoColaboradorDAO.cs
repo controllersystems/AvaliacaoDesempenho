@@ -12,7 +12,7 @@ namespace AvaliacaoDesempenho.Dominio.DAL
         {
             using (var db = new AvaliacaoDesempenhoContextEntities())
             {
-                return db.ContribuicaoColaborador
+                return db.ContribuicaoColaborador.Include("AvaliacaoGestor")
                             .Where(p => p.AvaliacaoColaborador_ID == idAvaliacao).ToList();
             }
         }
@@ -22,7 +22,7 @@ namespace AvaliacaoDesempenho.Dominio.DAL
         {
             using (var db = new AvaliacaoDesempenhoContextEntities())
             {
-                return db.ContribuicaoColaborador
+                return db.ContribuicaoColaborador.Include("AvaliacaoGestor")
                             .Where(p => p.ID == contribuicaoColaboradorID).FirstOrDefault();
             }
         }
@@ -31,6 +31,10 @@ namespace AvaliacaoDesempenho.Dominio.DAL
         {
             using (var db = new AvaliacaoDesempenhoContextEntities())
             {
+                if (contribuicao.AvaliacaoColaborador != null)
+                {
+                    db.Entry(contribuicao.AvaliacaoColaborador).State = EntityState.Modified;
+                }
                 db.ContribuicaoColaborador.Add(contribuicao);
                 db.SaveChanges();
             }
@@ -40,6 +44,10 @@ namespace AvaliacaoDesempenho.Dominio.DAL
         {
             using (var db = new AvaliacaoDesempenhoContextEntities())
             {
+                if (!contribuicao.AvaliacaoGestor_ID.HasValue)
+                    db.AvaliacaoGestor.Add(contribuicao.AvaliacaoGestor);
+                else
+                    db.Entry(contribuicao.AvaliacaoGestor).State = EntityState.Modified;
                 db.Entry(contribuicao).State = EntityState.Modified;
                 db.SaveChanges();
             }

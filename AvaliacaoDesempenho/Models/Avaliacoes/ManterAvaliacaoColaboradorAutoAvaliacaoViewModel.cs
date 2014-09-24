@@ -4,6 +4,8 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 {
     public class ManterAvaliacaoColaboradorAutoAvaliacaoViewModel
     {
+        public int? ColaboradorID { get; set; }
+
         public int? CicloAvaliacaoSelecionadoID { get; set; }
 
         public int? AvaliacaoColaboradorID { get; set; }
@@ -50,6 +52,8 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public string MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido { get; set; }
 
+        public string AvaliacaoGestor { get; set; }
+
         public bool AutoAvaliacao { get; set; }
     }
 
@@ -58,6 +62,8 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         public int ID { get; set; }
 
         public string Contribuicao { get; set; }
+
+        public string AvaliacaoGestor { get; set; }
     }
 
     public class AvaliacaoGestorContribuinte

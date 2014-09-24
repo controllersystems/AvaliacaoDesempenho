@@ -22,6 +22,7 @@ namespace AvaliacaoDesempenho.Dominio.DAL
                 return db.ObjetivoColaborador
                             .Include("MetaColaborador")
                             .Include("MetaColaborador.ResultadoAtingidoColaborador")
+                            .Include("MetaColaborador.ResultadoAtingidoColaborador.AvaliacaoGestor")
                             .Where(p => p.AvaliacaoColaborador_ID == idAvaliacao).ToList();
             }
         }
@@ -46,7 +47,13 @@ namespace AvaliacaoDesempenho.Dominio.DAL
                     if (!objetivo.MetaColaborador.ResultadoAtingidoColaborador_ID.HasValue)
                         db.ResultadoAtingidoColaborador.Add(objetivo.MetaColaborador.ResultadoAtingidoColaborador);
                     else
+                    {
+                        if (!objetivo.MetaColaborador.ResultadoAtingidoColaborador.AvaliacaoGestor_ID.HasValue)
+                            db.AvaliacaoGestor.Add(objetivo.MetaColaborador.ResultadoAtingidoColaborador.AvaliacaoGestor);
+                        else
+                            db.Entry(objetivo.MetaColaborador.ResultadoAtingidoColaborador.AvaliacaoGestor).State = EntityState.Modified;
                         db.Entry(objetivo.MetaColaborador.ResultadoAtingidoColaborador).State = EntityState.Modified;
+                    }
                 }
 
                 db.Entry(objetivo.MetaColaborador).State = EntityState.Modified;

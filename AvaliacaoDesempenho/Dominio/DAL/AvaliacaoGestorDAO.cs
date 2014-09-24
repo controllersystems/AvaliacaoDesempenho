@@ -38,6 +38,14 @@ namespace AvaliacaoDesempenho.Dominio.DAL
             return resultado;
         }
 
+        public AvaliacaoGestor Obter(int avaliacaoID)
+        {
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                return db.AvaliacaoGestor.Where(x => x.ID == avaliacaoID).FirstOrDefault();
+            }
+        }
+
         public void PersistirColecao(List<AvaliacaoGestor> AvaliacaoGestorColaborador)
         {
             using (var db = new AvaliacaoDesempenhoContextEntities())

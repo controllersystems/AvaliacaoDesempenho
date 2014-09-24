@@ -9,7 +9,9 @@ namespace AvaliacaoDesempenho.Util.Mapeamentos
     {
         public void Configurar()
         {
-            Mapper.CreateMap<ObjetivoColaborador, ObjetivoMetaResultadoAtingidoViewModel>();
+            Mapper.CreateMap<ObjetivoColaborador, ObjetivoMetaResultadoAtingidoViewModel>()
+                .ForMember(dest => dest.AvaliacaoGestor, 
+                           opt => opt.MapFrom(source => source.MetaColaborador.ResultadoAtingidoColaborador.AvaliacaoGestor.Avaliacao));
         }
     }
 }

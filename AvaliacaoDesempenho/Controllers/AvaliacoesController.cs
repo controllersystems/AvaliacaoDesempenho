@@ -254,7 +254,10 @@ namespace AvaliacaoDesempenho.Controllers
             if (colaboradorID.HasValue)
                 usuarioID = colaboradorID.Value;
             else
+            {
                 usuarioID = new Identidade().UsuarioID;
+                colaboradorID = usuarioID;
+            }
 
             var avaliacaoColaborador =
                 new AvaliacaoColaboradorDAO().Obter(id.Value, usuarioID);
@@ -628,6 +631,8 @@ namespace AvaliacaoDesempenho.Controllers
 
             model.UsuarioRubiID = identidade.UsuarioRubiID;
 
+            model.ColaboradorID = colaboradorID;
+
             var avaliacaoColaborador =
                 new AvaliacaoColaboradorDAO().Obter(id.Value, usuarioID);
 
@@ -645,15 +650,37 @@ namespace AvaliacaoDesempenho.Controllers
                                List<OutrasContribuicoesViewModel>>
                                    (new ContribuicaoColaboradorDAO().Listar(avaliacaoColaborador.ID));
 
-                model.ListaAvaliacaoGestorMetas = 
-                    Mapper.Map<List<AvaliacaoGestor>, 
-                               List<AvaliacaoGestorContribuinte>>
-                               (new AvaliacaoGestorDAO().ListarPorAvaliacaoID(avaliacaoColaborador.ID));
+                model.ListaAvaliacaoGestorMetas = new List<AvaliacaoGestorContribuinte>();
 
-                model.ListaAvaliacaoGestorOutrasContribuicoes =
-                    Mapper.Map<List<AvaliacaoGestor>,
-                               List<AvaliacaoGestorContribuinte>>
-                               (new AvaliacaoGestorDAO().ListarPorAvaliacaoID(avaliacaoColaborador.ID));
+                var avaliacaoGestorMetas = (new AvaliacaoGestorDAO().ListarPorAvaliacaoID(avaliacaoColaborador.ID));
+
+                if (avaliacaoGestorMetas != null)
+                {
+                    foreach (var item in avaliacaoGestorMetas)
+                    {
+                        model.ListaAvaliacaoGestorMetas.Add(new AvaliacaoGestorContribuinte
+                        {
+                            ID = item.ID,
+                            Avaliacao = item.Avaliacao
+                        });
+                    }
+                }
+
+                model.ListaAvaliacaoGestorOutrasContribuicoes = new List<AvaliacaoGestorContribuinte>();
+
+                var avaliacaoGestorOutrasContribuicoes = (new AvaliacaoGestorDAO().ListarPorAvaliacaoID(avaliacaoColaborador.ID));
+
+                if (avaliacaoGestorOutrasContribuicoes != null)
+                {
+                    foreach (var item in avaliacaoGestorOutrasContribuicoes)
+                    {
+                        model.ListaAvaliacaoGestorOutrasContribuicoes.Add(new AvaliacaoGestorContribuinte
+                        {
+                            ID = item.ID,
+                            Avaliacao = item.Avaliacao
+                        });
+                    }
+                }
 
                 if (model.ListaAvaliacaoGestorMetas.Count == 0 )
                 {
@@ -675,7 +702,7 @@ namespace AvaliacaoDesempenho.Controllers
                 }
 
 
-                model.AvaliacaoColaboradorID = avaliacaoColaborador.Colaborador_ID;//avaliacaoColaborador.ID;
+                model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;//avaliacaoColaborador.ID;
 
                 model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
             }
@@ -694,8 +721,7 @@ namespace AvaliacaoDesempenho.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ManterAvaliacaoGestor(ManterAvaliacaoColaboradorAutoAvaliacaoViewModel model)
         {
-
-            return ManterAvaliacaoColaboradorAutoAvaliacao(model.CicloAvaliacaoSelecionadoID);
+            return ManterAvaliacaoColaboradorAutoAvaliacao(model);
         }
 
         [Authorize]
@@ -727,6 +753,7 @@ namespace AvaliacaoDesempenho.Controllers
                 }
                 else if (model.ListaObjetivosMetasResultadosatingidosViewModel != null)
                 {
+                    int count = 0;
                     foreach (var item in model.ListaObjetivosMetasResultadosatingidosViewModel)
                     {
                         var objetivo = objetivoColaboradorDAO.Obter(item.ID);
@@ -735,7 +762,20 @@ namespace AvaliacaoDesempenho.Controllers
                         objetivo.MetaColaborador.Meta = item.MetaColaboradorMeta;
 
                         if (objetivo.MetaColaborador.ResultadoAtingidoColaborador != null)
+                        {
                             objetivo.MetaColaborador.ResultadoAtingidoColaborador.ResultadoAtingido = item.MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido;
+
+                            if (objetivo.MetaColaborador.ResultadoAtingidoColaborador.AvaliacaoGestor_ID.HasValue)
+                            {
+                                objetivo.MetaColaborador.ResultadoAtingidoColaborador.AvaliacaoGestor = new AvaliacaoGestorDAO().Obter(objetivo.MetaColaborador.ResultadoAtingidoColaborador.AvaliacaoGestor_ID.Value);
+                            }
+                            else
+                            {
+                                objetivo.MetaColaborador.ResultadoAtingidoColaborador.AvaliacaoGestor = new AvaliacaoGestor();
+                            }
+
+                            objetivo.MetaColaborador.ResultadoAtingidoColaborador.AvaliacaoGestor.Avaliacao = item.AvaliacaoGestor;
+                        }
                         else
                         {
                             objetivo.MetaColaborador.ResultadoAtingidoColaborador = new ResultadoAtingidoColaborador();
@@ -743,6 +783,8 @@ namespace AvaliacaoDesempenho.Controllers
                         }
 
                         objetivoColaboradorDAO.Editar(objetivo);
+
+                        count++;
                     }
                 }
 
@@ -751,6 +793,11 @@ namespace AvaliacaoDesempenho.Controllers
                     ContribuicaoColaborador contribuicao = new ContribuicaoColaborador();
 
                     contribuicao.AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value;
+                    if (model.AvaliacaoColaboradorID.HasValue)
+                    {
+                        contribuicao.AvaliacaoColaborador = new AvaliacaoColaboradorDAO().Obter(model.AvaliacaoColaboradorID.Value);
+                    }
+
                     contribuicao.Contribuicao = model.OutrasContribuicoesCadastro.Contribuicao;
 
                     contribuicaoColaboradorDAO.Incluir(contribuicao);
@@ -763,12 +810,22 @@ namespace AvaliacaoDesempenho.Controllers
 
                         contribuicao.Contribuicao = item.Contribuicao;
 
+                        if (contribuicao.AvaliacaoGestor_ID.HasValue)
+                        {
+                            contribuicao.AvaliacaoGestor = new AvaliacaoGestorDAO().Obter(contribuicao.AvaliacaoGestor_ID.Value);
+                        }
+                        else
+                        {
+                            contribuicao.AvaliacaoGestor = new AvaliacaoGestor();
+                        }
+                        contribuicao.AvaliacaoGestor.Avaliacao = item.AvaliacaoGestor;
+
                         contribuicaoColaboradorDAO.Editar(contribuicao);
                     }
                 }
             }
 
-            return ManterAvaliacaoColaboradorAutoAvaliacao(model.CicloAvaliacaoSelecionadoID);
+            return ManterAvaliacaoColaboradorAutoAvaliacao(model.CicloAvaliacaoSelecionadoID, false, false, model.ColaboradorID);
         }
 
         [Authorize]
@@ -824,7 +881,10 @@ namespace AvaliacaoDesempenho.Controllers
             int usuarioID;
 
             if (colaboradorID.HasValue)
+            {
                 usuarioID = colaboradorID.Value;
+                identidade = new Identidade(usuarioID);
+            }
             else
                 usuarioID = identidade.UsuarioID;
 
@@ -859,7 +919,7 @@ namespace AvaliacaoDesempenho.Controllers
                                     {
                                         ID = (competenciasColaborador == null) ? 0 : competenciasColaborador.ID,
                                         NivelColaborador = (competenciasColaborador == null) ? 0 : ((competenciasColaborador.NivelColaborador.HasValue) ? competenciasColaborador.NivelColaborador.Value : 0),
-                                        Competencia = item.descricao_comp,
+                                        Competencia = (string.IsNullOrEmpty(item.descricao_comp)) ? item.titulo_comp : item.descricao_comp,
                                         CompentenciaID = item.id_comp,
                                         NivelRequerido = (competenciasColaborador == null) ? 0 : ((competenciasColaborador.NivelRequerido.HasValue) ? competenciasColaborador.NivelRequerido.Value : 0)
                                     });
@@ -871,7 +931,7 @@ namespace AvaliacaoDesempenho.Controllers
                                     {
                                         ID = (competenciasColaborador == null) ? 0 : competenciasColaborador.ID,
                                         NivelColaborador = (competenciasColaborador == null) ? 0 : ((competenciasColaborador.NivelColaborador.HasValue) ? competenciasColaborador.NivelColaborador.Value : 0),
-                                        Competencia = item.descricao_comp,
+                                        Competencia = (string.IsNullOrEmpty(item.descricao_comp)) ? item.titulo_comp : item.descricao_comp,
                                         CompentenciaID = item.id_comp,
                                         NivelRequerido = (competenciasColaborador == null) ? 0 : ((competenciasColaborador.NivelRequerido.HasValue) ? competenciasColaborador.NivelRequerido.Value : 0)
                                     });
@@ -883,7 +943,7 @@ namespace AvaliacaoDesempenho.Controllers
                                     {
                                         ID = (competenciasColaborador == null) ? 0 : competenciasColaborador.ID,
                                         NivelColaborador = (competenciasColaborador == null) ? 0 : ((competenciasColaborador.NivelColaborador.HasValue) ? competenciasColaborador.NivelColaborador.Value : 0),
-                                        Competencia = item.descricao_comp,
+                                        Competencia = (string.IsNullOrEmpty(item.descricao_comp)) ? item.titulo_comp : item.descricao_comp,
                                         CompentenciaID = item.id_comp,
                                         NivelRequerido = (competenciasColaborador == null) ? 0 : ((competenciasColaborador.NivelRequerido.HasValue) ? competenciasColaborador.NivelRequerido.Value : 0)
                                     });
@@ -906,7 +966,7 @@ namespace AvaliacaoDesempenho.Controllers
                 
                 model.ListaNivelAvaliacao = listaAval;
 
-                model.AvaliacaoColaboradorID = avaliacaoColaborador.Colaborador_ID;
+                model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
 
                 model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
             }
@@ -940,7 +1000,7 @@ namespace AvaliacaoDesempenho.Controllers
                 {
                     model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
 
-                    model.AvaliacaoColaboradorID = avaliacaoColaborador.Colaborador_ID;
+                    model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
 
                     model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
 
@@ -955,7 +1015,10 @@ namespace AvaliacaoDesempenho.Controllers
                                 ID = item.ID.Value,
                                 CompetenciaID = item.CompentenciaID,
                                 AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value,
-                                NivelColaborador = item.NivelColaborador
+                                NivelColaborador = item.NivelColaborador,
+                                NivelGestor = item.NivelGestor,
+                                NivelRequerido = item.NivelRequerido,
+                                ComentariosGestor = item.ComentarioGestor
                             });
                         }
 
@@ -973,7 +1036,10 @@ namespace AvaliacaoDesempenho.Controllers
                                 ID = item.ID.Value,
                                 CompetenciaID = item.CompentenciaID,
                                 AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value,
-                                NivelColaborador = item.NivelColaborador
+                                NivelColaborador = item.NivelColaborador,
+                                NivelGestor = item.NivelGestor,
+                                NivelRequerido = item.NivelRequerido,
+                                ComentariosGestor = item.ComentarioGestor
                             });
                         }
 
@@ -991,7 +1057,10 @@ namespace AvaliacaoDesempenho.Controllers
                                 ID = item.ID.Value,
                                 CompetenciaID = item.CompentenciaID,
                                 AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value,
-                                NivelColaborador = item.NivelColaborador
+                                NivelColaborador = item.NivelColaborador,
+                                NivelGestor = item.NivelGestor,
+                                NivelRequerido = item.NivelRequerido,
+                                ComentariosGestor = item.ComentarioGestor
                             });
                         }
 
@@ -1038,7 +1107,7 @@ namespace AvaliacaoDesempenho.Controllers
             {
                 model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
 
-                 model.AvaliacaoColaboradorID = avaliacaoColaborador.Colaborador_ID;
+                model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
 
                 model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
             }
@@ -1073,7 +1142,7 @@ namespace AvaliacaoDesempenho.Controllers
                 {
                     model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
 
-                    model.AvaliacaoColaboradorID = avaliacaoColaborador.Colaborador_ID;
+                    model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
 
                     model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
 
