@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 namespace AvaliacaoDesempenho.Models.Avaliacoes
 {
-    public class ManterAvaliacaoColaboradorCompetenciasViewModel
+    public class ManterAvaliacaoColaboradorRecomendacaoViewModel
     {
         public int? ColaboradorID { get; set; }
 
@@ -19,13 +19,9 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public int StatusCicloAvaliacaoID { get; set; }
 
-        public IEnumerable<SelectListItem> ListaNivelAvaliacao { get; set; }
+        public IEnumerable<SelectListItem> ListaRecomendacaoDeRating { get; set; }
 
-        public List<ItemListaCompetenciasColaborador> ListaCompetenciasCorporativas { get; set; }
-
-        public List<ItemListaCompetenciasColaborador> ListaCompetenciasLideranca { get; set; }
-
-        public List<ItemListaCompetenciasColaborador> ListaCompetenciasFuncionais { get; set; }
+        public ItemListaRecomendacaoColaborador AvaliacaoPerformanceGerais { get; set; }
 
         public bool AcessoGestor
         {
@@ -36,20 +32,22 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         }
     }
 
-    public class ItemListaCompetenciasColaborador
+    public class ItemListaRecomendacaoColaborador
     {
         public int? ID { get; set; }
 
-        public int CompentenciaID { get; set; }
+        public int RecomendacaoDeRating { get; set; }
 
-        public string Competencia { get; set; }
+        public bool RecomendacaoDePromocao { get; set; }
 
-        public int NivelColaborador { get; set; }
+        public string Justificativa { get; set; }
 
-        public int NivelRequerido { get; set; }
+        public int RatingFinalPosCalibragem { get; set; }
 
-        public int NivelGestor { get; set; }
+        public string JustificativaRatingFinalPosCalibragem { get; set; }
 
-        public string ComentarioGestor { get; set; }
+        public bool IndicacaoPromocaoPosCalibragem { get; set; }
+
+        public string JustificativaIndicacaoPromocaoPosCalibragem { get; set; }
     }
 }

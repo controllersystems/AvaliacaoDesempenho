@@ -1,4 +1,8 @@
-﻿@{
+﻿@using AvaliacaoDesempenho.Dominio.BusinessEntities;
+
+@model AvaliacaoDesempenho.Models.Avaliacoes.ManterAvaliacaoColaboradorPerformanceViewModel
+
+@{
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
 }
 
@@ -23,22 +27,24 @@
                         <th>
                             Avaliação da performance Geral
                         </th>
-                       
                     </tr>
-                     <tr>
+                    <tr>
                         <td>
-                            @*@Html.TextAreaFor(model => Model.ListaObjetivosMetasViewModel[i].Objetivo, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => Model.ListaObjetivosMetasViewModel[i].Objetivo, string.Empty, new { @class = "text-danger" })*@                         
+                            @Html.HiddenFor(model => Model.AvaliacaoPerformanceGerais.ID)
+                            @Html.HiddenFor(model => Model.CicloAvaliacaoSelecionadoID)
+                            @Html.TextAreaFor(model => Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral, string.Empty, new { @class = "text-danger" })
                         </td>
+                    </tr>
                 </table>
             </div>
    </div>
 
    <div class="row top20">
         <div class="col-md-095 col-md-offset-005 text-right">
-            @Html.ActionLink("Anterior", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.AvaliacaoColaboradorID.Value, etapaAutoAvaliacao = 1 }, new { @class = "btn btn-default" })
+            @Html.ActionLink("Anterior", "ManterAvaliacaoColaboradorCompetencias", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
             <input type="submit" value="Salvar" class="btn btn-default" />
-            @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorPerformance", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.AvaliacaoColaboradorID.Value, etapaAutoAvaliacao = 3 }, new { @class = "btn btn-default" })
+            @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorRecomendacao", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
         </div>
     </div>
 

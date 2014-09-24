@@ -6,6 +6,7 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 {
     public class ManterAvaliacaoColaboradorPerformanceViewModel
     {
+        public int? ColaboradorID { get; set; }
 
         public int? CicloAvaliacaoSelecionadoID { get; set; }
 
@@ -19,7 +20,7 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public int StatusCicloAvaliacaoID { get; set; }
 
-        public List<ItemListaPerformanceColaborador> ListaAvaliacaoPerformanceGerais { get; set; }
+        public ItemListaPerformanceColaborador AvaliacaoPerformanceGerais { get; set; }
 
         public bool AcessoGestor
         {
