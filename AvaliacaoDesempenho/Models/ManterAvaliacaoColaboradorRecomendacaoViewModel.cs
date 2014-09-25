@@ -7,6 +7,8 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
     {
         public int? ColaboradorID { get; set; }
 
+        public int? PapelID { get; set; }
+
         public int? CicloAvaliacaoSelecionadoID { get; set; }
 
         public int? AvaliacaoColaboradorID { get; set; }
@@ -21,7 +23,9 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public IEnumerable<SelectListItem> ListaRecomendacaoDeRating { get; set; }
 
-        public ItemListaRecomendacaoColaborador AvaliacaoPerformanceGerais { get; set; }
+        public IEnumerable<SelectListItem> ListaSimNao { get; set; }
+
+        public ItemListaRecomendacaoColaborador ItemRecomendacaoColaborador { get; set; }
 
         public bool AcessoGestor
         {
@@ -42,11 +46,13 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public string Justificativa { get; set; }
 
-        public int RatingFinalPosCalibragem { get; set; }
+        public string JustificativaDaJustificativa { get; set; }
+
+        public int? RatingFinalPosCalibragem { get; set; }
 
         public string JustificativaRatingFinalPosCalibragem { get; set; }
 
-        public bool IndicacaoPromocaoPosCalibragem { get; set; }
+        public bool? IndicacaoPromocaoPosCalibragem { get; set; }
 
         public string JustificativaIndicacaoPromocaoPosCalibragem { get; set; }
     }

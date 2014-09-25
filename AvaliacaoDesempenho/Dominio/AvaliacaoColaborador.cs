@@ -19,6 +19,8 @@ namespace AvaliacaoDesempenho.Dominio
             this.CompetenciaColaborador = new HashSet<CompetenciaColaborador>();
             this.ContribuicaoColaborador = new HashSet<ContribuicaoColaborador>();
             this.ObjetivoColaborador = new HashSet<ObjetivoColaborador>();
+            this.PerformanceColaborador = new HashSet<PerformanceColaborador>();
+            this.RecomendacaoColaborador = new HashSet<RecomendacaoColaborador>();
         }
     
         public int ID { get; set; }
@@ -39,5 +41,7 @@ namespace AvaliacaoDesempenho.Dominio
         public virtual Usuario Usuario { get; set; }
         public virtual ICollection<ContribuicaoColaborador> ContribuicaoColaborador { get; set; }
         public virtual ICollection<ObjetivoColaborador> ObjetivoColaborador { get; set; }
+        public virtual ICollection<PerformanceColaborador> PerformanceColaborador { get; set; }
+        public virtual ICollection<RecomendacaoColaborador> RecomendacaoColaborador { get; set; }
     }
 }

@@ -36,6 +36,8 @@ namespace AvaliacaoDesempenho.Dominio
         public DbSet<MetaColaborador> MetaColaborador { get; set; }
         public DbSet<ObjetivoColaborador> ObjetivoColaborador { get; set; }
         public DbSet<Papel> Papel { get; set; }
+        public DbSet<PerformanceColaborador> PerformanceColaborador { get; set; }
+        public DbSet<RecomendacaoColaborador> RecomendacaoColaborador { get; set; }
         public DbSet<ResultadoAtingidoColaborador> ResultadoAtingidoColaborador { get; set; }
         public DbSet<SituacaoCicloAvaliacao> SituacaoCicloAvaliacao { get; set; }
         public DbSet<StatusAvaliacaoColaborador> StatusAvaliacaoColaborador { get; set; }

@@ -21,53 +21,154 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
 
-    
+    @Html.HiddenFor(model => Model.ItemRecomendacaoColaborador.ID)
+    @Html.HiddenFor(model => Model.CicloAvaliacaoSelecionadoID)
+    @Html.HiddenFor(model => Model.AvaliacaoColaboradorID)
+    @Html.HiddenFor(model => Model.ColaboradorID)
+
     <div class="row top20">
         <div class="col-md-100">
             <div class="col-md-025">
                 <label>Recomendação de Rating</label>
             </div>
             <div class="col-md-025">
-                @Html.DropDownListFor(model => Model.AvaliacaoPerformanceGerais.RecomendacaoDeRating,
+                @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
+                {
+                    @Html.DropDownListFor(model => Model.ItemRecomendacaoColaborador.RecomendacaoDeRating,
                                                new SelectList(Model.ListaRecomendacaoDeRating,
                                                          "Value",
                                                          "Text",
-                                                         Model.AvaliacaoPerformanceGerais.RecomendacaoDeRating),
+                                                  Model.ItemRecomendacaoColaborador.RecomendacaoDeRating),
+                                                         " ",
+                                                              new { @class = "form-control", @readonly = "readonly" })
+                }
+                else
+                {
+                    @Html.DropDownListFor(model => Model.ItemRecomendacaoColaborador.RecomendacaoDeRating,
+                                               new SelectList(Model.ListaRecomendacaoDeRating,
+                                                         "Value",
+                                                         "Text",
+                                                  Model.ItemRecomendacaoColaborador.RecomendacaoDeRating),
                                                          " ",
                                                          new { @class = "form-control" })
+                }
+
             </div>
             <div class="col-md-025">
                 <label>Recomendação de Promoção</label>
             </div>
             <div class="col-md-025">
-                @Html.DropDownListFor(model => Model.AvaliacaoPerformanceGerais.RecomendacaoDePromocao,
-                                               new SelectList(Model.ListaRecomendacaoDeRating,
+                @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
+                {
+                    @Html.DropDownListFor(model => Model.ItemRecomendacaoColaborador.RecomendacaoDePromocao,
+                                               new SelectList(Model.ListaSimNao,
                                                          "Value",
                                                          "Text",
-                                                         Model.AvaliacaoPerformanceGerais.RecomendacaoDePromocao),
+                                                  Model.ItemRecomendacaoColaborador.RecomendacaoDePromocao),
+                                                         " ",
+                                                              new { @class = "form-control", @readonly = "readonly" })
+                }
+                else
+                {
+                    @Html.DropDownListFor(model => Model.ItemRecomendacaoColaborador.RecomendacaoDePromocao,
+                                               new SelectList(Model.ListaSimNao,
+                                                         "Value",
+                                                         "Text",
+                                                  Model.ItemRecomendacaoColaborador.RecomendacaoDePromocao),
                                                          " ",
                                                          new { @class = "form-control" })
+                }
             </div>
         </div>
     </div>
-    <div class="row top20">
-        <div class="col-md-100">
-            <label>Justificativa</label>
+
+    if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH && Model.PapelID == (int)Enumeradores.CodigoPapeis.Administrador)
+    {
+        <div class="row top20">
+            <div class="col-md-050">
+                <label>Justificativa</label>
+            </div>
+            <div class="col-md-050">
+                <label>Justificativa</label>
+            </div>
+            <div class="col-md-050">
+                @Html.TextAreaFor(model => Model.ItemRecomendacaoColaborador.Justificativa, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+            <div class="col-md-050">
+                @Html.TextAreaFor(model => Model.ItemRecomendacaoColaborador.JustificativaDaJustificativa, new { @class = "form-control" })
+            </div>
         </div>
-        <div class="col-md-100">
-            @Html.TextAreaFor(model => Model.AvaliacaoPerformanceGerais.Justificativa, new { @class = "form-control" })
+        <div class="row top20">
+            <div class="col-md-025">
+                <label>Rating Final pós Calibragem</label>
+            </div>
+            <div class="col-md-025">
+                @Html.DropDownListFor(model => Model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem,
+                                                   new SelectList(Model.ListaRecomendacaoDeRating,
+                                                             "Value",
+                                                             "Text",
+                                                   Model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem),
+                                                             " ",
+                                                   new { @class = "form-control" })
+            </div>
+            <div class="col-md-025">
+                <label>Indicação a promoção após calibragem</label>
+            </div>
+            <div class="col-md-025">
+                @Html.DropDownListFor(model => Model.ItemRecomendacaoColaborador.IndicacaoPromocaoPosCalibragem,
+                                                   new SelectList(Model.ListaSimNao,
+                                                             "Value",
+                                                             "Text",
+                                                   Model.ItemRecomendacaoColaborador.IndicacaoPromocaoPosCalibragem),
+                                                             " ",
+                                                     new { @class = "form-control" })
+            </div>
         </div>
-    </div>
+        <div class="row top20">
+            <div class="col-md-050">
+                <label>Justificativa</label>
+            </div>
+            <div class="col-md-050">
+                <label>Justificativa</label>
+            </div>
+            <div class="col-md-050">
+                @Html.TextAreaFor(model => Model.ItemRecomendacaoColaborador.JustificativaRatingFinalPosCalibragem, new { @class = "form-control" })
+            </div>
+            <div class="col-md-050">
+                @Html.TextAreaFor(model => Model.ItemRecomendacaoColaborador.JustificativaIndicacaoPromocaoPosCalibragem, new { @class = "form-control" })
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row top20">
+            <div class="col-md-100">
+                <label>Justificativa</label>
+            </div>
+            <div class="col-md-100">
+                @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
+                {
+                    @Html.TextAreaFor(model => Model.ItemRecomendacaoColaborador.Justificativa, new { @class = "form-control" })
+                }
+                else
+                {
+                    @Html.TextAreaFor(model => Model.ItemRecomendacaoColaborador.Justificativa, new { @class = "form-control", @readonly = "readonly" })
+                }
+            </div>
+        </div>
+    }
     <hr />
     <div class="row top20">
         <div class="col-md-095 col-md-offset-005 text-right">
             @Html.ActionLink("Anterior", "ManterAvaliacaoColaboradorPerformance", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID, etapaAutoAvaliacao = 1 }, new { @class = "btn btn-default" })
-
-            <input type="submit" value="Salvar" class="btn btn-default" />
-
+            @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH && Model.PapelID == (int)Enumeradores.CodigoPapeis.Administrador)
+            {
+                <input type="submit" value="Salvar" class="btn btn-default" />
+            }
             @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
             {
-                @Html.ActionLink("Submeter ao RH", "SubmeterAutoAvaliacaoColaboradorAvaliacaoGestor", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, avaliacaoColaboradorID = Model.AvaliacaoColaboradorID }, new { @class = "btn btn-default" })
+                <input type="submit" value="Salvar" class="btn btn-default" />
+                @Html.ActionLink("Submeter ao RH", "SubmeterAvaliacaoColaboradorAvaliacaoRH", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, avaliacaoColaboradorID = Model.AvaliacaoColaboradorID }, new { @class = "btn btn-default" })
             }
         </div>
     </div>

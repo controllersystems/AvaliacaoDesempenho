@@ -129,7 +129,8 @@
         </table>
     </div>
 </div>
-    @*@if (Model.AvaliacoesPDIColaboradores.Any())
+    @if (Model.ListaGestaoAvaliacaoPDIColaboradorViewModel != null
+          && Model.ListaGestaoAvaliacaoPDIColaboradorViewModel.Any())
     {
         <h4>PDI dos seus colaboradores
         </h4>
@@ -147,24 +148,23 @@
                         </th>
                     </tr>
                     <tr>
-                        @foreach (var item in Model.AvaliacoesPDIColaboradores)
+                        @foreach (var item in Model.ListaGestaoAvaliacaoPDIColaboradorViewModel)
                         {
                             <td>
-                                @Html.DisplayFor(modelItem => Model.CicloAvaliacao.DataInicioVigencia)
+                                @Html.DisplayFor(modelItem => item.DataCriacao)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Usuario.Nome)
+                                @Html.ActionLink(item.UsuarioNome, "ManterAvaliacaoPDIColaborador", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = item.UsuarioID })
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Usuario.Cargo.Nome)
+                                @Html.DisplayFor(modelItem => item.Cargo)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.StatusPDI.Nome)
+                                @Html.DisplayFor(modelItem => item.StatusAvaliacaoPDIColaboradorNome)
                             </td>
                         }
                     </tr>
                 </table>
             </div>
         </div>
-
-    }*@
+    }

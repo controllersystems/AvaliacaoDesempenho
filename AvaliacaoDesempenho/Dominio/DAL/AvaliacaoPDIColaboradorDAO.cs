@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 namespace AvaliacaoDesempenho.Dominio.DAL
@@ -39,6 +40,25 @@ namespace AvaliacaoDesempenho.Dominio.DAL
                 db.Entry(avaliacaoPDIColaborador).State = EntityState.Modified;
                 db.SaveChanges();
             }
+        }
+
+        public List<AvaliacaoPDIColaborador> ListarPorGestor(int cicloAvaliacaoID, int gestorRubiID)
+        {
+            List<AvaliacaoPDIColaborador> resultado = null;
+
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                var query = db.AvaliacaoPDIColaborador
+                                    .Include("StatusPDI")
+                                    .Include("Usuario")
+                                    .Where(p => p.CicloAvaliacao_ID == cicloAvaliacaoID
+                                                        && p.GestorRubiID == gestorRubiID);
+
+                if (query.Any())
+                    resultado = query.ToList();
+            }
+
+            return resultado;
         }
     }
 }

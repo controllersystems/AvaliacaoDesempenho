@@ -43,6 +43,9 @@ GO
 INSERT INTO [dbo].[StatusAvaliacaoColaborador] ([Nome]) VALUES ('Em avaliação pelos gestores')
 GO
 
+INSERT INTO [dbo].[StatusAvaliacaoColaborador] ([Nome]) VALUES ('Em avaliação pelo RH')
+GO
+
 /****************************************************************************************************
 * StatusPDI
 *****************************************************************************************************/

@@ -214,6 +214,8 @@
     <Compile Include="Dominio\DAL\ContribuicaoColaboradorDAO.cs" />
     <Compile Include="Dominio\DAL\DesenvolvimentoCompetenciaDAO.cs" />
     <Compile Include="Dominio\DAL\ObjetivoColaboradorDAO.cs" />
+    <Compile Include="Dominio\DAL\PerformanceColaboradorDAO.cs" />
+    <Compile Include="Dominio\DAL\RecomendacaoColaboradorDAO.cs" />
     <Compile Include="Dominio\DAL\SituacaoCicloAvaliacaoDAO.cs" />
     <Compile Include="Dominio\DAL\StatusAvaliacaoColaboradorDAO.cs" />
     <Compile Include="Dominio\DAL\StatusPDIDAO.cs" />
@@ -243,6 +245,12 @@
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\Papel.cs">
+      <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dominio\PerformanceColaborador.cs">
+      <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dominio\RecomendacaoColaborador.cs">
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\ResultadoAtingidoColaborador.cs">
