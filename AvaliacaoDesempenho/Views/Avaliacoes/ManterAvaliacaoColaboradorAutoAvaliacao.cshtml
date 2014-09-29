@@ -12,36 +12,37 @@
 <label>Auto-avaliação</label>
 <hr />
 
-@if (Model.ListaObjetivosMetasResultadosatingidosViewModel != null
-        && Model.ListaObjetivosMetasResultadosatingidosViewModel.Any())
-{
-
-
-    if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao)
-         && !Model.AcessoGestor)
-    {
-        <div class="col-md-030">
-            <label>Objetivos</label>
-        </div>
-        <div class="col-md-030">
-            <label>Metas</label>
-        </div>
-        <div class="col-md-040">
-            <label>Resultados Atingidos</label>
-        </div>
-    
-        using (Html.BeginForm("ManterAvaliacaoColaboradorAutoAvaliacao",
+@using (Html.BeginForm("ManterAvaliacaoColaboradorAutoAvaliacao",
                               "Avaliacoes",
                               FormMethod.Post,
                               new { @class = "form-horizontal", role = "form" }))
         {
-            @Html.HiddenFor(model => model.CicloAvaliacaoSelecionadoID)
-            @Html.HiddenFor(model => model.AvaliacaoColaboradorID)
-            @Html.HiddenFor(model => model.ColaboradorID)
-            @Html.HiddenFor(model => model.StatusAvaliacaoColaboradorID)
+        @Html.HiddenFor(model => model.CicloAvaliacaoSelecionadoID)
+        @Html.HiddenFor(model => model.AvaliacaoColaboradorID)
+        @Html.HiddenFor(model => model.ColaboradorID)
+        @Html.HiddenFor(model => model.StatusAvaliacaoColaboradorID)
+        @Html.HiddenFor(model => model.GestorRubiID)
+        @Html.HiddenFor(model => model.UsuarioRubiID)
 
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+
+    if (Model.ListaObjetivosMetasResultadosatingidosViewModel != null
+            && Model.ListaObjetivosMetasResultadosatingidosViewModel.Any())
+    {
+        if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao)
+             && !Model.AcessoGestor)
+        {
+            <div class="col-md-030">
+                <label>Objetivos</label>
+            </div>
+            <div class="col-md-030">
+                <label>Metas</label>
+            </div>
+            <div class="col-md-040">
+                <label>Resultados Atingidos</label>
+            </div>
+   
 
             for (int i = 0; i < Model.ListaObjetivosMetasResultadosatingidosViewModel.Count; i++)
             {
@@ -111,7 +112,7 @@
                 <div class="col-md-095 col-md-offset-005 text-right">
                     @if (!Model.IncluirMeta)
                     {
-                        @Html.ActionLink("Incluir nova meta", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID, incluirMeta = true }, new { @class = "btn btn-default" })
+                        <input type="submit" value="Incluir nova meta" formaction="/Avaliacoes/IncluirMetaAvaliacaoColaboradorAutoAvaliacao" class="btn btn-default" />
                     }
                     else
                     {
@@ -121,7 +122,6 @@
                     <input type="submit" value="Salvar" class="btn btn-default" />
                 </div>
             </div>
-        }
     }
     else if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores) || Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH))
     {
@@ -156,19 +156,6 @@
                 </div>
             </div>
         }
-
-        using (Html.BeginForm("ManterAvaliacaoColaboradorAutoAvaliacao",
-                              "Avaliacoes",
-                              FormMethod.Post,
-                              new { @class = "form-horizontal", role = "form" }))
-        {
-            @Html.HiddenFor(model => model.CicloAvaliacaoSelecionadoID)
-            @Html.HiddenFor(model => model.AvaliacaoColaboradorID)
-            @Html.HiddenFor(model => model.ColaboradorID)
-            @Html.HiddenFor(model => model.StatusAvaliacaoColaboradorID)
-
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
 
             for (int i = 0; i < Model.ListaObjetivosMetasResultadosatingidosViewModel.Count; i++)
             {
@@ -228,24 +215,10 @@
             }
         }
     }
-}
 
-@if (Model.ListaOutrasContribuicoesViewModel != null
+    if (Model.ListaOutrasContribuicoesViewModel != null
             && Model.ListaOutrasContribuicoesViewModel.Any())
-{
-    using (Html.BeginForm("ManterAvaliacaoColaboradorAutoAvaliacao",
-                                      "Avaliacoes",
-                                      FormMethod.Post,
-                                      new { @class = "form-horizontal", role = "form" }))
     {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
-
-        @Html.HiddenFor(model => model.CicloAvaliacaoSelecionadoID)
-        @Html.HiddenFor(model => model.AvaliacaoColaboradorID)
-        @Html.HiddenFor(model => model.ColaboradorID)
-        @Html.HiddenFor(model => model.StatusAvaliacaoColaboradorID)
-
         if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
         {
             <hr />
@@ -278,6 +251,7 @@
                         </div>
                         <div class="col-md-050">
                             @Html.TextAreaFor(model => Model.ListaOutrasContribuicoesViewModel[i].AvaliacaoGestor, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => Model.ListaOutrasContribuicoesViewModel[i].AvaliacaoGestor, string.Empty, new { @class = "text-danger" })
                         </div>
                     </div>
                 }
@@ -302,9 +276,6 @@
         }
         else
         {
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
-
                 <hr />
                 <div class="row">
                     <div class="col-md-050">
@@ -333,16 +304,18 @@
                     </div>
                 }
         }
-        <hr />
-        <div class="row top20">
-            <div class="col-md-095 col-md-offset-005 text-right">
-                @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorCompetencias", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
+        if (!Model.IncluirContribuicao && !Model.IncluirMeta)
+        {
+            <hr />
+            <div class="row top20">
+                <div class="col-md-095 col-md-offset-005 text-right">
+                    @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorCompetencias", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
+                </div>
             </div>
-        </div>
+        }
     }
-}
-else
-{
+    else
+    {
         <hr class="top30" />
         <div class="row">
             <div class="col-md-100">
@@ -362,19 +335,6 @@ else
             }
             else
             {
-                using (Html.BeginForm("ManterAvaliacaoColaboradorAutoAvaliacao",
-                                      "Avaliacoes",
-                                      FormMethod.Post,
-                                      new { @class = "form-horizontal", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
-
-                    @Html.HiddenFor(model => model.CicloAvaliacaoSelecionadoID)
-                    @Html.HiddenFor(model => model.AvaliacaoColaboradorID)
-                    @Html.HiddenFor(model => model.ColaboradorID)
-                    @Html.HiddenFor(model => model.StatusAvaliacaoColaboradorID)
-
                     <div class="row top30">
                         <div class="col-md-100">
                             @Html.TextAreaFor(model => model.OutrasContribuicoesCadastro.Contribuicao, new { @class = "form-control" })
@@ -389,14 +349,17 @@ else
                     </div>
                 }
             }
-        }
 
-    if (!Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores) && !Model.AcessoGestor)
-    {
-        <div class="row top20">
-            <div class="col-md-095 col-md-offset-005 text-right">
-                @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorCompetencias", new { id = Model.CicloAvaliacaoSelecionadoID }, new { @class = "btn btn-default" })
+        if (!Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
+            && !Model.AcessoGestor
+            && !Model.IncluirMeta
+            && !Model.IncluirContribuicao)
+        {
+            <div class="row top20">
+                <div class="col-md-095 col-md-offset-005 text-right">
+                    @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorCompetencias", new { id = Model.CicloAvaliacaoSelecionadoID }, new { @class = "btn btn-default" })
+                </div>
             </div>
-        </div>
+        }
     }
 }

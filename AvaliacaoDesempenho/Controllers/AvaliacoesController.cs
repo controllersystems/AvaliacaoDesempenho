@@ -43,16 +43,22 @@ namespace AvaliacaoDesempenho.Controllers
             var associacoesCargosCompetencias = new AssociacaoCargoCompetenciaDAO().ListarPorCicloAvaliacao(model.CicloAvaliacaoSelecionadoID);
             var gestoresCicloAvaliacao = new UsuarioDAO().ListarGestoresPorCicloAvaliacao(model.CicloAvaliacaoSelecionadoID);
 
+            var avaliacaoesLeftGestores = avaliacoes.GroupJoin(gestoresCicloAvaliacao, av => av.GestorRubiID, 
+                                                        g => g.UsuarioRubiID, 
+                                                        (av, g) => new { av, g })
+                                            .SelectMany(temp => temp.g.DefaultIfEmpty(),
+                                                        (av, g) => new { av.av, g}).ToList();
+
             model.AvaliacoesColaboradores =
-                (from avaliacao in avaliacoes
-                 join gestor in gestoresCicloAvaliacao
-                    on avaliacao.GestorRubiID equals gestor.UsuarioRubiID
+                (from avaliacao in avaliacaoesLeftGestores
+                 //join gestor in gestoresCicloAvaliacao
+                 //   on avaliacao.GestorRubiID equals gestor.UsuarioRubiID
                  join associacao in associacoesCargosCompetencias
                         on new
                         {
-                            CargoRubiID = avaliacao.CargoRubiID.Value,
-                            AreaRubiID = avaliacao.AreaRubiID.Value,
-                            SetorRubiID = avaliacao.SetorRubiID
+                            CargoRubiID = avaliacao.av.CargoRubiID.Value,
+                            AreaRubiID = avaliacao.av.AreaRubiID.Value,
+                            SetorRubiID = avaliacao.av.SetorRubiID
                         }
                         equals new
                         {
@@ -60,11 +66,11 @@ namespace AvaliacaoDesempenho.Controllers
                             AreaRubiID = associacao.AreaRubiID,
                             SetorRubiID = associacao.SetorRubiID
                         }
-                 where avaliacao.Usuario.Nome.ToUpper()
+                 where avaliacao.av.Usuario.Nome.ToUpper()
                                     .Contains(!string.IsNullOrEmpty(model.NomeAvaliadoPesquisado)
                                               && !string.IsNullOrWhiteSpace(model.NomeAvaliadoPesquisado)
                                                     ? model.NomeAvaliadoPesquisado.Trim().ToUpper()
-                                                    : avaliacao.Usuario.Nome)
+                                                    : avaliacao.av.Usuario.Nome)
                     && associacao.AreaRubi.ToUpper()
                                     .Contains(!string.IsNullOrEmpty(model.AreaPesquisada)
                                               && !string.IsNullOrWhiteSpace(model.AreaPesquisada)
@@ -75,24 +81,24 @@ namespace AvaliacaoDesempenho.Controllers
                                               && !string.IsNullOrWhiteSpace(model.CargoPesquisado)
                                                     ? model.CargoPesquisado.Trim().ToUpper()
                                                     : associacao.CargoRubi.ToUpper())
-                    && gestor.Nome.ToUpper()
+                    && (avaliacao.g != null) ? avaliacao.g.Nome.ToUpper()
                                     .Contains(!string.IsNullOrEmpty(model.GestorPesquisado)
                                               && !string.IsNullOrWhiteSpace(model.GestorPesquisado)
                                                     ? model.GestorPesquisado.Trim().ToUpper()
-                                                    : gestor.Nome.ToUpper())
-                    && avaliacao.StatusAvaliacaoColaborador_ID
+                                                    : avaliacao.g.Nome.ToUpper()) : avaliacao.g == null
+                    && avaliacao.av.StatusAvaliacaoColaborador_ID
                                     .Equals(model.StatusAvaliacaoPesquisadoID.HasValue
                                                     ? model.StatusAvaliacaoPesquisadoID.Value
-                                                    : avaliacao.StatusAvaliacaoColaborador_ID)
+                                                    : avaliacao.av.StatusAvaliacaoColaborador_ID)
                  select new ItemListaGestaoAvaliacoesViewModel()
                  {
-                     ID = avaliacao.ID,
-                     NomeGestor = gestor.Nome,
-                     UsuarioNome = avaliacao.Usuario.Nome,
+                     ID = avaliacao.av.ID,
+                     NomeGestor = (avaliacao.g == null) ? "" : avaliacao.g.Nome,
+                     UsuarioNome = avaliacao.av.Usuario.Nome,
                      Cargo = associacao.CargoRubi,
                      Area = associacao.AreaRubi,
-                     StatusAvaliacaoColaboradorNome = avaliacao.StatusAvaliacaoColaborador.Nome,
-                     StatusAvaliacaoColaboradorID = avaliacao.StatusAvaliacaoColaborador_ID
+                     StatusAvaliacaoColaboradorNome = avaliacao.av.StatusAvaliacaoColaborador.Nome,
+                     StatusAvaliacaoColaboradorID = avaliacao.av.StatusAvaliacaoColaborador_ID
                  }).ToList();
 
             model.StatusAvaliacaoColaborador
@@ -844,7 +850,10 @@ namespace AvaliacaoDesempenho.Controllers
                                 objetivo.MetaColaborador.ResultadoAtingidoColaborador.AvaliacaoGestor = new AvaliacaoGestor();
                             }
 
-                            objetivo.MetaColaborador.ResultadoAtingidoColaborador.AvaliacaoGestor.Avaliacao = item.AvaliacaoGestor;
+                            if (item.AvaliacaoGestor == null)
+                                objetivo.MetaColaborador.ResultadoAtingidoColaborador.AvaliacaoGestor.Avaliacao = "";
+                            else
+                                objetivo.MetaColaborador.ResultadoAtingidoColaborador.AvaliacaoGestor.Avaliacao = item.AvaliacaoGestor;
                         }
                         else
                         {
@@ -894,10 +903,30 @@ namespace AvaliacaoDesempenho.Controllers
                     }
                 }
 
-                return ManterAvaliacaoColaboradorAutoAvaliacao(model.CicloAvaliacaoSelecionadoID, false, false, model.ColaboradorID);
+                return ManterAvaliacaoColaboradorAutoAvaliacao(model.CicloAvaliacaoSelecionadoID, model.IncluirMeta, false, model.ColaboradorID);
             }
 
             return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorAutoAvaliacao.cshtml", model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult IncluirMetaAvaliacaoColaboradorAutoAvaliacao(ManterAvaliacaoColaboradorAutoAvaliacaoViewModel model)
+        {
+            model.IncluirMeta = true;
+            model.IncluirContribuicao = false;
+            return ManterAvaliacaoColaboradorAutoAvaliacao(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult IncluirContribuicaoAvaliacaoColaboradorAutoAvaliacao(ManterAvaliacaoColaboradorAutoAvaliacaoViewModel model)
+        {
+            model.IncluirMeta = false;
+            model.IncluirContribuicao = true;
+            return ManterAvaliacaoColaboradorAutoAvaliacao(model);
         }
 
         [Authorize]
