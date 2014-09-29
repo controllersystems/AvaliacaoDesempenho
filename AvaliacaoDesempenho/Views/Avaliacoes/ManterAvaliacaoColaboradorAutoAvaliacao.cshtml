@@ -38,6 +38,7 @@
             @Html.HiddenFor(model => model.CicloAvaliacaoSelecionadoID)
             @Html.HiddenFor(model => model.AvaliacaoColaboradorID)
             @Html.HiddenFor(model => model.ColaboradorID)
+            @Html.HiddenFor(model => model.StatusAvaliacaoColaboradorID)
 
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
@@ -79,6 +80,7 @@
                         </div>
                         <div class="col-md-040">
                             @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido, string.Empty, new { @class = "text-danger" })
                         </div>
                     </div>
                 }
@@ -163,6 +165,7 @@
             @Html.HiddenFor(model => model.CicloAvaliacaoSelecionadoID)
             @Html.HiddenFor(model => model.AvaliacaoColaboradorID)
             @Html.HiddenFor(model => model.ColaboradorID)
+            @Html.HiddenFor(model => model.StatusAvaliacaoColaboradorID)
 
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
@@ -241,7 +244,8 @@
         @Html.HiddenFor(model => model.CicloAvaliacaoSelecionadoID)
         @Html.HiddenFor(model => model.AvaliacaoColaboradorID)
         @Html.HiddenFor(model => model.ColaboradorID)
-    
+        @Html.HiddenFor(model => model.StatusAvaliacaoColaboradorID)
+
         if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
         {
             <hr />
@@ -369,6 +373,7 @@ else
                     @Html.HiddenFor(model => model.CicloAvaliacaoSelecionadoID)
                     @Html.HiddenFor(model => model.AvaliacaoColaboradorID)
                     @Html.HiddenFor(model => model.ColaboradorID)
+                    @Html.HiddenFor(model => model.StatusAvaliacaoColaboradorID)
 
                     <div class="row top30">
                         <div class="col-md-100">

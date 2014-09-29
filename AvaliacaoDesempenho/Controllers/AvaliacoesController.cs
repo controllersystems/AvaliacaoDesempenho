@@ -303,11 +303,7 @@ namespace AvaliacaoDesempenho.Controllers
                 || avaliacaoColaborador.StatusAvaliacaoColaborador_ID
                         .Equals((int)Enumeradores.StatusAvaliacaoColaborador.ObjetivosMetasDefinidos))
             {
-               // if (etapaAutoAvaliacao.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
-
-                  //  return ManterAvaliacaoDesempenho(id, false, colaboradorID);
-               // else
-                    return ManterAvaliacaoColaboradorObjetivosMetas(id, false, colaboradorID);
+                return ManterAvaliacaoColaboradorObjetivosMetas(id, false, colaboradorID);
             }
             else if (avaliacaoColaborador.StatusAvaliacaoColaborador_ID
                         .Equals((int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao))
@@ -437,6 +433,8 @@ namespace AvaliacaoDesempenho.Controllers
 
             model.UsuarioRubiID = identidade.UsuarioRubiID;
 
+            model.ColaboradorID = usuarioID;
+
             var avaliacaoColaborador =
                 new AvaliacaoColaboradorDAO().Obter(id.Value, usuarioID);
 
@@ -522,9 +520,13 @@ namespace AvaliacaoDesempenho.Controllers
                         objetivoColaboradorDAO.Editar(objetivo);
                     }
                 }
-            }
 
-            return ManterAvaliacaoColaboradorObjetivosMetas(model.CicloAvaliacaoSelecionadoID);
+                return ManterAvaliacaoColaboradorObjetivosMetas(model.CicloAvaliacaoSelecionadoID);
+            }
+            else
+            {
+                return View(model);
+            }
         }
 
         [Authorize]
@@ -631,7 +633,18 @@ namespace AvaliacaoDesempenho.Controllers
         [HttpPost]
         public ActionResult ReprovarAvaliacaoColaborador(ManterAvaliacaoColaboradorObjetivosMetasViewModel model)
         {
-            return AprovarReprovarAvaliacaoColaborador(model.CicloAvaliacaoSelecionadoID, model.AvaliacaoColaboradorID, false, model.JustificativaReprovacao);
+            if (model.JustificativaReprovacao == null)
+            {
+                ModelState.AddModelError("JustificativaReprovacao", "A justificatva da reprovação é obrigatória");
+            }
+            if (ModelState.IsValid)
+            {
+                return AprovarReprovarAvaliacaoColaborador(model.CicloAvaliacaoSelecionadoID, model.AvaliacaoColaboradorID, false, model.JustificativaReprovacao);
+            }
+            else
+            {
+                return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorObjetivosMetas.cshtml", model);
+            }
         }
 
         private ActionResult AprovarReprovarAvaliacaoColaborador(int? cicloAvaliacaoSelecionadoID,
@@ -880,9 +893,11 @@ namespace AvaliacaoDesempenho.Controllers
                         contribuicaoColaboradorDAO.Editar(contribuicao);
                     }
                 }
+
+                return ManterAvaliacaoColaboradorAutoAvaliacao(model.CicloAvaliacaoSelecionadoID, false, false, model.ColaboradorID);
             }
 
-            return ManterAvaliacaoColaboradorAutoAvaliacao(model.CicloAvaliacaoSelecionadoID, false, false, model.ColaboradorID);
+            return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorAutoAvaliacao.cshtml", model);
         }
 
         [Authorize]
@@ -917,6 +932,24 @@ namespace AvaliacaoDesempenho.Controllers
             }
 
             return ManterAvaliacaoColaboradorAutoAvaliacao(cicloAvaliacaoSelecionadoID);
+        }
+
+        [Authorize]
+        public ActionResult DeletarDesenvolvimentoCompetenciaPDIColaborador(int? desenvolvimentoCompetenciaID,
+                                                                           int? avaliacaoPDISelecionadoID)
+        {
+            if (ModelState.IsValid)
+            {
+                if (desenvolvimentoCompetenciaID.HasValue)
+                {
+                    DesenvolvimentoCompetenciaDAO desenvolvimentoCompetenciaDAO = new DesenvolvimentoCompetenciaDAO();
+
+                    desenvolvimentoCompetenciaDAO.Excluir(desenvolvimentoCompetenciaID.Value);
+
+                }
+            }
+
+            return ManterAvaliacaoPDIColaborador(avaliacaoPDISelecionadoID);
         }
 
         #endregion Auto-avaliação
@@ -1464,6 +1497,8 @@ namespace AvaliacaoDesempenho.Controllers
 
             model.UsuarioRubiID = identidade.UsuarioRubiID;
 
+            model.ColaboradorID = usuarioID;
+
             var avaliacaoPDIColaborador =
                 new AvaliacaoPDIColaboradorDAO().Obter(id.Value, usuarioID);
 
@@ -1474,7 +1509,7 @@ namespace AvaliacaoDesempenho.Controllers
                 model.ListaDesenvolvimentoCompetenciaViewModel =
                     Mapper.Map<List<DesenvolvimentoCompetencia>,
                                List<ItemListaDesenvolvimentoCompetenciaViewModel>>
-                                    (new DesenvolvimentoCompetenciaDAO().Listar(avaliacaoPDIColaborador.ID));
+                                    (new DesenvolvimentoCompetenciaDAO().Listar(avaliacaoPDIColaborador.ID));                
 
                 model.AvaliacaoPDIColaboradorID = avaliacaoPDIColaborador.ID;
 
@@ -1499,6 +1534,11 @@ namespace AvaliacaoDesempenho.Controllers
 
             model.CicloAvaliacaoSelecionadoID = id.Value;
             model.IncluirDesenvolvimentoCompetencia = incluirDesenvolvimentoCompetencia;
+
+            //if (!model.IncluirDesenvolvimentoCompetencia && model.ListaDesenvolvimentoCompetenciaViewModel == null)
+            //{
+            //    model.IncluirDesenvolvimentoCompetencia = true;
+            //}
 
             return View("~/Views/Avaliacoes/ManterAvaliacaoPDIColaborador.cshtml", model);
         }
@@ -1529,7 +1569,7 @@ namespace AvaliacaoDesempenho.Controllers
                     avaliacaoPDI.PontosFortes = model.PontosFortes;
                     avaliacaoPDI.PontosDesenvolvimento = model.PontosDesenvolvimento;
                     avaliacaoPDI.ComentariosColaborador = model.ComentariosColaborador;
-                    
+
                     avaliacaoPDIColaboradorDAO.Incluir(avaliacaoPDI);
 
                     model.AvaliacaoPDIColaboradorID = avaliacaoPDI.ID;
@@ -1538,7 +1578,7 @@ namespace AvaliacaoDesempenho.Controllers
                 {
                     var avaliacaoPDI = avaliacaoPDIColaboradorDAO.Obter(model.CicloAvaliacaoSelecionadoID.Value, new Identidade().UsuarioID);
 
-                    if(avaliacaoPDI != null)
+                    if (avaliacaoPDI != null)
                     {
                         avaliacaoPDI.Idiomas = model.Idiomas;
                         avaliacaoPDI.Graduacao = model.Graduacao;
@@ -1558,28 +1598,106 @@ namespace AvaliacaoDesempenho.Controllers
 
                     desenvolvimentoCompetencia.AvaliacaoPDIColaborador_ID = model.AvaliacaoPDIColaboradorID.Value;
                     desenvolvimentoCompetencia.AcaoDesenvolvimento = model.DesenvolvimentoCompetenciaCadastro.AcaoDesenvolvimento;
-                    desenvolvimentoCompetencia.RescursoSuporte = model.DesenvolvimentoCompetenciaCadastro.RecursoSuporte;
+                    desenvolvimentoCompetencia.RecursoSuporte = model.DesenvolvimentoCompetenciaCadastro.RecursoSuporte;
 
                     desenvolvimentoCompetenciaDAO.Incluir(desenvolvimentoCompetencia);
                 }
-                else
+
+                if (model.ListaDesenvolvimentoCompetenciaViewModel != null)
                 {
-                    if (model.ListaDesenvolvimentoCompetenciaViewModel != null)
+                    foreach (var item in model.ListaDesenvolvimentoCompetenciaViewModel)
                     {
-                        foreach (var item in model.ListaDesenvolvimentoCompetenciaViewModel)
-                        {
-                            var desenvolvimentoCompetencia = desenvolvimentoCompetenciaDAO.Obter(item.ID);
+                        var desenvolvimentoCompetencia = desenvolvimentoCompetenciaDAO.Obter(item.ID);
 
-                            desenvolvimentoCompetencia.AcaoDesenvolvimento = item.AcaoDesenvolvimento;
-                            desenvolvimentoCompetencia.RescursoSuporte = item.RecursoSuporte;
+                        desenvolvimentoCompetencia.AcaoDesenvolvimento = item.AcaoDesenvolvimento;
+                        desenvolvimentoCompetencia.RecursoSuporte = item.RecursoSuporte;
 
-                            desenvolvimentoCompetenciaDAO.Editar(desenvolvimentoCompetencia);
-                        }
+                        desenvolvimentoCompetenciaDAO.Editar(desenvolvimentoCompetencia);
                     }
                 }
             }
 
             return ManterAvaliacaoPDIColaborador(model.CicloAvaliacaoSelecionadoID);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult SalvarComentarioGestor(ManterAvaliacaoPDIColaboradorViewModel model)
+        {
+            if (model.ComentariosGestor == null)
+            {
+                ModelState.AddModelError("ComentariosGestor", "O comentário do gestor é obrigatório");
+            }
+            if (ModelState.IsValid)
+            {
+                AvaliacaoPDIColaboradorDAO avaliacaoPDIColaboradorDAO = new AvaliacaoPDIColaboradorDAO();
+                var avaliacao = avaliacaoPDIColaboradorDAO.Obter(model.CicloAvaliacaoSelecionadoID.Value, model.ColaboradorID.Value);
+
+                if (avaliacao != null)
+                {
+                    avaliacao.ComentariosGestor = model.ComentariosGestor;
+                    avaliacaoPDIColaboradorDAO.Editar(avaliacao);
+                }
+            }
+            
+            return View("~/Views/Avaliacoes/ManterAvaliacaoPDIColaborador.cshtml", model);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult AprovarAvaliacaoPDIColaborador(int? cicloAvaliacaoSelecionadoID, int? usuarioID)
+        {
+            return AprovarReprovarAvaliacaoPDIColaborador(cicloAvaliacaoSelecionadoID, usuarioID, true, string.Empty);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult ReprovarAvaliacaoPDIColaborador(ManterAvaliacaoPDIColaboradorViewModel model)
+        {
+            if (model.ComentariosGestor == null)
+            {
+                ModelState.AddModelError("ComentariosGestor", "O comentário do gestor é obrigatório");
+            }
+            if (ModelState.IsValid)
+            {
+                return AprovarReprovarAvaliacaoPDIColaborador(model.CicloAvaliacaoSelecionadoID, model.ColaboradorID, false, model.ComentariosGestor);
+            }
+            else
+            {
+                return View("~/Views/Avaliacoes/ManterAvaliacaoPDIColaborador.cshtml", model);
+            }
+        }
+
+        private ActionResult AprovarReprovarAvaliacaoPDIColaborador(int? cicloAvaliacaoSelecionadoID,
+                                                                 int? usuarioID,
+                                                                 bool aprovada,
+                                                                 string ComentariosGestor)
+        {
+            AvaliacaoPDIColaboradorDAO avaliacaoPDIColaboradorDAO = new AvaliacaoPDIColaboradorDAO();
+
+            var avaliacao = avaliacaoPDIColaboradorDAO.Obter(cicloAvaliacaoSelecionadoID.Value, usuarioID.Value);
+
+            if (avaliacao != null)
+            {
+                avaliacao.Aprovada = aprovada;
+
+                if (!aprovada)
+                {
+                    avaliacao.StatusPDI_ID = (int)Enumeradores.StatusPDI.Criada;
+                    avaliacao.StatusPDI = new StatusPDIDAO().Obter((int)Enumeradores.StatusPDI.Criada);
+                    avaliacao.ComentariosGestor = ComentariosGestor;
+                }
+                else
+                {
+                    avaliacao.StatusPDI_ID = (int)Enumeradores.StatusPDI.Aprovada;
+                    avaliacao.StatusPDI = new StatusPDIDAO().Obter((int)Enumeradores.StatusPDI.Aprovada);
+                    avaliacao.ComentariosGestor = string.Empty;
+                }
+
+                avaliacaoPDIColaboradorDAO.Editar(avaliacao);
+            }
+
+            return CarregarGestaoAvaliacaoColaborador(cicloAvaliacaoSelecionadoID, new Identidade());
         }
 
         #endregion

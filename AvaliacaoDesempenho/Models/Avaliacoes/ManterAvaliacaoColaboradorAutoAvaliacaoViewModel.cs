@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace AvaliacaoDesempenho.Models.Avaliacoes
 {
@@ -50,8 +51,15 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public string MetaColaboradorMeta { get; set; }
 
+        [Display(Name = "Resultado atingido")]
+        [DataType(DataType.Text, ErrorMessage = "O {0} é inválido.")]
+        [StringLength(400, ErrorMessage = "O {0} deve ter o tamanho máximo de 400 caracteres.")]
+        [Required(ErrorMessage = "O {0} é obrigatório.")]
         public string MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido { get; set; }
 
+        [Display(Name = "Avaliação do Gestor")]
+        [DataType(DataType.Text, ErrorMessage = "A {0} é inválido.")]
+        [StringLength(400, ErrorMessage = "A {0} deve ter o tamanho máximo de 400 caracteres.")]
         public string AvaliacaoGestor { get; set; }
 
         public bool AutoAvaliacao { get; set; }

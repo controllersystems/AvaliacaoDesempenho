@@ -16,7 +16,7 @@ namespace AvaliacaoDesempenho.Dominio
     {
         public int ID { get; set; }
         public string AcaoDesenvolvimento { get; set; }
-        public string RescursoSuporte { get; set; }
+        public string RecursoSuporte { get; set; }
         public int AvaliacaoPDIColaborador_ID { get; set; }
     
         public virtual AvaliacaoPDIColaborador AvaliacaoPDIColaborador { get; set; }

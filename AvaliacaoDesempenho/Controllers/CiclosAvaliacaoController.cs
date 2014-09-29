@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using PagedList;
+using AvaliacaoDesempenho.Seguranca;
 
 namespace AvaliacaoDesempenho.Controllers
 {
@@ -331,11 +332,15 @@ namespace AvaliacaoDesempenho.Controllers
         [CriacaoMapeamento(typeof(DeCicloAvaliacaoParaSelectListItem))]
         public ActionResult SelecaoCicloAvaliacao(int? cicloAvaliacaoSelecionadoID)
         {
+            var identidade = new Identidade();
+
             SelecaoCicloAvaliacaoViewModel model = new SelecaoCicloAvaliacaoViewModel();
 
             model.CiclosAvaliacao
                 = Mapper.Map<List<CicloAvaliacao>,
-                             List<SelectListItem>>(new CicloAvaliacaoDAO().ListarCiclosDisponiveis());
+                             List<SelectListItem>>(new CicloAvaliacaoDAO().ListarCiclosDisponiveis(identidade.CargoRubiID.Value, 
+                                                                                                   identidade.AreaRubiID.Value, 
+                                                                                                   identidade.SetorRubiID.Value));
 
             if (cicloAvaliacaoSelecionadoID.HasValue)
                 model.CicloAvaliacaoSelecionadoID = cicloAvaliacaoSelecionadoID.Value;

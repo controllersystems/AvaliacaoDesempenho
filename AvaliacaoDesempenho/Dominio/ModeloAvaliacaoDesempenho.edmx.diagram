@@ -4,44 +4,44 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="51c96fcb450f4304a187181f23baa945" Name="Diagram1">
-        <EntityTypeShape EntityType="AvaliacaoDesempenhoContextEntities.AssociacaoCargoCompetencia" Width="1.5" PointX="5.25" PointY="12.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="AvaliacaoDesempenhoContextEntities.AvaliacaoColaborador" Width="1.5" PointX="8.25" PointY="12.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="AvaliacaoDesempenhoContextEntities.AvaliacaoGestor" Width="1.5" PointX="8.25" PointY="17.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="AvaliacaoDesempenhoContextEntities.AvaliacaoPDIColaborador" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="AvaliacaoDesempenhoContextEntities.CicloAvaliacao" Width="1.5" PointX="3" PointY="11.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="AvaliacaoDesempenhoContextEntities.CompetenciaColaborador" Width="1.5" PointX="10.5" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AvaliacaoDesempenhoContextEntities.ContribuicaoColaborador" Width="1.5" PointX="10.5" PointY="13.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="AvaliacaoDesempenhoContextEntities.DesenvolvimentoCompetencia" Width="1.5" PointX="7.5" PointY="8.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="AvaliacaoDesempenhoContextEntities.MetaColaborador" Width="1.5" PointX="11.25" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="AvaliacaoDesempenhoContextEntities.ObjetivoColaborador" Width="1.5" PointX="13.5" PointY="13.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="AvaliacaoDesempenhoContextEntities.Papel" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AvaliacaoDesempenhoContextEntities.PerformanceColaborador" Width="1.5" PointX="10.5" PointY="19.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="AvaliacaoDesempenhoContextEntities.RecomendacaoColaborador" Width="1.5" PointX="10.5" PointY="21.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AvaliacaoDesempenhoContextEntities.ResultadoAtingidoColaborador" Width="1.5" PointX="9" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="AvaliacaoDesempenhoContextEntities.SituacaoCicloAvaliacao" Width="1.5" PointX="0.75" PointY="13.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="AvaliacaoDesempenhoContextEntities.StatusAvaliacaoColaborador" Width="1.5" PointX="6" PointY="17.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="AvaliacaoDesempenhoContextEntities.StatusPDI" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="AvaliacaoDesempenhoContextEntities.Usuario" Width="1.5" PointX="3" PointY="2" IsExpanded="true" />
-        <AssociationConnector Association="AvaliacaoDesempenhoContextEntities.FK_dbo_AssociacaoCargoCompetencia_dbo_CicloAvaliacao_CicloAvaliacao_ID" ManuallyRouted="false" />
-        <AssociationConnector Association="AvaliacaoDesempenhoContextEntities.FK_CompetenciaColaborador_AvaliacaoColaborador" ManuallyRouted="false" />
-        <AssociationConnector Association="AvaliacaoDesempenhoContextEntities.FK_dbo_AvaliacaoColaborador_dbo_CicloAvaliacao_CicloAvaliacao_ID" ManuallyRouted="false" />
-        <AssociationConnector Association="AvaliacaoDesempenhoContextEntities.FK_dbo_AvaliacaoColaborador_dbo_StatusAvaliacaoColaborador_StatusAvaliacaoColaborador_ID" ManuallyRouted="false" />
-        <AssociationConnector Association="AvaliacaoDesempenhoContextEntities.FK_dbo_AvaliacaoColaborador_dbo_Usuario_Colaborador_ID" ManuallyRouted="false" />
-        <AssociationConnector Association="AvaliacaoDesempenhoContextEntities.FK_dbo_ContribuicaoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID" ManuallyRouted="false" />
-        <AssociationConnector Association="AvaliacaoDesempenhoContextEntities.FK_dbo_ObjetivoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID" ManuallyRouted="false" />
-        <AssociationConnector Association="AvaliacaoDesempenhoContextEntities.FK_dbo_PerformanceColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID" ManuallyRouted="false" />
-        <AssociationConnector Association="AvaliacaoDesempenhoContextEntities.FK_dbo_RecomendacaoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID" ManuallyRouted="false" />
-        <AssociationConnector Association="AvaliacaoDesempenhoContextEntities.FK_dbo_ContribuicaoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID" ManuallyRouted="false" />
-        <AssociationConnector Association="AvaliacaoDesempenhoContextEntities.FK_dbo_ResultadoAtingidoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID" ManuallyRouted="false" />
-        <AssociationConnector Association="AvaliacaoDesempenhoContextEntities.FK_AvaliacaoPDIColaborador_CicloAvaliacao" ManuallyRouted="false" />
-        <AssociationConnector Association="AvaliacaoDesempenhoContextEntities.FK_AvaliacaoPDIColaborador_Usuario" ManuallyRouted="false" />
-        <AssociationConnector Association="AvaliacaoDesempenhoContextEntities.FK_dbo_AvaliacaoPDIColaborador_dbo_StatusPDI_StatusPDI_ID" ManuallyRouted="false" />
-        <AssociationConnector Association="AvaliacaoDesempenhoContextEntities.FK_dbo_DesenvolvimentoCompetencia_dbo_AvaliacaoPDIColaborador_AvaliacaoPDIColaborador_ID" ManuallyRouted="false" />
-        <AssociationConnector Association="AvaliacaoDesempenhoContextEntities.FK_dbo_CicloAvaliacao_dbo_SituacaoCicloAvaliacao_SituacaoCicloAvaliacao_ID" ManuallyRouted="false" />
-        <AssociationConnector Association="AvaliacaoDesempenhoContextEntities.FK_dbo_MetaColaborador_dbo_ResultadoAtingidoColaborador_ResultadoAtingidoColaborador_ID" ManuallyRouted="false" />
-        <AssociationConnector Association="AvaliacaoDesempenhoContextEntities.FK_dbo_ObjetivoColaborador_dbo_MetaColaborador_MetaColaborador_ID" ManuallyRouted="false" />
-        <AssociationConnector Association="AvaliacaoDesempenhoContextEntities.FK_Usuario_Papel" ManuallyRouted="false" />
+      <Diagram DiagramId="fcb1f99d6490407fb8108154d3cca3f6" Name="Diagram1">
+        <EntityTypeShape EntityType="avaliacao_desempenhoModel.AssociacaoCargoCompetencia" Width="1.5" PointX="5.25" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="avaliacao_desempenhoModel.AvaliacaoColaborador" Width="1.5" PointX="8.25" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="avaliacao_desempenhoModel.AvaliacaoGestor" Width="1.5" PointX="8.25" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="avaliacao_desempenhoModel.AvaliacaoPDIColaborador" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="avaliacao_desempenhoModel.CicloAvaliacao" Width="1.5" PointX="3" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="avaliacao_desempenhoModel.CompetenciaColaborador" Width="1.5" PointX="10.5" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="avaliacao_desempenhoModel.ContribuicaoColaborador" Width="1.5" PointX="10.5" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="avaliacao_desempenhoModel.DesenvolvimentoCompetencia" Width="1.5" PointX="7.5" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="avaliacao_desempenhoModel.MetaColaborador" Width="1.5" PointX="11.25" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="avaliacao_desempenhoModel.ObjetivoColaborador" Width="1.5" PointX="13.5" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="avaliacao_desempenhoModel.Papel" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="avaliacao_desempenhoModel.PerformanceColaborador" Width="1.5" PointX="10.5" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="avaliacao_desempenhoModel.RecomendacaoColaborador" Width="1.5" PointX="10.5" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="avaliacao_desempenhoModel.ResultadoAtingidoColaborador" Width="1.5" PointX="9" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="avaliacao_desempenhoModel.SituacaoCicloAvaliacao" Width="1.5" PointX="0.75" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="avaliacao_desempenhoModel.StatusAvaliacaoColaborador" Width="1.5" PointX="6" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="avaliacao_desempenhoModel.StatusPDI" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="avaliacao_desempenhoModel.Usuario" Width="1.5" PointX="3" PointY="2" IsExpanded="true" />
+        <AssociationConnector Association="avaliacao_desempenhoModel.FK_dbo_AssociacaoCargoCompetencia_dbo_CicloAvaliacao_CicloAvaliacao_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="avaliacao_desempenhoModel.FK_CompetenciaColaborador_AvaliacaoColaborador" ManuallyRouted="false" />
+        <AssociationConnector Association="avaliacao_desempenhoModel.FK_dbo_AvaliacaoColaborador_dbo_CicloAvaliacao_CicloAvaliacao_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="avaliacao_desempenhoModel.FK_dbo_AvaliacaoColaborador_dbo_StatusAvaliacaoColaborador_StatusAvaliacaoColaborador_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="avaliacao_desempenhoModel.FK_dbo_AvaliacaoColaborador_dbo_Usuario_Colaborador_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="avaliacao_desempenhoModel.FK_dbo_ContribuicaoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="avaliacao_desempenhoModel.FK_dbo_ObjetivoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="avaliacao_desempenhoModel.FK_dbo_PerformanceColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="avaliacao_desempenhoModel.FK_dbo_RecomendacaoColaborador_dbo_AvaliacaoColaborador_AvaliacaoColaborador_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="avaliacao_desempenhoModel.FK_dbo_ContribuicaoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="avaliacao_desempenhoModel.FK_dbo_ResultadoAtingidoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="avaliacao_desempenhoModel.FK_AvaliacaoPDIColaborador_CicloAvaliacao" ManuallyRouted="false" />
+        <AssociationConnector Association="avaliacao_desempenhoModel.FK_AvaliacaoPDIColaborador_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="avaliacao_desempenhoModel.FK_dbo_AvaliacaoPDIColaborador_dbo_StatusPDI_StatusPDI_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="avaliacao_desempenhoModel.FK_dbo_DesenvolvimentoCompetencia_dbo_AvaliacaoPDIColaborador_AvaliacaoPDIColaborador_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="avaliacao_desempenhoModel.FK_dbo_CicloAvaliacao_dbo_SituacaoCicloAvaliacao_SituacaoCicloAvaliacao_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="avaliacao_desempenhoModel.FK_dbo_MetaColaborador_dbo_ResultadoAtingidoColaborador_ResultadoAtingidoColaborador_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="avaliacao_desempenhoModel.FK_dbo_ObjetivoColaborador_dbo_MetaColaborador_MetaColaborador_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="avaliacao_desempenhoModel.FK_Usuario_Papel" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
