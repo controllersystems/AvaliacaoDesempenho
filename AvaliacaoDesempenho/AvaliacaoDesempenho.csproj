@@ -290,6 +290,7 @@
     <Compile Include="Models\Autenticacao\LoginViewModel.cs" />
     <Compile Include="Models\Avaliacoes\GestaoAvaliacaoColaboradorViewModel.cs" />
     <Compile Include="Models\Avaliacoes\GestaoPDIsViewModel.cs" />
+    <Compile Include="Models\Avaliacoes\ManterAvaliacaoColaboradorAutoAvaliacaoGestorViewModel.cs" />
     <Compile Include="Models\Avaliacoes\ManterAvaliacaoColaboradorAutoAvaliacaoViewModel.cs" />
     <Compile Include="Models\Avaliacoes\ManterAvaliacaoColaboradorCompetenciasViewModel.cs" />
     <Compile Include="Models\Avaliacoes\ManterAvaliacaoColaboradorObjetivosMetasViewModel.cs" />
@@ -312,6 +313,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Seguranca\Identidade.cs" />
     <Compile Include="Seguranca\IdentidadeModelBinder.cs" />
+    <Compile Include="Util\Mapeamentos\DeContribuicaoColaboradorParaOutrasContribuicoesGestorViewModel.cs" />
     <Compile Include="Util\Mapeamentos\DeListaItemListaGestaoCompetenciasCargosViewModelParaListaAssociacaoCargoCompetencia.cs" />
     <Compile Include="Util\Mapeamentos\DeListAssociacaoCargoCompetenciaParaListItemListaGestaoCompetenciasCargosViewModel.cs" />
     <Compile Include="Util\Mapeamentos\DeAvaliacaoColaboradorParaGestaoAvaliacaoColaboradorViewModel.cs" />
@@ -322,6 +324,7 @@
     <Compile Include="Util\Mapeamentos\DeIdentidadeParaCabecalhoColaboradorViewModel.cs" />
     <Compile Include="Util\Mapeamentos\DeItemListaGestaoCompetenciasCargosViewModelParaAssociacaoCargoCompetencia.cs" />
     <Compile Include="Util\Mapeamentos\DeManterAvaliacaoColaboradorViewModelParaObjetivoColaborador.cs" />
+    <Compile Include="Util\Mapeamentos\DeObjetivoColaboradorParaObjetivoMetaResultadoAtingidoGestorViewModel.cs" />
     <Compile Include="Util\Mapeamentos\DeObjetivoColaboradorParaObjetivoMetaResultadoAtingidoViewModel.cs" />
     <Compile Include="Util\Mapeamentos\DeObjetivoColaboradorParaObjetivoMetaViewModel.cs" />
     <Compile Include="Util\Mapeamentos\DeStatusAvaliacaoColaboradorParaSelectListItem.cs" />
@@ -437,6 +440,7 @@
     <Content Include="Views\CiclosAvaliacao\CicloAvaliacaoSelecionado.cshtml" />
     <Content Include="Views\Avaliacoes\ManterAvaliacaoColaboradorAutoAvaliacao.cshtml" />
     <Content Include="Views\Avaliacoes\ManterAvaliacaoPDIColaborador.cshtml" />
+    <Content Include="Views\Avaliacoes\ManterAvaliacaoColaboradorAutoAvaliacaoGestor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_GlobalResources\" />

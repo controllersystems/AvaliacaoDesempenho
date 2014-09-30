@@ -230,6 +230,7 @@ else
             if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.DefinicaoObjetivosMetas))
             {
                 if (Model.ListaObjetivosMetasViewModel != null
+                    && Model.ListaObjetivosMetasViewModel.Any()
                     && !Model.IncluirMeta
                     && Model.AvaliacaoColaboradorID.HasValue)
                 {

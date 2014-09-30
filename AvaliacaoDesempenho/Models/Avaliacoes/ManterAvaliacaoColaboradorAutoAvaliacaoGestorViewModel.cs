@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AvaliacaoDesempenho.Models.Avaliacoes
 {
-    public class ManterAvaliacaoColaboradorAutoAvaliacaoViewModel
+    public class ManterAvaliacaoColaboradorAutoAvaliacaoGestorViewModel
     {
         public int? ColaboradorID { get; set; }
 
@@ -21,19 +21,19 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public bool IncluirContribuicao { get; set; }
 
-        public ObjetivoMetaResultadoAtingidoViewModel ObjetivoMetaResultadoAtingidoCadastro { get; set; }
+        public ObjetivoMetaResultadoAtingidoGestorViewModel ObjetivoMetaResultadoAtingidoGestorCadastro { get; set; }
 
-        public OutrasContribuicoesViewModel OutrasContribuicoesCadastro { get; set; }
+        public OutrasContribuicoesGestorViewModel OutrasContribuicoesGestorCadastro { get; set; }
 
-        public List<ObjetivoMetaResultadoAtingidoViewModel> ListaObjetivosMetasResultadosatingidosViewModel { get; set; }
+        public List<ObjetivoMetaResultadoAtingidoGestorViewModel> ListaObjetivosMetasResultadosatingidosGestorViewModel { get; set; }
 
-        public List<OutrasContribuicoesViewModel> ListaOutrasContribuicoesViewModel { get; set; }
+        public List<OutrasContribuicoesGestorViewModel> ListaOutrasContribuicoesGestorViewModel { get; set; }
 
         public List<AvaliacaoGestorContribuinte> ListaAvaliacaoGestorMetas { get; set; }
 
         public List<AvaliacaoGestorContribuinte> ListaAvaliacaoGestorOutrasContribuicoes { get; set; }
 
-        public bool ProximaEtapa { get; set; } 
+        public bool ProximaEtapa { get; set; }
 
 
         public bool AcessoGestor
@@ -45,7 +45,7 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         }
     }
 
-    public class ObjetivoMetaResultadoAtingidoViewModel
+    public class ObjetivoMetaResultadoAtingidoGestorViewModel
     {
         public int ID { get; set; }
 
@@ -59,23 +59,25 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         [Required(ErrorMessage = "O {0} é obrigatório.")]
         public string MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido { get; set; }
 
+        [Display(Name = "Avaliação do Gestor")]
+        [DataType(DataType.Text, ErrorMessage = "A {0} é inválido.")]
+        [StringLength(400, ErrorMessage = "A {0} deve ter o tamanho máximo de 400 caracteres.")]
+        [Required(ErrorMessage = "A {0} é obrigatória.")]
+        public string AvaliacaoGestor { get; set; }
+
         public bool AutoAvaliacao { get; set; }
     }
 
-    public class OutrasContribuicoesViewModel
+    public class OutrasContribuicoesGestorViewModel
     {
         public int ID { get; set; }
 
-        [Display(Name = "Contribuição")]
+        public string Contribuicao { get; set; }
+
+        [Display(Name = "Avaliação do Gestor")]
         [DataType(DataType.Text, ErrorMessage = "A {0} é inválido.")]
         [StringLength(600, ErrorMessage = "A {0} deve ter o tamanho máximo de 600 caracteres.")]
         [Required(ErrorMessage = "A {0} é obrigatória.")]
-        public string Contribuicao { get; set; }
-    }
-
-    public class AvaliacaoGestorContribuinte
-    {
-        public int ID { get; set; }
-        public string Avaliacao { get; set; }
+        public string AvaliacaoGestor { get; set; }
     }
 }

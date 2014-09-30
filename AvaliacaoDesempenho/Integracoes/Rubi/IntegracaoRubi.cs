@@ -46,6 +46,14 @@ namespace AvaliacaoDesempenho.Rubi.Integracoes
             }
         }
 
+        public List<USU_V034FAD> ListarUSU_V034FAD(int cargo, int area, int setor)
+        {
+            using (db = new RubiContext())
+            {
+                return db.Database.SqlQuery<USU_V034FAD>(string.Format("SELECT ROWNUM USU_V034FADID, NUMEMP,NUMCAD,NOMFUN,EMACOM,CODCAR,TITRED,USU_CODDIR,CODCCU,NOMCCU,NUMLOC,NOMLOC,USU_LD1EMP,USU_LD1TIP,USU_LD1CAD,LD1NOM,DATADM,FOTEMP FROM USU_V034FAD WHERE CODCAR = {0} AND CODCCU = {1} AND NUMLOC = {2}", cargo, area, setor)).ToList();
+            }
+        }
+
         public void Dispose()
         {
             db.Dispose();

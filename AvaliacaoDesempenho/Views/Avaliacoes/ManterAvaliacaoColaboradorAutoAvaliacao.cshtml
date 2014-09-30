@@ -16,16 +16,17 @@
                               "Avaliacoes",
                               FormMethod.Post,
                               new { @class = "form-horizontal", role = "form" }))
-        {
-        @Html.HiddenFor(model => model.CicloAvaliacaoSelecionadoID)
-        @Html.HiddenFor(model => model.AvaliacaoColaboradorID)
-        @Html.HiddenFor(model => model.ColaboradorID)
-        @Html.HiddenFor(model => model.StatusAvaliacaoColaboradorID)
-        @Html.HiddenFor(model => model.GestorRubiID)
-        @Html.HiddenFor(model => model.UsuarioRubiID)
+        
+{
+    @Html.HiddenFor(model => model.CicloAvaliacaoSelecionadoID)
+    @Html.HiddenFor(model => model.AvaliacaoColaboradorID)
+    @Html.HiddenFor(model => model.ColaboradorID)
+    @Html.HiddenFor(model => model.StatusAvaliacaoColaboradorID)
+    @Html.HiddenFor(model => model.GestorRubiID)
+    @Html.HiddenFor(model => model.UsuarioRubiID)
 
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
 
     if (Model.ListaObjetivosMetasResultadosatingidosViewModel != null
             && Model.ListaObjetivosMetasResultadosatingidosViewModel.Any())
@@ -46,6 +47,11 @@
 
             for (int i = 0; i < Model.ListaObjetivosMetasResultadosatingidosViewModel.Count; i++)
             {
+                if(Model.ListaObjetivosMetasResultadosatingidosViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido == null ||
+                   Model.ListaObjetivosMetasResultadosatingidosViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido == "")
+                {
+                    Model.ProximaEtapa = false;
+                }
                 @Html.HiddenFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].ID)
 
                 if (Model.ListaObjetivosMetasResultadosatingidosViewModel[i].AutoAvaliacao)
@@ -122,27 +128,8 @@
                     <input type="submit" value="Salvar" class="btn btn-default" />
                 </div>
             </div>
-    }
-    else if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores) || Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH))
-    {
-        if (Model.AcessoGestor)
-        {
-            <div class="row">
-                <div class="col-md-025">
-                    <label>Objetivos</label>
-                </div>
-                <div class="col-md-025">
-                    <label>Metas</label>
-                </div>
-                <div class="col-md-025">
-                    <label>Resultados Atingidos</label>
-                </div>
-                <div class="col-md-025">
-                    <label>Avaliação Gestor</label>
-                </div>
-            </div>
         }
-        else
+        else if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores) || Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH))
         {
             <div class="row">
                 <div class="col-md-030">
@@ -155,63 +142,28 @@
                     <label>Resultados Atingidos</label>
                 </div>
             </div>
-        }
 
             for (int i = 0; i < Model.ListaObjetivosMetasResultadosatingidosViewModel.Count; i++)
             {
+                if (Model.ListaObjetivosMetasResultadosatingidosViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido == null ||
+                   Model.ListaObjetivosMetasResultadosatingidosViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido == "")
+                {
+                    Model.ProximaEtapa = false;
+                }
                 @Html.HiddenFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].ID)
 
-                if (Model.AcessoGestor)
-                {
-                    <div class="row top30">
-                        <div class="col-md-025">
-                            @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].Objetivo, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                        <div class="col-md-025">
-                            @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].MetaColaboradorMeta, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                        <div class="col-md-025">
-                            @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                        <div class="col-md-025">
-                            @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH))
-                            {
-                                @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].AvaliacaoGestor, new { @class = "form-control", @readonly = "readonly" })
-                            }
-                            else
-                            {
-                                @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].AvaliacaoGestor, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].AvaliacaoGestor, string.Empty, new { @class = "text-danger" })
-                            }
-                        </div>
+                <div class="row top30">
+                    <div class="col-md-030">
+                        @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].Objetivo, new { @class = "form-control", @readonly = "readonly" })
                     </div>
-                }
-                else
-                {
-                    <div class="row top30">
-                        <div class="col-md-030">
-                            @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].Objetivo, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                        <div class="col-md-030">
-                            @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].MetaColaboradorMeta, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                        <div class="col-md-040">
-                            @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
+                    <div class="col-md-030">
+                        @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].MetaColaboradorMeta, new { @class = "form-control", @readonly = "readonly" })
                     </div>
-                }
+                    <div class="col-md-040">
+                        @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
                 <hr />
-            }
-            if (Model.AcessoGestor)
-            {
-                if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
-                {
-                    <div class="row top20">
-                        <div class="col-md-095 col-md-offset-005 text-right">
-                            <input type="submit" value="Salvar" class="btn btn-default" />
-                        </div>
-                    </div>
-                }
             }
         }
     }
@@ -219,92 +171,64 @@
     if (Model.ListaOutrasContribuicoesViewModel != null
             && Model.ListaOutrasContribuicoesViewModel.Any())
     {
-        if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
+        <hr />
+        <div class="row">
+            <div class="col-md-100">
+                <label>Outras Contribuições</label>
+            </div>
+        </div>
+
+        for (int i = 0; i < Model.ListaOutrasContribuicoesViewModel.Count; i++)
         {
-            <hr />
-            if (Model.AcessoGestor)
-            {
-                <div class="row">
-                    <div class="col-md-050">
-                        <label>Outras Contribuições</label>
-                    </div>
-                </div>
-            }
-            else
-            {
-                <div class="row">
-                    <div class="col-md-100">
-                        <label>Outras Contribuições</label>
-                    </div>
-                </div>
-            }
+            @Html.HiddenFor(model => Model.ListaOutrasContribuicoesViewModel[i].ID)
 
-            for (int i = 0; i < Model.ListaOutrasContribuicoesViewModel.Count; i++)
-            {
-                @Html.HiddenFor(model => Model.ListaOutrasContribuicoesViewModel[i].ID)
-
-                if (Model.AcessoGestor)
-                {
-                    <div class="row top30">
-                        <div class="col-md-050">
-                            @Html.TextAreaFor(model => Model.ListaOutrasContribuicoesViewModel[i].Contribuicao, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                        <div class="col-md-050">
-                            @Html.TextAreaFor(model => Model.ListaOutrasContribuicoesViewModel[i].AvaliacaoGestor, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => Model.ListaOutrasContribuicoesViewModel[i].AvaliacaoGestor, string.Empty, new { @class = "text-danger" })
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <div class="row top30">
-                        <div class="col-md-100">
-                            @Html.TextAreaFor(model => Model.ListaOutrasContribuicoesViewModel[i].Contribuicao, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                    </div>
-                }
-            }
-            if (Model.AcessoGestor)
-            {
-                <hr />
-                <div class="row top20">
-                    <div class="col-md-095 col-md-offset-005 text-right">
-                        <input value="Salvar" class="btn btn-default" type="submit">
-                    </div>
+            <div class="row top30">
+                <div class="col-md-100">
+                    @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
+                    {
+                        @Html.TextAreaFor(model => Model.ListaOutrasContribuicoesViewModel[i].Contribuicao, new { @class = "form-control", @readonly = "readonly" })
+                    }
+                    else
+                    {
+                        @Html.TextAreaFor(model => Model.ListaOutrasContribuicoesViewModel[i].Contribuicao, new { @class = "form-control" })
+                    }
                 </div>
-            }
+            </div>
+            <div class="row top20">
+                <div class="col-md-095 col-md-offset-005 text-right">
+                    @Html.ActionLink("Excluir", "DeletarAvaliacaoColaboradorOutrasContribuicoes", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, contribuicaoSelecionadaID = Model.ListaOutrasContribuicoesViewModel[i].ID }, new { @class = "btn btn-default" })
+                </div>
+            </div>
+        }
+
+        if (Model.IncluirContribuicao)
+        {
+            <div class="row top30">
+                <div class="col-md-100">
+                    @Html.TextAreaFor(model => model.OutrasContribuicoesCadastro.Contribuicao, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.OutrasContribuicoesCadastro.Contribuicao, string.Empty, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row top20">
+                <div class="col-md-095 col-md-offset-005 text-right">
+                    @Html.ActionLink("Cancelar", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID }, new { @class = "btn btn-default" })
+                    <input type="submit" value="Salvar" class="btn btn-default" />
+                </div>
+            </div>
         }
         else
         {
-                <hr />
-                <div class="row">
-                    <div class="col-md-050">
-                        <label>Outras Contribuições</label>
+            if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao))
+            {
+                <div class="row top20">
+                    <div class="col-md-095 col-md-offset-005 text-right">
+                        @Html.ActionLink("Incluir outra contribuição", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID, incluirContribuicao = true }, new { @class = "btn btn-default" })
                     </div>
                 </div>
-
-                for (int i = 0; i < Model.ListaOutrasContribuicoesViewModel.Count; i++)
-                {
-                    @Html.HiddenFor(model => Model.ListaOutrasContribuicoesViewModel[i].ID)
-
-                    <div class="row top30">
-                        <div class="col-md-100">
-                            @Html.TextAreaFor(model => Model.ListaOutrasContribuicoesViewModel[i].Contribuicao, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                        @if (Model.IncluirContribuicao)
-                        {
-                            <div class="col-md-100">
-                                @if (Model.ListaAvaliacaoGestorOutrasContribuicoes.Count > 0)
-                                {
-                                    @Html.TextAreaFor(model => Model.ListaOutrasContribuicoesViewModel[i].AvaliacaoGestor, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => Model.ListaOutrasContribuicoesViewModel[i].AvaliacaoGestor, string.Empty, new { @class = "text-danger" })
-                                }
-                            </div>
-                        }
-                    </div>
-                }
+            }
         }
-        if (!Model.IncluirContribuicao && !Model.IncluirMeta)
+
+        if (!Model.IncluirContribuicao && !Model.IncluirMeta && Model.ProximaEtapa)
         {
             <hr />
             <div class="row top20">
@@ -335,25 +259,26 @@
             }
             else
             {
-                    <div class="row top30">
-                        <div class="col-md-100">
-                            @Html.TextAreaFor(model => model.OutrasContribuicoesCadastro.Contribuicao, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.OutrasContribuicoesCadastro.Contribuicao, string.Empty, new { @class = "text-danger" })
-                        </div>
+                <div class="row top30">
+                    <div class="col-md-100">
+                        @Html.TextAreaFor(model => model.OutrasContribuicoesCadastro.Contribuicao, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.OutrasContribuicoesCadastro.Contribuicao, string.Empty, new { @class = "text-danger" })
                     </div>
-                    <div class="row top20">
-                        <div class="col-md-095 col-md-offset-005 text-right">
-                            @Html.ActionLink("Cancelar", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID }, new { @class = "btn btn-default" })
-                            <input type="submit" value="Salvar" class="btn btn-default" />
-                        </div>
+                </div>
+                <div class="row top20">
+                    <div class="col-md-095 col-md-offset-005 text-right">
+                        @Html.ActionLink("Cancelar", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID }, new { @class = "btn btn-default" })
+                        <input type="submit" value="Salvar" class="btn btn-default" />
                     </div>
-                }
+                </div>
             }
+        }
 
         if (!Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
             && !Model.AcessoGestor
             && !Model.IncluirMeta
-            && !Model.IncluirContribuicao)
+            && !Model.IncluirContribuicao
+            && Model.ProximaEtapa)
         {
             <div class="row top20">
                 <div class="col-md-095 col-md-offset-005 text-right">

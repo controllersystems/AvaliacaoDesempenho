@@ -13,6 +13,15 @@ namespace AvaliacaoDesempenho.Dominio.DAL
             }
         }
 
+        public Usuario Obter(int usuarioRubi, int empresaRubi)
+        {
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                return db.Usuario.Where(u => u.UsuarioRubiID == usuarioRubi
+                                        && u.CodigoEmpresaRubiUD == empresaRubi).FirstOrDefault();
+            }
+        }
+
         public Usuario Obter(string login)
         {
             using (var db = new AvaliacaoDesempenhoContextEntities())

@@ -10,6 +10,7 @@ using AvaliacaoDesempenho.Rubi.Integracoes;
 using AvaliacaoDesempenho.Util.Mapeamentos;
 using AvaliacaoDesempenho.Util.Mapeamentos.CriacaoMapeamento;
 using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Web.Mvc;
 using PagedList;
@@ -229,6 +230,65 @@ namespace AvaliacaoDesempenho.Controllers
                     }
 
                     associacaoCargoCompetenciaDAO.PersistirColecao(associacoesCargoCompetencia);
+
+                    #region <<<<< Criar as avaliações dos cargos que sofreram alterações. >>>>>
+                    foreach (var item in associacoesCargoCompetencia)
+                    {
+                        if (item.AreaCompetenciaID.HasValue && item.CargoCompetenciaID.HasValue && item.SetorCompetenciaID.HasValue)
+                        {
+                            //Pega todos os usuarios do cargo, area e setor
+                            var usuariosRubi = new IntegracaoRubi().ListarUSU_V034FAD(item.CargoRubiID, item.AreaRubiID, item.SetorRubiID.Value);
+
+                            if (usuariosRubi != null)
+                            {
+                                foreach (var usuarioRubi in usuariosRubi)
+                                {
+                                    //Para cada usuario do rubi pegar seu respectivo usuario no competencias
+                                    var usuarioCompetencia = new UsuarioDAO().Obter(usuarioRubi.NUMCAD, usuarioRubi.NUMEMP);
+
+                                    if (usuarioCompetencia != null)
+                                    {
+                                        //Para cada usuario no competencia verificar se existe uma avaliação criada dentro desse ciclo
+                                        var avaliacaoColaborador = new AvaliacaoColaboradorDAO().Obter(model.CicloAvaliacaoSelecionadoID.Value, usuarioCompetencia.ID);
+
+                                        if (avaliacaoColaborador == null)
+                                        {
+                                            if (ciclo.SituacaoCicloAvaliacao_ID.Value < 5)
+                                            {
+                                                AvaliacaoColaborador avaliacao = new AvaliacaoColaborador();
+
+                                                AvaliacaoColaboradorDAO avaliacaoColaboradorDAO = new AvaliacaoColaboradorDAO();
+
+                                                avaliacao.DataCriacao = DateTime.Today;
+                                                avaliacao.CicloAvaliacao_ID = model.CicloAvaliacaoSelecionadoID.Value;
+                                                avaliacao.Colaborador_ID = usuarioCompetencia.ID;
+                                                avaliacao.GestorRubiID = usuarioCompetencia.GestorRubiID;
+                                                if (ciclo.SituacaoCicloAvaliacao_ID.Value == 1 || ciclo.SituacaoCicloAvaliacao_ID.Value == 2)
+                                                {
+                                                    avaliacao.StatusAvaliacaoColaborador_ID = ciclo.SituacaoCicloAvaliacao_ID.Value;
+                                                }
+                                                else if (ciclo.SituacaoCicloAvaliacao_ID.Value == 3)
+                                                {
+                                                    avaliacao.StatusAvaliacaoColaborador_ID = (int)Enumeradores.StatusAvaliacaoColaborador.ObjetivosMetasDefinidos;
+                                                }
+                                                else if (ciclo.SituacaoCicloAvaliacao_ID.Value == 4)
+                                                {
+                                                    avaliacao.StatusAvaliacaoColaborador_ID = (int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao;
+                                                }
+
+                                                avaliacao.CargoRubiID = item.CargoRubiID;
+                                                avaliacao.AreaRubiID = item.AreaRubiID;
+                                                avaliacao.SetorRubiID = item.SetorRubiID;
+
+                                                avaliacaoColaboradorDAO.Incluir(avaliacao);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    #endregion
                 }
             }
 
