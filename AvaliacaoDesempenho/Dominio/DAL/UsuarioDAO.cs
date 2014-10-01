@@ -59,11 +59,12 @@ namespace AvaliacaoDesempenho.Dominio.DAL
             }
         }
 
-        public Usuario Gestor(int gestorRubiId)
+        public bool IsGestor(int colaboradorId, int gestorRubiId)
         {
             using (var db = new AvaliacaoDesempenhoContextEntities())
             {
-                return db.Usuario.Where(x => x.GestorRubiID == gestorRubiId).FirstOrDefault();
+                return db.Usuario.Where(x => x.ID == colaboradorId
+                                        && x.GestorRubiID == gestorRubiId).Any();
             }
         }
     }

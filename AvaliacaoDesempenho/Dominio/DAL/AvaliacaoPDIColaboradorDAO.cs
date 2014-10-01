@@ -60,5 +60,23 @@ namespace AvaliacaoDesempenho.Dominio.DAL
 
             return resultado;
         }
+
+        public List<AvaliacaoPDIColaborador> Listar(int cicloAvaliacaoID)
+        {
+            List<AvaliacaoPDIColaborador> resultado = null;
+
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                var query = db.AvaliacaoPDIColaborador
+                                    .Include("StatusPDI")
+                                    .Include("Usuario")
+                                    .Where(p => p.CicloAvaliacao_ID == cicloAvaliacaoID);
+
+                if (query.Any())
+                    resultado = query.ToList();
+            }
+
+            return resultado;
+        }
     }
 }

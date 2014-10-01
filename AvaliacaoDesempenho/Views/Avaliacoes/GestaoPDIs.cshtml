@@ -20,7 +20,7 @@
     </div>
     <div class="col-md-075">
         <label class="control-label">
-            Ciclo 1
+            @Model.CicloAvaliacaoDescricao
         </label>
     </div>
 </div>
@@ -118,19 +118,19 @@
                     {
                         <tr>
                             <td>
-                                @*Html.DisplayFor(modelItem => item.Usuario.Gestor.Nome)*@
+                                @*@Html.DisplayFor(modelItem => item.Usuario.Gestor.Nome)*@
                             </td>
                             <td>
-                                @*Html.DisplayFor(modelItem => item.Usuario.Area.Descricao)*@
+                                @*@Html.DisplayFor(modelItem => item.Usuario.Area.Descricao)*@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Usuario.Nome)
                             </td>
                             <td>
-                                @*Html.DisplayFor(modelItem => item.Usuario.Cargo.Nome)*@
+                                @*@Html.DisplayFor(modelItem => item.Usuario.Cargo.Nome)*@
                             </td>
                             <td>
-                                @*Html.DisplayFor(modelItem => item.StatusPDI.Descrição)*@
+                                @Html.DisplayFor(modelItem => item.StatusPDI.Nome)
                             </td>
                             <td></td>
                         </tr>

@@ -1,16 +1,27 @@
 ﻿using AvaliacaoDesempenho.Models.CiclosAvaliacao;
+using System;
 using System.Web.Mvc;
 
 namespace AvaliacaoDesempenho.Dominio.Validators
 {
     public class ValidacaoCicloAvaliacao : BaseValidator
     {
-        public JsonResult ValidarDataVigenciaInicialMenorFinal(string teste)
+        public ActionResult ValidarDataVigenciaInicialMenorFinal(ManterCicloAvaliacaoViewModel model)
         {
-            //bool ehValido = ValidarDataInicialMenorFinal(model.CicloAvaliacao.DataInicioVigencia,
-            //                                             model.CicloAvaliacao.DataFimVigencia);
+            bool ehValido = false;
 
-            return Json(true, JsonRequestBehavior.AllowGet);
+            if (string.IsNullOrEmpty(model.DataInicioVigencia) || string.IsNullOrEmpty(model.DataFimVigencia))
+            {
+                ehValido = false;
+            }
+            else
+            {
+
+                ehValido = (Convert.ToDateTime(model.DataInicioVigencia) <= Convert.ToDateTime(model.DataFimVigencia));
+            }
+             
+
+            return Json(ehValido, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult ValidarDataObjetivosMetasInicialMenorFinal(ManterCicloAvaliacaoViewModel model)

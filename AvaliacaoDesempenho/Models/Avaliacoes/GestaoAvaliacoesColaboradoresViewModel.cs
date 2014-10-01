@@ -27,6 +27,15 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         [Display(Name = "Status")]
         public List<SelectListItem> StatusAvaliacaoColaborador { get; set; }
 
+        [Display(Name = "Status")]
+        public List<SelectListItem> StatusAprovacaoAvaliacaoColaborador { get; set; }
+
+        [Display(Name = "Status")]
+        public List<SelectListItem> StatusObjetivoDefinidoAvaliacaoColaborador { get; set; }
+
+        [Display(Name = "Status")]
+        public List<SelectListItem> StatusEmAvaliacaoGestorAvaliacaoColaborador { get; set; }
+
         public List<ItemListaGestaoAvaliacoesViewModel> AvaliacoesColaboradores { get; set; }
     }
 

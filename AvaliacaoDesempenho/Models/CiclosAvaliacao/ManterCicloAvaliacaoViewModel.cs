@@ -26,7 +26,7 @@ namespace AvaliacaoDesempenho.Models.CiclosAvaliacao
         [RegularExpression(ExpressoesRegulares.DATA, ErrorMessage = "A {0} é inválida.")]
         [Required(ErrorMessage = "A {0} é obrigatória.")]
         //[Remote("ValidarDataVigenciaInicialMenorFinal", "ValidacaoCicloAvaliacao",
-        //    //AdditionalFields = "DataFimVigencia",
+        //        AdditionalFields = "DataFimVigencia",
         //        ErrorMessage = "A {0} deve ser menor que a Data de Fim da Vigência.")]
         public string DataInicioVigencia { get; set; }
 

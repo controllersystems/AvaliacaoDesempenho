@@ -226,7 +226,7 @@ else
                                      new
                                      {
                                          desenvolvimentoCompetenciaID = Model.ListaDesenvolvimentoCompetenciaViewModel[i].ID,
-                                         avaliacaoPDISelecionadoID = Model.AvaliacaoPDIColaboradorID
+                                         cicloAvaliacaoID = Model.CicloAvaliacaoSelecionadoID
                                      },
                                      new { @class = "btn btn-default" })
                     </div>
@@ -270,6 +270,17 @@ else
                     </div>
                 </div>
             }
+            <div class="row top30">
+                <div class="col-md-100">
+                    @Html.LabelFor(model => Model.ComentariosColaborador, new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-100">
+                    @Html.TextAreaFor(model => Model.ComentariosColaborador, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => Model.ComentariosColaborador, string.Empty, new { @class = "text-danger" })
+                </div>
+            </div>
             if (!Model.Aprovada && Model.ComentariosGestor != null)
             {
                 <div class="row top30">
@@ -326,6 +337,17 @@ else
                 <div class="col-md-100">
                     @Html.TextAreaFor(model => Model.DesenvolvimentoCompetenciaCadastro.RecursoSuporte, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => Model.DesenvolvimentoCompetenciaCadastro.RecursoSuporte, string.Empty, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row top30">
+                <div class="col-md-100">
+                    @Html.LabelFor(model => Model.ComentariosColaborador, new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-100">
+                    @Html.TextAreaFor(model => Model.ComentariosColaborador, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => Model.ComentariosColaborador, string.Empty, new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row top20">

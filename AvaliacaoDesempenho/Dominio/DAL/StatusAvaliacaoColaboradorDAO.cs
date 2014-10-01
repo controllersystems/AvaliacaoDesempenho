@@ -20,5 +20,14 @@ namespace AvaliacaoDesempenho.Dominio.DAL
                 return db.StatusAvaliacaoColaborador.ToList();
             }
         }
+
+        public List<StatusAvaliacaoColaborador> ListarIN(int situacao1, int situacao2)
+        {
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                return db.StatusAvaliacaoColaborador.Where(x => x.ID == situacao1 ||
+                                                                x.ID == situacao2).ToList();
+            }
+        }
     }
 }

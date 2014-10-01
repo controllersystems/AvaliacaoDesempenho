@@ -6,6 +6,10 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 {
     public class GestaoPDIsViewModel : PesquisaAvaliacoesViewModel
     {
+        public int CicloAvaliacaoSelecionadoID { get; set; }
+
+        public string CicloAvaliacaoDescricao { get; set; }
+
         [Display(Name = "Status")]
         public List<StatusPDI> StatusPDI { get; set; }
 
