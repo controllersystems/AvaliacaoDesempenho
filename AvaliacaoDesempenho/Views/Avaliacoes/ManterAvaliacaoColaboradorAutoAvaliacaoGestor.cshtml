@@ -190,11 +190,25 @@
                 }
                 @Html.HiddenFor(model => Model.ListaOutrasContribuicoesGestorViewModel[i].ID)
 
-                <div class="row top30">
-                    <div class="col-md-100">
-                        @Html.TextAreaFor(model => Model.ListaOutrasContribuicoesGestorViewModel[i].Contribuicao, new { @class = "form-control", @readonly = "readonly" })
+                if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH))
+                {
+                    <div class="row top30">
+                        <div class="col-md-050">
+                            @Html.TextAreaFor(model => Model.ListaOutrasContribuicoesGestorViewModel[i].Contribuicao, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-050">
+                            @Html.TextAreaFor(model => Model.ListaOutrasContribuicoesGestorViewModel[i].AvaliacaoGestor, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <div class="row top30">
+                        <div class="col-md-100">
+                            @Html.TextAreaFor(model => Model.ListaOutrasContribuicoesGestorViewModel[i].Contribuicao, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                }
             }
         }
         if (Model.ProximaEtapa)
@@ -202,7 +216,7 @@
             <hr />
             <div class="row top20">
                 <div class="col-md-095 col-md-offset-005 text-right">
-                    @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorCompetencias", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorCompetenciasGestor", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
                 </div>
             </div>
         }

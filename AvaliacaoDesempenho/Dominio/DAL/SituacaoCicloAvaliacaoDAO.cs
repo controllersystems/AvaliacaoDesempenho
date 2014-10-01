@@ -12,5 +12,14 @@ namespace AvaliacaoDesempenho.Dominio.DAL
                 return db.SituacaoCicloAvaliacao.ToList();
             }
         }
+
+        public List<SituacaoCicloAvaliacao> Listar(int de, int ate)
+        {
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                return db.SituacaoCicloAvaliacao.Where(x => x.ID >= de
+                                                       && x.ID <= ate).ToList();
+            }
+        }
     }
 }

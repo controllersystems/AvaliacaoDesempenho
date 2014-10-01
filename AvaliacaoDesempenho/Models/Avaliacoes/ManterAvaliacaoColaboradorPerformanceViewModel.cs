@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace AvaliacaoDesempenho.Models.Avaliacoes
 {
@@ -39,7 +40,10 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public string Competencia { get; set; }
 
+        [Display(Name = "Avaliação da performance")]
+        [DataType(DataType.Text, ErrorMessage = "A {0} é inválida.")]
+        [StringLength(600, ErrorMessage = "A {0} deve ter o tamanho máximo de 600 caracteres.")]
+        [Required(ErrorMessage = "A {0} é obrigatória.")]
         public string AvaliacaoPerformanceGeral { get; set; }
     }
-
 }

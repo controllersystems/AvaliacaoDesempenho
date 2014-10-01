@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace AvaliacaoDesempenho.Models.Avaliacoes
 {
@@ -40,20 +41,17 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
     {
         public int? ID { get; set; }
 
+        [Display(Name = "Recomendação de Rating")]
+        [DataType(DataType.Text, ErrorMessage = "A {0} é inválida.")]
+        [Required(ErrorMessage = "A {0} é obrigatória.")]
         public int RecomendacaoDeRating { get; set; }
 
         public bool RecomendacaoDePromocao { get; set; }
 
+        [Display(Name = "Justificativa")]
+        [DataType(DataType.Text, ErrorMessage = "A {0} é inválida.")]
+        [StringLength(600, ErrorMessage = "A {0} deve ter o tamanho máximo de 600 caracteres.")]
+        [Required(ErrorMessage = "A {0} é obrigatória.")]
         public string Justificativa { get; set; }
-
-        public string JustificativaDaJustificativa { get; set; }
-
-        public int? RatingFinalPosCalibragem { get; set; }
-
-        public string JustificativaRatingFinalPosCalibragem { get; set; }
-
-        public bool? IndicacaoPromocaoPosCalibragem { get; set; }
-
-        public string JustificativaIndicacaoPromocaoPosCalibragem { get; set; }
     }
 }

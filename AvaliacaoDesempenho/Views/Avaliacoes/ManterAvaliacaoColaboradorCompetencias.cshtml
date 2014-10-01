@@ -25,33 +25,11 @@
     @Html.HiddenFor(model => Model.UsuarioRubiID)
     @Html.HiddenFor(model => Model.ColaboradorID)
 
-    if (Model.ListaCompetenciasCorporativas != null)
+    if (Model.ListaCompetenciasCorporativas != null && Model.ListaCompetenciasCorporativas.Any())
     {
-    <div class="row top20">
-        <div class="col-md-100">
-            <table class="table">
-                @if (Model.AcessoGestor)
-                {
-                    <tr>
-                        <th>
-                            Competências Corporativas
-                        </th>
-                        <th>
-                            Colaborador
-                        </th>
-                        <th>
-                            Nível Requerido
-                        </th>
-                        <th>
-                            Gestor
-                        </th>
-                        <th>
-                            Comentário do Gestor
-                        </th>
-                    </tr>
-                }
-                else
-                {
+        <div class="row top20">
+            <div class="col-md-100">
+                <table class="table">
                     <tr>
                         <th>
                             Competências Corporativas
@@ -60,59 +38,7 @@
                             Colaborador
                         </th>
                     </tr>
-                }
-                @for (int i = 0; i < Model.ListaCompetenciasCorporativas.Count; i++)
-                {
-                    if (Model.AcessoGestor)
-                    {
-                        <tr>
-                            <td class="col-md-6">
-                                @Html.HiddenFor(model => Model.ListaCompetenciasCorporativas[i].ID)
-                                @Html.HiddenFor(model => Model.ListaCompetenciasCorporativas[i].CompentenciaID)
-                                @Html.TextAreaFor(model => Model.ListaCompetenciasCorporativas[i].Competencia, new { @class = "form-control", @readonly = "readonly" })
-
-                            </td>
-                            <td class="col-md-1">
-                                @Html.TextBoxFor(model => Model.ListaCompetenciasCorporativas[i].NivelColaborador, new { @class = "form-control", @readonly = "readonly" })
-                            </td>
-                            <td class="col-md-1">
-                                @Html.TextBoxFor(model => Model.ListaCompetenciasCorporativas[i].NivelRequerido, new { @class = "form-control", @readonly = "readonly" })
-                            </td>
-                            <td class="col-md-1">
-                                @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
-                                {
-                                    @Html.DropDownListFor(model => Model.ListaCompetenciasCorporativas[i].NivelGestor,
-                                      new SelectList(Model.ListaNivelAvaliacao,
-                                                     "Value",
-                                                     "Text",
-                                                     Model.ListaCompetenciasCorporativas[i].NivelGestor),
-                                                     " ",
-                                                     new { @class = "form-control" })
-                                }
-                                else
-                                {
-                                    @Html.DropDownListFor(model => Model.ListaCompetenciasCorporativas[i].NivelGestor,
-                                      new SelectList(Model.ListaNivelAvaliacao,
-                                                     "Value",
-                                                     "Text",
-                                                     Model.ListaCompetenciasCorporativas[i].NivelGestor),
-                                                     " ",
-                                                          new { @class = "form-control", @readonly = "readonly" })
-                                }
-                            </td>
-                            <td class="col-md-3">
-                                @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
-                                {
-                                    @Html.TextAreaFor(model => Model.ListaCompetenciasCorporativas[i].ComentarioGestor, new { @class = "form-control" })
-                                }
-                                else
-                                {
-                                    @Html.TextAreaFor(model => Model.ListaCompetenciasCorporativas[i].ComentarioGestor, new { @class = "form-control", @readonly = "readonly" })
-                                }
-                            </td>
-                        </tr>
-                    }
-                    else
+                    @for (int i = 0; i < Model.ListaCompetenciasCorporativas.Count; i++)
                     {
                         <tr>
                             <td class="col-md-11">
@@ -122,134 +48,61 @@
                             </td>
                             <td class="col-md-1">
                                 @Html.DropDownListFor(model => Model.ListaCompetenciasCorporativas[i].NivelColaborador,
-                                      new SelectList(Model.ListaNivelAvaliacao,
-                                                     "Value",
-                                                     "Text",
-                                                     Model.ListaCompetenciasCorporativas[i].NivelColaborador),
-                                                     " ",
-                                                     new { @class = "form-control" })
+                                       new SelectList(Model.ListaNivelAvaliacao,
+                                                      "Value",
+                                                      "Text",
+                                                      Model.ListaCompetenciasCorporativas[i].NivelColaborador),
+                                                      " ",
+                                                      new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => Model.ListaCompetenciasCorporativas[i].NivelColaborador, string.Empty, new { @class = "text-danger" })
                             </td>
                         </tr>
                     }
-                }
                 </table>
             </div>
         </div>
     }
 
-    if (Model.ListaCompetenciasLideranca != null)
+    if (Model.ListaCompetenciasLideranca != null && Model.ListaCompetenciasLideranca.Any())
     {
         <div class="row top20">
             <div class="col-md-100">
                 <table class="table">
-                    @if (Model.AcessoGestor)
-                    {
-                        <tr>
-                            <th>
-                                Competências de Liderança
-                            </th>
-                            <th>
-                                &nbsp;
-                            </th>
-                            <th>
-                                &nbsp;
-                            </th>
-                            <th>
-                                &nbsp;
-                            </th>
-                            <th>
-                                &nbsp;
-                            </th>
-                        </tr>
-                    }
-                    else
-                    {
-                        <tr>
-                            <th>
-                                Competências de Liderança
-                            </th>
-                            <th>
-                                &nbsp;
-                            </th>
-                        </tr>
-                    }
+                    <tr>
+                        <th>
+                            Competências de Liderança
+                        </th>
+                        <th>
+                            &nbsp;
+                        </th>
+                    </tr>
 
                     @for (int i = 0; i < Model.ListaCompetenciasLideranca.Count; i++)
                     {
-                        if (Model.AcessoGestor)
-                        {
-                            <tr>
-                                <td class="col-md-6">
-                                    @Html.HiddenFor(model => Model.ListaCompetenciasLideranca[i].ID)
-                                    @Html.HiddenFor(model => Model.ListaCompetenciasLideranca[i].CompentenciaID)
-                                    @Html.TextAreaFor(model => Model.ListaCompetenciasLideranca[i].Competencia, new { @class = "form-control", @readonly = "readonly" })
-                                </td>
-                                <td class="col-md-1">
-                                    @Html.TextBoxFor(model => Model.ListaCompetenciasLideranca[i].NivelColaborador, new { @class = "form-control", @readonly = "readonly" })
-                                </td>
-                                <td class="col-md-1">
-                                    @Html.TextBoxFor(model => Model.ListaCompetenciasLideranca[i].NivelRequerido, new { @class = "form-control", @readonly = "readonly" })
-                                </td>
-                                <td class="col-md-1">
-                                    @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
-                                    {
-                                        @Html.DropDownListFor(model => Model.ListaCompetenciasLideranca[i].NivelGestor,
-                                          new SelectList(Model.ListaNivelAvaliacao,
-                                                         "Value",
-                                                         "Text",
-                                                         Model.ListaCompetenciasLideranca[i].NivelGestor),
-                                                         " ",
-                                                         new { @class = "form-control" })
-                                    }
-                                    else
-                                    {
-                                        @Html.DropDownListFor(model => Model.ListaCompetenciasLideranca[i].NivelGestor,
-                                          new SelectList(Model.ListaNivelAvaliacao,
-                                                         "Value",
-                                                         "Text",
-                                                         Model.ListaCompetenciasLideranca[i].NivelGestor),
-                                                         " ",
-                                                              new { @class = "form-control", @readonly = "readonly" })
-                                    }
-                                </td>
-                                <td class="col-md-3">
-                                    @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
-                                    {
-                                        @Html.TextAreaFor(model => Model.ListaCompetenciasLideranca[i].ComentarioGestor, new { @class = "form-control" })
-                                    }
-                                    else
-                                    {
-                                        @Html.TextAreaFor(model => Model.ListaCompetenciasLideranca[i].ComentarioGestor, new { @class = "form-control", @readonly = "readonly" })
-                                    }
-                                </td>
-                            </tr>
-                        }
-                        else
-                        {
-                            <tr>
-                                <td class="col-md-11">
-                                    @Html.HiddenFor(model => Model.ListaCompetenciasLideranca[i].ID)
-                                    @Html.HiddenFor(model => Model.ListaCompetenciasLideranca[i].CompentenciaID)
-                                    @Html.TextAreaFor(model => Model.ListaCompetenciasLideranca[i].Competencia, new { @class = "form-control", @readonly = "readonly" })
-                                </td>
-                                <td class="col-md-1">
-                                    @Html.DropDownListFor(model => Model.ListaCompetenciasLideranca[i].NivelColaborador,
-                                          new SelectList(Model.ListaNivelAvaliacao,
-                                                         "Value",
-                                                         "Text",
-                                                         Model.ListaCompetenciasLideranca[i].NivelColaborador),
-                                                         " ",
-                                                         new { @class = "form-control" })
-                                </td>
-                            </tr>
-                        }
+                        <tr>
+                            <td class="col-md-11">
+                                @Html.HiddenFor(model => Model.ListaCompetenciasLideranca[i].ID)
+                                @Html.HiddenFor(model => Model.ListaCompetenciasLideranca[i].CompentenciaID)
+                                @Html.TextAreaFor(model => Model.ListaCompetenciasLideranca[i].Competencia, new { @class = "form-control", @readonly = "readonly" })
+                            </td>
+                            <td class="col-md-1">
+                                @Html.DropDownListFor(model => Model.ListaCompetenciasLideranca[i].NivelColaborador,
+                                       new SelectList(Model.ListaNivelAvaliacao,
+                                                      "Value",
+                                                      "Text",
+                                                      Model.ListaCompetenciasLideranca[i].NivelColaborador),
+                                                      " ",
+                                                      new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => Model.ListaCompetenciasLideranca[i].NivelColaborador, string.Empty, new { @class = "text-danger" })
+                            </td>
+                       </tr>
                     }
                 </table>
             </div>
         </div>
     }
 
-    if (Model.ListaCompetenciasFuncionais != null)
+    if (Model.ListaCompetenciasFuncionais != null && Model.ListaCompetenciasFuncionais.Any())
     {
         <div class="row top20">
             <div class="col-md-100">
@@ -261,102 +114,41 @@
                         <th>
                             &nbsp;
                         </th>
-
                     </tr>
                     @for (int i = 0; i < Model.ListaCompetenciasFuncionais.Count; i++)
                     {
-                        if (Model.AcessoGestor)
-                        {
-                            <tr>
-                                <td class="col-md-6">
-                                    @Html.HiddenFor(model => Model.ListaCompetenciasFuncionais[i].ID)
-                                    @Html.HiddenFor(model => Model.ListaCompetenciasFuncionais[i].CompentenciaID)
-                                    @Html.TextAreaFor(model => Model.ListaCompetenciasFuncionais[i].Competencia, new { @class = "form-control", @readonly = "readonly" })
-                                </td>
-                                <td class="col-md-1">
-                                    @Html.TextBoxFor(model => Model.ListaCompetenciasFuncionais[i].NivelColaborador, new { @class = "form-control", @readonly = "readonly" })
-                                </td>
-                                <td class="col-md-1">
-                                    @Html.TextBoxFor(model => Model.ListaCompetenciasFuncionais[i].NivelRequerido, new { @class = "form-control", @readonly = "readonly" })
-                                </td>
-                                <td class="col-md-1">
-                                    @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
-                                    {
-                                        @Html.DropDownListFor(model => Model.ListaCompetenciasFuncionais[i].NivelGestor,
+                        <tr>
+                            <td class="col-md-11">
+                                @Html.HiddenFor(model => Model.ListaCompetenciasFuncionais[i].ID)
+                                @Html.HiddenFor(model => Model.ListaCompetenciasFuncionais[i].CompentenciaID)
+                                @Html.TextAreaFor(model => Model.ListaCompetenciasFuncionais[i].Competencia, new { @class = "form-control", @readonly = "readonly" })
+                            </td>
+                            <td class="col-md-1">
+                                @Html.DropDownListFor(model => Model.ListaCompetenciasFuncionais[i].NivelColaborador,
                                        new SelectList(Model.ListaNivelAvaliacao,
                                                       "Value",
                                                       "Text",
-                                                   Model.ListaCompetenciasFuncionais[i].NivelGestor),
+                                                      Model.ListaCompetenciasFuncionais[i].NivelColaborador),
                                                       " ",
                                                       new { @class = "form-control" })
-                                    }
-                                    else
-                                    {
-                                        @Html.DropDownListFor(model => Model.ListaCompetenciasFuncionais[i].NivelGestor,
-                                       new SelectList(Model.ListaNivelAvaliacao,
-                                                      "Value",
-                                                      "Text",
-                                                   Model.ListaCompetenciasFuncionais[i].NivelGestor),
-                                                      " ",
-                                                           new { @class = "form-control", @readonly = "readonly" })
-                                    }
-                                </td>
-                                <td class="col-md-3">
-                                    @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
-                                    {
-                                        @Html.TextAreaFor(model => Model.ListaCompetenciasFuncionais[i].ComentarioGestor, new { @class = "form-control" })
-                                    }
-                                    else
-                                    {
-                                        @Html.TextAreaFor(model => Model.ListaCompetenciasFuncionais[i].ComentarioGestor, new { @class = "form-control", @readonly = "readonly" })
-                                    }
-                                </td>
-                            </tr>
-                        }
-                        else
-                        {
-                            <tr>
-                                <td class="col-md-11">
-                                    @Html.HiddenFor(model => Model.ListaCompetenciasFuncionais[i].ID)
-                                    @Html.HiddenFor(model => Model.ListaCompetenciasFuncionais[i].CompentenciaID)
-                                    @Html.TextAreaFor(model => Model.ListaCompetenciasFuncionais[i].Competencia, new { @class = "form-control", @readonly = "readonly" })
-                                </td>
-                                <td class="col-md-1">
-                                    @Html.DropDownListFor(model => Model.ListaCompetenciasFuncionais[i].NivelColaborador,
-                                       new SelectList(Model.ListaNivelAvaliacao,
-                                                      "Value",
-                                                      "Text",
-                                                   Model.ListaCompetenciasFuncionais[i].NivelColaborador),
-                                                      " ",
-                                                      new { @class = "form-control" })
-                                </td>
-                            </tr>
-                        }
+                                @Html.ValidationMessageFor(model => Model.ListaCompetenciasFuncionais[i].NivelColaborador, string.Empty, new { @class = "text-danger" })
+                            </td>
+                        </tr>
                     }
                 </table>
             </div>
         </div>
     }
 
-<div class="row top20">
-    <div class="col-md-095 col-md-offset-005 text-right">
-        @Html.ActionLink("Anterior", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID, etapaAutoAvaliacao = 1 }, new { @class = "btn btn-default" })
+    <div class="row top20">
+        <div class="col-md-095 col-md-offset-005 text-right">
+            @Html.ActionLink("Anterior", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID, etapaAutoAvaliacao = 1 }, new { @class = "btn btn-default" })
 
-        @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao)
-        {
-            <input type="submit" value="Salvar" class="btn btn-default" />
-            @Html.ActionLink("Submeter ao Gestor", "SubmeterAutoAvaliacaoColaboradorAvaliacaoGestor", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, avaliacaoColaboradorID = Model.AvaliacaoColaboradorID }, new { @class = "btn btn-default" })
-        }
-        @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores && Model.AcessoGestor)
-        {
-            <input type="submit" value="Salvar" class="btn btn-default" />
-            @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorPerformance", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID}, new { @class = "btn btn-default" })
-        }
-        @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH && Model.AcessoGestor)
-        {
-            @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorPerformance", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
-        }
+            @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao)
+            {
+                <input type="submit" value="Salvar" class="btn btn-default" />
+                @Html.ActionLink("Submeter ao Gestor", "SubmeterAutoAvaliacaoColaboradorAvaliacaoGestor", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, avaliacaoColaboradorID = Model.AvaliacaoColaboradorID }, new { @class = "btn btn-default" })
+            }
+        </div>
     </div>
-</div>
-    
 }

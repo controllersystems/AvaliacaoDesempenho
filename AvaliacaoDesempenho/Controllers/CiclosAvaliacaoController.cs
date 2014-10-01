@@ -55,13 +55,52 @@ namespace AvaliacaoDesempenho.Controllers
                     return HttpNotFound();
                 else
                     model.SituacaoCicloAvaliacaoSelecionadoID = cicloAvaliacao.SituacaoCicloAvaliacao_ID.Value;
+
+                //if (cicloAvaliacao != null)
+                //{
+                //    switch (cicloAvaliacao.SituacaoCicloAvaliacao_ID)
+                //    {
+                //        case 1:
+                //            {
+                //                model.SituacoesCicloAvaliacao = Mapper.Map<List<SituacaoCicloAvaliacao>,
+                //                     List<SelectListItem>>(new SituacaoCicloAvaliacaoDAO().Listar(1, 2));
+                //                break;
+                //            }
+                //        case 2:
+                //            {
+                //                model.SituacoesCicloAvaliacao = Mapper.Map<List<SituacaoCicloAvaliacao>,
+                //                     List<SelectListItem>>(new SituacaoCicloAvaliacaoDAO().Listar(1, 3));
+                //                break;
+                //            }
+                //        case 3:
+                //            {
+                //                model.SituacoesCicloAvaliacao = Mapper.Map<List<SituacaoCicloAvaliacao>,
+                //                     List<SelectListItem>>(new SituacaoCicloAvaliacaoDAO().Listar(1, 4));
+                //                break;
+                //            }
+                //        default:
+                //            {
+                //                model.SituacoesCicloAvaliacao = Mapper.Map<List<SituacaoCicloAvaliacao>,
+                //                     List<SelectListItem>>(new SituacaoCicloAvaliacaoDAO().Listar());
+                //                break;
+                //            }
+                //    }                    
+                //}
+                //else
+                //{
+                //    model.SituacoesCicloAvaliacao
+                //    = Mapper.Map<List<SituacaoCicloAvaliacao>,
+                //                 List<SelectListItem>>(new SituacaoCicloAvaliacaoDAO().Listar());
+                //}
             }
+            //else
+            //{
+                model.SituacoesCicloAvaliacao
+                    = Mapper.Map<List<SituacaoCicloAvaliacao>,
+                                 List<SelectListItem>>(new SituacaoCicloAvaliacaoDAO().Listar());
+            //}
 
             model.AcaoPagina = acaoPagina;
-
-            model.SituacoesCicloAvaliacao
-                = Mapper.Map<List<SituacaoCicloAvaliacao>,
-                             List<SelectListItem>>(new SituacaoCicloAvaliacaoDAO().Listar());
 
             return View(model);
         }

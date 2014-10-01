@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AvaliacaoDesempenho.Models.Avaliacoes
 {
-    public class ManterAvaliacaoColaboradorCompetenciasViewModel
+    public class ManterAvaliacaoColaboradorCompetenciasGestorViewModel
     {
         public int? ColaboradorID { get; set; }
 
@@ -20,13 +20,15 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public int StatusCicloAvaliacaoID { get; set; }
 
+        public bool ProximaEtapa { get; set; }
+
         public IEnumerable<SelectListItem> ListaNivelAvaliacao { get; set; }
 
-        public List<ItemListaCompetenciasColaborador> ListaCompetenciasCorporativas { get; set; }
+        public List<ItemListaCompetenciasColaboradorGestor> ListaCompetenciasCorporativas { get; set; }
 
-        public List<ItemListaCompetenciasColaborador> ListaCompetenciasLideranca { get; set; }
+        public List<ItemListaCompetenciasColaboradorGestor> ListaCompetenciasLideranca { get; set; }
 
-        public List<ItemListaCompetenciasColaborador> ListaCompetenciasFuncionais { get; set; }
+        public List<ItemListaCompetenciasColaboradorGestor> ListaCompetenciasFuncionais { get; set; }
 
         public bool AcessoGestor
         {
@@ -37,7 +39,7 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         }
     }
 
-    public class ItemListaCompetenciasColaborador
+    public class ItemListaCompetenciasColaboradorGestor
     {
         public int? ID { get; set; }
 
@@ -45,9 +47,19 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public string Competencia { get; set; }
 
-        [Display(Name = "Nível colaborador")]
+        public int NivelColaborador { get; set; }
+
+        public int NivelRequerido { get; set; }
+
+        [Display(Name = "Nível gestor")]
         [DataType(DataType.Text, ErrorMessage = "O {0} é inválido.")]
         [Required(ErrorMessage = "O {0} é obrigatório.")]
-        public int NivelColaborador { get; set; }
+        public int? NivelGestor { get; set; }
+
+        [Display(Name = "Comentário gestor")]
+        [DataType(DataType.Text, ErrorMessage = "O {0} é inválido.")]
+        [StringLength(600, ErrorMessage = "O {0} deve ter o tamanho máximo de 600 caracteres.")]
+        [Required(ErrorMessage = "O {0} é obrigatório.")]
+        public string ComentarioGestor { get; set; }
     }
 }

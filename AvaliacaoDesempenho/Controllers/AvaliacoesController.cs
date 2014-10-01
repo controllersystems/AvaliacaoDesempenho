@@ -27,6 +27,8 @@ namespace AvaliacaoDesempenho.Controllers
 
             model.CicloAvaliacaoSelecionadoID = id.Value;
 
+            model.CicloAvaliacaoDescricao = new CicloAvaliacaoDAO().Obter(id.Value).Descricao;
+
             return CarregarAvaliacoesColaboradoresPorCiclo(model);
         }
 
@@ -98,7 +100,8 @@ namespace AvaliacaoDesempenho.Controllers
                      Cargo = associacao.CargoRubi,
                      Area = associacao.AreaRubi,
                      StatusAvaliacaoColaboradorNome = avaliacao.av.StatusAvaliacaoColaborador.Nome,
-                     StatusAvaliacaoColaboradorID = avaliacao.av.StatusAvaliacaoColaborador_ID
+                     StatusAvaliacaoColaboradorID = avaliacao.av.StatusAvaliacaoColaborador_ID,
+                     ColaboradorID = avaliacao.av.Usuario.ID
                  }).ToList();
 
             model.StatusAvaliacaoColaborador
@@ -1297,13 +1300,6 @@ namespace AvaliacaoDesempenho.Controllers
                         itemListaAdd.NivelColaborador = (competenciasColaborador == null) ? 0 : ((competenciasColaborador.NivelColaborador.HasValue) ? competenciasColaborador.NivelColaborador.Value : 0);
                         itemListaAdd.Competencia = (string.IsNullOrEmpty(item.descricao_comp)) ? item.titulo_comp : item.descricao_comp;
                         itemListaAdd.CompentenciaID = item.id_comp;
-                        itemListaAdd.NivelRequerido = item.id_nivel_comp.Value;
-
-                        if (model.AcessoGestor)
-                        {
-                            itemListaAdd.NivelGestor = (competenciasColaborador == null) ? 0 : ((competenciasColaborador.NivelGestor == null) ? 0 : competenciasColaborador.NivelGestor.Value);
-                            itemListaAdd.ComentarioGestor = (competenciasColaborador == null) ? string.Empty : competenciasColaborador.ComentariosGestor;
-                        }
 
                         switch (item.id_tipo_comp)
                         {
@@ -1357,6 +1353,203 @@ namespace AvaliacaoDesempenho.Controllers
         [CriacaoMapeamento(typeof(DeObjetivoColaboradorParaObjetivoMetaResultadoAtingidoViewModel))]
         [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
         public ActionResult ManterAvaliacaoColaboradorCompetencias(ManterAvaliacaoColaboradorCompetenciasViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var identidade = new Identidade();
+
+                int usuarioID = identidade.UsuarioID;
+
+                model.UsuarioRubiID = identidade.UsuarioRubiID;
+
+                var avaliacaoColaborador =
+                    new AvaliacaoColaboradorDAO().Obter(model.CicloAvaliacaoSelecionadoID.Value, model.ColaboradorID.Value);
+
+                if (avaliacaoColaborador != null)
+                {
+                    model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+
+                    model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
+
+                    model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
+
+                    var competenciasCorporativas = new List<CompetenciaColaborador>();
+
+                    if (model.ListaCompetenciasCorporativas != null)
+                    {
+                        foreach (var item in model.ListaCompetenciasCorporativas)
+                        {
+                            competenciasCorporativas.Add(new CompetenciaColaborador
+                                {
+                                    ID = item.ID.Value,
+                                    CompetenciaID = item.CompentenciaID,
+                                    AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value,
+                                    NivelColaborador = item.NivelColaborador
+                                });
+                        }
+
+                        new CompetenciaColaboradorDAO().PersistirColecao(competenciasCorporativas);
+                    }
+
+                    competenciasCorporativas = new List<CompetenciaColaborador>();
+
+                    if (model.ListaCompetenciasFuncionais != null)
+                    {
+                        foreach (var item in model.ListaCompetenciasFuncionais)
+                        {
+                            competenciasCorporativas.Add(new CompetenciaColaborador
+                                {
+                                    ID = item.ID.Value,
+                                    CompetenciaID = item.CompentenciaID,
+                                    AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value,
+                                    NivelColaborador = item.NivelColaborador
+                                });
+                        }
+
+                        new CompetenciaColaboradorDAO().PersistirColecao(competenciasCorporativas);
+                    }
+
+                    competenciasCorporativas = new List<CompetenciaColaborador>();
+
+                    if (model.ListaCompetenciasLideranca != null)
+                    {
+                        foreach (var item in model.ListaCompetenciasLideranca)
+                        {
+                            competenciasCorporativas.Add(new CompetenciaColaborador
+                                {
+                                    ID = item.ID.Value,
+                                    CompetenciaID = item.CompentenciaID,
+                                    AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value,
+                                    NivelColaborador = item.NivelColaborador
+                                });
+                        }
+
+                        new CompetenciaColaboradorDAO().PersistirColecao(competenciasCorporativas);
+                    }
+                }
+                else
+                    model.GestorRubiID = identidade.GestorRubiID;
+
+                model.CicloAvaliacaoSelecionadoID = model.CicloAvaliacaoSelecionadoID.Value;
+
+                return ManterAvaliacaoColaboradorCompetencias(model.CicloAvaliacaoSelecionadoID, model.ColaboradorID);
+            }
+
+            return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorCompetencias.cshtml", model);
+        }
+
+        [Authorize]
+        [HttpGet]
+        [CriacaoMapeamento(typeof(DeObjetivoColaboradorParaObjetivoMetaResultadoAtingidoViewModel))]
+        [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
+        public ActionResult ManterAvaliacaoColaboradorCompetenciasGestor(int? id,
+                                                                         int? colaboradorID = null)
+        {
+            ManterAvaliacaoColaboradorCompetenciasGestorViewModel model =
+                new ManterAvaliacaoColaboradorCompetenciasGestorViewModel();
+
+            var identidade = new Identidade();
+
+            int usuarioID;
+
+            if (colaboradorID.HasValue)
+            {
+                usuarioID = colaboradorID.Value;
+                //identidade = new Identidade(usuarioID);
+            }
+            else
+                usuarioID = identidade.UsuarioID;
+
+            model.UsuarioRubiID = identidade.UsuarioRubiID;
+
+            model.ColaboradorID = usuarioID;
+
+            var avaliacaoColaborador =
+                new AvaliacaoColaboradorDAO().Obter(id.Value, usuarioID);
+
+            if (avaliacaoColaborador != null)
+            {
+                model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+
+                var associacaoCargoCompentencia = new AssociacaoCargoCompetenciaDAO().Obter(id.Value, avaliacaoColaborador.CargoRubiID.Value, avaliacaoColaborador.AreaRubiID.Value, avaliacaoColaborador.SetorRubiID.Value);
+
+                var competenciasCorporativas = new Integracoes.SistemaCompetencias.IntegracaoSistemaCompetencias().ListarCompentenciasCargo(associacaoCargoCompentencia.CargoCompetenciaID.Value, associacaoCargoCompentencia.AreaCompetenciaID.Value, associacaoCargoCompentencia.SetorCompetenciaID.Value);
+
+                if (competenciasCorporativas != null)
+                {
+                    model.ListaCompetenciasCorporativas = new List<ItemListaCompetenciasColaboradorGestor>();
+                    model.ListaCompetenciasFuncionais = new List<ItemListaCompetenciasColaboradorGestor>();
+                    model.ListaCompetenciasLideranca = new List<ItemListaCompetenciasColaboradorGestor>();
+
+                    foreach (var item in competenciasCorporativas)
+                    {
+                        var competenciasColaborador = new CompetenciaColaboradorDAO().Obter(avaliacaoColaborador.ID, item.id_comp);
+
+                        ItemListaCompetenciasColaboradorGestor itemListaAdd = new ItemListaCompetenciasColaboradorGestor();
+
+                        itemListaAdd.ID = (competenciasColaborador == null) ? 0 : competenciasColaborador.ID;
+                        itemListaAdd.NivelColaborador = (competenciasColaborador == null) ? 0 : ((competenciasColaborador.NivelColaborador.HasValue) ? competenciasColaborador.NivelColaborador.Value : 0);
+                        itemListaAdd.Competencia = (string.IsNullOrEmpty(item.descricao_comp)) ? item.titulo_comp : item.descricao_comp;
+                        itemListaAdd.CompentenciaID = item.id_comp;
+                        itemListaAdd.NivelRequerido = item.id_nivel_comp.Value;
+
+                        itemListaAdd.NivelGestor = (competenciasColaborador == null) ? 0 : ((competenciasColaborador.NivelGestor == null) ? 0 : competenciasColaborador.NivelGestor.Value);
+                        itemListaAdd.ComentarioGestor = (competenciasColaborador == null) ? string.Empty : competenciasColaborador.ComentariosGestor;
+
+                        switch (item.id_tipo_comp)
+                        {
+                            case (int)Enumeradores.TipoCompetencia.Corporativa:
+                                {
+                                    model.ListaCompetenciasCorporativas.Add(itemListaAdd);
+                                    break;
+                                }
+                            case (int)Enumeradores.TipoCompetencia.Funcionais:
+                                {
+                                    model.ListaCompetenciasFuncionais.Add(itemListaAdd);
+                                    break;
+                                }
+                            case (int)Enumeradores.TipoCompetencia.Lideranca:
+                                {
+                                    model.ListaCompetenciasLideranca.Add(itemListaAdd);
+                                    break;
+                                }
+                            default:
+                                {
+                                    break;
+                                }
+                        }
+                    }
+                }
+
+                var listaAval = new List<SelectListItem>();
+
+                for (int i = 0; i < 5; i++)
+                {
+                    listaAval.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
+                }
+
+                model.ListaNivelAvaliacao = listaAval;
+
+                model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
+
+                model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
+            }
+            else
+                model.GestorRubiID = identidade.GestorRubiID;
+
+            model.CicloAvaliacaoSelecionadoID = id.Value;
+
+            model.ProximaEtapa = true;
+
+            return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorCompetenciasGestor.cshtml", model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [CriacaoMapeamento(typeof(DeObjetivoColaboradorParaObjetivoMetaResultadoAtingidoViewModel))]
+        [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
+        public ActionResult ManterAvaliacaoColaboradorCompetenciasGestor(ManterAvaliacaoColaboradorCompetenciasGestorViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -1483,9 +1676,20 @@ namespace AvaliacaoDesempenho.Controllers
                     model.GestorRubiID = identidade.GestorRubiID;
 
                 model.CicloAvaliacaoSelecionadoID = model.CicloAvaliacaoSelecionadoID.Value;
+
+                return ManterAvaliacaoColaboradorCompetenciasGestor(model.CicloAvaliacaoSelecionadoID, model.ColaboradorID);
             }
 
-            return ManterAvaliacaoColaboradorCompetencias(model.CicloAvaliacaoSelecionadoID, model.ColaboradorID);
+            var listaAval = new List<SelectListItem>();
+
+            for (int i = 0; i < 5; i++)
+            {
+                listaAval.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
+            }
+
+            model.ListaNivelAvaliacao = listaAval;
+
+            return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorCompetenciasGestor.cshtml", model);
         }
 
         #endregion Competências
@@ -1631,6 +1835,12 @@ namespace AvaliacaoDesempenho.Controllers
 
             if (avaliacaoColaborador != null)
             {
+                if (model.PapelID == (int)Enumeradores.CodigoPapeis.Administrador
+                && avaliacaoColaborador.StatusAvaliacaoColaborador_ID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
+                {
+                    return ManterAvaliacaoColaboradorRecomendacaoRH(id.Value, model.ColaboradorID);
+                }
+
                 model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
 
                 model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
@@ -1647,14 +1857,14 @@ namespace AvaliacaoDesempenho.Controllers
                     model.ItemRecomendacaoColaborador.RecomendacaoDePromocao = recomendacaoColaborador.RecomendacaoDePromocao;
                     model.ItemRecomendacaoColaborador.Justificativa = recomendacaoColaborador.Justificativa;
 
-                    if (model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
-                    {
-                        model.ItemRecomendacaoColaborador.JustificativaDaJustificativa = recomendacaoColaborador.JustificativaDaJustificativa;
-                        model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem =  recomendacaoColaborador.RatingFinalPosCalibragem;
-                        model.ItemRecomendacaoColaborador.IndicacaoPromocaoPosCalibragem = recomendacaoColaborador.IndicacaoPromocaoPosCalibragem;
-                        model.ItemRecomendacaoColaborador.JustificativaRatingFinalPosCalibragem = recomendacaoColaborador.JustificativaRatingFinalPosCalibragem;
-                        model.ItemRecomendacaoColaborador.JustificativaIndicacaoPromocaoPosCalibragem = recomendacaoColaborador.JustificativaIndicacaoPromocaoPosCalibragem;
-                    }
+                    //if (model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
+                    //{
+                    //    model.ItemRecomendacaoColaborador.JustificativaDaJustificativa = recomendacaoColaborador.JustificativaDaJustificativa;
+                    //    model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem =  recomendacaoColaborador.RatingFinalPosCalibragem;
+                    //    model.ItemRecomendacaoColaborador.IndicacaoPromocaoPosCalibragem = recomendacaoColaborador.IndicacaoPromocaoPosCalibragem;
+                    //    model.ItemRecomendacaoColaborador.JustificativaRatingFinalPosCalibragem = recomendacaoColaborador.JustificativaRatingFinalPosCalibragem;
+                    //    model.ItemRecomendacaoColaborador.JustificativaIndicacaoPromocaoPosCalibragem = recomendacaoColaborador.JustificativaIndicacaoPromocaoPosCalibragem;
+                    //}
                 }
 
                 var listaAval = new List<SelectListItem>();
@@ -1719,18 +1929,173 @@ namespace AvaliacaoDesempenho.Controllers
                         recomendacaoColaborador.RecomendacaoDePromocao = model.ItemRecomendacaoColaborador.RecomendacaoDePromocao;
                         recomendacaoColaborador.Justificativa = model.ItemRecomendacaoColaborador.Justificativa;
 
-                        if (model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
-                        {
-                            recomendacaoColaborador.JustificativaDaJustificativa = model.ItemRecomendacaoColaborador.Justificativa;
-                            recomendacaoColaborador.RatingFinalPosCalibragem = model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem;
-                            recomendacaoColaborador.IndicacaoPromocaoPosCalibragem = model.ItemRecomendacaoColaborador.IndicacaoPromocaoPosCalibragem;
-                            recomendacaoColaborador.JustificativaRatingFinalPosCalibragem = model.ItemRecomendacaoColaborador.JustificativaRatingFinalPosCalibragem;
-                            recomendacaoColaborador.JustificativaIndicacaoPromocaoPosCalibragem = model.ItemRecomendacaoColaborador.JustificativaIndicacaoPromocaoPosCalibragem;
-                        }
+                        //if (model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
+                        //{
+                        //    recomendacaoColaborador.JustificativaDaJustificativa = model.ItemRecomendacaoColaborador.Justificativa;
+                        //    recomendacaoColaborador.RatingFinalPosCalibragem = model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem;
+                        //    recomendacaoColaborador.IndicacaoPromocaoPosCalibragem = model.ItemRecomendacaoColaborador.IndicacaoPromocaoPosCalibragem;
+                        //    recomendacaoColaborador.JustificativaRatingFinalPosCalibragem = model.ItemRecomendacaoColaborador.JustificativaRatingFinalPosCalibragem;
+                        //    recomendacaoColaborador.JustificativaIndicacaoPromocaoPosCalibragem = model.ItemRecomendacaoColaborador.JustificativaIndicacaoPromocaoPosCalibragem;
+                        //}
 
                         recomendacaoColaboradorDAO.Incluir(recomendacaoColaborador);
                     }
                     else
+                    {
+                        recomendacaoColaborador.RecomendacaoDeRating = model.ItemRecomendacaoColaborador.RecomendacaoDeRating;
+                        recomendacaoColaborador.RecomendacaoDePromocao = model.ItemRecomendacaoColaborador.RecomendacaoDePromocao;
+                        recomendacaoColaborador.Justificativa = model.ItemRecomendacaoColaborador.Justificativa;
+
+                        //if (model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
+                        //{
+                        //    recomendacaoColaborador.JustificativaDaJustificativa = model.ItemRecomendacaoColaborador.Justificativa;
+                        //    recomendacaoColaborador.RatingFinalPosCalibragem = model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem;
+                        //    recomendacaoColaborador.IndicacaoPromocaoPosCalibragem = model.ItemRecomendacaoColaborador.IndicacaoPromocaoPosCalibragem;
+                        //    recomendacaoColaborador.JustificativaRatingFinalPosCalibragem = model.ItemRecomendacaoColaborador.JustificativaRatingFinalPosCalibragem;
+                        //    recomendacaoColaborador.JustificativaIndicacaoPromocaoPosCalibragem = model.ItemRecomendacaoColaborador.JustificativaIndicacaoPromocaoPosCalibragem;
+                        //}
+
+                        recomendacaoColaboradorDAO.Editar(recomendacaoColaborador);
+                    }
+                }
+                else
+                    model.GestorRubiID = identidade.GestorRubiID;
+
+                model.CicloAvaliacaoSelecionadoID = model.CicloAvaliacaoSelecionadoID.Value;
+
+                return ManterAvaliacaoColaboradorRecomendacao(model.CicloAvaliacaoSelecionadoID, model.ColaboradorID);
+            }
+
+            var listaAval = new List<SelectListItem>();
+
+            listaAval.Add(new SelectListItem() { Text = "Excepcional", Value = "1" });
+            listaAval.Add(new SelectListItem() { Text = "Excede as Expectativas", Value = "2" });
+            listaAval.Add(new SelectListItem() { Text = "Atende as Expectativas", Value = "3" });
+            listaAval.Add(new SelectListItem() { Text = "Abaixo das Expectativas", Value = "4" });
+
+            model.ListaRecomendacaoDeRating = listaAval;
+
+            listaAval = new List<SelectListItem>();
+
+            listaAval.Add(new SelectListItem() { Text = "Sim", Value = "true" });
+            listaAval.Add(new SelectListItem() { Text = "Não", Value = "false" });
+
+            model.ListaSimNao = listaAval;
+
+            return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorRecomendacao.cshtml", model);
+        }
+
+        [Authorize]
+        [HttpGet]
+        [CriacaoMapeamento(typeof(DeObjetivoColaboradorParaObjetivoMetaResultadoAtingidoViewModel))]
+        [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
+        public ActionResult ManterAvaliacaoColaboradorRecomendacaoRH(int? id,
+                                                                     int? colaboradorID = null)
+        {
+            ManterAvaliacaoColaboradorRecomendacaoRHViewModel model =
+                new ManterAvaliacaoColaboradorRecomendacaoRHViewModel();
+
+            var identidade = new Identidade();
+
+            int usuarioID;
+
+            if (colaboradorID.HasValue)
+                usuarioID = colaboradorID.Value;
+            else
+                usuarioID = identidade.UsuarioID;
+
+            model.UsuarioRubiID = identidade.UsuarioRubiID;
+
+            model.ColaboradorID = usuarioID;
+
+            model.PapelID = identidade.PapelID;
+
+            var avaliacaoColaborador =
+                new AvaliacaoColaboradorDAO().Obter(id.Value, usuarioID);
+
+            if (avaliacaoColaborador != null)
+            {
+                model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+
+                model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
+
+                model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
+
+                var recomendacaoColaborador = new RecomendacaoColaboradorDAO().Obter(model.AvaliacaoColaboradorID.Value);
+
+                model.ItemRecomendacaoColaborador = new ItemListaRecomendacaoColaboradorRH();
+
+                if (recomendacaoColaborador != null)
+                {
+                    model.ItemRecomendacaoColaborador.RecomendacaoDeRating = recomendacaoColaborador.RecomendacaoDeRating;
+                    model.ItemRecomendacaoColaborador.RecomendacaoDePromocao = recomendacaoColaborador.RecomendacaoDePromocao;
+                    model.ItemRecomendacaoColaborador.Justificativa = recomendacaoColaborador.Justificativa;
+
+                    if (model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
+                    {
+                        model.ItemRecomendacaoColaborador.JustificativaDaJustificativa = recomendacaoColaborador.JustificativaDaJustificativa;
+                        model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem = recomendacaoColaborador.RatingFinalPosCalibragem;
+                        model.ItemRecomendacaoColaborador.IndicacaoPromocaoPosCalibragem = recomendacaoColaborador.IndicacaoPromocaoPosCalibragem;
+                        model.ItemRecomendacaoColaborador.JustificativaRatingFinalPosCalibragem = recomendacaoColaborador.JustificativaRatingFinalPosCalibragem;
+                        model.ItemRecomendacaoColaborador.JustificativaIndicacaoPromocaoPosCalibragem = recomendacaoColaborador.JustificativaIndicacaoPromocaoPosCalibragem;
+                    }
+                }
+
+                var listaAval = new List<SelectListItem>();
+
+                listaAval.Add(new SelectListItem() { Text = "Excepcional", Value = "1" });
+                listaAval.Add(new SelectListItem() { Text = "Excede as Expectativas", Value = "2" });
+                listaAval.Add(new SelectListItem() { Text = "Atende as Expectativas", Value = "3" });
+                listaAval.Add(new SelectListItem() { Text = "Abaixo das Expectativas", Value = "4" });
+
+                model.ListaRecomendacaoDeRating = listaAval;
+
+                listaAval = new List<SelectListItem>();
+
+                listaAval.Add(new SelectListItem() { Text = "Sim", Value = "true" });
+                listaAval.Add(new SelectListItem() { Text = "Não", Value = "false" });
+
+                model.ListaSimNao = listaAval;
+            }
+            else
+                model.GestorRubiID = identidade.GestorRubiID;
+
+            model.CicloAvaliacaoSelecionadoID = id.Value;
+
+            return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorRecomendacaoRH.cshtml", model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [CriacaoMapeamento(typeof(DeObjetivoColaboradorParaObjetivoMetaResultadoAtingidoViewModel))]
+        [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
+        public ActionResult ManterAvaliacaoColaboradorRecomendacaoRH(ManterAvaliacaoColaboradorRecomendacaoRHViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var identidade = new Identidade();
+
+                int usuarioID = identidade.UsuarioID;
+
+                model.UsuarioRubiID = identidade.UsuarioRubiID;
+
+                var avaliacaoColaborador =
+                    new AvaliacaoColaboradorDAO().Obter(model.CicloAvaliacaoSelecionadoID.Value, model.ColaboradorID.Value);
+
+                if (avaliacaoColaborador != null)
+                {
+                    model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+
+                    model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
+
+                    model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
+
+                    RecomendacaoColaboradorDAO recomendacaoColaboradorDAO = new RecomendacaoColaboradorDAO();
+
+                    var recomendacaoColaborador = recomendacaoColaboradorDAO.Obter(model.AvaliacaoColaboradorID.Value);
+
+                    if (recomendacaoColaborador != null)
                     {
                         recomendacaoColaborador.RecomendacaoDeRating = model.ItemRecomendacaoColaborador.RecomendacaoDeRating;
                         recomendacaoColaborador.RecomendacaoDePromocao = model.ItemRecomendacaoColaborador.RecomendacaoDePromocao;
@@ -1752,9 +2117,27 @@ namespace AvaliacaoDesempenho.Controllers
                     model.GestorRubiID = identidade.GestorRubiID;
 
                 model.CicloAvaliacaoSelecionadoID = model.CicloAvaliacaoSelecionadoID.Value;
+
+                return ManterAvaliacaoColaboradorRecomendacaoRH(model.CicloAvaliacaoSelecionadoID, model.ColaboradorID);
             }
 
-            return ManterAvaliacaoColaboradorRecomendacao(model.CicloAvaliacaoSelecionadoID, model.ColaboradorID);
+            var listaAval = new List<SelectListItem>();
+
+            listaAval.Add(new SelectListItem() { Text = "Excepcional", Value = "1" });
+            listaAval.Add(new SelectListItem() { Text = "Excede as Expectativas", Value = "2" });
+            listaAval.Add(new SelectListItem() { Text = "Atende as Expectativas", Value = "3" });
+            listaAval.Add(new SelectListItem() { Text = "Abaixo das Expectativas", Value = "4" });
+
+            model.ListaRecomendacaoDeRating = listaAval;
+
+            listaAval = new List<SelectListItem>();
+
+            listaAval.Add(new SelectListItem() { Text = "Sim", Value = "true" });
+            listaAval.Add(new SelectListItem() { Text = "Não", Value = "false" });
+
+            model.ListaSimNao = listaAval;
+
+            return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorRecomendacaoRH.cshtml", model);
         }
 
         #endregion Recomendação

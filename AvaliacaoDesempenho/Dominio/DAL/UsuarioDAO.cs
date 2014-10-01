@@ -58,5 +58,13 @@ namespace AvaliacaoDesempenho.Dominio.DAL
                         select gestor).ToList();
             }
         }
+
+        public Usuario Gestor(int gestorRubiId)
+        {
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                return db.Usuario.Where(x => x.GestorRubiID == gestorRubiId).FirstOrDefault();
+            }
+        }
     }
 }

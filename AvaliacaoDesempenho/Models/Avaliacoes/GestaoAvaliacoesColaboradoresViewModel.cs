@@ -6,6 +6,8 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 {
     public class GestaoAvaliacoesColaboradoresViewModel
     {
+        public string CicloAvaliacaoDescricao { get; set; }
+
         public int CicloAvaliacaoSelecionadoID { get; set; }
 
         [Display(Name = "Pesquisar Avaliado")]
@@ -44,6 +46,8 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         public string Area { get; set; }
 
         public string UsuarioNome { get; set; }
+
+        public int ColaboradorID { get; set; }
 
         public string Cargo { get; set; }
 

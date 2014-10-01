@@ -21,7 +21,7 @@
     </div>
     <div class="col-md-075">
         <label class="control-label">
-            Ciclo 1
+            @Model.CicloAvaliacaoDescricao
         </label>
     </div>
 </div>
@@ -135,7 +135,7 @@
                                 @Html.DisplayFor(modelItem => Model.AvaliacoesColaboradores[i].Area)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => Model.AvaliacoesColaboradores[i].UsuarioNome)
+                                @Html.ActionLink(Model.AvaliacoesColaboradores[i].UsuarioNome, "ManterAvaliacaoColaboradorAutoAvaliacaoGestor", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.AvaliacoesColaboradores[i].ColaboradorID })
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => Model.AvaliacoesColaboradores[i].Cargo)

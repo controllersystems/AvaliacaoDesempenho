@@ -292,9 +292,11 @@
     <Compile Include="Models\Avaliacoes\GestaoPDIsViewModel.cs" />
     <Compile Include="Models\Avaliacoes\ManterAvaliacaoColaboradorAutoAvaliacaoGestorViewModel.cs" />
     <Compile Include="Models\Avaliacoes\ManterAvaliacaoColaboradorAutoAvaliacaoViewModel.cs" />
+    <Compile Include="Models\Avaliacoes\ManterAvaliacaoColaboradorCompetenciasGestorViewModel.cs" />
     <Compile Include="Models\Avaliacoes\ManterAvaliacaoColaboradorCompetenciasViewModel.cs" />
     <Compile Include="Models\Avaliacoes\ManterAvaliacaoColaboradorObjetivosMetasViewModel.cs" />
     <Compile Include="Models\Avaliacoes\ManterAvaliacaoColaboradorPerformanceViewModel.cs" />
+    <Compile Include="Models\Avaliacoes\ManterAvaliacaoColaboradorRecomendacaoRHViewModel.cs" />
     <Compile Include="Models\Avaliacoes\ManterAvaliacaoColaboradorViewModel.cs" />
     <Compile Include="Models\Avaliacoes\ManterAvaliacaoPDIColaboradorViewModel.cs" />
     <Compile Include="Models\Avaliacoes\PesquisaAvaliacoesViewModel.cs" />
@@ -441,6 +443,9 @@
     <Content Include="Views\Avaliacoes\ManterAvaliacaoColaboradorAutoAvaliacao.cshtml" />
     <Content Include="Views\Avaliacoes\ManterAvaliacaoPDIColaborador.cshtml" />
     <Content Include="Views\Avaliacoes\ManterAvaliacaoColaboradorAutoAvaliacaoGestor.cshtml" />
+    <Content Include="Views\Shared\PaginaNaoEncontrada.cshtml" />
+    <Content Include="Views\Avaliacoes\ManterAvaliacaoColaboradorCompetenciasGestor.cshtml" />
+    <Content Include="Views\Avaliacoes\ManterAvaliacaoColaboradorRecomendacaoRH.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_GlobalResources\" />
