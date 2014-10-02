@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
@@ -22,7 +23,7 @@ namespace AvaliacaoDesempenho.Dominio.DAL
             }
         }
 
-        public List<CicloAvaliacao> ListarCiclosDisponiveis(int cargoID, int areaID, int setorID)
+        public List<CicloAvaliacao> ListarCiclosDisponiveis(int cargoID, int areaID, int setorID, int gestorID)
         {
             using (var db = new AvaliacaoDesempenhoContextEntities())
             {
@@ -38,28 +39,41 @@ namespace AvaliacaoDesempenho.Dominio.DAL
                                             associacao.AreaCompetenciaID != null &&
                                             associacao.SetorCompetenciaID != null
                                       select ciclo;
-                
 
-                //var query = from ciclo in db.CicloAvaliacao
-                //            join associacao in db.AssociacaoCargoCompetencia 
-                //                on new {ciclo.ID} equals new {associacao.CicloAvaliacao_ID}
-                //            //into cicloAssociacao
-                //            //join usuario in db.Usuario
-                //            //on new { cicloAssociacao.AreaRubiID, cicloAssociacao.CargoRubiID, cicloAssociacao.SetorRubiID} 
-                //            //    equals { usuario. }
-                //            where ciclo.SituacaoCicloAvaliacao_ID > 1 &&
-                //                  ciclo.SituacaoCicloAvaliacao_ID < 7 && 
-                //                  associacao.CargoRubiID == usuario.car
+                var ciclosDeSubordinados = from ciclo in db.CicloAvaliacao
+                                           join avaliacao in db.AvaliacaoColaborador
+                                           on ciclo.ID equals avaliacao.CicloAvaliacao_ID
+                                           join usuario in db.Usuario
+                                           on avaliacao.Colaborador_ID equals usuario.ID
+                                           where ciclo.SituacaoCicloAvaliacao_ID > 1 &&
+                                                 ciclo.SituacaoCicloAvaliacao_ID < 7 &&
+                                                 usuario.GestorRubiID.Value == gestorID
+                                           select ciclo;
 
-                //return db.CicloAvaliacao
-                //         .Include("SituacaoCicloAvaliacao")
-                //         .Include("AssociacaoCargoCompetencia")
-                //         .Include("Usuario")
-                //         .Where(x => x.SituacaoCicloAvaliacao_ID > 1 
-                //                  && x.SituacaoCicloAvaliacao_ID < 7
-                //                  && x.AssociacaoCargoCompetencia).ToList();
+                return cicloAssociacao.Union(ciclosDeSubordinados).Distinct().ToList();
+            }
+        }
 
-                return cicloAssociacao.ToList();
+        public List<CicloAvaliacao> ListarCiclosSobrepostosQuePossuemEssaData(DateTime data)
+        {
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                var ciclos = db.CicloAvaliacao.Where(x => x.DataInicioVigencia <= data
+                                                              && x.DataFimVigencia >= data);
+
+                return ciclos.ToList();
+            }
+        }
+
+        public List<CicloAvaliacao> ListarCiclosSobrepostosQuePossuemEssaData(DateTime data, int cicloExcluido)
+        {
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                var ciclos = db.CicloAvaliacao.Where(x => x.DataInicioVigencia <= data
+                                                              && x.DataFimVigencia >= data
+                                                              && x.ID != cicloExcluido);
+
+                return ciclos.ToList();
             }
         }
 

@@ -10,43 +10,46 @@
     const string MENSAGEM_SEM_AVALIACAO_NO_CICLO = "Você ainda não iniciou a sua avaliação. Clique aqui para iniciar.";
 }
 
-<h4>
-    Sua avaliação de desempenho
-</h4>
-<div class="row top30">
-    <div class="col-md-12">
-        <table class="table">
-            <tr>
-                <th>
-                    Data de criação
-                </th>
-                <th>
-                    Situação
-                </th>
-            </tr>
-            <tr>
-                @if (!string.IsNullOrEmpty(Model.DataCriacao))
-                {
-                    <td>
-                        @Html.DisplayFor(modelItem => Model.DataCriacao)
-                    </td>
-                    <td>
-                        @Html.ActionLink(Model.StatusAvaliacaoColaboradorNome, "RotearManutencaoAvaliacaoColaborador", new { id = Model.CicloAvaliacaoSelecionadoID })
-                    </td>
-                }
-                else
-                {
-                    <td>
-                        ---
-                    </td>
-                    <td>
-                        @Html.ActionLink(MENSAGEM_SEM_AVALIACAO_NO_CICLO, "RotearManutencaoAvaliacaoColaborador", new { id = Model.CicloAvaliacaoSelecionadoID })
-                    </td>
-                }
-            </tr>
-        </table>
+@if (Model.ParticipaDaAvaliacao)
+{
+    <h4>
+        Sua avaliação de desempenho
+    </h4>
+    <div class="row top30">
+        <div class="col-md-12">
+            <table class="table">
+                <tr>
+                    <th>
+                        Data de criação
+                    </th>
+                    <th>
+                        Situação
+                    </th>
+                </tr>
+                <tr>
+                    @if (!string.IsNullOrEmpty(Model.DataCriacao))
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.DataCriacao)
+                        </td>
+                        <td>
+                            @Html.ActionLink(Model.StatusAvaliacaoColaboradorNome, "RotearManutencaoAvaliacaoColaborador", new { id = Model.CicloAvaliacaoSelecionadoID })
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            ---
+                        </td>
+                        <td>
+                            @Html.ActionLink(MENSAGEM_SEM_AVALIACAO_NO_CICLO, "RotearManutencaoAvaliacaoColaborador", new { id = Model.CicloAvaliacaoSelecionadoID })
+                        </td>
+                    }
+                </tr>
+            </table>
+        </div>
     </div>
-</div>
+}
 @if (Model.ListaGestaoAvaliacaoColaboradorViewModel != null
         && Model.ListaGestaoAvaliacaoColaboradorViewModel.Any())
 {
@@ -91,80 +94,89 @@
         </div>
     </div>
 }
-<hr />
-<h4>
-    Seu PDI
-</h4>
-<div class="row top30">
-    <div class="col-md-12">
-        <table class="table">
-            <tr>
-                <th>
-                    Data de criação
-                </th>
-                <th>
-                    Situação
-                </th>
-            </tr>
-            <tr>
-                @if (!string.IsNullOrEmpty(Model.DataCriacaoPDI))
-                {
-                    <td>
-                        @Html.DisplayFor(modelItem => Model.DataCriacaoPDI)
-                    </td>
-                    <td>
-                        @Html.ActionLink(Model.StatusPDINome, "ManterAvaliacaoPDIColaborador", new { id = Model.CicloAvaliacaoSelecionadoID })
-                    </td>
-                }
-                else
-                {
-                    <td>
-                        ---
-                    </td>
-                    <td>
-                        @Html.ActionLink(MENSAGEM_SEM_AVALIACAO_NO_CICLO, "ManterAvaliacaoPDIColaborador", new { id = Model.CicloAvaliacaoSelecionadoID })
-                    </td>
-                }
-            </tr>
-        </table>
-    </div>
-</div>
-    @if (Model.ListaGestaoAvaliacaoPDIColaboradorViewModel != null
-          && Model.ListaGestaoAvaliacaoPDIColaboradorViewModel.Any())
-    {
-        <h4>PDI dos seus colaboradores
-        </h4>
-        <div class="row top30">
-            <div class="col-md-12">
-                <table class="table">
-                    <tr>
-                        <th>Data de criação
-                        </th>
-                        <th>Nome do Colaborador
-                        </th>
-                        <th>Cargo
-                        </th>
-                        <th>Situação
-                        </th>
-                    </tr>
-                    <tr>
-                        @foreach (var item in Model.ListaGestaoAvaliacaoPDIColaboradorViewModel)
-                        {
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DataCriacao)
-                            </td>
-                            <td>
-                                @Html.ActionLink(item.UsuarioNome, "ManterAvaliacaoPDIColaborador", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = item.UsuarioID })
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Cargo)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.StatusAvaliacaoPDIColaboradorNome)
-                            </td>
-                        }
-                    </tr>
-                </table>
-            </div>
+@if (Model.ParticipaDaAvaliacao)
+{
+    <hr />
+    <h4>
+        Seu PDI
+    </h4>
+    <div class="row top30">
+        <div class="col-md-12">
+            <table class="table">
+                <tr>
+                    <th>
+                        Data de criação
+                    </th>
+                    <th>
+                        Situação
+                    </th>
+                </tr>
+                <tr>
+                    @if (!string.IsNullOrEmpty(Model.DataCriacaoPDI))
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.DataCriacaoPDI)
+                        </td>
+                        <td>
+                            @Html.ActionLink(Model.StatusPDINome, "ManterAvaliacaoPDIColaborador", new { id = Model.CicloAvaliacaoSelecionadoID })
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            ---
+                        </td>
+                        <td>
+                            @Html.ActionLink(MENSAGEM_SEM_AVALIACAO_NO_CICLO, "ManterAvaliacaoPDIColaborador", new { id = Model.CicloAvaliacaoSelecionadoID })
+                        </td>
+                    }
+                </tr>
+            </table>
         </div>
-    }
+    </div>
+
+}
+
+@if (Model.ListaGestaoAvaliacaoPDIColaboradorViewModel != null
+     && Model.ListaGestaoAvaliacaoPDIColaboradorViewModel.Any())
+{
+    <h4>PDI dos seus colaboradores
+    </h4>
+    <div class="row top30">
+        <div class="col-md-12">
+            <table class="table">
+                <tr>
+                    <th>
+                        Data de criação
+                    </th>
+                    <th>
+                        Nome do Colaborador
+                    </th>
+                    <th>
+                        Cargo
+                    </th>
+                    <th>
+                        Situação
+                    </th>
+                </tr>
+                @foreach (var item in Model.ListaGestaoAvaliacaoPDIColaboradorViewModel)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DataCriacao)
+                        </td>
+                        <td>
+                            @Html.ActionLink(item.UsuarioNome, "ManterAvaliacaoPDIColaborador", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = item.UsuarioID })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cargo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StatusAvaliacaoPDIColaboradorNome)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+}

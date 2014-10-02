@@ -24,6 +24,8 @@
     @Html.HiddenFor(model => Model.GestorRubiID)
     @Html.HiddenFor(model => Model.UsuarioRubiID)
     @Html.HiddenFor(model => Model.ColaboradorID)
+    @Html.HiddenFor(model => Model.LiberadoPraSubmeterAoGestor)
+    @Html.HiddenFor(model => Model.StatusAvaliacaoColaboradorID)
 
     if (Model.ListaCompetenciasCorporativas != null && Model.ListaCompetenciasCorporativas.Any())
     {
@@ -40,6 +42,10 @@
                     </tr>
                     @for (int i = 0; i < Model.ListaCompetenciasCorporativas.Count; i++)
                     {
+                        if (Model.ListaCompetenciasCorporativas[i].NivelColaborador != 0)
+                        {
+                            Model.LiberadoPraSubmeterAoGestor = true;
+                        }
                         <tr>
                             <td class="col-md-11">
                                 @Html.HiddenFor(model => Model.ListaCompetenciasCorporativas[i].ID)
@@ -79,6 +85,10 @@
 
                     @for (int i = 0; i < Model.ListaCompetenciasLideranca.Count; i++)
                     {
+                        if (Model.ListaCompetenciasLideranca[i].NivelColaborador != 0)
+                        {
+                            Model.LiberadoPraSubmeterAoGestor = true;
+                        }
                         <tr>
                             <td class="col-md-11">
                                 @Html.HiddenFor(model => Model.ListaCompetenciasLideranca[i].ID)
@@ -117,6 +127,10 @@
                     </tr>
                     @for (int i = 0; i < Model.ListaCompetenciasFuncionais.Count; i++)
                     {
+                        if (Model.ListaCompetenciasFuncionais[i].NivelColaborador != 0)
+                        {
+                            Model.LiberadoPraSubmeterAoGestor = true;
+                        }
                         <tr>
                             <td class="col-md-11">
                                 @Html.HiddenFor(model => Model.ListaCompetenciasFuncionais[i].ID)
@@ -147,7 +161,10 @@
             @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao)
             {
                 <input type="submit" value="Salvar" class="btn btn-default" />
-                @Html.ActionLink("Submeter ao Gestor", "SubmeterAutoAvaliacaoColaboradorAvaliacaoGestor", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, avaliacaoColaboradorID = Model.AvaliacaoColaboradorID }, new { @class = "btn btn-default" })
+                if (Model.LiberadoPraSubmeterAoGestor)
+                {
+                    @Html.ActionLink("Submeter ao Gestor", "SubmeterAutoAvaliacaoColaboradorAvaliacaoGestor", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, avaliacaoColaboradorID = Model.AvaliacaoColaboradorID }, new { @class = "btn btn-default" })
+                }
             }
         </div>
     </div>

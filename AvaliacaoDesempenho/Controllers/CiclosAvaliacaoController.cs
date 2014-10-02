@@ -56,49 +56,12 @@ namespace AvaliacaoDesempenho.Controllers
                 else
                     model.SituacaoCicloAvaliacaoSelecionadoID = cicloAvaliacao.SituacaoCicloAvaliacao_ID.Value;
 
-                //if (cicloAvaliacao != null)
-                //{
-                //    switch (cicloAvaliacao.SituacaoCicloAvaliacao_ID)
-                //    {
-                //        case 1:
-                //            {
-                //                model.SituacoesCicloAvaliacao = Mapper.Map<List<SituacaoCicloAvaliacao>,
-                //                     List<SelectListItem>>(new SituacaoCicloAvaliacaoDAO().Listar(1, 2));
-                //                break;
-                //            }
-                //        case 2:
-                //            {
-                //                model.SituacoesCicloAvaliacao = Mapper.Map<List<SituacaoCicloAvaliacao>,
-                //                     List<SelectListItem>>(new SituacaoCicloAvaliacaoDAO().Listar(1, 3));
-                //                break;
-                //            }
-                //        case 3:
-                //            {
-                //                model.SituacoesCicloAvaliacao = Mapper.Map<List<SituacaoCicloAvaliacao>,
-                //                     List<SelectListItem>>(new SituacaoCicloAvaliacaoDAO().Listar(1, 4));
-                //                break;
-                //            }
-                //        default:
-                //            {
-                //                model.SituacoesCicloAvaliacao = Mapper.Map<List<SituacaoCicloAvaliacao>,
-                //                     List<SelectListItem>>(new SituacaoCicloAvaliacaoDAO().Listar());
-                //                break;
-                //            }
-                //    }                    
-                //}
-                //else
-                //{
-                //    model.SituacoesCicloAvaliacao
-                //    = Mapper.Map<List<SituacaoCicloAvaliacao>,
-                //                 List<SelectListItem>>(new SituacaoCicloAvaliacaoDAO().Listar());
-                //}
+                
             }
-            //else
-            //{
-                model.SituacoesCicloAvaliacao
+            
+            model.SituacoesCicloAvaliacao
                     = Mapper.Map<List<SituacaoCicloAvaliacao>,
                                  List<SelectListItem>>(new SituacaoCicloAvaliacaoDAO().Listar());
-            //}
 
             model.AcaoPagina = acaoPagina;
 
@@ -112,6 +75,128 @@ namespace AvaliacaoDesempenho.Controllers
         [CriacaoMapeamento(typeof(DeSituacaoCicloAvaliacaoParaSelectListItem))]
         public ActionResult ManterCicloAvaliacao(ManterCicloAvaliacaoViewModel model)
         {
+            if (!string.IsNullOrEmpty(model.DataInicioVigencia) && !string.IsNullOrEmpty(model.DataFimVigencia))
+            {
+                if (model.ID.HasValue)
+                {
+                    var ciclosAfetados = new CicloAvaliacaoDAO().ListarCiclosSobrepostosQuePossuemEssaData(Convert.ToDateTime(model.DataInicioVigencia), model.ID.Value);
+                    if (ciclosAfetados != null && ciclosAfetados.Any())
+                    {
+                        ModelState.AddModelError("DataInicioVigencia", "A Data de Início conflita com um intervalo de vigência de outro ciclo de avaliação.");
+                    }
+                    ciclosAfetados = new CicloAvaliacaoDAO().ListarCiclosSobrepostosQuePossuemEssaData(Convert.ToDateTime(model.DataFimVigencia), model.ID.Value);
+                    if (ciclosAfetados != null && ciclosAfetados.Any())
+                    {
+                        ModelState.AddModelError("DataFimVigencia", "A Data de Fim conflita com um intervalo de vigência de outro ciclo de avaliação.");
+                    }
+                }
+                else
+                {
+                    var ciclosAfetados = new CicloAvaliacaoDAO().ListarCiclosSobrepostosQuePossuemEssaData(Convert.ToDateTime(model.DataInicioVigencia));
+                    if (ciclosAfetados != null && ciclosAfetados.Any())
+                    {
+                        ModelState.AddModelError("DataInicioVigencia", "A Data de Início conflita com um intervalo de vigência de outro ciclo de avaliação.");
+                    }
+                    ciclosAfetados = new CicloAvaliacaoDAO().ListarCiclosSobrepostosQuePossuemEssaData(Convert.ToDateTime(model.DataFimVigencia));
+                    if (ciclosAfetados != null && ciclosAfetados.Any())
+                    {
+                        ModelState.AddModelError("DataFimVigencia", "A Data de Fim conflita com um intervalo de vigência de outro ciclo de avaliação.");
+                    }
+                }
+                if (Convert.ToDateTime(model.DataInicioVigencia) > Convert.ToDateTime(model.DataFimVigencia))
+                {
+                    ModelState.AddModelError("DataFimVigencia", "A Data de Término tem que ser maior que a data de Início.");
+                }
+            }
+
+            if (string.IsNullOrEmpty(model.DataInicioObjetivosMetas) && !string.IsNullOrEmpty(model.DataTerminoObjetivosMetas))
+            {
+                ModelState.AddModelError("DataInicioObjetivosMetas", "A Data de Início de Definição de Objetivos e Metas deve ser informada.");
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(model.DataInicioObjetivosMetas) && string.IsNullOrEmpty(model.DataTerminoObjetivosMetas))
+                {
+                    ModelState.AddModelError("DataTerminoObjetivosMetas", "A Data de Término de Definição de Objetivos e Metas deve ser informada.");
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(model.DataInicioObjetivosMetas) && !string.IsNullOrEmpty(model.DataTerminoObjetivosMetas))
+                    {
+                        if (Convert.ToDateTime(model.DataInicioObjetivosMetas) > Convert.ToDateTime(model.DataTerminoObjetivosMetas))
+                        {
+                            ModelState.AddModelError("DataTerminoObjetivosMetas", "A Data de Término tem que ser maior que a data de Início.");
+                        }
+                    }
+                }
+            }
+
+            if (string.IsNullOrEmpty(model.DataInicioAutoAvaliacao) && !string.IsNullOrEmpty(model.DataTerminoAutoAvaliacao))
+            {
+                ModelState.AddModelError("DataInicioAutoAvaliacao", "A Data de Início da Auto Avaliação deve ser informada.");
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(model.DataInicioAutoAvaliacao) && string.IsNullOrEmpty(model.DataTerminoAutoAvaliacao))
+                {
+                    ModelState.AddModelError("DataTerminoAutoAvaliacao", "A Data de Término da Auto Avaliação deve ser informada.");
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(model.DataInicioAutoAvaliacao) && !string.IsNullOrEmpty(model.DataTerminoAutoAvaliacao))
+                    {
+                        if (Convert.ToDateTime(model.DataInicioAutoAvaliacao) > Convert.ToDateTime(model.DataTerminoAutoAvaliacao))
+                        {
+                            ModelState.AddModelError("DataTerminoAutoAvaliacao", "A Data de Término tem que ser maior que a data de Início.");
+                        }
+                    }
+                }
+            }
+
+            if (string.IsNullOrEmpty(model.DataInicioAvaliacaoGestor) && !string.IsNullOrEmpty(model.DataTerminoAvaliacaoGestor))
+            {
+                ModelState.AddModelError("DataInicioAvaliacaoGestor", "A Data de Início da Avaliação do Gestor deve ser informada.");
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(model.DataInicioAvaliacaoGestor) && string.IsNullOrEmpty(model.DataTerminoAvaliacaoGestor))
+                {
+                    ModelState.AddModelError("DataTerminoAvaliacaoGestor", "A Data de Término da Avaliação do Gestor deve ser informada.");
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(model.DataInicioAvaliacaoGestor) && !string.IsNullOrEmpty(model.DataTerminoAvaliacaoGestor))
+                    {
+                        if (Convert.ToDateTime(model.DataInicioAvaliacaoGestor) > Convert.ToDateTime(model.DataTerminoAvaliacaoGestor))
+                        {
+                            ModelState.AddModelError("DataTerminoAvaliacaoGestor", "A Data de Término tem que ser maior que a data de Início.");
+                        }
+                    }
+                }
+            }
+
+            if (string.IsNullOrEmpty(model.DataInicioGerenciamentoPDI) && !string.IsNullOrEmpty(model.DataTerminoGerenciamentoPDI))
+            {
+                ModelState.AddModelError("DataInicioGerenciamentoPDI", "A Data de Início de Gerenciamento de PDI deve ser informada.");
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(model.DataInicioGerenciamentoPDI) && string.IsNullOrEmpty(model.DataTerminoGerenciamentoPDI))
+                {
+                    ModelState.AddModelError("DataTerminoGerenciamentoPDI", "A Data de Término de Gerenciamento de PDI deve ser informada.");
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(model.DataInicioGerenciamentoPDI) && !string.IsNullOrEmpty(model.DataTerminoGerenciamentoPDI))
+                    {
+                        if (Convert.ToDateTime(model.DataInicioGerenciamentoPDI) > Convert.ToDateTime(model.DataTerminoGerenciamentoPDI))
+                        {
+                            ModelState.AddModelError("DataTerminoGerenciamentoPDI", "A Data de Término tem que ser maior que a data de Início.");
+                        }
+                    }
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 CicloAvaliacaoDAO cicloAvaliacaoDAO = new CicloAvaliacaoDAO();
@@ -439,7 +524,8 @@ namespace AvaliacaoDesempenho.Controllers
                 = Mapper.Map<List<CicloAvaliacao>,
                              List<SelectListItem>>(new CicloAvaliacaoDAO().ListarCiclosDisponiveis(identidade.CargoRubiID.Value, 
                                                                                                    identidade.AreaRubiID.Value, 
-                                                                                                   identidade.SetorRubiID.Value));
+                                                                                                   identidade.SetorRubiID.Value,
+                                                                                                   identidade.UsuarioRubiID.Value));
 
             if (cicloAvaliacaoSelecionadoID.HasValue)
                 model.CicloAvaliacaoSelecionadoID = cicloAvaliacaoSelecionadoID.Value;

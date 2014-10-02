@@ -315,6 +315,17 @@ namespace AvaliacaoDesempenho.Controllers
 
             var associacoesCargosCompetencias = associacaoCargoCompetenciaDAO.ListarPorCicloAvaliacao(cicloAvaliacaoSelecionadoID.Value);
 
+            if (associacoesCargosCompetencias != null)
+            {
+                var existeCargo = associacoesCargosCompetencias.Where(x => x.AreaRubiID == identidade.AreaRubiID &&
+                                                                           x.SetorRubiID == identidade.SetorRubiID &&
+                                                                           x.CargoRubiID == identidade.CargoRubiID &&
+                                                                           x.AreaCompetenciaID != null &&
+                                                                           x.CargoCompetenciaID != null &&
+                                                                           x.SetorCompetenciaID != null);
+                model.ParticipaDaAvaliacao = (existeCargo.Any());
+            }
+
             if (avaliacoesCicloGestor != null
                 && associacoesCargosCompetencias != null)
             {
@@ -1508,6 +1519,8 @@ namespace AvaliacaoDesempenho.Controllers
 
             model.CicloAvaliacaoSelecionadoID = id.Value;
 
+            model.LiberadoPraSubmeterAoGestor = false;
+
             return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorCompetencias.cshtml", model);
         }
 
@@ -1518,6 +1531,39 @@ namespace AvaliacaoDesempenho.Controllers
         [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
         public ActionResult ManterAvaliacaoColaboradorCompetencias(ManterAvaliacaoColaboradorCompetenciasViewModel model)
         {
+            //if (model.ListaCompetenciasCorporativas != null)
+            //{
+            //    for (int i = 0; i < model.ListaCompetenciasCorporativas.Count; i++)
+            //    {
+            //        if (model.ListaCompetenciasCorporativas[i].ID == 0)
+            //        {
+            //            ModelState.AddModelError("ListaCompetenciasCorporativas[" + i + "].NivelColaborador", "O Nível do colaborador é obrigatório.");
+            //        }
+            //    }
+            //}
+
+            //if (model.ListaCompetenciasFuncionais != null)
+            //{
+            //    for (int i = 0; i < model.ListaCompetenciasFuncionais.Count; i++)
+            //    {
+            //        if (model.ListaCompetenciasFuncionais[i].ID == 0)
+            //        {
+            //            ModelState.AddModelError("ListaCompetenciasFuncionais[" + i + "].NivelColaborador", "O Nível do colaborador é obrigatório.");
+            //        }
+            //    }
+            //}
+
+            //if (model.ListaCompetenciasLideranca != null)
+            //{
+            //    for (int i = 0; i < model.ListaCompetenciasLideranca.Count; i++)
+            //    {
+            //        if (model.ListaCompetenciasLideranca[i].ID == 0)
+            //        {
+            //            ModelState.AddModelError("ListaCompetenciasLideranca[" + i + "].NivelColaborador", "O Nível do colaborador é obrigatório.");
+            //        }
+            //    }
+            //}
+
             if (ModelState.IsValid)
             {
                 var identidade = new Identidade();
@@ -1598,6 +1644,15 @@ namespace AvaliacaoDesempenho.Controllers
 
                 return ManterAvaliacaoColaboradorCompetencias(model.CicloAvaliacaoSelecionadoID, model.ColaboradorID);
             }
+
+            var listaAval = new List<SelectListItem>();
+
+            for (int i = 0; i < 5; i++)
+            {
+                listaAval.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
+            }
+
+            model.ListaNivelAvaliacao = listaAval;
 
             return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorCompetencias.cshtml", model);
         }

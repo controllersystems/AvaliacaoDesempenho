@@ -3,6 +3,7 @@ using AvaliacaoDesempenho.Util;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using AvaliacaoDesempenho.Dominio.Validators;
 
 namespace AvaliacaoDesempenho.Models.CiclosAvaliacao
 {
@@ -25,7 +26,7 @@ namespace AvaliacaoDesempenho.Models.CiclosAvaliacao
         [DataType(DataType.Text, ErrorMessage = "A {0} é inválida.")]
         [RegularExpression(ExpressoesRegulares.DATA, ErrorMessage = "A {0} é inválida.")]
         [Required(ErrorMessage = "A {0} é obrigatória.")]
-        //[Remote("ValidarDataVigenciaInicialMenorFinal", "ValidacaoCicloAvaliacao",
+        //[Remote("ValidarDataVigenciaInicialMenorFinal", "CiclosAvaliacao",
         //        AdditionalFields = "DataFimVigencia",
         //        ErrorMessage = "A {0} deve ser menor que a Data de Fim da Vigência.")]
         public string DataInicioVigencia { get; set; }
@@ -33,7 +34,7 @@ namespace AvaliacaoDesempenho.Models.CiclosAvaliacao
         [Display(Name = "Data de Fim da Vigência")]
         [RegularExpression(ExpressoesRegulares.DATA, ErrorMessage = "A {0} é inválida.")]
         [Required(ErrorMessage = "A {0} é obrigatória.")]
-        //[Remote("ValidarDataVigenciaInicialMenorFinal", "ValidacaoCicloAvaliacao",
+        //[Remote("ValidarDataVigenciaInicialMenorFinal", "CiclosAvaliacao",
         //        AdditionalFields = "DataInicioVigencia",
         //        ErrorMessage = "A {0} deve ser maior que a Data de Início da Vigência.")]
         public string DataFimVigencia { get; set; }
@@ -58,14 +59,14 @@ namespace AvaliacaoDesempenho.Models.CiclosAvaliacao
 
         [Display(Name = "Data de Início")]
         [RegularExpression(ExpressoesRegulares.DATA, ErrorMessage = "A {0} é inválida.")]
-        //[Remote("ValidarDataObjetivosMetasInicialMenorFinal", CONTROLLER_VALIDACAO,
+        //[Remote("ValidarDataObjetivosMetasInicialMenorFinal", "CiclosAvaliacao",
         //        AdditionalFields = "DataTerminoObjetivosMetas",
         //        ErrorMessage = "A {0} deve ser menor que a Data de Término.")]
         public string DataInicioObjetivosMetas { get; set; }
 
         [Display(Name = "Data de Término")]
         [RegularExpression(ExpressoesRegulares.DATA, ErrorMessage = "A {0} é inválida.")]
-        //[Remote("ValidarDataObjetivosMetasInicialMenorFinal", CONTROLLER_VALIDACAO,
+        //[Remote("ValidarDataObjetivosMetasInicialMenorFinal", "CiclosAvaliacao",
         //        AdditionalFields = "DataInicioObjetivosMetas",
         //        ErrorMessage = "A {0} deve ser maior que a Data de Início.")]
         public string DataTerminoObjetivosMetas { get; set; }
@@ -86,14 +87,14 @@ namespace AvaliacaoDesempenho.Models.CiclosAvaliacao
 
         [Display(Name = "Data de Início")]
         [RegularExpression(ExpressoesRegulares.DATA, ErrorMessage = "A {0} é inválida.")]
-        //[Remote("ValidarDataAutoAvaliacaoInicialMenorFinal", CONTROLLER_VALIDACAO,
+        //[Remote("ValidarDataAutoAvaliacaoInicialMenorFinal", "CiclosAvaliacao",
         //        AdditionalFields = "DataTerminoAutoAvaliacao",
         //        ErrorMessage = "A {0} deve ser menor que a Data de Término.")]
         public string DataInicioAutoAvaliacao { get; set; }
 
         [Display(Name = "Data de Término")]
         [RegularExpression(ExpressoesRegulares.DATA, ErrorMessage = "A {0} é inválida.")]
-        //[Remote("ValidarDataAutoAvaliacaoInicialMenorFinal", CONTROLLER_VALIDACAO,
+        //[Remote("ValidarDataAutoAvaliacaoInicialMenorFinal", "CiclosAvaliacao",
         //        AdditionalFields = "DataInicioAutoAvaliacao",
         //        ErrorMessage = "A {0} deve ser maior que a Data de Início.")]
         public string DataTerminoAutoAvaliacao { get; set; }
@@ -114,14 +115,14 @@ namespace AvaliacaoDesempenho.Models.CiclosAvaliacao
 
         [Display(Name = "Data de Início")]
         [RegularExpression(ExpressoesRegulares.DATA, ErrorMessage = "A {0} é inválida.")]
-        //[Remote("ValidarDataAvaliacaoGestorInicialMenorFinal", CONTROLLER_VALIDACAO,
+        //[Remote("ValidarDataAvaliacaoGestorInicialMenorFinal", "CiclosAvaliacao",
         //        AdditionalFields = "DataTerminoAvaliacaoGestor",
         //        ErrorMessage = "A {0} deve ser menor que a Data de Término.")]
         public string DataInicioAvaliacaoGestor { get; set; }
 
         [Display(Name = "Data de Término")]
         [RegularExpression(ExpressoesRegulares.DATA, ErrorMessage = "A {0} é inválida.")]
-        //[Remote("ValidarDataAvaliacaoGestorInicialMenorFinal", CONTROLLER_VALIDACAO,
+        //[Remote("ValidarDataAvaliacaoGestorInicialMenorFinal", "CiclosAvaliacao",
         //        AdditionalFields = "DataInicioAvaliacaoGestor",
         //        ErrorMessage = "A {0} deve ser maior que a Data de Início.")]
         public string DataTerminoAvaliacaoGestor { get; set; }
@@ -146,14 +147,14 @@ namespace AvaliacaoDesempenho.Models.CiclosAvaliacao
 
         [Display(Name = "Data de Início")]
         [RegularExpression(ExpressoesRegulares.DATA, ErrorMessage = "A {0} é inválida.")]
-        //[Remote("ValidarDataAvaliacaoGerenciamentoPDI", CONTROLLER_VALIDACAO,
+        //[Remote("ValidarDataAvaliacaoGerenciamentoPDI", "CiclosAvaliacao",
         //        AdditionalFields = "DataTerminoGerenciamentoPDI",
         //        ErrorMessage = "A {0} deve ser menor que a Data de Término.")]
         public string DataInicioGerenciamentoPDI { get; set; }
 
         [Display(Name = "Data de Término")]
         [RegularExpression(ExpressoesRegulares.DATA, ErrorMessage = "A {0} é inválida.")]
-        //[Remote("ValidarDataAvaliacaoGerenciamentoPDI", CONTROLLER_VALIDACAO,
+        //[Remote("ValidarDataAvaliacaoGerenciamentoPDI", "CiclosAvaliacao",
         //        AdditionalFields = "DataInicioGerenciamentoPDI",
         //        ErrorMessage = "A {0} deve ser maior que a Data de Início.")]
         public string DataTerminoGerenciamentoPDI { get; set; }

@@ -12,6 +12,8 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public string StatusAvaliacaoColaboradorNome { get; set; }
 
+        public bool ParticipaDaAvaliacao { get; set; }
+
         public List<ItemListaGestaoAvaliacaoColaboradorViewModel> ListaGestaoAvaliacaoColaboradorViewModel { get; set; }
 
         public List<ItemListaGestaoAvaliacaoPDIColaboradorViewModel> ListaGestaoAvaliacaoPDIColaboradorViewModel { get; set; }

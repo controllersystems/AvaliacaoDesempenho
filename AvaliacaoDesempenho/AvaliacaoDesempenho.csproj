@@ -269,6 +269,7 @@
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\Validators\BaseValidator.cs" />
+    <Compile Include="Dominio\Validators\DataMenorQue.cs" />
     <Compile Include="Dominio\Validators\ValidacaoCicloAvaliacao.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

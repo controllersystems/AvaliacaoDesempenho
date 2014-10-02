@@ -20,6 +20,8 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public int StatusCicloAvaliacaoID { get; set; }
 
+        public bool LiberadoPraSubmeterAoGestor { get; set; }
+
         public IEnumerable<SelectListItem> ListaNivelAvaliacao { get; set; }
 
         public List<ItemListaCompetenciasColaborador> ListaCompetenciasCorporativas { get; set; }
@@ -48,6 +50,6 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         [Display(Name = "Nível colaborador")]
         [DataType(DataType.Text, ErrorMessage = "O {0} é inválido.")]
         [Required(ErrorMessage = "O {0} é obrigatório.")]
-        public int NivelColaborador { get; set; }
+        public int? NivelColaborador { get; set; }
     }
 }

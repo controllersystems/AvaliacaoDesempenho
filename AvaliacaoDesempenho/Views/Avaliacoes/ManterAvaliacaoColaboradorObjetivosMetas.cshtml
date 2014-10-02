@@ -39,21 +39,21 @@
             @Html.HiddenFor(model => model.GestorRubiID)
             @Html.HiddenFor(model => model.UsuarioRubiID)
 
-            for (int i = 0; i < Model.ListaObjetivosMetasViewModel.Count; i++)
-            {
-                <div class="row top20">
-                    <div class="col-md-050">
-                        @Html.TextAreaFor(model => Model.ListaObjetivosMetasViewModel[i].Objetivo, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                    <div class="col-md-050">
-                        @Html.TextAreaFor(model => Model.ListaObjetivosMetasViewModel[i].MetaColaboradorMeta, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                </div>
-                <hr />
-            }
-
             if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.AprovacaoDefinicaoObjetivosMetas))
             {
+                for (int i = 0; i < Model.ListaObjetivosMetasViewModel.Count; i++)
+                {
+                    <div class="row top20">
+                        <div class="col-md-050">
+                            @Html.TextAreaFor(model => Model.ListaObjetivosMetasViewModel[i].Objetivo, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-050">
+                            @Html.TextAreaFor(model => Model.ListaObjetivosMetasViewModel[i].MetaColaboradorMeta, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <hr />
+                }
+                
                 <div class="row top30">
                     <div class="col-md-095 col-md-offset-005 text-right">
                         @Html.ActionLink("Aprovar",
