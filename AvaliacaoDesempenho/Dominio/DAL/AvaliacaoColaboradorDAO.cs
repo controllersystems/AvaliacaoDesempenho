@@ -40,7 +40,7 @@ namespace AvaliacaoDesempenho.Dominio.DAL
             return resultado;
         }
 
-        public List<AvaliacaoColaborador> ListarPorGestor(int cicloAvaliacaoID, int gestorRubiID)
+        public List<AvaliacaoColaborador> ListarPorGestor(int cicloAvaliacaoID, int gestorRubiID, int gestorRubiEmpID)
         {
             List<AvaliacaoColaborador> resultado = null;
 
@@ -50,7 +50,8 @@ namespace AvaliacaoDesempenho.Dominio.DAL
                                     .Include("StatusAvaliacaoColaborador")
                                     .Include("Usuario")
                                     .Where(p => p.CicloAvaliacao_ID == cicloAvaliacaoID
-                                                        && p.GestorRubiID == gestorRubiID);
+                                                && p.GestorRubi_ID == gestorRubiID
+                                                && p.GestorRubiEmp_ID == gestorRubiEmpID);
 
                 if (query.Any())
                     resultado = query.ToList();

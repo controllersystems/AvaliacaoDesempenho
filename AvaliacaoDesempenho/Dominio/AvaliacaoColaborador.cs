@@ -29,7 +29,8 @@ namespace AvaliacaoDesempenho.Dominio
         public bool Aprovada { get; set; }
         public int CicloAvaliacao_ID { get; set; }
         public int Colaborador_ID { get; set; }
-        public Nullable<int> GestorRubiID { get; set; }
+        public Nullable<int> GestorRubi_ID { get; set; }
+        public Nullable<int> GestorRubiEmp_ID { get; set; }
         public int StatusAvaliacaoColaborador_ID { get; set; }
         public Nullable<int> CargoRubiID { get; set; }
         public Nullable<int> AreaRubiID { get; set; }

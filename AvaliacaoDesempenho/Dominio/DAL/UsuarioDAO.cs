@@ -53,7 +53,7 @@ namespace AvaliacaoDesempenho.Dominio.DAL
             {
                 return (from avaliacao in db.AvaliacaoColaborador
                         join gestor in db.Usuario
-                            on avaliacao.GestorRubiID equals gestor.UsuarioRubiID
+                            on avaliacao.GestorRubi_ID equals gestor.UsuarioRubiID
                         where avaliacao.CicloAvaliacao_ID == cicloAvaliacaoID
                         select gestor).ToList();
             }

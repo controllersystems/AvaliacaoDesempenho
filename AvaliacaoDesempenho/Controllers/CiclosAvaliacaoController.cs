@@ -15,6 +15,8 @@ using System.Linq;
 using System.Web.Mvc;
 using PagedList;
 using AvaliacaoDesempenho.Seguranca;
+using System.DirectoryServices.AccountManagement;
+using System.DirectoryServices;
 
 namespace AvaliacaoDesempenho.Controllers
 {
@@ -298,6 +300,27 @@ namespace AvaliacaoDesempenho.Controllers
             return View("/Views/CiclosAvaliacao/GestaoCompetenciasCargos.cshtml", model);
         }
 
+        private void CadastrarUsuario(string login, int numEmp, int numCad)
+        {
+            IntegracaoRubi integracaoRubi = new IntegracaoRubi();
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+
+            var usuarioRubi = integracaoRubi.ObterUSU_V034FAD(numEmp, numCad);
+
+            var usuario = new Usuario()
+            {
+                Nome = usuarioRubi.NOMFUN,
+                Email = usuarioRubi.EMACOM,
+                Login = login,
+                Papel_ID = (int)Enumeradores.CodigoPapeis.Colaborador,
+                GestorRubiID = usuarioRubi.USU_LD1CAD,
+                UsuarioRubiID = usuarioRubi.NUMCAD,
+                CodigoEmpresaRubiUD = usuarioRubi.NUMEMP
+            };
+
+            usuarioDAO.Incluir(usuario);
+        }
+
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -370,8 +393,50 @@ namespace AvaliacaoDesempenho.Controllers
                                     //Para cada usuario do rubi pegar seu respectivo usuario no competencias
                                     var usuarioCompetencia = new UsuarioDAO().Obter(usuarioRubi.NUMCAD, usuarioRubi.NUMEMP);
 
+                                    //Caso não exista usuário no competencias, pegar as informações do AD e criar o usuário.
+                                    if (usuarioCompetencia == null)
+                                    {
+                                        PrincipalContext principalContext = new PrincipalContext(ContextType.Domain);
+
+                                        DirectorySearcher directorySearcher = new DirectorySearcher(principalContext.ConnectedServer);
+
+                                        directorySearcher.Filter = "(&(company=" + usuarioRubi.NUMEMP + ")(department=" + usuarioRubi.NUMCAD + ")" + System.Configuration.ConfigurationManager.ConnectionStrings["ADFilterConnectionString"].ConnectionString + ")";
+
+                                        SearchResult searchResult = directorySearcher.FindOne();
+
+                                        DirectoryEntry directoryEntry = searchResult.GetDirectoryEntry();
+
+                                        if (directoryEntry.Properties.Count > 0)
+                                        {
+                                            CadastrarUsuario(directoryEntry.Properties["sAMAccountName"][0].ToString(), usuarioRubi.NUMEMP, usuarioRubi.NUMCAD);
+
+                                            usuarioCompetencia = new UsuarioDAO().Obter(usuarioRubi.NUMCAD, usuarioRubi.NUMEMP);
+                                        }
+                                    }
+
+                                    //Caso exista usuário cadastrado no sistema ou no AD, prosseguir pra criar a sua avaliação.
                                     if (usuarioCompetencia != null)
                                     {
+                                        //Verificar se existe seu gestor cadastrado no competencias, caso não exista cadastrar.
+                                        var gestor = new UsuarioDAO().Obter(usuarioRubi.USU_LD1CAD.Value, usuarioRubi.USU_LD1EMP.Value);
+                                        if (gestor == null)
+                                        {
+                                            PrincipalContext principalContext = new PrincipalContext(ContextType.Domain);
+
+                                            DirectorySearcher directorySearcher = new DirectorySearcher(principalContext.ConnectedServer);
+
+                                            directorySearcher.Filter = "(&(company=" + usuarioRubi.USU_LD1EMP.Value + ")(department=" + usuarioRubi.USU_LD1CAD.Value + ")" + System.Configuration.ConfigurationManager.ConnectionStrings["ADFilterConnectionString"].ConnectionString + ")";
+
+                                            SearchResult searchResult = directorySearcher.FindOne();
+
+                                            DirectoryEntry directoryEntry = searchResult.GetDirectoryEntry();
+
+                                            if (directoryEntry.Properties.Count > 0)
+                                            {
+                                                CadastrarUsuario(directoryEntry.Properties["sAMAccountName"][0].ToString(), usuarioRubi.USU_LD1EMP.Value, usuarioRubi.USU_LD1CAD.Value);
+                                            }
+                                        }
+
                                         //Para cada usuario no competencia verificar se existe uma avaliação criada dentro desse ciclo
                                         var avaliacaoColaborador = new AvaliacaoColaboradorDAO().Obter(model.CicloAvaliacaoSelecionadoID.Value, usuarioCompetencia.ID);
 
@@ -386,7 +451,8 @@ namespace AvaliacaoDesempenho.Controllers
                                                 avaliacao.DataCriacao = DateTime.Today;
                                                 avaliacao.CicloAvaliacao_ID = model.CicloAvaliacaoSelecionadoID.Value;
                                                 avaliacao.Colaborador_ID = usuarioCompetencia.ID;
-                                                avaliacao.GestorRubiID = usuarioCompetencia.GestorRubiID;
+                                                avaliacao.GestorRubi_ID = usuarioRubi.USU_LD1CAD;
+                                                avaliacao.GestorRubiEmp_ID = usuarioRubi.USU_LD1EMP;
                                                 if (ciclo.SituacaoCicloAvaliacao_ID.Value == 1 || ciclo.SituacaoCicloAvaliacao_ID.Value == 2)
                                                 {
                                                     avaliacao.StatusAvaliacaoColaborador_ID = ciclo.SituacaoCicloAvaliacao_ID.Value;

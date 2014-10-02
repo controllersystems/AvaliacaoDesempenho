@@ -17,6 +17,8 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public int? UsuarioRubiID { get; set; }
 
+        public int? GestorRubiEmpID { get; set; }
+
         public int StatusAvaliacaoColaboradorID { get; set; }
 
         public int StatusCicloAvaliacaoID { get; set; }

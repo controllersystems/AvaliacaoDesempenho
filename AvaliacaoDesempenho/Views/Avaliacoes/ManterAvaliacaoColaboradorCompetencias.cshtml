@@ -42,7 +42,7 @@
                     </tr>
                     @for (int i = 0; i < Model.ListaCompetenciasCorporativas.Count; i++)
                     {
-                        if (Model.ListaCompetenciasCorporativas[i].NivelColaborador != 0)
+                        if (Model.ListaCompetenciasCorporativas[i].ID != 0)
                         {
                             Model.LiberadoPraSubmeterAoGestor = true;
                         }
@@ -85,7 +85,7 @@
 
                     @for (int i = 0; i < Model.ListaCompetenciasLideranca.Count; i++)
                     {
-                        if (Model.ListaCompetenciasLideranca[i].NivelColaborador != 0)
+                        if (Model.ListaCompetenciasLideranca[i].ID != 0)
                         {
                             Model.LiberadoPraSubmeterAoGestor = true;
                         }
@@ -127,7 +127,7 @@
                     </tr>
                     @for (int i = 0; i < Model.ListaCompetenciasFuncionais.Count; i++)
                     {
-                        if (Model.ListaCompetenciasFuncionais[i].NivelColaborador != 0)
+                        if (Model.ListaCompetenciasFuncionais[i].ID != 0)
                         {
                             Model.LiberadoPraSubmeterAoGestor = true;
                         }

@@ -50,7 +50,7 @@ namespace AvaliacaoDesempenho.Controllers
                && associacoesCargosCompetencias != null
                 && gestoresCicloAvaliacao != null)
             {
-                var avaliacaoesLeftGestores = avaliacoes.GroupJoin(gestoresCicloAvaliacao, av => av.GestorRubiID,
+                var avaliacaoesLeftGestores = avaliacoes.GroupJoin(gestoresCicloAvaliacao, av => av.GestorRubi_ID.Value,
                                                             g => g.UsuarioRubiID,
                                                             (av, g) => new { av, g })
                                                 .SelectMany(temp => temp.g.DefaultIfEmpty(),
@@ -135,7 +135,7 @@ namespace AvaliacaoDesempenho.Controllers
             var associacoesCargosCompetencias = new AssociacaoCargoCompetenciaDAO().ListarPorCicloAvaliacao(model.CicloAvaliacaoSelecionadoID);
             var gestoresCicloAvaliacao = new UsuarioDAO().ListarGestoresPorCicloAvaliacao(model.CicloAvaliacaoSelecionadoID);
 
-            var avaliacaoesLeftGestores = avaliacoes.GroupJoin(gestoresCicloAvaliacao, av => av.GestorRubiID,
+            var avaliacaoesLeftGestores = avaliacoes.GroupJoin(gestoresCicloAvaliacao, av => av.GestorRubi_ID,
                                                         g => g.UsuarioRubiID,
                                                         (av, g) => new { av, g })
                                             .SelectMany(temp => temp.g.DefaultIfEmpty(),
@@ -222,7 +222,8 @@ namespace AvaliacaoDesempenho.Controllers
                      CicloAvaliacao_ID = avaliacao.CicloAvaliacao_ID,
                      Colaborador_ID = avaliacao.Colaborador_ID,
                      DataCriacao = avaliacao.DataCriacao,
-                     GestorRubiID = avaliacao.GestorRubiID,
+                     GestorRubi_ID = avaliacao.GestorRubi_ID,
+                     GestorRubiEmp_ID = avaliacao.GestorRubiEmp_ID,
                      ID = avaliacao.ID,
                      JustificativaReprovacao = avaliacao.JustificativaReprovacao,
                      SetorRubiID = avaliacao.SetorRubiID,
@@ -311,7 +312,8 @@ namespace AvaliacaoDesempenho.Controllers
             }
 
             var avaliacoesCicloGestor = avaliacaoColaboradorDAO.ListarPorGestor(cicloAvaliacaoSelecionadoID.Value,
-                                                                                identidade.UsuarioRubiID.Value);
+                                                                                identidade.UsuarioRubiID.Value,
+                                                                                identidade.CodigoEmpresaRubiUD);
 
             var associacoesCargosCompetencias = associacaoCargoCompetenciaDAO.ListarPorCicloAvaliacao(cicloAvaliacaoSelecionadoID.Value);
 
@@ -355,7 +357,8 @@ namespace AvaliacaoDesempenho.Controllers
             }
 
             var pdiCicloGestor = new AvaliacaoPDIColaboradorDAO().ListarPorGestor(cicloAvaliacaoSelecionadoID.Value,
-                                                                                identidade.UsuarioRubiID.Value);
+                                                                                identidade.UsuarioRubiID.Value,
+                                                                                identidade.CodigoEmpresaRubiUD);
 
             if (pdiCicloGestor != null
                 && associacoesCargosCompetencias != null)
@@ -533,7 +536,8 @@ namespace AvaliacaoDesempenho.Controllers
 
         if (avaliacaoColaborador != null)
         {
-            model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+            model.GestorRubiID = avaliacaoColaborador.GestorRubi_ID;
+            model.GestorRubiEmpID = avaliacaoColaborador.GestorRubiEmp_ID;
 
             //model.ListaObjetivosMetasViewModel =
             //    Mapper.Map<List<ObjetivoColaborador>,
@@ -605,7 +609,8 @@ namespace AvaliacaoDesempenho.Controllers
 
             if (avaliacaoColaborador != null)
             {
-                model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+                model.GestorRubiID = avaliacaoColaborador.GestorRubi_ID;
+                model.GestorRubiEmpID = avaliacaoColaborador.GestorRubiEmp_ID;
 
                 model.ListaObjetivosMetasViewModel =
                     Mapper.Map<List<ObjetivoColaborador>,
@@ -652,7 +657,8 @@ namespace AvaliacaoDesempenho.Controllers
                         avaliacao.DataCriacao = DateTime.Today;
                         avaliacao.CicloAvaliacao_ID = model.CicloAvaliacaoSelecionadoID.Value;
                         avaliacao.Colaborador_ID = identidade.UsuarioID;
-                        avaliacao.GestorRubiID = identidade.GestorRubiID;
+                        avaliacao.GestorRubi_ID = identidade.GestorRubiID;
+                        avaliacao.GestorRubiEmp_ID = identidade.CodigoEmpresaRubiUD;
                         if (ciclo.SituacaoCicloAvaliacao_ID.Value == 1 || ciclo.SituacaoCicloAvaliacao_ID.Value == 2)
                         {
                             avaliacao.StatusAvaliacaoColaborador_ID = ciclo.SituacaoCicloAvaliacao_ID.Value;
@@ -908,7 +914,8 @@ namespace AvaliacaoDesempenho.Controllers
 
             if (avaliacaoColaborador != null)
             {
-                model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+                model.GestorRubiID = avaliacaoColaborador.GestorRubi_ID;
+                model.GestorRubiEmpID = avaliacaoColaborador.GestorRubiEmp_ID;
 
                 model.ListaObjetivosMetasResultadosatingidosViewModel =
                     Mapper.Map<List<ObjetivoColaborador>,
@@ -1164,7 +1171,8 @@ namespace AvaliacaoDesempenho.Controllers
 
             if (avaliacaoColaborador != null)
             {
-                model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+                model.GestorRubiID = avaliacaoColaborador.GestorRubi_ID;
+                model.GestorRubiEmpID = avaliacaoColaborador.GestorRubiEmp_ID;
 
                 Mapper.CreateMap<ObjetivoColaborador, ObjetivoMetaResultadoAtingidoGestorViewModel>()
                 .ForMember(dest => dest.AvaliacaoGestor,
@@ -1453,7 +1461,8 @@ namespace AvaliacaoDesempenho.Controllers
 
             if (avaliacaoColaborador != null)
             {
-                model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+                model.GestorRubiID = avaliacaoColaborador.GestorRubi_ID;
+                model.GestorRubiEmpID = avaliacaoColaborador.GestorRubiEmp_ID;
 
                 var associacaoCargoCompentencia = new AssociacaoCargoCompetenciaDAO().Obter(id.Value, avaliacaoColaborador.CargoRubiID.Value, avaliacaoColaborador.AreaRubiID.Value, avaliacaoColaborador.SetorRubiID.Value);
 
@@ -1472,7 +1481,7 @@ namespace AvaliacaoDesempenho.Controllers
                         ItemListaCompetenciasColaborador itemListaAdd = new ItemListaCompetenciasColaborador();
 
                         itemListaAdd.ID = (competenciasColaborador == null) ? 0 : competenciasColaborador.ID;
-                        itemListaAdd.NivelColaborador = (competenciasColaborador == null) ? 0 : ((competenciasColaborador.NivelColaborador.HasValue) ? competenciasColaborador.NivelColaborador.Value : 0);
+                        itemListaAdd.NivelColaborador = (competenciasColaborador == null) ? null : competenciasColaborador.NivelColaborador;
                         itemListaAdd.Competencia = (string.IsNullOrEmpty(item.descricao_comp)) ? item.titulo_comp : item.descricao_comp;
                         itemListaAdd.CompentenciaID = item.id_comp;
 
@@ -1577,7 +1586,8 @@ namespace AvaliacaoDesempenho.Controllers
 
                 if (avaliacaoColaborador != null)
                 {
-                    model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+                    model.GestorRubiID = avaliacaoColaborador.GestorRubi_ID;
+                    model.GestorRubiEmpID = avaliacaoColaborador.GestorRubiEmp_ID;
 
                     model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
 
@@ -1701,7 +1711,8 @@ namespace AvaliacaoDesempenho.Controllers
 
             if (avaliacaoColaborador != null)
             {
-                model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+                model.GestorRubiID = avaliacaoColaborador.GestorRubi_ID;
+                model.GestorRubiEmpID = avaliacaoColaborador.GestorRubiEmp_ID;
 
                 var associacaoCargoCompentencia = new AssociacaoCargoCompetenciaDAO().Obter(id.Value, avaliacaoColaborador.CargoRubiID.Value, avaliacaoColaborador.AreaRubiID.Value, avaliacaoColaborador.SetorRubiID.Value);
 
@@ -1796,7 +1807,8 @@ namespace AvaliacaoDesempenho.Controllers
 
                 if (avaliacaoColaborador != null)
                 {
-                    model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+                    model.GestorRubiID = avaliacaoColaborador.GestorRubi_ID;
+                    model.GestorRubiEmpID = avaliacaoColaborador.GestorRubiEmp_ID;
 
                     model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
 
@@ -1968,7 +1980,8 @@ namespace AvaliacaoDesempenho.Controllers
 
             if (avaliacaoColaborador != null)
             {
-                model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+                model.GestorRubiID = avaliacaoColaborador.GestorRubi_ID;
+                model.GestorRubiEmpID = avaliacaoColaborador.GestorRubiEmp_ID;
 
                 model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
 
@@ -2012,7 +2025,8 @@ namespace AvaliacaoDesempenho.Controllers
 
                 if (avaliacaoColaborador != null)
                 {
-                    model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+                    model.GestorRubiID = avaliacaoColaborador.GestorRubi_ID;
+                    model.GestorRubiEmpID = avaliacaoColaborador.GestorRubiEmp_ID;
 
                     model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
 
@@ -2099,7 +2113,8 @@ namespace AvaliacaoDesempenho.Controllers
                     return ManterAvaliacaoColaboradorRecomendacaoRH(id.Value, model.ColaboradorID);
                 }
 
-                model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+                model.GestorRubiID = avaliacaoColaborador.GestorRubi_ID;
+                model.GestorRubiEmpID = avaliacaoColaborador.GestorRubiEmp_ID;
 
                 model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
 
@@ -2169,7 +2184,8 @@ namespace AvaliacaoDesempenho.Controllers
 
                 if (avaliacaoColaborador != null)
                 {
-                    model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+                    model.GestorRubiID = avaliacaoColaborador.GestorRubi_ID;
+                    model.GestorRubiEmpID = avaliacaoColaborador.GestorRubiEmp_ID;
 
                     model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
 
@@ -2286,7 +2302,8 @@ namespace AvaliacaoDesempenho.Controllers
 
             if (avaliacaoColaborador != null)
             {
-                model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+                model.GestorRubiID = avaliacaoColaborador.GestorRubi_ID;
+                model.GestorRubiEmpID = avaliacaoColaborador.GestorRubiEmp_ID;
 
                 model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
 
@@ -2356,7 +2373,8 @@ namespace AvaliacaoDesempenho.Controllers
 
                 if (avaliacaoColaborador != null)
                 {
-                    model.GestorRubiID = avaliacaoColaborador.GestorRubiID;
+                    model.GestorRubiID = avaliacaoColaborador.GestorRubi_ID;
+                    model.GestorRubiEmpID = avaliacaoColaborador.GestorRubiEmp_ID;
 
                     model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
 
@@ -2459,7 +2477,8 @@ namespace AvaliacaoDesempenho.Controllers
 
             if (avaliacaoPDIColaborador != null)
             {
-                model.GestorRubiID = avaliacaoPDIColaborador.GestorRubiID;
+                model.GestorRubiID = avaliacaoPDIColaborador.GestorRubi_ID;
+                model.GestorRubiEmpID = avaliacaoPDIColaborador.GestorRubiEmp_ID;
 
                 model.ListaDesenvolvimentoCompetenciaViewModel =
                     Mapper.Map<List<DesenvolvimentoCompetencia>,
@@ -2517,7 +2536,8 @@ namespace AvaliacaoDesempenho.Controllers
                     avaliacaoPDI.DataCriacao = DateTime.Today;
                     avaliacaoPDI.CicloAvaliacao_ID = model.CicloAvaliacaoSelecionadoID.Value;
                     avaliacaoPDI.Colaborador_ID = identidade.UsuarioID;
-                    avaliacaoPDI.GestorRubiID = identidade.GestorRubiID;
+                    avaliacaoPDI.GestorRubi_ID = identidade.GestorRubiID;
+                    avaliacaoPDI.GestorRubiEmp_ID = identidade.CodigoEmpresaRubiUD;
                     avaliacaoPDI.StatusPDI_ID = (int)Enumeradores.StatusPDI.Criada;
                     avaliacaoPDI.Idiomas = model.Idiomas;
                     avaliacaoPDI.Graduacao = model.Graduacao;

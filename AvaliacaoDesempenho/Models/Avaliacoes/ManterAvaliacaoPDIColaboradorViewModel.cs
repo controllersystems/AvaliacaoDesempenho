@@ -47,6 +47,8 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public int? GestorRubiID { get; set; }
 
+        public int? GestorRubiEmpID { get; set; }
+
         public int? UsuarioRubiID { get; set; }
 
         public int StatusPDIID { get; set; }
