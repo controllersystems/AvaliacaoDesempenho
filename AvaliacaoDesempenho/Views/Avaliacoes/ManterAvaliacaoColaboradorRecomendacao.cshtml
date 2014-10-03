@@ -35,7 +35,8 @@
                 <label>Recomendação de Rating</label>
             </div>
             <div class="col-md-025">
-                @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
+                @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH
+                    || Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada))
                 {
                     @Html.DropDownListFor(model => Model.ItemRecomendacaoColaborador.RecomendacaoDeRating,
                                                new SelectList(Model.ListaRecomendacaoDeRating,
@@ -62,7 +63,8 @@
                 <label>Recomendação de Promoção</label>
             </div>
             <div class="col-md-025">
-                @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
+                @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH
+                    || Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada))
                 {
                     @Html.DropDownListFor(model => Model.ItemRecomendacaoColaborador.RecomendacaoDePromocao,
                                                new SelectList(Model.ListaSimNao,

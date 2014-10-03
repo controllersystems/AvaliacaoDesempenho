@@ -11,6 +11,8 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public int? CicloAvaliacaoSelecionadoID { get; set; }
 
+        public int? PapelID { get; set; }
+
         public int? AvaliacaoColaboradorID { get; set; }
 
         public int? GestorRubiID { get; set; }

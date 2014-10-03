@@ -47,9 +47,9 @@ namespace AvaliacaoDesempenho.Integracoes.SistemaCompetencias
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.Append("select distinct [id_comp],[titulo_comp],[id_area_comp],[status_comp],[sigla_comp],[id_setor_comp],[id_nivel_comp],[id_tipo_comp],[descricao_comp]");
-            sb.Append("from tbl_cargo_competencia_scc cc,tbl_competencia_scc cp,tbl_cargo_scc c ");
-            sb.Append("where cc.id_comp_ccomp = cp.id_comp and cc.id_nivel_ccomp = cp.id_nivel_comp and cc.id_cargo_ccomp = c.id_cargo ");
+            sb.Append("select distinct [id_comp],[titulo_comp],[id_area_comp],[status_comp],[sigla_comp],[id_setor_comp],[id_nivel_comp],[id_tipo_comp],[descricao_comp],[proeficiencia_cp]");
+            sb.Append("from tbl_cargo_competencia_scc cc,tbl_competencia_scc cp,tbl_cargo_scc c, tbl_competencia_proeficiencia_scc cpp ");
+            sb.Append("where cc.id_comp_ccomp = cp.id_comp and cc.id_nivel_ccomp = cp.id_nivel_comp and cc.id_cargo_ccomp = c.id_cargo and cpp.id_comp_cp = cp.id_comp ");
             sb.Append(string.Format("and cc.id_nivel_ccomp = c.id_nivel_cargo and c.id_cargo = {0} and c.id_area_cargo = {1} and c.id_setor_cargo = {2} and id_tipo_comp in (1,2,3)", cargoID, areaID, setorID));
 
             using (db = new SistemaCompetenciasContext())

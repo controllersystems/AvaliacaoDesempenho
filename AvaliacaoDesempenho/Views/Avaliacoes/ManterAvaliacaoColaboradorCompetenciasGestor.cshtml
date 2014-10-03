@@ -286,7 +286,8 @@
                     @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorPerformance", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
                 }
             }
-            @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
+            @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH
+                || Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada))
             {
                 if (Model.ProximaEtapa)
                 {

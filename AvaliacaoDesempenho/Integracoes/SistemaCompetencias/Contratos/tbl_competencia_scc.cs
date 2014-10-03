@@ -21,6 +21,8 @@ namespace AvaliacaoDesempenho.Integracoes.SistemaCompetencias.Contratos
 
         public int? id_tipo_comp { get; set; }
 
+        public string proeficiencia_cp { get; set; }
+
         public string descricao_comp { get; set; }
     }
 }

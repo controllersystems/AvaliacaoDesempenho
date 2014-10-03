@@ -31,7 +31,9 @@
     if (Model.ListaObjetivosMetasResultadosatingidosGestorViewModel != null
             && Model.ListaObjetivosMetasResultadosatingidosGestorViewModel.Any())
     {
-        if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores) || Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH))
+        if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores) 
+            || Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
+            || Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada))
         {
             <div class="row">
                 <div class="col-md-025">
@@ -69,7 +71,8 @@
                         @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                     <div class="col-md-025">
-                        @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH))
+                        @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
+                            || Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada))
                         {
                             @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].AvaliacaoGestor, new { @class = "form-control", @readonly = "readonly" })
                         }
@@ -167,7 +170,8 @@
                 </div>
             </div>
 
-            if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH))
+            if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
+                || Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada))
             {
                 for (int i = 0; i < Model.ListaOutrasContribuicoesGestorViewModel.Count; i++)
                 {
@@ -186,7 +190,8 @@
         }
         if (Model.ProximaEtapa &&
             (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores) ||
-             Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)))
+             Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH) || 
+             Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada)))
         {
             <hr />
             <div class="row top20">

@@ -34,7 +34,8 @@
                             @Html.HiddenFor(model => Model.CicloAvaliacaoSelecionadoID)
                             @Html.HiddenFor(model => Model.AvaliacaoColaboradorID)
                             @Html.HiddenFor(model => Model.ColaboradorID)
-                            @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
+                            @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH
+                                || Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada))
                             {
                                 @Html.TextAreaFor(model => Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral, new { @class = "form-control", @readonly = "readonly" })
                             }
@@ -57,7 +58,9 @@
                 <input type="submit" value="Salvar" class="btn btn-default" />
             }
             @if(Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral != null
-                && Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral != "")
+                && Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral != ""
+                && (Model.AcessoGestor
+                || Model.PapelID == (int)Enumeradores.CodigoPapeis.Administrador))
             {
                 @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorRecomendacao", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
             }

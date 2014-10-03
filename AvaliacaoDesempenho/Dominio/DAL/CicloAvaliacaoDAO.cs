@@ -31,7 +31,6 @@ namespace AvaliacaoDesempenho.Dominio.DAL
                                       join associacao in db.AssociacaoCargoCompetencia
                                       on ciclo.ID equals associacao.CicloAvaliacao_ID
                                       where ciclo.SituacaoCicloAvaliacao_ID > 1 &&
-                                            ciclo.SituacaoCicloAvaliacao_ID < 7 &&
                                             associacao.CargoRubiID == cargoID &&
                                             associacao.AreaRubiID == areaID &&
                                             associacao.SetorRubiID == setorID && 
@@ -46,7 +45,6 @@ namespace AvaliacaoDesempenho.Dominio.DAL
                                            join usuario in db.Usuario
                                            on avaliacao.Colaborador_ID equals usuario.ID
                                            where ciclo.SituacaoCicloAvaliacao_ID > 1 &&
-                                                 ciclo.SituacaoCicloAvaliacao_ID < 7 &&
                                                  usuario.GestorRubiID.Value == gestorID
                                            select ciclo;
 

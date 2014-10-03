@@ -39,7 +39,8 @@
             @Html.HiddenFor(model => model.GestorRubiID)
             @Html.HiddenFor(model => model.UsuarioRubiID)
 
-            if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.AprovacaoDefinicaoObjetivosMetas))
+            if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.AprovacaoDefinicaoObjetivosMetas) ||
+                Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.ObjetivosMetasDefinidos))
             {
                 for (int i = 0; i < Model.ListaObjetivosMetasViewModel.Count; i++)
                 {
@@ -53,10 +54,12 @@
                     </div>
                     <hr />
                 }
-                
-                <div class="row top30">
-                    <div class="col-md-095 col-md-offset-005 text-right">
-                        @Html.ActionLink("Aprovar",
+
+                if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.AprovacaoDefinicaoObjetivosMetas))
+                {
+                    <div class="row top30">
+                        <div class="col-md-095 col-md-offset-005 text-right">
+                            @Html.ActionLink("Aprovar",
                                      "AprovarAvaliacaoColaborador",
                                      new
                                      {
@@ -64,26 +67,27 @@
                                          avaliacaoColaboradorObjetivosMetasID = Model.AvaliacaoColaboradorID
                                      },
                                      new { @class = "btn btn-default" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="row top20">
-                    <div class="col-md-100">
-                        @Html.LabelFor(model => model.JustificativaReprovacao)
+                    <div class="row top20">
+                        <div class="col-md-100">
+                            @Html.LabelFor(model => model.JustificativaReprovacao)
+                        </div>
                     </div>
-                </div>
-                <div class="row top30">
-                    <div class="col-md-100">
-                        @Html.TextAreaFor(model => model.JustificativaReprovacao, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.JustificativaReprovacao, string.Empty, new { @class = "text-danger" })
+                    <div class="row top30">
+                        <div class="col-md-100">
+                            @Html.TextAreaFor(model => model.JustificativaReprovacao, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.JustificativaReprovacao, string.Empty, new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="row top30">
-                    <div class="col-md-095 col-md-offset-005 text-right">
-                        <input type="submit" value="Reprovar" class="btn btn-default" />
+                    <div class="row top30">
+                        <div class="col-md-095 col-md-offset-005 text-right">
+                            <input type="submit" value="Reprovar" class="btn btn-default" />
+                        </div>
                     </div>
-                </div>
+                }
             }
             else
             {
