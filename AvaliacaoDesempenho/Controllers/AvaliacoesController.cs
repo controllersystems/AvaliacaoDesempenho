@@ -39,6 +39,13 @@ namespace AvaliacaoDesempenho.Controllers
             return CarregarAvaliacoesColaboradoresPorCiclo(model);
         }
 
+        [Authorize]
+        [HttpPost]
+        public ActionResult PesquisarPDIs(GestaoPDIsViewModel model)
+        {
+            return CarregarAvaliacoesPdiColaboradoresPorCiclo(model);
+        }
+
         private ActionResult CarregarAvaliacoesColaboradoresPorCiclo(GestaoAvaliacoesColaboradoresViewModel model)
         {
             var avaliacoes = new AvaliacaoColaboradorDAO().Listar(model.CicloAvaliacaoSelecionadoID);
@@ -50,65 +57,6 @@ namespace AvaliacaoDesempenho.Controllers
                && associacoesCargosCompetencias != null
                 && gestoresCicloAvaliacao != null)
             {
-                //var avaliacaoesLeftGestores = avaliacoes.GroupJoin(gestoresCicloAvaliacao, av => av.GestorRubi_ID.Value,
-                //                                            g => g.UsuarioRubiID,
-                //                                            (av, g) => new { av, g })
-                //                                .SelectMany(temp => temp.g.DefaultIfEmpty(),
-                //                                            (av, g) => new { av.av, g }).ToList();
-
-                //model.AvaliacoesColaboradores =
-                //    (from avaliacao in avaliacaoesLeftGestores
-                //     //join gestor in gestoresCicloAvaliacao
-                //     //   on avaliacao.GestorRubiID equals gestor.UsuarioRubiID
-                //     join associacao in associacoesCargosCompetencias
-                //            on new
-                //            {
-                //                CargoRubiID = avaliacao.av.CargoRubiID.Value,
-                //                AreaRubiID = avaliacao.av.AreaRubiID.Value,
-                //                SetorRubiID = avaliacao.av.SetorRubiID
-                //            }
-                //            equals new
-                //            {
-                //                CargoRubiID = associacao.CargoRubiID,
-                //                AreaRubiID = associacao.AreaRubiID,
-                //                SetorRubiID = associacao.SetorRubiID
-                //            }
-                //     where avaliacao.av.Usuario.Nome.ToUpper()
-                //                        .Contains(!string.IsNullOrEmpty(model.NomeAvaliadoPesquisado)
-                //                                  && !string.IsNullOrWhiteSpace(model.NomeAvaliadoPesquisado)
-                //                                        ? model.NomeAvaliadoPesquisado.Trim().ToUpper()
-                //                                        : avaliacao.av.Usuario.Nome)
-                //        && associacao.AreaRubi.ToUpper()
-                //                        .Contains(!string.IsNullOrEmpty(model.AreaPesquisada)
-                //                                  && !string.IsNullOrWhiteSpace(model.AreaPesquisada)
-                //                                        ? model.AreaPesquisada.Trim().ToUpper()
-                //                                        : associacao.AreaRubi.ToUpper())
-                //        && associacao.CargoRubi.ToUpper()
-                //                        .Contains(!string.IsNullOrEmpty(model.CargoPesquisado)
-                //                                  && !string.IsNullOrWhiteSpace(model.CargoPesquisado)
-                //                                        ? model.CargoPesquisado.Trim().ToUpper()
-                //                                        : associacao.CargoRubi.ToUpper())
-                //        && (avaliacao.g != null) ? avaliacao.g.Nome.ToUpper()
-                //                        .Contains(!string.IsNullOrEmpty(model.GestorPesquisado)
-                //                                  && !string.IsNullOrWhiteSpace(model.GestorPesquisado)
-                //                                        ? model.GestorPesquisado.Trim().ToUpper()
-                //                                        : avaliacao.g.Nome.ToUpper()) : avaliacao.g == null
-                //        && avaliacao.av.StatusAvaliacaoColaborador_ID
-                //                        .Equals(model.StatusAvaliacaoPesquisadoID.HasValue
-                //                                        ? model.StatusAvaliacaoPesquisadoID.Value
-                //                                        : avaliacao.av.StatusAvaliacaoColaborador_ID)
-                //     select new ItemListaGestaoAvaliacoesViewModel()
-                //     {
-                //         ID = avaliacao.av.ID,
-                //         NomeGestor = (avaliacao.g == null) ? "" : avaliacao.g.Nome,
-                //         UsuarioNome = avaliacao.av.Usuario.Nome,
-                //         Cargo = associacao.CargoRubi,
-                //         Area = associacao.AreaRubi,
-                //         StatusAvaliacaoColaboradorNome = avaliacao.av.StatusAvaliacaoColaborador.Nome,
-                //         StatusAvaliacaoColaboradorID = avaliacao.av.StatusAvaliacaoColaborador_ID,
-                //         ColaboradorID = avaliacao.av.Usuario.ID
-                //     }).ToList();
-
                 model.AvaliacoesColaboradores =
                     (from avaliacao in avaliacoes
                      join associacao in associacoesCargosCompetencias
@@ -139,11 +87,11 @@ namespace AvaliacaoDesempenho.Controllers
                                                   && !string.IsNullOrWhiteSpace(model.CargoPesquisado)
                                                         ? model.CargoPesquisado.Trim().ToUpper()
                                                         : associacao.CargoRubi.ToUpper())
-                        && (avaliacao != null) ? avaliacao.Usuario.Nome.ToUpper()
-                                        .Contains(!string.IsNullOrEmpty(model.GestorPesquisado)
-                                                  && !string.IsNullOrWhiteSpace(model.GestorPesquisado)
-                                                        ? model.GestorPesquisado.Trim().ToUpper()
-                                                        : avaliacao.Usuario.Nome.ToUpper()) : avaliacao == null
+                        //&& (avaliacao.Usuario != null) ? avaliacao.Usuario.Nome.ToUpper()
+                        //                .Contains(!string.IsNullOrEmpty(model.GestorPesquisado)
+                        //                          && !string.IsNullOrWhiteSpace(model.GestorPesquisado)
+                        //                                ? model.GestorPesquisado.Trim().ToUpper()
+                        //                                : avaliacao.Usuario.Nome.ToUpper()) : avaliacao == null
                         && avaliacao.StatusAvaliacaoColaborador_ID
                                         .Equals(model.StatusAvaliacaoPesquisadoID.HasValue
                                                         ? model.StatusAvaliacaoPesquisadoID.Value
@@ -159,6 +107,13 @@ namespace AvaliacaoDesempenho.Controllers
                          StatusAvaliacaoColaboradorID = avaliacao.StatusAvaliacaoColaborador_ID,
                          ColaboradorID = avaliacao.Usuario.ID
                      }).ToList();
+
+                model.AvaliacoesColaboradores = model.AvaliacoesColaboradores
+                                                     .Where(x => x.NomeGestor.Contains(!string.IsNullOrEmpty(model.GestorPesquisado)
+                                                                                       && !string.IsNullOrWhiteSpace(model.GestorPesquisado)
+                                                                                       ? model.GestorPesquisado.Trim().ToUpper()
+                                                                                       : x.NomeGestor.ToUpper())).ToList();
+
 
                 model.StatusAprovacaoAvaliacaoColaborador
                     = Mapper.Map<List<StatusAvaliacaoColaborador>,
@@ -186,69 +141,65 @@ namespace AvaliacaoDesempenho.Controllers
             var associacoesCargosCompetencias = new AssociacaoCargoCompetenciaDAO().ListarPorCicloAvaliacao(model.CicloAvaliacaoSelecionadoID);
             var gestoresCicloAvaliacao = new UsuarioDAO().ListarGestoresPorCicloAvaliacao(model.CicloAvaliacaoSelecionadoID);
 
+            if(avaliacoes != null
+                && associacoesCargosCompetencias != null)
+            {
+                model.AvaliacoesPDIsColaboradores = 
+                (from avaliacao in avaliacoes
+                 join associacao in associacoesCargosCompetencias
+                        on new
+                        {
+                            CargoRubiID = avaliacao.CargoRubiID.Value,
+                            AreaRubiID = avaliacao.AreaRubiID.Value,
+                            SetorRubiID = avaliacao.SetorRubiID
+                        }
+                        equals new
+                        {
+                            CargoRubiID = associacao.CargoRubiID,
+                            AreaRubiID = associacao.AreaRubiID,
+                            SetorRubiID = associacao.SetorRubiID
+                        }
+                 where avaliacao.Usuario.Nome.ToUpper()
+                                    .Contains(!string.IsNullOrEmpty(model.NomeAvaliadoPesquisado)
+                                              && !string.IsNullOrWhiteSpace(model.NomeAvaliadoPesquisado)
+                                                    ? model.NomeAvaliadoPesquisado.Trim().ToUpper()
+                                                    : avaliacao.Usuario.Nome)
+                    && associacao.AreaRubi.ToUpper()
+                                    .Contains(!string.IsNullOrEmpty(model.AreaPesquisada)
+                                              && !string.IsNullOrWhiteSpace(model.AreaPesquisada)
+                                                    ? model.AreaPesquisada.Trim().ToUpper()
+                                                    : associacao.AreaRubi.ToUpper())
+                    && associacao.CargoRubi.ToUpper()
+                                    .Contains(!string.IsNullOrEmpty(model.CargoPesquisado)
+                                              && !string.IsNullOrWhiteSpace(model.CargoPesquisado)
+                                                    ? model.CargoPesquisado.Trim().ToUpper()
+                                                    : associacao.CargoRubi.ToUpper())
+                    && avaliacao.StatusPDI_ID
+                                    .Equals(model.StatusPDIPesquisadoID.HasValue
+                                                    ? model.StatusPDIPesquisadoID.Value
+                                                    : avaliacao.StatusPDI_ID)
+                 select new ItemListaGestaoAvaliacoesPDIViewModel()
+                 {
+                     ID = avaliacao.ID,
+                     NomeGestor = (avaliacao.Usuario == null) ? "" : (gestoresCicloAvaliacao.Exists(x => x.CodigoEmpresaRubiUD == avaliacao.GestorRubiEmp_ID && x.UsuarioRubiID == avaliacao.GestorRubi_ID) ? gestoresCicloAvaliacao.Find(x => x.CodigoEmpresaRubiUD == avaliacao.GestorRubiEmp_ID && x.UsuarioRubiID == avaliacao.GestorRubi_ID).Nome : ""),
+                     UsuarioNome = avaliacao.Usuario.Nome,
+                     Cargo = associacao.CargoRubi,
+                     Area = associacao.AreaRubi,
+                     StatusPDINome = avaliacao.StatusPDI.Nome,
+                     StatusPDIID = avaliacao.StatusPDI_ID,
+                     ColaboradorID = avaliacao.Usuario.ID
+                 }).ToList();
 
-            //var avaliacaoesLeftGestores = avaliacoes.GroupJoin(gestoresCicloAvaliacao, av => av.GestorRubi_ID,
-            //                                            g => g.UsuarioRubiID,
-            //                                            (av, g) => new { av, g })
-            //                                .SelectMany(temp => temp.g.DefaultIfEmpty(),
-            //                                            (av, g) => new { av.av, g }).ToList();
+                model.AvaliacoesPDIsColaboradores = model.AvaliacoesPDIsColaboradores
+                                                     .Where(x => x.NomeGestor.Contains(!string.IsNullOrEmpty(model.GestorPesquisado)
+                                                                                       && !string.IsNullOrWhiteSpace(model.GestorPesquisado)
+                                                                                       ? model.GestorPesquisado.Trim().ToUpper()
+                                                                                       : x.NomeGestor.ToUpper())).ToList();
+            }
 
-            model.AvaliacoesPDIsColaboradores = avaliacoes;
-            //    (from avaliacao in avaliacaoesLeftGestores
-            //     //join gestor in gestoresCicloAvaliacao
-            //     //   on avaliacao.GestorRubiID equals gestor.UsuarioRubiID
-            //     join associacao in associacoesCargosCompetencias
-            //            on new
-            //            {
-            //                CargoRubiID = avaliacao.av.CargoRubiID.Value,
-            //                AreaRubiID = avaliacao.av.AreaRubiID.Value,
-            //                SetorRubiID = avaliacao.av.SetorRubiID
-            //            }
-            //            equals new
-            //            {
-            //                CargoRubiID = associacao.CargoRubiID,
-            //                AreaRubiID = associacao.AreaRubiID,
-            //                SetorRubiID = associacao.SetorRubiID
-            //            }
-            //     where avaliacao.av.Usuario.Nome.ToUpper()
-            //                        .Contains(!string.IsNullOrEmpty(model.NomeAvaliadoPesquisado)
-            //                                  && !string.IsNullOrWhiteSpace(model.NomeAvaliadoPesquisado)
-            //                                        ? model.NomeAvaliadoPesquisado.Trim().ToUpper()
-            //                                        : avaliacao.av.Usuario.Nome)
-            //        && associacao.AreaRubi.ToUpper()
-            //                        .Contains(!string.IsNullOrEmpty(model.AreaPesquisada)
-            //                                  && !string.IsNullOrWhiteSpace(model.AreaPesquisada)
-            //                                        ? model.AreaPesquisada.Trim().ToUpper()
-            //                                        : associacao.AreaRubi.ToUpper())
-            //        && associacao.CargoRubi.ToUpper()
-            //                        .Contains(!string.IsNullOrEmpty(model.CargoPesquisado)
-            //                                  && !string.IsNullOrWhiteSpace(model.CargoPesquisado)
-            //                                        ? model.CargoPesquisado.Trim().ToUpper()
-            //                                        : associacao.CargoRubi.ToUpper())
-            //        && (avaliacao.g != null) ? avaliacao.g.Nome.ToUpper()
-            //                        .Contains(!string.IsNullOrEmpty(model.GestorPesquisado)
-            //                                  && !string.IsNullOrWhiteSpace(model.GestorPesquisado)
-            //                                        ? model.GestorPesquisado.Trim().ToUpper()
-            //                                        : avaliacao.g.Nome.ToUpper()) : avaliacao.g == null
-            //        && avaliacao.av.StatusAvaliacaoColaborador_ID
-            //                        .Equals(model.StatusAvaliacaoPesquisadoID.HasValue
-            //                                        ? model.StatusAvaliacaoPesquisadoID.Value
-            //                                        : avaliacao.av.StatusAvaliacaoColaborador_ID)
-            //     select new ItemListaGestaoAvaliacoesViewModel()
-            //     {
-            //         ID = avaliacao.av.ID,
-            //         NomeGestor = (avaliacao.g == null) ? "" : avaliacao.g.Nome,
-            //         UsuarioNome = avaliacao.av.Usuario.Nome,
-            //         Cargo = associacao.CargoRubi,
-            //         Area = associacao.AreaRubi,
-            //         StatusAvaliacaoColaboradorNome = avaliacao.av.StatusAvaliacaoColaborador.Nome,
-            //         StatusAvaliacaoColaboradorID = avaliacao.av.StatusAvaliacaoColaborador_ID,
-            //         ColaboradorID = avaliacao.av.Usuario.ID
-            //     }).ToList();
-
-            //model.StatusAvaliacaoColaborador
-            //    = Mapper.Map<List<StatusAvaliacaoColaborador>,
-            //                 List<SelectListItem>>(new StatusAvaliacaoColaboradorDAO().Listar());
+            model.StatusPDI
+                = Mapper.Map<List<StatusPDI>,
+                             List<SelectListItem>>(new StatusPDIDAO().Listar());
 
             return View("~/Views/Avaliacoes/GestaoPDIs.cshtml", model);
         }
@@ -299,6 +250,7 @@ namespace AvaliacaoDesempenho.Controllers
 
         [Authorize]
         [HttpGet]
+        [CriacaoMapeamento(typeof(DeStatusPDIParaSelectListItem))]
         public ActionResult GestaoPDIs(int? id)
         {
             GestaoPDIsViewModel model = new GestaoPDIsViewModel();
@@ -347,6 +299,22 @@ namespace AvaliacaoDesempenho.Controllers
             var avaliacaoColaboradorDAO = new AvaliacaoColaboradorDAO();
             var avaliacaoPDIColaboradorDAO = new AvaliacaoPDIColaboradorDAO();
             var associacaoCargoCompetenciaDAO = new AssociacaoCargoCompetenciaDAO();
+
+            var cicloAvaliacao = new CicloAvaliacaoDAO().Obter(cicloAvaliacaoSelecionadoID.Value);
+
+            if (cicloAvaliacao != null)
+            {
+                model.OrientacaoCompetencia = cicloAvaliacao.OrientacaoCompetencia;
+                model.URLCompetencia = cicloAvaliacao.URLCompetencia;
+                model.SituacaoCicloAvaliacaoID = cicloAvaliacao.SituacaoCicloAvaliacao_ID;
+                model.TituloOrientacaoObjetivosMetas = cicloAvaliacao.TituloOrientacaoObjetivosMetas;
+                model.TextoOrientacaoObjetivosMetas = cicloAvaliacao.TextoOrientacaoObjetivosMetas;
+                model.TituloOrientacaoAutoAvaliacao = cicloAvaliacao.TituloOrientacaoAutoAvaliacao;
+                model.TextoOrientacaoAutoAvaliacao = cicloAvaliacao.TextoOrientacaoAutoAvaliacao;
+                model.TituloOrientacaoAvaliacaoGestor = cicloAvaliacao.TituloOrientacaoAvaliacaoGestor;
+                model.TextoOrientacaoAvaliacaoGestor = cicloAvaliacao.TextoOrientacaoAvaliacaoGestor;
+            }
+
 
             var avaliacaoColaborador = avaliacaoColaboradorDAO.Obter(cicloAvaliacaoSelecionadoID.Value, identidade.UsuarioID);
 
@@ -2383,7 +2351,8 @@ namespace AvaliacaoDesempenho.Controllers
                     model.ItemRecomendacaoColaborador.RecomendacaoDePromocao = recomendacaoColaborador.RecomendacaoDePromocao;
                     model.ItemRecomendacaoColaborador.Justificativa = recomendacaoColaborador.Justificativa;
 
-                    if (model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
+                    if (model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH ||
+                        model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.Encerrada)
                     {
                         model.ItemRecomendacaoColaborador.JustificativaDaJustificativa = recomendacaoColaborador.JustificativaDaJustificativa;
                         model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem = recomendacaoColaborador.RatingFinalPosCalibragem;
@@ -2454,7 +2423,8 @@ namespace AvaliacaoDesempenho.Controllers
                         recomendacaoColaborador.RecomendacaoDePromocao = model.ItemRecomendacaoColaborador.RecomendacaoDePromocao;
                         recomendacaoColaborador.Justificativa = model.ItemRecomendacaoColaborador.Justificativa;
 
-                        if (model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
+                        if (model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH ||
+                            model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.Encerrada)
                         {
                             recomendacaoColaborador.JustificativaDaJustificativa = model.ItemRecomendacaoColaborador.Justificativa;
                             recomendacaoColaborador.RatingFinalPosCalibragem = model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem;
@@ -2547,7 +2517,7 @@ namespace AvaliacaoDesempenho.Controllers
                 model.ListaDesenvolvimentoCompetenciaViewModel =
                     Mapper.Map<List<DesenvolvimentoCompetencia>,
                                List<ItemListaDesenvolvimentoCompetenciaViewModel>>
-                                    (new DesenvolvimentoCompetenciaDAO().Listar(avaliacaoPDIColaborador.ID));                
+                                    (new DesenvolvimentoCompetenciaDAO().Listar(avaliacaoPDIColaborador.ID));
 
                 model.AvaliacaoPDIColaboradorID = avaliacaoPDIColaborador.ID;
 
@@ -2568,15 +2538,16 @@ namespace AvaliacaoDesempenho.Controllers
                 model.ComentariosGestor = avaliacaoPDIColaborador.ComentariosGestor;
             }
             else
+            {
                 model.GestorRubiID = identidade.GestorRubiID;
+                model.GestorRubiEmpID = identidade.CodigoEmpresaRubiUD;
+                model.AreaRubiID = identidade.AreaRubiID;
+                model.SetorRubiID = identidade.SetorRubiID;
+                model.CargoRubiID = identidade.CargoRubiID;
+            }
 
             model.CicloAvaliacaoSelecionadoID = id.Value;
             model.IncluirDesenvolvimentoCompetencia = incluirDesenvolvimentoCompetencia;
-
-            //if (!model.IncluirDesenvolvimentoCompetencia && model.ListaDesenvolvimentoCompetenciaViewModel == null)
-            //{
-            //    model.IncluirDesenvolvimentoCompetencia = true;
-            //}
 
             return View("~/Views/Avaliacoes/ManterAvaliacaoPDIColaborador.cshtml", model);
         }
@@ -2608,6 +2579,9 @@ namespace AvaliacaoDesempenho.Controllers
                     avaliacaoPDI.PontosFortes = model.PontosFortes;
                     avaliacaoPDI.PontosDesenvolvimento = model.PontosDesenvolvimento;
                     avaliacaoPDI.ComentariosColaborador = model.ComentariosColaborador;
+                    avaliacaoPDI.AreaRubiID = identidade.AreaRubiID;
+                    avaliacaoPDI.CargoRubiID = identidade.CargoRubiID;
+                    avaliacaoPDI.SetorRubiID = identidade.SetorRubiID;
 
                     avaliacaoPDIColaboradorDAO.Incluir(avaliacaoPDI);
 

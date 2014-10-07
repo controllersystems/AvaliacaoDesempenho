@@ -33,6 +33,9 @@ namespace AvaliacaoDesempenho.Dominio
         public int Colaborador_ID { get; set; }
         public Nullable<int> GestorRubi_ID { get; set; }
         public Nullable<int> GestorRubiEmp_ID { get; set; }
+        public Nullable<int> CargoRubiID { get; set; }
+        public Nullable<int> AreaRubiID { get; set; }
+        public Nullable<int> SetorRubiID { get; set; }
     
         public virtual CicloAvaliacao CicloAvaliacao { get; set; }
         public virtual Usuario Usuario { get; set; }

@@ -70,5 +70,16 @@
             Corporativa = 2,
             Lideranca = 3
         }
+
+        public enum SituacaoCicloAvaliacao
+        {
+            Criada = 1,
+            DefinicaoObjetivosMetas = 2,
+            ObjetivosMetasDefinidos = 3,
+            AutoAvaliacao = 4,
+            EmAvaliacaoPelosGestores = 5,
+            EmAvaliacaoPelosRH = 6,
+            Encerrada = 7
+        }
     }
 }

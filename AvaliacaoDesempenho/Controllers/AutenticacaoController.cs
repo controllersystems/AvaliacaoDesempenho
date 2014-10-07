@@ -95,7 +95,7 @@ namespace AvaliacaoDesempenho.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpGet]
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();

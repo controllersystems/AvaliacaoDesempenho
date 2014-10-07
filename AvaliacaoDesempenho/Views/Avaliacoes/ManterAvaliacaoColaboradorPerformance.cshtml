@@ -50,21 +50,22 @@
             </div>
    </div>
 
-   <div class="row top20">
+    <div class="row top20">
         <div class="col-md-095 col-md-offset-005 text-right">
             @Html.ActionLink("Anterior", "ManterAvaliacaoColaboradorCompetenciasGestor", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
             @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
             {
                 <input type="submit" value="Salvar" class="btn btn-default" />
             }
-            @if(Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral != null
+            @if ((Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral != null
                 && Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral != ""
                 && (Model.AcessoGestor
-                || Model.PapelID == (int)Enumeradores.CodigoPapeis.Administrador))
+                || Model.PapelID == (int)Enumeradores.CodigoPapeis.Administrador)) ||
+                Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH) ||
+                Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada))
             {
                 @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorRecomendacao", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
             }
         </div>
     </div>
-
 }

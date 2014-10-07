@@ -6,17 +6,6 @@
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
 }
 
-@if (Model.PapelID == (int)Enumeradores.CodigoPapeis.Administrador)
-{
-    <section id="bread">
-        <ul class="breadcrumb">
-            <li>@Html.ActionLink("Administração", "Index", "Home")<span class="divider"></span></li>
-            <li>@Html.ActionLink("Gerenciamento de Ciclos de Avaliação", "GestaoCiclosAvaliacao", "CiclosAvaliacao")<span class="divider"></span></li>
-            <li class="active">Calibragem do Rating</li>
-        </ul>
-    </section>
-}
-
 @Html.Action("CabecalhoColaborador", "Usuarios", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID })
 
 

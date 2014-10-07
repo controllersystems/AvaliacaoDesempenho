@@ -4,6 +4,13 @@
     const string SEM_INFORMACAO = "---";
 }
 
+<section id="bread">
+    <ul class="breadcrumb">
+        <li>@Html.ActionLink("Administração", "Index", "Home")<span class="divider"></span></li>
+        <li class="active">Avaliação</li>
+        <li class="pull-right">@Html.ActionLink("Sair", "LogOff", "Autenticacao")</li>
+    </ul>
+</section>
 <div class="row">
     <div class="col-md-100">
         <h4>@Model.CicloAvaliacaoDescricao</h4>

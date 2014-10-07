@@ -11,11 +11,13 @@ namespace AvaliacaoDesempenho.Models.Usuarios
         public string NomeUsuarioPesquisa { get; set; }
 
         public ItemListaAdministradorViewModel UsuarioPesquisado { get; set; }
+
+        public List<ItemListaAdministradorViewModel> UsuariosPesquisados { get; set; }
     }
 
     public class ItemListaAdministradorViewModel
     {
-        public int CodigoEmpresaID { get; set; }
+        public int CodigoEmpresaRubiUD { get; set; }
 
         public int UsuarioRubiID { get; set; }
 

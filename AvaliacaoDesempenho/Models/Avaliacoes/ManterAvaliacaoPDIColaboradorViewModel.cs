@@ -51,6 +51,12 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public int? UsuarioRubiID { get; set; }
 
+        public int? CargoRubiID { get; set; }
+
+        public int? AreaRubiID { get; set; }
+
+        public int? SetorRubiID { get; set; }
+
         public int StatusPDIID { get; set; }
 
         public bool IncluirDesenvolvimentoCompetencia { get; set; }

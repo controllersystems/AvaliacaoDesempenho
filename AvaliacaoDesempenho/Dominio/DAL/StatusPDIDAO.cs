@@ -14,5 +14,13 @@ namespace AvaliacaoDesempenho.Dominio.DAL
                 return db.StatusPDI.Where(x=> x.ID == id).First();
             }
         }
+
+        public List<StatusPDI> Listar()
+        {
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                return db.StatusPDI.ToList();
+            }
+        }
     }
 }

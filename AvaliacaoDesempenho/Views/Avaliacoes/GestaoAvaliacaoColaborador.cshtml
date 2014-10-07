@@ -1,8 +1,18 @@
-﻿@model AvaliacaoDesempenho.Models.Avaliacoes.GestaoAvaliacaoColaboradorViewModel
+﻿@using AvaliacaoDesempenho.Dominio.BusinessEntities;
+
+@model AvaliacaoDesempenho.Models.Avaliacoes.GestaoAvaliacaoColaboradorViewModel
 
 @{
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
 }
+
+<section id="bread">
+    <ul class="breadcrumb">
+        <li>@Html.ActionLink("Administração", "Index", "Home")<span class="divider"></span></li>
+        <li class="active">Avaliação</li>
+        <li class="pull-right">@Html.ActionLink("Sair", "LogOff", "Autenticacao")</li>
+    </ul>
+</section>
 
 @Html.Action("SelecaoCicloAvaliacao", "CiclosAvaliacao", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID })
 
@@ -15,6 +25,13 @@
     <h4>
         Sua avaliação de desempenho
     </h4>
+    <div class="pull-right">
+        @Html.ActionLink("Início", "Index", "Home")
+        @if (Model.OrientacaoCompetencia != null)
+        {
+            <label>&nbsp;&nbsp;|&nbsp;&nbsp;</label><a href="@Model.OrientacaoCompetencia">Ajuda</a>
+        }
+    </div>
     <div class="row top30">
         <div class="col-md-12">
             <table class="table">
@@ -41,9 +58,16 @@
                         <td>
                             ---
                         </td>
-                        <td>
-                            @Html.ActionLink(MENSAGEM_SEM_AVALIACAO_NO_CICLO, "RotearManutencaoAvaliacaoColaborador", new { id = Model.CicloAvaliacaoSelecionadoID })
-                        </td>
+                        if (!Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.Encerrada))
+                        {
+                            <td>
+                                @Html.ActionLink(MENSAGEM_SEM_AVALIACAO_NO_CICLO, "RotearManutencaoAvaliacaoColaborador", new { id = Model.CicloAvaliacaoSelecionadoID })
+                            </td>
+                        }
+                        else
+                        {
+                            <td>---</td>
+                        }
                     }
                 </tr>
             </table>
@@ -100,6 +124,9 @@
     <h4>
         Seu PDI
     </h4>
+    <div class="pull-right">
+        @Html.ActionLink("Início", "Index", "Home")
+    </div>
     <div class="row top30">
         <div class="col-md-12">
             <table class="table">
@@ -126,9 +153,16 @@
                         <td>
                             ---
                         </td>
-                        <td>
-                            @Html.ActionLink(MENSAGEM_SEM_AVALIACAO_NO_CICLO, "ManterAvaliacaoPDIColaborador", new { id = Model.CicloAvaliacaoSelecionadoID })
-                        </td>
+                        if (!Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.Encerrada))
+                        {
+                            <td>
+                                @Html.ActionLink(MENSAGEM_SEM_AVALIACAO_NO_CICLO, "ManterAvaliacaoPDIColaborador", new { id = Model.CicloAvaliacaoSelecionadoID })
+                            </td>
+                        }
+                        else
+                        {
+                            <td>---</td>
+                        }
                     }
                 </tr>
             </table>
@@ -179,4 +213,58 @@
             </table>
         </div>
     </div>
+}
+
+@if (!Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.Encerrada))
+{
+    <div id="pop-up" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">
+                        @if (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.DefinicaoObjetivosMetas))
+                        {
+                            @Model.TituloOrientacaoObjetivosMetas
+                        }
+                        else if (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.AutoAvaliacao))
+                        {
+                            @Model.TituloOrientacaoAutoAvaliacao
+                        }
+                        else if (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosGestores))
+                        {
+                            @Model.TituloOrientacaoAvaliacaoGestor
+                        }
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    @if(Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.DefinicaoObjetivosMetas))
+                    {
+                        @Html.TextAreaFor(model => Model.TextoOrientacaoObjetivosMetas, new { @class = "form-control", @rows = "20" })
+                    }
+                    else if (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.AutoAvaliacao))
+                    {
+                        @Html.TextAreaFor(model => Model.TextoOrientacaoAutoAvaliacao, new { @class = "form-control", @rows = "20" })
+                    }
+                    else if (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosGestores))
+                    {
+                        @Html.TextAreaFor(model => Model.TextoOrientacaoAvaliacaoGestor, new { @class = "form-control", @rows = "20" })
+                    }
+                    @if (!string.IsNullOrEmpty(Model.URLCompetencia))
+                    {
+                        <a href="@Model.URLCompetencia">Baixe aqui o guia de competências</a>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#pop-up').modal('show');
+        });
+    </script>
 }

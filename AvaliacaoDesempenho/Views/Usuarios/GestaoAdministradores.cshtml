@@ -8,53 +8,62 @@
     <ul class="breadcrumb">
         <li>@Html.ActionLink("Administração", "Index", "Home")<span class="divider"></span></li>
         <li class="active">Gerenciamento de administradores</li>
+        <li class="pull-right">@Html.ActionLink("Sair", "LogOff", "Autenticacao")</li>
     </ul>
 </section>
 
 <h4>
     Logins de rede com perfil de administrador
 </h4>
-<div class="row top20">
-    <div class="col-md-12">
-        <table class="table">
-            <tr>
-                <th>
-                </th>
-                <th>
-                    Nome
-                </th>
-                <th>
-                    Login
-                </th>
-            </tr>
-
-            @for (int i = 0; i < Model.Admnistradores.Count; i++ )
-            {
+@using (Html.BeginForm("GestaoAdministradores",
+                           "Usuarios",
+                           FormMethod.Post,
+                           new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="row top20">
+        <div class="col-md-12">
+            <table class="table">
                 <tr>
-                    <td>
-                        @Html.CheckBoxFor(modelItem => Model.Admnistradores[i].Selecionado)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => Model.Admnistradores[i].Nome)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => Model.Admnistradores[i].Login)
-                    </td>
+                    <th>
+                    </th>
+                    <th>
+                        Nome
+                    </th>
+                    <th>
+                        Login
+                    </th>
                 </tr>
-            }
-        </table>
+
+                @for (int i = 0; i < Model.Admnistradores.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            @Html.HiddenFor(modelItem => Model.Admnistradores[i].UsuarioRubiID)
+                            @Html.HiddenFor(modelItem => Model.Admnistradores[i].CodigoEmpresaRubiUD)
+                            @Html.CheckBoxFor(modelItem => Model.Admnistradores[i].Selecionado)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.Admnistradores[i].Nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.Admnistradores[i].Login)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
     </div>
-</div>
-@*<div class="row">
-    <div class="col-md-100 text-right">
-        @Html.ActionLink("Excluir selecionados", "ManterCicloAvaliacao", null, new { @class = "btn btn-default" })
+    <div class="row">
+        <div class="col-md-100 text-right">
+            <input type="submit" value="Excluir selecionados" class="btn btn-default" />
+        </div>
     </div>
-</div>
-<div class="row  top10">
-    <div class="col-md-100">
-        <hr />
+    <div class="row  top10">
+        <div class="col-md-100">
+            <hr />
+        </div>
     </div>
-</div>*@
+}
 <div class="row">
     @using (Html.BeginForm("PesquisarUsuario",
                            "Usuarios",
@@ -75,13 +84,10 @@
         <div class="col-md-045">
             <input type="submit" value="Pesquisar" class="btn btn-default" />
         </div>
-
     }
 </div>
-@*@if (Model.UsuarioPesquisado != null)
+@if (Model.UsuariosPesquisados != null && Model.UsuariosPesquisados.Any())
 {
-    var nomeApresentacaoUsuarioSelecionado = string.Format("{0}, {1}", Model.UsuarioPesquisado.Nome, Model.UsuarioPesquisado.Login);
-
     <div class="row top20">
         @using (Html.BeginForm("IncluirUsuario",
                        "Usuarios",
@@ -92,14 +98,40 @@
 
             @Html.HiddenFor(model => model.UsuarioPesquisado)
 
-            <div class="col-md-050 col-md-offset-005">
-                <label class="control-label">
-                    nomeApresentacaoUsuarioSelecionado
-                </label>
-            </div>
-            <div class="col-md-045">
-                <input type="submit" value="Incluir" class="btn btn-default" />
-            </div>
+            if (Model.UsuariosPesquisados != null && Model.UsuariosPesquisados.Any())
+            {
+                <div class="col-md-12">
+                    <table class="table">
+                        <tr>
+                            <th>
+                                Nome
+                            </th>
+                            <th>
+                                Login
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+
+                        @for (int i = 0; i < Model.UsuariosPesquisados.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.HiddenFor(modelItem => Model.UsuariosPesquisados[i].CodigoEmpresaRubiUD)
+                                    @Html.HiddenFor(modelItem => Model.UsuariosPesquisados[i].UsuarioRubiID)
+                                    @Html.DisplayFor(modelItem => Model.UsuariosPesquisados[i].Nome)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.UsuariosPesquisados[i].Login)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Incluir", "IncluirUsuario", "Usuarios", new { login = Model.UsuariosPesquisados[i].Login, codigoEmpresaRubi = Model.UsuariosPesquisados[i].CodigoEmpresaRubiUD, usuarioRubi = Model.UsuariosPesquisados[i].UsuarioRubiID }, new { @class = "btn btn-default" })
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            }
         }
     </div>
-}*@
+}

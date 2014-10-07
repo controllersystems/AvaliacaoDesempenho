@@ -6,13 +6,31 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
     {
         public int? CicloAvaliacaoSelecionadoID { get; set; }
 
+        public int? SituacaoCicloAvaliacaoID { get; set; }
+
         public int? AvaliacaoColaboradorID { get; set; }
 
         public string DataCriacao { get; set; }
 
+        public string TituloOrientacaoObjetivosMetas { get; set; }
+
+        public string TextoOrientacaoObjetivosMetas { get; set; }
+
+        public string TituloOrientacaoAutoAvaliacao { get; set; }
+
+        public string TextoOrientacaoAutoAvaliacao { get; set; }
+
+        public string TituloOrientacaoAvaliacaoGestor { get; set; }
+
+        public string TextoOrientacaoAvaliacaoGestor { get; set; }
+
         public string StatusAvaliacaoColaboradorNome { get; set; }
 
         public bool ParticipaDaAvaliacao { get; set; }
+
+        public string OrientacaoCompetencia { get; set; }
+
+        public string URLCompetencia { get; set; }
 
         public List<ItemListaGestaoAvaliacaoColaboradorViewModel> ListaGestaoAvaliacaoColaboradorViewModel { get; set; }
 

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AvaliacaoDesempenhoContextEntities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+      <Schema Namespace="avaliacao_desempenhoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityType Name="AssociacaoCargoCompetencia">
           <Key>
             <PropertyRef Name="ID" />
@@ -66,6 +66,9 @@
           <Property Name="Colaborador_ID" Type="int" Nullable="false" />
           <Property Name="GestorRubi_ID" Type="int" />
           <Property Name="GestorRubiEmp_ID" Type="int" />
+          <Property Name="CargoRubiID" Type="int" />
+          <Property Name="AreaRubiID" Type="int" />
+          <Property Name="SetorRubiID" Type="int" />
         </EntityType>
         <EntityType Name="CicloAvaliacao">
           <Key>
@@ -441,7 +444,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="AvaliacaoDesempenhoContextEntitiesStoreContainer">
+        <EntityContainer Name="avaliacao_desempenhoModelStoreContainer">
           <EntitySet Name="AssociacaoCargoCompetencia" EntityType="Self.AssociacaoCargoCompetencia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AvaliacaoColaborador" EntityType="Self.AvaliacaoColaborador" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AvaliacaoGestor" EntityType="Self.AvaliacaoGestor" Schema="dbo" store:Type="Tables" />
@@ -541,7 +544,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="AvaliacaoDesempenhoContextEntities" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+      <Schema Namespace="avaliacao_desempenhoModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityType Name="AssociacaoCargoCompetencia">
           <Key>
             <PropertyRef Name="ID" />
@@ -614,6 +617,9 @@
           <Property Name="Colaborador_ID" Type="Int32" Nullable="false" />
           <Property Name="GestorRubi_ID" Type="Int32" />
           <Property Name="GestorRubiEmp_ID" Type="Int32" />
+          <Property Name="CargoRubiID" Type="Int32" />
+          <Property Name="AreaRubiID" Type="Int32" />
+          <Property Name="SetorRubiID" Type="Int32" />
           <NavigationProperty Name="CicloAvaliacao" Relationship="Self.FK_AvaliacaoPDIColaborador_CicloAvaliacao" FromRole="AvaliacaoPDIColaborador" ToRole="CicloAvaliacao" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_AvaliacaoPDIColaborador_Usuario" FromRole="AvaliacaoPDIColaborador" ToRole="Usuario" />
           <NavigationProperty Name="StatusPDI" Relationship="Self.FK_dbo_AvaliacaoPDIColaborador_dbo_StatusPDI_StatusPDI_ID" FromRole="AvaliacaoPDIColaborador" ToRole="StatusPDI" />
@@ -1117,9 +1123,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="AvaliacaoDesempenhoContextEntitiesStoreContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="avaliacao_desempenhoModelStoreContainer" CdmEntityContainer="Entities">
           <EntitySetMapping Name="AssociacaoCargoCompetencia">
-            <EntityTypeMapping TypeName="AvaliacaoDesempenhoContextEntities.AssociacaoCargoCompetencia">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.AssociacaoCargoCompetencia">
               <MappingFragment StoreEntitySet="AssociacaoCargoCompetencia">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CargoRubiID" ColumnName="CargoRubiID" />
@@ -1139,7 +1145,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AvaliacaoColaborador">
-            <EntityTypeMapping TypeName="AvaliacaoDesempenhoContextEntities.AvaliacaoColaborador">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.AvaliacaoColaborador">
               <MappingFragment StoreEntitySet="AvaliacaoColaborador">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="DataCriacao" ColumnName="DataCriacao" />
@@ -1157,7 +1163,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AvaliacaoGestor">
-            <EntityTypeMapping TypeName="AvaliacaoDesempenhoContextEntities.AvaliacaoGestor">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.AvaliacaoGestor">
               <MappingFragment StoreEntitySet="AvaliacaoGestor">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Avaliacao" ColumnName="Avaliacao" />
@@ -1165,7 +1171,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AvaliacaoPDIColaborador">
-            <EntityTypeMapping TypeName="AvaliacaoDesempenhoContextEntities.AvaliacaoPDIColaborador">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.AvaliacaoPDIColaborador">
               <MappingFragment StoreEntitySet="AvaliacaoPDIColaborador">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="DataCriacao" ColumnName="DataCriacao" />
@@ -1181,11 +1187,14 @@
                 <ScalarProperty Name="Colaborador_ID" ColumnName="Colaborador_ID" />
                 <ScalarProperty Name="GestorRubi_ID" ColumnName="GestorRubi_ID" />
                 <ScalarProperty Name="GestorRubiEmp_ID" ColumnName="GestorRubiEmp_ID" />
+                <ScalarProperty Name="CargoRubiID" ColumnName="CargoRubiID" />
+                <ScalarProperty Name="AreaRubiID" ColumnName="AreaRubiID" />
+                <ScalarProperty Name="SetorRubiID" ColumnName="SetorRubiID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CicloAvaliacao">
-            <EntityTypeMapping TypeName="AvaliacaoDesempenhoContextEntities.CicloAvaliacao">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.CicloAvaliacao">
               <MappingFragment StoreEntitySet="CicloAvaliacao">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Descricao" ColumnName="Descricao" />
@@ -1212,7 +1221,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CompetenciaColaborador">
-            <EntityTypeMapping TypeName="AvaliacaoDesempenhoContextEntities.CompetenciaColaborador">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.CompetenciaColaborador">
               <MappingFragment StoreEntitySet="CompetenciaColaborador">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AvaliacaoColaborador_ID" ColumnName="AvaliacaoColaborador_ID" />
@@ -1225,7 +1234,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ContribuicaoColaborador">
-            <EntityTypeMapping TypeName="AvaliacaoDesempenhoContextEntities.ContribuicaoColaborador">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.ContribuicaoColaborador">
               <MappingFragment StoreEntitySet="ContribuicaoColaborador">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Contribuicao" ColumnName="Contribuicao" />
@@ -1235,7 +1244,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DesenvolvimentoCompetencia">
-            <EntityTypeMapping TypeName="AvaliacaoDesempenhoContextEntities.DesenvolvimentoCompetencia">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.DesenvolvimentoCompetencia">
               <MappingFragment StoreEntitySet="DesenvolvimentoCompetencia">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AcaoDesenvolvimento" ColumnName="AcaoDesenvolvimento" />
@@ -1245,7 +1254,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MetaColaborador">
-            <EntityTypeMapping TypeName="AvaliacaoDesempenhoContextEntities.MetaColaborador">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.MetaColaborador">
               <MappingFragment StoreEntitySet="MetaColaborador">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Meta" ColumnName="Meta" />
@@ -1254,7 +1263,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ObjetivoColaborador">
-            <EntityTypeMapping TypeName="AvaliacaoDesempenhoContextEntities.ObjetivoColaborador">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.ObjetivoColaborador">
               <MappingFragment StoreEntitySet="ObjetivoColaborador">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Objetivo" ColumnName="Objetivo" />
@@ -1265,7 +1274,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Papel">
-            <EntityTypeMapping TypeName="AvaliacaoDesempenhoContextEntities.Papel">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.Papel">
               <MappingFragment StoreEntitySet="Papel">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Nome" ColumnName="Nome" />
@@ -1273,7 +1282,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PerformanceColaborador">
-            <EntityTypeMapping TypeName="AvaliacaoDesempenhoContextEntities.PerformanceColaborador">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.PerformanceColaborador">
               <MappingFragment StoreEntitySet="PerformanceColaborador">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AvaliacaoPerformance" ColumnName="AvaliacaoPerformance" />
@@ -1282,7 +1291,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RecomendacaoColaborador">
-            <EntityTypeMapping TypeName="AvaliacaoDesempenhoContextEntities.RecomendacaoColaborador">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.RecomendacaoColaborador">
               <MappingFragment StoreEntitySet="RecomendacaoColaborador">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AvaliacaoColaborador_ID" ColumnName="AvaliacaoColaborador_ID" />
@@ -1298,7 +1307,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ResultadoAtingidoColaborador">
-            <EntityTypeMapping TypeName="AvaliacaoDesempenhoContextEntities.ResultadoAtingidoColaborador">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.ResultadoAtingidoColaborador">
               <MappingFragment StoreEntitySet="ResultadoAtingidoColaborador">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ResultadoAtingido" ColumnName="ResultadoAtingido" />
@@ -1307,7 +1316,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SituacaoCicloAvaliacao">
-            <EntityTypeMapping TypeName="AvaliacaoDesempenhoContextEntities.SituacaoCicloAvaliacao">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.SituacaoCicloAvaliacao">
               <MappingFragment StoreEntitySet="SituacaoCicloAvaliacao">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Nome" ColumnName="Nome" />
@@ -1315,7 +1324,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="StatusAvaliacaoColaborador">
-            <EntityTypeMapping TypeName="AvaliacaoDesempenhoContextEntities.StatusAvaliacaoColaborador">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.StatusAvaliacaoColaborador">
               <MappingFragment StoreEntitySet="StatusAvaliacaoColaborador">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Nome" ColumnName="Nome" />
@@ -1323,7 +1332,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="StatusPDI">
-            <EntityTypeMapping TypeName="AvaliacaoDesempenhoContextEntities.StatusPDI">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.StatusPDI">
               <MappingFragment StoreEntitySet="StatusPDI">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Nome" ColumnName="Nome" />
@@ -1331,7 +1340,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Usuario">
-            <EntityTypeMapping TypeName="AvaliacaoDesempenhoContextEntities.Usuario">
+            <EntityTypeMapping TypeName="avaliacao_desempenhoModel.Usuario">
               <MappingFragment StoreEntitySet="Usuario">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Nome" ColumnName="Nome" />

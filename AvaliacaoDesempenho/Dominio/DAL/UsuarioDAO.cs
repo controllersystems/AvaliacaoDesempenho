@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Data;
 
 namespace AvaliacaoDesempenho.Dominio.DAL
 {
@@ -35,6 +36,15 @@ namespace AvaliacaoDesempenho.Dominio.DAL
             using (var db = new AvaliacaoDesempenhoContextEntities())
             {
                 db.Usuario.Add(usuario);
+                db.SaveChanges();
+            }
+        }
+
+        public void Editar(Usuario usuario)
+        {
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                db.Entry(usuario).State = EntityState.Modified;
                 db.SaveChanges();
             }
         }

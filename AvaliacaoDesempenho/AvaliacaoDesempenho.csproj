@@ -331,6 +331,7 @@
     <Compile Include="Util\Mapeamentos\DeObjetivoColaboradorParaObjetivoMetaResultadoAtingidoViewModel.cs" />
     <Compile Include="Util\Mapeamentos\DeObjetivoColaboradorParaObjetivoMetaViewModel.cs" />
     <Compile Include="Util\Mapeamentos\DeStatusAvaliacaoColaboradorParaSelectListItem.cs" />
+    <Compile Include="Util\Mapeamentos\DeStatusPDIParaSelectListItem.cs" />
     <Compile Include="Util\Mapeamentos\Detbl_area_sccParaSelectListItem.cs" />
     <Compile Include="Util\Mapeamentos\Detbl_cargo_sccParaSelectListItem.cs" />
     <Compile Include="Util\Mapeamentos\Detbl_setor_sccParaSelectListItem.cs" />

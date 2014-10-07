@@ -1,4 +1,6 @@
-﻿@model AvaliacaoDesempenho.Models.Avaliacoes.GestaoPDIsViewModel
+﻿@using AvaliacaoDesempenho.Dominio.BusinessEntities
+
+@model AvaliacaoDesempenho.Models.Avaliacoes.GestaoPDIsViewModel
 
 @{
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
@@ -9,6 +11,7 @@
         <li>@Html.ActionLink("Administração", "Index", "Home")<span class="divider"></span></li>
         <li>@Html.ActionLink("Gerenciamento de Ciclos de Avaliação", "GestaoCiclosAvaliacao", "CiclosAvaliacao")<span class="divider"></span></li>
         <li class="active">Gerenciar PDI</li>
+        <li class="pull-right">@Html.ActionLink("Sair", "LogOff", "Autenticacao")</li>
     </ul>
 </section>
 
@@ -40,6 +43,8 @@
     @Html.AntiForgeryToken()
 
     @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+    
+    @Html.HiddenFor(model => Model.CicloAvaliacaoSelecionadoID)
 
     <div class="row top20">
         <div class="col-md-015">
@@ -54,8 +59,8 @@
         <div class="col-md-035">
             @Html.DropDownListFor(model => model.StatusPDIPesquisadoID,
                                   new SelectList(Model.StatusPDI,
-                                                 "ID",
-                                                 "Descricao",
+                                                 "Value",
+                                                 "Text",
                                                  Model.StatusPDIPesquisadoID),
                                                  "",
                                   new { @class = "form-control" })
@@ -81,62 +86,63 @@
             @Html.EditorFor(model => model.GestorPesquisado, new { @class = "form-control" })
         </div>
         <div class="col-md-010">
-            @Html.ActionLink("Pesquisar", "", "", null, new { @class = "btn btn-default" })
+            <input type="submit" value="Pesquisar" class="btn btn-default" />
         </div>
     </div>
 }
 <div class="row top30">
-    @using (Html.BeginForm("AlterarStatusAvaliacoes",
-                       "Avaliacoes",
-                       FormMethod.Post,
-                       new { @class = "form-horizontal", role = "form" }))
-    {
-        @Html.AntiForgeryToken()
+    <div class="row top20">
+        <div class="col-md-100">
+            <table class="table">
+                <tr>
+                    <th>
+                        Gestor
+                    </th>
+                    <th>
+                        Área
+                    </th>
+                    <th>
+                        Avaliado
+                    </th>
+                    <th>
+                        Cargo
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                </tr>
 
-        <div class="row top20">
-            <div class="col-md-100">
-                <table class="table">
-                    <tr>
-                        <th>
-                            Gestor
-                        </th>
-                        <th>
-                            Área
-                        </th>
-                        <th>
-                            Avaliado
-                        </th>
-                        <th>
-                            Cargo
-                        </th>
-                        <th>
-                            Status
-                        </th>                        
-                    </tr>
-
-                    @foreach (var item in Model.AvaliacoesPDIsColaboradores)
+                @if (Model.AvaliacoesPDIsColaboradores != null && Model.AvaliacoesPDIsColaboradores.Any())
+                {
+                    for (int i = 0; i < Model.AvaliacoesPDIsColaboradores.Count; i++)
                     {
                         <tr>
                             <td>
-                                @*@Html.DisplayFor(modelItem => item.Usuario.Gestor.Nome)*@
+                                @Html.DisplayFor(modelItem => Model.AvaliacoesPDIsColaboradores[i].NomeGestor)
                             </td>
                             <td>
-                                @*@Html.DisplayFor(modelItem => item.Usuario.Area.Descricao)*@
+                                @Html.DisplayFor(modelItem => Model.AvaliacoesPDIsColaboradores[i].Area)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Usuario.Nome)
+                                @if (Model.AvaliacoesPDIsColaboradores[i].StatusPDIID.Equals((int)Enumeradores.StatusPDI.Aprovada))
+                                {
+                                    @Html.ActionLink(Model.AvaliacoesPDIsColaboradores[i].UsuarioNome, "ManterAvaliacaoPDIColaborador", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.AvaliacoesPDIsColaboradores[i].ID })
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => Model.AvaliacoesPDIsColaboradores[i].UsuarioNome)
+                                }
                             </td>
                             <td>
-                                @*@Html.DisplayFor(modelItem => item.Usuario.Cargo.Nome)*@
+                                @Html.DisplayFor(modelItem => Model.AvaliacoesPDIsColaboradores[i].Cargo)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.StatusPDI.Nome)
+                                @Html.DisplayFor(modelItem => Model.AvaliacoesPDIsColaboradores[i].StatusPDINome)
                             </td>
-                            <td></td>
                         </tr>
                     }
-                </table>
-            </div>            
+                }
+            </table>
         </div>
-    }
+    </div>
 </div>
