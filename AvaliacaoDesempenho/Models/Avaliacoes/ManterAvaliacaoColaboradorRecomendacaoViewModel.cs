@@ -55,5 +55,11 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         [StringLength(600, ErrorMessage = "A {0} deve ter o tamanho máximo de 600 caracteres.")]
         [Required(ErrorMessage = "A {0} é obrigatória.")]
         public string Justificativa { get; set; }
+
+        [Display(Name = "Justificativa")]
+        [DataType(DataType.Text, ErrorMessage = "A {0} é inválida.")]
+        [StringLength(600, ErrorMessage = "A {0} deve ter o tamanho máximo de 600 caracteres.")]
+        [Required(ErrorMessage = "A {0} é obrigatória.")]
+        public string JustificativaDaJustificativa { get; set; }
     }
 }

@@ -90,10 +90,15 @@
     </div>
 
     <div class="row top20">
-        <div class="col-md-100">
+        <div class="col-md-050">
             <label>Justificativa</label>
         </div>
-        <div class="col-md-100">
+        <div class="col-md-050">
+            <label>Justificativa</label>
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-050">
             @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
             {
                 @Html.TextAreaFor(model => Model.ItemRecomendacaoColaborador.Justificativa, new { @class = "form-control" })
@@ -102,6 +107,18 @@
             else
             {
                 @Html.TextAreaFor(model => Model.ItemRecomendacaoColaborador.Justificativa, new { @class = "form-control", @readonly = "readonly" })
+            }
+        </div>
+
+        <div class="col-md-050">
+            @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
+            {
+                @Html.TextAreaFor(model => Model.ItemRecomendacaoColaborador.JustificativaDaJustificativa, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => Model.ItemRecomendacaoColaborador.JustificativaDaJustificativa, string.Empty, new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.TextAreaFor(model => Model.ItemRecomendacaoColaborador.JustificativaDaJustificativa, new { @class = "form-control", @readonly = "readonly" })
             }
         </div>
     </div>
@@ -114,6 +131,8 @@
                 <input type="submit" value="Salvar" class="btn btn-default" />
                 if(Model.ItemRecomendacaoColaborador.Justificativa != null
                    && Model.ItemRecomendacaoColaborador.Justificativa != ""
+                   && Model.ItemRecomendacaoColaborador.JustificativaDaJustificativa != null
+                   && Model.ItemRecomendacaoColaborador.JustificativaDaJustificativa != ""
                    && Model.ItemRecomendacaoColaborador.RecomendacaoDeRating != 0)
                 {
                     @Html.ActionLink("Submeter ao RH", "SubmeterAvaliacaoColaboradorAvaliacaoRH", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, avaliacaoColaboradorID = Model.AvaliacaoColaboradorID }, new { @class = "btn btn-default" })

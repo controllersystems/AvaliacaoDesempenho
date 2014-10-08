@@ -29,7 +29,7 @@
         @Html.ActionLink("Início", "Index", "Home")
         @if (Model.OrientacaoCompetencia != null)
         {
-            <label>&nbsp;&nbsp;|&nbsp;&nbsp;</label><a href="@Model.OrientacaoCompetencia">Ajuda</a>
+            <label>&nbsp;&nbsp;|&nbsp;&nbsp;</label><a href="@Model.OrientacaoCompetencia" target="_blank">Ajuda</a>
         }
     </div>
     <div class="row top30">
@@ -215,7 +215,10 @@
     </div>
 }
 
-@if (!Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.Encerrada))
+@if (!Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.Encerrada) &&
+    !Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.Criada) &&
+    !Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosRH) &&
+    !Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.ObjetivosMetasDefinidos))
 {
     <div id="pop-up" class="modal fade">
         <div class="modal-dialog">
@@ -252,7 +255,7 @@
                     }
                     @if (!string.IsNullOrEmpty(Model.URLCompetencia))
                     {
-                        <a href="@Model.URLCompetencia">Baixe aqui o guia de competências</a>
+                        <a href="@Model.URLCompetencia" target="_blank">Baixe aqui o guia de competências</a>
                     }
                 </div>
                 <div class="modal-footer">

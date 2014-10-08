@@ -17,6 +17,9 @@ using PagedList;
 using AvaliacaoDesempenho.Seguranca;
 using System.DirectoryServices.AccountManagement;
 using System.DirectoryServices;
+using System.Net.Mail;
+using System.Net;
+using System.Configuration;
 
 namespace AvaliacaoDesempenho.Controllers
 {
@@ -614,10 +617,78 @@ namespace AvaliacaoDesempenho.Controllers
 
         #endregion Views Parciais
 
+        [Authorize]
         [HttpGet]
-        public ActionResult EnvioEmails()
+        public ActionResult EnvioEmails(int cicloID, bool gestores)
         {
-            return View();
+            var cicloAvaliacao = new CicloAvaliacaoDAO().Obter(cicloID);
+            EnvioEmailsViewModel model = new EnvioEmailsViewModel();
+            model.CicloAvaliacaoID=cicloID;
+
+            if (cicloAvaliacao != null)
+            {
+                model.DescricaoCiclo = cicloAvaliacao.Descricao;
+            }
+            model.Gestores = gestores;
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult EnviarEmails(EnvioEmailsViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.Gestores)
+                {
+                    var gestores = new UsuarioDAO().ListarGestoresPorCicloAvaliacao(model.CicloAvaliacaoID.Value);
+                    model.Email.ListaDeEmails = new List<string>();
+
+                    if (gestores != null)
+                    {
+                        foreach (var item in gestores)
+                        {
+                            model.Email.ListaDeEmails.Add(item.Email);
+                        }
+                    }
+                    EnviarEmail(model.Email);
+                }
+                else
+                {
+                    var gestores = new UsuarioDAO().ListarGestoresPorCicloAvaliacao(model.CicloAvaliacaoID.Value);
+                }
+                return View("~/Views/CiclosAvaliacao/EmailEnviado.cshtml");
+            }
+            return View("~/Views/CiclosAvaliacao/EnvioEmails.cshtml", model);
+        }
+
+        private void EnviarEmail(EmailInformativo email)
+        {
+            MailMessage msg = new MailMessage();
+
+            msg.From = new MailAddress(ConfigurationManager.AppSettings["smtpUser"].ToString());
+
+            foreach (var item in email.ListaDeEmails)
+            {
+                msg.Bcc.Add(item);
+            }
+
+            //msg.To.Add();
+            msg.Subject = email.Assunto;
+            msg.Body = email.CabecalhoHTML + email.Mensagem + email.RodapeHTML;
+            msg.Priority = MailPriority.High;
+
+            SmtpClient client = new SmtpClient();
+
+            client.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["smtpUser"].ToString(), ConfigurationManager.AppSettings["smtpPass"].ToString(), ConfigurationManager.AppSettings["smtpServer"].ToString());
+            client.Host = ConfigurationManager.AppSettings["smtpServer"].ToString();
+            client.Port = int.Parse(ConfigurationManager.AppSettings["smtpPort"].ToString());
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.EnableSsl = bool.Parse(ConfigurationManager.AppSettings["EnableSsl"].ToString());
+            client.UseDefaultCredentials = true;
+
+            client.Send(msg);
         }
     }
 }

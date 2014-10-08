@@ -5,6 +5,22 @@
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
 }
 
+<section id="bread">
+    <ul class="breadcrumb">
+        <li>@Html.ActionLink("Administração", "Index", "Home")<span class="divider"></span></li>
+        <li>@Html.ActionLink("Gerenciamento de Ciclos de Avaliação", "GestaoCiclosAvaliacao", "CiclosAvaliacao")<span class="divider"></span></li>
+        @if (Model.Gestores)
+        {
+            <li class="active">Informar disponibilização de rating e indicação de promoção</li>
+        }
+        else
+        {
+            <li class="active">Enviar/Liberar Rating para Colaboradores</li>
+        }
+        <li class="pull-right">@Html.ActionLink("Sair", "LogOff", "Autenticacao")</li>
+    </ul>
+</section>
+
 <div class="row">
     <div class="col-md-025">
         <label class="control-label">
@@ -13,12 +29,12 @@
     </div>
     <div class="col-md-075">
         <label class="control-label">
-            Ciclo 1
+            @Model.DescricaoCiclo
         </label>
     </div>
 </div>
 <hr />
-@using (Html.BeginForm("ManterCicloAvaliacao",
+@using (Html.BeginForm("EnviarEmails",
                        "CiclosAvaliacao",
                        FormMethod.Post,
                        new { @class = "form-horizontal", role = "form" }))
@@ -26,6 +42,9 @@
     @Html.AntiForgeryToken()
 
     @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+    
+    @Html.HiddenFor(model => model.CicloAvaliacaoID)
+    @Html.HiddenFor(model => model.Gestores)
 
     <div class="row">
         <div class="col-md-010">

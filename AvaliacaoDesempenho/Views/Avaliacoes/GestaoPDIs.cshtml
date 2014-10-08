@@ -126,7 +126,7 @@
                             <td>
                                 @if (Model.AvaliacoesPDIsColaboradores[i].StatusPDIID.Equals((int)Enumeradores.StatusPDI.Aprovada))
                                 {
-                                    @Html.ActionLink(Model.AvaliacoesPDIsColaboradores[i].UsuarioNome, "ManterAvaliacaoPDIColaborador", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.AvaliacoesPDIsColaboradores[i].ID })
+                                    @Html.ActionLink(Model.AvaliacoesPDIsColaboradores[i].UsuarioNome, "ManterAvaliacaoPDIColaborador", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.AvaliacoesPDIsColaboradores[i].ColaboradorID })
                                 }
                                 else
                                 {

@@ -25,7 +25,7 @@ GO
 * StatusAvaliacaoColaborador
 *****************************************************************************************************/
 
-INSERT INTO [dbo].[StatusAvaliacaoColaborador] ([Nome]) VALUES ('Avaliação iniciada')
+INSERT INTO [dbo].[StatusAvaliacaoColaborador] ([Nome]) VALUES ('Criada')
 GO
 
 INSERT INTO [dbo].[StatusAvaliacaoColaborador] ([Nome]) VALUES ('Definição de objetivos e metas')

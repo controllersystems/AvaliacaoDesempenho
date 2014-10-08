@@ -347,12 +347,12 @@
                 </div>
                 <div class="row top10">
                     <div class="col-md-070">
-                        @Html.ActionLink("Enviar/Liberar Avaliação para Gestores", "EnvioEmails", null, new { @class = "btn btn-default width100" })
+                        @Html.ActionLink("Enviar/Liberar Avaliação para Gestores", "EnvioEmails", new { cicloID = Model.ID, gestores = true }, new { @class = "btn btn-default width100" })
                     </div>
                 </div>
                 <div class="row top10">
                     <div class="col-md-070">
-                        @Html.ActionLink("Enviar/Liberar Avaliação para Colaboradores", "EnvioEmails", null, new { @class = "btn btn-default width100" })
+                        @Html.ActionLink("Enviar/Liberar Avaliação para Colaboradores", "EnvioEmails", new { cicloID = Model.ID, gestores = false }, new { @class = "btn btn-default width100" })
                     </div>
                 </div>
             }

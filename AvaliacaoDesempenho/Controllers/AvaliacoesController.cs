@@ -1120,6 +1120,7 @@ namespace AvaliacaoDesempenho.Controllers
                         else
                         {
                             contribuicao.AvaliacaoGestor = new AvaliacaoGestor();
+                            contribuicao.AvaliacaoGestor.Avaliacao = "";
                         }
                         //contribuicao.AvaliacaoGestor.Avaliacao = item.AvaliacaoGestor;
 
@@ -2161,10 +2162,10 @@ namespace AvaliacaoDesempenho.Controllers
                     model.ItemRecomendacaoColaborador.RecomendacaoDeRating = recomendacaoColaborador.RecomendacaoDeRating;
                     model.ItemRecomendacaoColaborador.RecomendacaoDePromocao = recomendacaoColaborador.RecomendacaoDePromocao;
                     model.ItemRecomendacaoColaborador.Justificativa = recomendacaoColaborador.Justificativa;
+                    model.ItemRecomendacaoColaborador.JustificativaDaJustificativa = recomendacaoColaborador.JustificativaDaJustificativa;
 
                     //if (model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
                     //{
-                    //    model.ItemRecomendacaoColaborador.JustificativaDaJustificativa = recomendacaoColaborador.JustificativaDaJustificativa;
                     //    model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem =  recomendacaoColaborador.RatingFinalPosCalibragem;
                     //    model.ItemRecomendacaoColaborador.IndicacaoPromocaoPosCalibragem = recomendacaoColaborador.IndicacaoPromocaoPosCalibragem;
                     //    model.ItemRecomendacaoColaborador.JustificativaRatingFinalPosCalibragem = recomendacaoColaborador.JustificativaRatingFinalPosCalibragem;
@@ -2234,6 +2235,7 @@ namespace AvaliacaoDesempenho.Controllers
                         recomendacaoColaborador.RecomendacaoDeRating = model.ItemRecomendacaoColaborador.RecomendacaoDeRating;
                         recomendacaoColaborador.RecomendacaoDePromocao = model.ItemRecomendacaoColaborador.RecomendacaoDePromocao;
                         recomendacaoColaborador.Justificativa = model.ItemRecomendacaoColaborador.Justificativa;
+                        recomendacaoColaborador.JustificativaDaJustificativa = model.ItemRecomendacaoColaborador.JustificativaDaJustificativa;
 
                         //if (model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
                         //{
@@ -2251,6 +2253,7 @@ namespace AvaliacaoDesempenho.Controllers
                         recomendacaoColaborador.RecomendacaoDeRating = model.ItemRecomendacaoColaborador.RecomendacaoDeRating;
                         recomendacaoColaborador.RecomendacaoDePromocao = model.ItemRecomendacaoColaborador.RecomendacaoDePromocao;
                         recomendacaoColaborador.Justificativa = model.ItemRecomendacaoColaborador.Justificativa;
+                        recomendacaoColaborador.JustificativaDaJustificativa = model.ItemRecomendacaoColaborador.JustificativaDaJustificativa;
 
                         //if (model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
                         //{
@@ -2350,11 +2353,11 @@ namespace AvaliacaoDesempenho.Controllers
                     model.ItemRecomendacaoColaborador.RecomendacaoDeRating = recomendacaoColaborador.RecomendacaoDeRating;
                     model.ItemRecomendacaoColaborador.RecomendacaoDePromocao = recomendacaoColaborador.RecomendacaoDePromocao;
                     model.ItemRecomendacaoColaborador.Justificativa = recomendacaoColaborador.Justificativa;
+                    model.ItemRecomendacaoColaborador.JustificativaDaJustificativa = recomendacaoColaborador.JustificativaDaJustificativa;
 
                     if (model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH ||
                         model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.Encerrada)
                     {
-                        model.ItemRecomendacaoColaborador.JustificativaDaJustificativa = recomendacaoColaborador.JustificativaDaJustificativa;
                         model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem = recomendacaoColaborador.RatingFinalPosCalibragem;
                         model.ItemRecomendacaoColaborador.IndicacaoPromocaoPosCalibragem = recomendacaoColaborador.IndicacaoPromocaoPosCalibragem;
                         model.ItemRecomendacaoColaborador.JustificativaRatingFinalPosCalibragem = recomendacaoColaborador.JustificativaRatingFinalPosCalibragem;
@@ -2422,11 +2425,11 @@ namespace AvaliacaoDesempenho.Controllers
                         recomendacaoColaborador.RecomendacaoDeRating = model.ItemRecomendacaoColaborador.RecomendacaoDeRating;
                         recomendacaoColaborador.RecomendacaoDePromocao = model.ItemRecomendacaoColaborador.RecomendacaoDePromocao;
                         recomendacaoColaborador.Justificativa = model.ItemRecomendacaoColaborador.Justificativa;
+                        recomendacaoColaborador.JustificativaDaJustificativa = model.ItemRecomendacaoColaborador.JustificativaDaJustificativa;
 
                         if (model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH ||
                             model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.Encerrada)
                         {
-                            recomendacaoColaborador.JustificativaDaJustificativa = model.ItemRecomendacaoColaborador.Justificativa;
                             recomendacaoColaborador.RatingFinalPosCalibragem = model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem;
                             recomendacaoColaborador.IndicacaoPromocaoPosCalibragem = model.ItemRecomendacaoColaborador.IndicacaoPromocaoPosCalibragem;
                             recomendacaoColaborador.JustificativaRatingFinalPosCalibragem = model.ItemRecomendacaoColaborador.JustificativaRatingFinalPosCalibragem;

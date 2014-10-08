@@ -79,18 +79,23 @@ namespace AvaliacaoDesempenho.Controllers
 
                 DirectorySearcher directorySearcher = new DirectorySearcher(principalContext.ConnectedServer);
 
-                directorySearcher.Filter = "(&(sAMAccountName=" + model.NomeUsuarioPesquisa + "*)" + System.Configuration.ConfigurationManager.ConnectionStrings["ADFilterConnectionString"].ConnectionString + ")";
+                directorySearcher.Filter = "(&(sAMAccountName=" + model.NomeUsuarioPesquisa + "*)|(name=" + model.NomeUsuarioPesquisa + "))" + System.Configuration.ConfigurationManager.ConnectionStrings["ADFilterConnectionString"].ConnectionString + ")";
 
                 SearchResultCollection searchResult = directorySearcher.FindAll();
 
                 for (int i = 0; i < searchResult.Count; i++)
                 {
-                    model.UsuariosPesquisados.Add(new ItemListaAdministradorViewModel
+                    DirectoryEntry directoryEntry = searchResult[i].GetDirectoryEntry();
+                    if (directoryEntry.Properties.Count > 0)
                     {
-                        Login = searchResult[i].Properties["sAMAccountName"][0].ToString(),
-                        CodigoEmpresaRubiUD = int.Parse(searchResult[i].Properties["company"][0].ToString()),
-                        UsuarioRubiID = int.Parse(searchResult[i].Properties["department"][0].ToString())
-                    });
+                        model.UsuariosPesquisados.Add(new ItemListaAdministradorViewModel
+                        {
+                            Nome = directoryEntry.Properties["name"][0].ToString(),
+                            Login = directoryEntry.Properties["sAMAccountName"][0].ToString(),
+                            CodigoEmpresaRubiUD = int.Parse(directoryEntry.Properties["company"][0].ToString()),
+                            UsuarioRubiID = int.Parse(directoryEntry.Properties["department"][0].ToString())
+                        });
+                    }
                 }
             }
 

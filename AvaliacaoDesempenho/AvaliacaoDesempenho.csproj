@@ -448,6 +448,7 @@
     <Content Include="Views\Shared\PaginaNaoEncontrada.cshtml" />
     <Content Include="Views\Avaliacoes\ManterAvaliacaoColaboradorCompetenciasGestor.cshtml" />
     <Content Include="Views\Avaliacoes\ManterAvaliacaoColaboradorRecomendacaoRH.cshtml" />
+    <Content Include="Views\CiclosAvaliacao\EmailEnviado.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_GlobalResources\" />
