@@ -132,6 +132,15 @@ namespace AvaliacaoDesempenho.Controllers
                         {
                             ModelState.AddModelError("DataTerminoObjetivosMetas", "A Data de Término tem que ser maior que a data de Início.");
                         }
+
+                        if (!string.IsNullOrEmpty(model.DataInicioVigencia) && !string.IsNullOrEmpty(model.DataFimVigencia))
+                        {
+                            if(Convert.ToDateTime(model.DataFimVigencia) < Convert.ToDateTime(model.DataInicioObjetivosMetas) ||
+                                Convert.ToDateTime(model.DataFimVigencia) < Convert.ToDateTime(model.DataTerminoObjetivosMetas))
+                            {
+                                ModelState.AddModelError("DataInicioObjetivosMetas", "A Data de Definição de Objetivos e Metas está fora do período do ciclo de avaliação.");
+                            }                                
+                        }
                     }
                 }
             }
@@ -154,6 +163,23 @@ namespace AvaliacaoDesempenho.Controllers
                         {
                             ModelState.AddModelError("DataTerminoAutoAvaliacao", "A Data de Término tem que ser maior que a data de Início.");
                         }
+
+                        if (!string.IsNullOrEmpty(model.DataInicioVigencia) && !string.IsNullOrEmpty(model.DataFimVigencia))
+                        {
+                            if (Convert.ToDateTime(model.DataFimVigencia) < Convert.ToDateTime(model.DataInicioAutoAvaliacao) ||
+                                Convert.ToDateTime(model.DataFimVigencia) < Convert.ToDateTime(model.DataTerminoAutoAvaliacao))
+                            {
+                                ModelState.AddModelError("DataInicioAutoAvaliacao", "A Data da Auto Avaliação está fora do período do ciclo de avaliação.");
+                            }
+                        }
+
+                        if (!string.IsNullOrEmpty(model.DataTerminoObjetivosMetas))
+                        {
+                            if (Convert.ToDateTime(model.DataTerminoObjetivosMetas) > Convert.ToDateTime(model.DataInicioAutoAvaliacao))
+                            {
+                                ModelState.AddModelError("DataInicioAutoAvaliacao", "A Data de Início da Auto Avaliação tem que ser maior ou igual a data de Término de Definição de Objetivos e Metas.");
+                            }
+                        }
                     }
                 }
             }
@@ -175,6 +201,23 @@ namespace AvaliacaoDesempenho.Controllers
                         if (Convert.ToDateTime(model.DataInicioAvaliacaoGestor) > Convert.ToDateTime(model.DataTerminoAvaliacaoGestor))
                         {
                             ModelState.AddModelError("DataTerminoAvaliacaoGestor", "A Data de Término tem que ser maior que a data de Início.");
+                        }
+
+                        if (!string.IsNullOrEmpty(model.DataInicioVigencia) && !string.IsNullOrEmpty(model.DataFimVigencia))
+                        {
+                            if (Convert.ToDateTime(model.DataFimVigencia) < Convert.ToDateTime(model.DataInicioAvaliacaoGestor) ||
+                                Convert.ToDateTime(model.DataFimVigencia) < Convert.ToDateTime(model.DataTerminoAvaliacaoGestor))
+                            {
+                                ModelState.AddModelError("DataInicioAutoAvaliacao", "A Data da Avaliação do Gestor está fora do período do ciclo de avaliação.");
+                            }
+                        }
+
+                        if (!string.IsNullOrEmpty(model.DataTerminoAutoAvaliacao))
+                        {
+                            if (Convert.ToDateTime(model.DataTerminoAutoAvaliacao) > Convert.ToDateTime(model.DataInicioAvaliacaoGestor))
+                            {
+                                ModelState.AddModelError("DataInicioAvaliacaoGestor", "A Data de Início da Avaliação do Gestor tem que ser maior ou igual a data de Término da Auto Avaliação.");
+                            }
                         }
                     }
                 }

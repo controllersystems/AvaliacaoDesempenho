@@ -629,29 +629,38 @@ namespace AvaliacaoDesempenho.Controllers
             }
             #endregion
 
-            var avaliacaoColaborador =
+            var cicloAvaliacao = new CicloAvaliacaoDAO().Obter(id.Value);
+
+            if (cicloAvaliacao != null)
+            {
+                model.DataInicioObjetivosMetas = cicloAvaliacao.DataInicioObjetivosMetas;
+                model.DataTerminoObjetivosMetas = cicloAvaliacao.DataTerminoObjetivosMetas;
+                model.SituacaoCicloAvaliaoID = cicloAvaliacao.SituacaoCicloAvaliacao_ID;
+
+                var avaliacaoColaborador =
                 new AvaliacaoColaboradorDAO().Obter(id.Value, usuarioID);
 
-            if (avaliacaoColaborador != null)
-            {
-                model.GestorRubiID = avaliacaoColaborador.GestorRubi_ID;
-                model.GestorRubiEmpID = avaliacaoColaborador.GestorRubiEmp_ID;
+                if (avaliacaoColaborador != null)
+                {
+                    model.GestorRubiID = avaliacaoColaborador.GestorRubi_ID;
+                    model.GestorRubiEmpID = avaliacaoColaborador.GestorRubiEmp_ID;
 
-                model.ListaObjetivosMetasViewModel =
-                    Mapper.Map<List<ObjetivoColaborador>,
-                               List<ObjetivoMetaViewModel>>
-                                    (new ObjetivoColaboradorDAO().Listar(avaliacaoColaborador.ID));
+                    model.ListaObjetivosMetasViewModel =
+                        Mapper.Map<List<ObjetivoColaborador>,
+                                   List<ObjetivoMetaViewModel>>
+                                        (new ObjetivoColaboradorDAO().Listar(avaliacaoColaborador.ID));
 
-                model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
+                    model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
 
-                model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
+                    model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
 
-                model.Aprovada = avaliacaoColaborador.Aprovada;
+                    model.Aprovada = avaliacaoColaborador.Aprovada;
 
-                model.JustificativaReprovacao = avaliacaoColaborador.JustificativaReprovacao;
+                    model.JustificativaReprovacao = avaliacaoColaborador.JustificativaReprovacao;
+                }
+                else
+                    model.GestorRubiID = identidade.GestorRubiID;
             }
-            else
-                model.GestorRubiID = identidade.GestorRubiID;
 
             model.CicloAvaliacaoSelecionadoID = id.Value;
             model.IncluirMeta = incluirMeta;
@@ -934,82 +943,91 @@ namespace AvaliacaoDesempenho.Controllers
             }
             #endregion
 
-            var avaliacaoColaborador =
+            var cicloAvaliacao = new CicloAvaliacaoDAO().Obter(id.Value);
+
+            if (cicloAvaliacao != null)
+            {
+                model.DataInicioAutoAvaliacao = cicloAvaliacao.DataInicioAutoAvaliacao;
+                model.DataTerminoAutoAvaliacao = cicloAvaliacao.DataTerminoAutoAvaliacao;
+                model.SituacaoCicloAvaliaoID = cicloAvaliacao.SituacaoCicloAvaliacao_ID;
+
+                var avaliacaoColaborador =
                 new AvaliacaoColaboradorDAO().Obter(id.Value, usuarioID);
 
-            if (avaliacaoColaborador != null)
-            {
-                model.GestorRubiID = avaliacaoColaborador.GestorRubi_ID;
-                model.GestorRubiEmpID = avaliacaoColaborador.GestorRubiEmp_ID;
-
-                model.ListaObjetivosMetasResultadosatingidosViewModel =
-                    Mapper.Map<List<ObjetivoColaborador>,
-                               List<ObjetivoMetaResultadoAtingidoViewModel>>
-                                    (new ObjetivoColaboradorDAO().Listar(avaliacaoColaborador.ID));
-
-                model.ListaOutrasContribuicoesViewModel =
-                    Mapper.Map<List<ContribuicaoColaborador>,
-                               List<OutrasContribuicoesViewModel>>
-                                   (new ContribuicaoColaboradorDAO().Listar(avaliacaoColaborador.ID));
-
-                model.ListaAvaliacaoGestorMetas = new List<AvaliacaoGestorContribuinte>();
-
-                var avaliacaoGestorMetas = (new AvaliacaoGestorDAO().ListarPorAvaliacaoID(avaliacaoColaborador.ID));
-
-                if (avaliacaoGestorMetas != null)
+                if (avaliacaoColaborador != null)
                 {
-                    foreach (var item in avaliacaoGestorMetas)
+                    model.GestorRubiID = avaliacaoColaborador.GestorRubi_ID;
+                    model.GestorRubiEmpID = avaliacaoColaborador.GestorRubiEmp_ID;
+
+                    model.ListaObjetivosMetasResultadosatingidosViewModel =
+                        Mapper.Map<List<ObjetivoColaborador>,
+                                   List<ObjetivoMetaResultadoAtingidoViewModel>>
+                                        (new ObjetivoColaboradorDAO().Listar(avaliacaoColaborador.ID));
+
+                    model.ListaOutrasContribuicoesViewModel =
+                        Mapper.Map<List<ContribuicaoColaborador>,
+                                   List<OutrasContribuicoesViewModel>>
+                                       (new ContribuicaoColaboradorDAO().Listar(avaliacaoColaborador.ID));
+
+                    model.ListaAvaliacaoGestorMetas = new List<AvaliacaoGestorContribuinte>();
+
+                    var avaliacaoGestorMetas = (new AvaliacaoGestorDAO().ListarPorAvaliacaoID(avaliacaoColaborador.ID));
+
+                    if (avaliacaoGestorMetas != null)
                     {
-                        model.ListaAvaliacaoGestorMetas.Add(new AvaliacaoGestorContribuinte
+                        foreach (var item in avaliacaoGestorMetas)
                         {
-                            ID = item.ID,
-                            Avaliacao = item.Avaliacao
-                        });
+                            model.ListaAvaliacaoGestorMetas.Add(new AvaliacaoGestorContribuinte
+                            {
+                                ID = item.ID,
+                                Avaliacao = item.Avaliacao
+                            });
+                        }
                     }
-                }
 
-                model.ListaAvaliacaoGestorOutrasContribuicoes = new List<AvaliacaoGestorContribuinte>();
+                    model.ListaAvaliacaoGestorOutrasContribuicoes = new List<AvaliacaoGestorContribuinte>();
 
-                var avaliacaoGestorOutrasContribuicoes = (new AvaliacaoGestorDAO().ListarPorAvaliacaoID(avaliacaoColaborador.ID));
+                    var avaliacaoGestorOutrasContribuicoes = (new AvaliacaoGestorDAO().ListarPorAvaliacaoID(avaliacaoColaborador.ID));
 
-                if (avaliacaoGestorOutrasContribuicoes != null)
-                {
-                    foreach (var item in avaliacaoGestorOutrasContribuicoes)
+                    if (avaliacaoGestorOutrasContribuicoes != null)
                     {
-                        model.ListaAvaliacaoGestorOutrasContribuicoes.Add(new AvaliacaoGestorContribuinte
+                        foreach (var item in avaliacaoGestorOutrasContribuicoes)
                         {
-                            ID = item.ID,
-                            Avaliacao = item.Avaliacao
-                        });
+                            model.ListaAvaliacaoGestorOutrasContribuicoes.Add(new AvaliacaoGestorContribuinte
+                            {
+                                ID = item.ID,
+                                Avaliacao = item.Avaliacao
+                            });
+                        }
                     }
-                }
 
-                if (model.ListaAvaliacaoGestorMetas.Count == 0 )
-                {
-                    model.ListaAvaliacaoGestorMetas = new List<Models.Avaliacoes.AvaliacaoGestorContribuinte>();
-                    foreach (var item in model.ListaObjetivosMetasResultadosatingidosViewModel)
+                    if (model.ListaAvaliacaoGestorMetas.Count == 0)
                     {
-                        model.ListaAvaliacaoGestorMetas.Add(new Models.Avaliacoes.AvaliacaoGestorContribuinte { ID = item.ID, Avaliacao = string.Empty });
+                        model.ListaAvaliacaoGestorMetas = new List<Models.Avaliacoes.AvaliacaoGestorContribuinte>();
+                        foreach (var item in model.ListaObjetivosMetasResultadosatingidosViewModel)
+                        {
+                            model.ListaAvaliacaoGestorMetas.Add(new Models.Avaliacoes.AvaliacaoGestorContribuinte { ID = item.ID, Avaliacao = string.Empty });
+                        }
                     }
-                }
 
-                if (model.ListaAvaliacaoGestorOutrasContribuicoes.Count == 0)
-                {
-                    model.ListaAvaliacaoGestorOutrasContribuicoes = new List<Models.Avaliacoes.AvaliacaoGestorContribuinte>();
-                    foreach (var item in model.ListaOutrasContribuicoesViewModel)
+                    if (model.ListaAvaliacaoGestorOutrasContribuicoes.Count == 0)
                     {
-                        model.ListaAvaliacaoGestorOutrasContribuicoes.Add(new Models.Avaliacoes.AvaliacaoGestorContribuinte { ID = item.ID , Avaliacao = string.Empty });
+                        model.ListaAvaliacaoGestorOutrasContribuicoes = new List<Models.Avaliacoes.AvaliacaoGestorContribuinte>();
+                        foreach (var item in model.ListaOutrasContribuicoesViewModel)
+                        {
+                            model.ListaAvaliacaoGestorOutrasContribuicoes.Add(new Models.Avaliacoes.AvaliacaoGestorContribuinte { ID = item.ID, Avaliacao = string.Empty });
+                        }
+
                     }
 
+
+                    model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;//avaliacaoColaborador.ID;
+
+                    model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
                 }
-
-
-                model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;//avaliacaoColaborador.ID;
-
-                model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
+                else
+                    model.GestorRubiID = identidade.GestorRubiID;
             }
-            else
-                model.GestorRubiID = identidade.GestorRubiID;
 
             model.CicloAvaliacaoSelecionadoID = id.Value;
             model.IncluirMeta = incluirMeta;

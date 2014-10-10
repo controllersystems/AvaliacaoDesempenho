@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AvaliacaoDesempenho.Models.Avaliacoes
@@ -8,6 +9,12 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         public int? ColaboradorID { get; set; }
 
         public int? CicloAvaliacaoSelecionadoID { get; set; }
+
+        public DateTime? DataInicioAutoAvaliacao { get; set; }
+
+        public DateTime? DataTerminoAutoAvaliacao { get; set; }
+
+        public int? SituacaoCicloAvaliaoID { get; set; }
 
         public int? AvaliacaoColaboradorID { get; set; }
 

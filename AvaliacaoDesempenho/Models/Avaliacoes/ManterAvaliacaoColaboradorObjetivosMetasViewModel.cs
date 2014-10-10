@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AvaliacaoDesempenho.Models.Avaliacoes
@@ -6,6 +7,10 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
     public class ManterAvaliacaoColaboradorObjetivosMetasViewModel
     {
         public int? ColaboradorID { get; set; }
+
+        public DateTime? DataInicioObjetivosMetas { get; set; }
+
+        public DateTime? DataTerminoObjetivosMetas { get; set; }
 
         public int? CicloAvaliacaoSelecionadoID { get; set; }
 
@@ -18,6 +23,8 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         public int? UsuarioRubiID { get; set; }
 
         public int StatusAvaliacaoColaboradorID { get; set; }
+
+        public int? SituacaoCicloAvaliaoID { get; set; }
 
         public bool IncluirMeta { get; set; }
 

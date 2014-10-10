@@ -4,7 +4,6 @@
 
 @{
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
-
 }
 
 @Html.Action("CabecalhoColaborador", "Usuarios", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID })
@@ -208,11 +207,16 @@ else
                 }
                 else
                 {
-                    <div class="row top20">
-                        <div class="col-md-095 col-md-offset-005 text-right">
-                            @Html.ActionLink("Incluir nova meta", "ManterAvaliacaoColaboradorObjetivosMetas", new { id = Model.CicloAvaliacaoSelecionadoID, incluirMeta = true }, new { @class = "btn btn-default" })
+                    if (Model.DataInicioObjetivosMetas <= DateTime.Today
+                         && Model.DataTerminoObjetivosMetas >= DateTime.Today
+                         && Model.SituacaoCicloAvaliaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.DefinicaoObjetivosMetas))
+                    {
+                        <div class="row top20">
+                            <div class="col-md-095 col-md-offset-005 text-right">
+                                @Html.ActionLink("Incluir nova meta", "ManterAvaliacaoColaboradorObjetivosMetas", new { id = Model.CicloAvaliacaoSelecionadoID, incluirMeta = true }, new { @class = "btn btn-default" })
+                            </div>
                         </div>
-                    </div>
+                    }
                 }
             }
 
