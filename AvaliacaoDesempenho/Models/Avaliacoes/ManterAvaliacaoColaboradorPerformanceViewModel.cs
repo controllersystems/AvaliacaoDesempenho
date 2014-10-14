@@ -15,6 +15,10 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public int? AvaliacaoColaboradorID { get; set; }
 
+        public DateTime? DataInicioAvaliacaoGestor { get; set; }
+
+        public DateTime? DataTerminoAvaliacaoGestor { get; set; }
+
         public int? GestorRubiID { get; set; }
 
         public int? UsuarioRubiID { get; set; }
@@ -23,7 +27,7 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public int StatusAvaliacaoColaboradorID { get; set; }
 
-        public int StatusCicloAvaliacaoID { get; set; }
+        public int? StatusCicloAvaliacaoID { get; set; }
 
         public ItemListaPerformanceColaborador AvaliacaoPerformanceGerais { get; set; }
 

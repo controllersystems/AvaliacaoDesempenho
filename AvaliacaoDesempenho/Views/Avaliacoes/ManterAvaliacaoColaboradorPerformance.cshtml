@@ -41,8 +41,22 @@
                             }
                             else 
                             { 
-                                @Html.TextAreaFor(model => Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral, string.Empty, new { @class = "text-danger" })
+                                if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
+                                {
+                                    if (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today)
+                                    {
+                                        @Html.TextAreaFor(model => Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral, string.Empty, new { @class = "text-danger" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextAreaFor(model => Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral, new { @class = "form-control", @readonly = "readonly" })
+                                    }
+                                }
+                                else
+                                {
+                                    @Html.TextAreaFor(model => Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral, new { @class = "form-control", @readonly = "readonly" })
+                                }
                             }
                         </td>
                     </tr>
@@ -55,7 +69,10 @@
             @Html.ActionLink("Anterior", "ManterAvaliacaoColaboradorCompetenciasGestor", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
             @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
             {
-                <input type="submit" value="Salvar" class="btn btn-default" />
+                if (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today)
+                {
+                    <input type="submit" value="Salvar" class="btn btn-default" />
+                }
             }
             @if(Model.AcessoGestor || Model.PapelID.Equals((int)Enumeradores.CodigoPapeis.Administrador))
             {
