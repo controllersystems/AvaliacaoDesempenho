@@ -31,9 +31,14 @@
         if (Model.ListaObjetivosMetasResultadosatingidosGestorViewModel != null
                 && Model.ListaObjetivosMetasResultadosatingidosGestorViewModel.Any())
         {
-            if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
-                || Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
-                || Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada))
+            if ((Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores) &&
+                 Model.SituacaoCicloAvaliaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosGestores) &&
+                 (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today))
+                || (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH) &&
+                    Model.SituacaoCicloAvaliaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosRH) &&
+                    (Model.DataInicioVigencia <= DateTime.Today && Model.DataTerminoVigencia >= DateTime.Today))
+                || (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada) &&
+                    Model.SituacaoCicloAvaliaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.Encerrada)))
             {
                 <div class="row">
                     <div class="col-md-025">
@@ -87,11 +92,14 @@
                 }
                 if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
                 {
-                    <div class="row top20">
-                        <div class="col-md-095 col-md-offset-005 text-right">
-                            <input type="submit" value="Salvar" class="btn btn-default" />
+                    if (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today)
+                    {
+                        <div class="row top20">
+                            <div class="col-md-095 col-md-offset-005 text-right">
+                                <input type="submit" value="Salvar" class="btn btn-default" />
+                            </div>
                         </div>
-                    </div>
+                    }
                 }
             }
             else if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.ObjetivosMetasDefinidos) || Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao))
@@ -126,19 +134,20 @@
         </div>
     </div>
     if (Model.ListaOutrasContribuicoesGestorViewModel != null
-        && Model.ListaOutrasContribuicoesGestorViewModel.Any())
+    && Model.ListaOutrasContribuicoesGestorViewModel.Any())
     {
-        if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
+        if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores) &&
+            Model.SituacaoCicloAvaliaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosGestores) &&
+            (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today))
         {
             for (int i = 0; i < Model.ListaOutrasContribuicoesGestorViewModel.Count; i++)
             {
-                if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
-                    && (Model.ListaOutrasContribuicoesGestorViewModel[i].AvaliacaoGestor == "" ||
-                        Model.ListaOutrasContribuicoesGestorViewModel[i].AvaliacaoGestor == null))
+                if (Model.ListaOutrasContribuicoesGestorViewModel[i].AvaliacaoGestor == "" ||
+                    Model.ListaOutrasContribuicoesGestorViewModel[i].AvaliacaoGestor == null)
                 {
                     Model.ProximaEtapa = false;
                 }
-                    @Html.HiddenFor(model => Model.ListaOutrasContribuicoesGestorViewModel[i].ID)
+                @Html.HiddenFor(model => Model.ListaOutrasContribuicoesGestorViewModel[i].ID)
 
                 if (Model.AcessoGestor)
                 {
@@ -162,8 +171,10 @@
         }
         else
         {
-            if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH)
-            || Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada))
+            if ((Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH) &&
+                Model.SituacaoCicloAvaliaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosRH))
+            || (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada) &&
+                Model.SituacaoCicloAvaliaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.Encerrada)))
             {
                 for (int i = 0; i < Model.ListaOutrasContribuicoesGestorViewModel.Count; i++)
                 {

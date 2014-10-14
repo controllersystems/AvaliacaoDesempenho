@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace AvaliacaoDesempenho.Models.Avaliacoes
 {
@@ -12,6 +13,10 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public int? AvaliacaoColaboradorID { get; set; }
 
+        public DateTime? DataInicioAutoAvaliacao { get; set; }
+
+        public DateTime? DataTerminoAutoAvaliacao { get; set; }
+
         public int? GestorRubiID { get; set; }
 
         public int? GestorRubiEmpID { get; set; }
@@ -20,7 +25,7 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public int StatusAvaliacaoColaboradorID { get; set; }
 
-        public int StatusCicloAvaliacaoID { get; set; }
+        public int? StatusCicloAvaliacaoID { get; set; }
 
         public bool LiberadoPraSubmeterAoGestor { get; set; }
 

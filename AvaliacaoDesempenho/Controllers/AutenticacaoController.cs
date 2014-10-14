@@ -23,59 +23,36 @@ namespace AvaliacaoDesempenho.Controllers
         {
             if (ModelState.IsValid)
             {
-                MembershipUser usuario = Membership.GetUser(model.Login);
+                //MembershipUser usuario = Membership.GetUser(model.Login);
 
-                if (usuario != null && Membership.ValidateUser(model.Login, model.Senha))
-                {
-                    FormsAuthentication.SetAuthCookie(model.Login, false);
-
-                    if (!VerificarExistenciaUsuario(model.Login))
-                    {
-                        PrincipalContext principalContext = new PrincipalContext(ContextType.Domain);
-
-                        DirectorySearcher directorySearcher = new DirectorySearcher(principalContext.ConnectedServer);
-
-                        directorySearcher.Filter = "(&(sAMAccountName=" + model.Login + ")" + System.Configuration.ConfigurationManager.ConnectionStrings["ADFilterConnectionString"].ConnectionString + ")";
-
-                        SearchResult searchResult = directorySearcher.FindOne();
-
-                        DirectoryEntry directoryEntry = searchResult.GetDirectoryEntry();
-
-                        if (directoryEntry.Properties.Count > 0)
-                        {
-                            int numEmp = int.Parse(directoryEntry.Properties["company"][0].ToString());
-                            int numCad = int.Parse(directoryEntry.Properties["department"][0].ToString());
-
-                            CadastrarUsuario(model.Login, numEmp, numCad);
-                        }
-                        else
-                        {
-                            model.Validado = false;
-                        }
-                    }
-
-                    if (Url.IsLocalUrl(URLRetorno)
-                        && URLRetorno.Length > 1
-                        && URLRetorno.StartsWith("/")
-                        && !URLRetorno.StartsWith("//")
-                        && !URLRetorno.StartsWith("/\\"))
-                    {
-                        return Redirect(URLRetorno);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                }
-                else
-                {
-                    model.Validado = false;
-                }
-
-                // BYPASS AD
-                //if (VerificarExistenciaUsuario(model.Login))
+                //if (usuario != null && Membership.ValidateUser(model.Login, model.Senha))
                 //{
                 //    FormsAuthentication.SetAuthCookie(model.Login, false);
+
+                //    if (!VerificarExistenciaUsuario(model.Login))
+                //    {
+                //        PrincipalContext principalContext = new PrincipalContext(ContextType.Domain);
+
+                //        DirectorySearcher directorySearcher = new DirectorySearcher(principalContext.ConnectedServer);
+
+                //        directorySearcher.Filter = "(&(sAMAccountName=" + model.Login + ")" + System.Configuration.ConfigurationManager.ConnectionStrings["ADFilterConnectionString"].ConnectionString + ")";
+
+                //        SearchResult searchResult = directorySearcher.FindOne();
+
+                //        DirectoryEntry directoryEntry = searchResult.GetDirectoryEntry();
+
+                //        if (directoryEntry.Properties.Count > 0)
+                //        {
+                //            int numEmp = int.Parse(directoryEntry.Properties["company"][0].ToString());
+                //            int numCad = int.Parse(directoryEntry.Properties["department"][0].ToString());
+
+                //            CadastrarUsuario(model.Login, numEmp, numCad);
+                //        }
+                //        else
+                //        {
+                //            model.Validado = false;
+                //        }
+                //    }
 
                 //    if (Url.IsLocalUrl(URLRetorno)
                 //        && URLRetorno.Length > 1
@@ -90,6 +67,29 @@ namespace AvaliacaoDesempenho.Controllers
                 //        return RedirectToAction("Index", "Home");
                 //    }
                 //}
+                //else
+                //{
+                //    model.Validado = false;
+                //}
+
+                // BYPASS AD
+                if (VerificarExistenciaUsuario(model.Login))
+                {
+                    FormsAuthentication.SetAuthCookie(model.Login, false);
+
+                    if (Url.IsLocalUrl(URLRetorno)
+                        && URLRetorno.Length > 1
+                        && URLRetorno.StartsWith("/")
+                        && !URLRetorno.StartsWith("//")
+                        && !URLRetorno.StartsWith("/\\"))
+                    {
+                        return Redirect(URLRetorno);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
             }
 
             return View(model);

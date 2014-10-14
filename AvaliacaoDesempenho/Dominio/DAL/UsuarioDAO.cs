@@ -69,6 +69,18 @@ namespace AvaliacaoDesempenho.Dominio.DAL
             }
         }
 
+        public List<Usuario> ListarColaboradoresPorCicloAvaliacao(int cicloAvaliacaoID)
+        {
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                return (from avaliacao in db.AvaliacaoColaborador
+                        join colaborador in db.Usuario
+                            on avaliacao.Colaborador_ID equals colaborador.ID
+                        where avaliacao.CicloAvaliacao_ID == cicloAvaliacaoID
+                        select colaborador).ToList();
+            }
+        }
+
         public bool IsGestor(int colaboradorId, int gestorRubiId)
         {
             using (var db = new AvaliacaoDesempenhoContextEntities())

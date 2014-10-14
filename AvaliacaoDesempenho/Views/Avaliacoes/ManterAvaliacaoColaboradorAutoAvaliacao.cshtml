@@ -85,10 +85,19 @@
                         <div class="col-md-030">
                             @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].MetaColaboradorMeta, new { @class = "form-control", @readonly = "readonly" })
                         </div>
-                        <div class="col-md-040">
-                            @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido, string.Empty, new { @class = "text-danger" })
-                        </div>
+                        @if (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
+                        {
+                            <div class="col-md-040">
+                                @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido, string.Empty, new { @class = "text-danger" })
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-040">
+                                @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido, new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        }
                     </div>
                 }
                 <hr />
@@ -118,14 +127,20 @@
                 <div class="col-md-095 col-md-offset-005 text-right">
                     @if (!Model.IncluirMeta)
                     {
-                        <input type="submit" value="Incluir nova meta" formaction="/Avaliacoes/IncluirMetaAvaliacaoColaboradorAutoAvaliacao" class="btn btn-default" />
+                        if (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
+                        {
+                            <input type="submit" value="Incluir nova meta" formaction="/Avaliacoes/IncluirMetaAvaliacaoColaboradorAutoAvaliacao" class="btn btn-default" />
+                        }
                     }
                     else
                     {
                         @Html.ActionLink("Cancelar", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID }, new { @class = "btn btn-default" })
                     }
 
-                    <input type="submit" value="Salvar" class="btn btn-default" />
+                    @if (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
+                    {
+                        <input type="submit" value="Salvar" class="btn btn-default" />
+                    }
                 </div>
             </div>
         }
@@ -186,7 +201,14 @@
                 <div class="col-md-100">
                     @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao))
                     {
-                        @Html.TextAreaFor(model => Model.ListaOutrasContribuicoesViewModel[i].Contribuicao, new { @class = "form-control" })
+                        if (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
+                        {
+                            @Html.TextAreaFor(model => Model.ListaOutrasContribuicoesViewModel[i].Contribuicao, new { @class = "form-control" })
+                        }
+                        else
+                        {
+                            @Html.TextAreaFor(model => Model.ListaOutrasContribuicoesViewModel[i].Contribuicao, new { @class = "form-control", @readonly = "readonly" })
+                        }
                     }
                     else
                     {
@@ -196,11 +218,14 @@
             </div>
             if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao))
             {
-                <div class="row top20">
-                    <div class="col-md-095 col-md-offset-005 text-right">
-                        @Html.ActionLink("Excluir", "DeletarAvaliacaoColaboradorOutrasContribuicoes", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, contribuicaoSelecionadaID = Model.ListaOutrasContribuicoesViewModel[i].ID }, new { @class = "btn btn-default" })
+                if (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
+                {
+                    <div class="row top20">
+                        <div class="col-md-095 col-md-offset-005 text-right">
+                            @Html.ActionLink("Excluir", "DeletarAvaliacaoColaboradorOutrasContribuicoes", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, contribuicaoSelecionadaID = Model.ListaOutrasContribuicoesViewModel[i].ID }, new { @class = "btn btn-default" })
+                        </div>
                     </div>
-                </div>
+                }
             }
         }
 
@@ -215,7 +240,10 @@
             <div class="row top20">
                 <div class="col-md-095 col-md-offset-005 text-right">
                     @Html.ActionLink("Cancelar", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID }, new { @class = "btn btn-default" })
-                    <input type="submit" value="Salvar" class="btn btn-default" />
+                    @if (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
+                    {
+                        <input type="submit" value="Salvar" class="btn btn-default" />
+                    }
                 </div>
             </div>
         }
@@ -223,11 +251,14 @@
         {
             if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao))
             {
-                <div class="row top20">
-                    <div class="col-md-095 col-md-offset-005 text-right">
-                        @Html.ActionLink("Incluir outra contribuição", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID, incluirContribuicao = true }, new { @class = "btn btn-default" })
+                if (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
+                {
+                    <div class="row top20">
+                        <div class="col-md-095 col-md-offset-005 text-right">
+                            @Html.ActionLink("Incluir outra contribuição", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID, incluirContribuicao = true }, new { @class = "btn btn-default" })
+                        </div>
                     </div>
-                </div>
+                }
             }
         }
 
@@ -256,25 +287,38 @@
             {
                 if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao))
                 {
-                    <div class="row top20">
-                        <div class="col-md-095 col-md-offset-005 text-right">
-                            @Html.ActionLink("Incluir", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID, incluirContribuicao = true }, new { @class = "btn btn-default" })
+                    if (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
+                    {
+                        <div class="row top20">
+                            <div class="col-md-095 col-md-offset-005 text-right">
+                                @Html.ActionLink("Incluir", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID, incluirContribuicao = true }, new { @class = "btn btn-default" })
+                            </div>
                         </div>
-                    </div>
+                    }
                 }
             }
             else
             {
                 <div class="row top30">
                     <div class="col-md-100">
-                        @Html.TextAreaFor(model => model.OutrasContribuicoesCadastro.Contribuicao, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.OutrasContribuicoesCadastro.Contribuicao, string.Empty, new { @class = "text-danger" })
+                        @if (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
+                        {
+                            @Html.TextAreaFor(model => model.OutrasContribuicoesCadastro.Contribuicao, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.OutrasContribuicoesCadastro.Contribuicao, string.Empty, new { @class = "text-danger" })
+                        }
+                        else
+                        {
+                            @Html.TextAreaFor(model => model.OutrasContribuicoesCadastro.Contribuicao, new { @class = "form-control", @readonly = "readonly" })
+                        }
                     </div>
                 </div>
                 <div class="row top20">
                     <div class="col-md-095 col-md-offset-005 text-right">
                         @Html.ActionLink("Cancelar", "ManterAvaliacaoColaboradorAutoAvaliacao", new { id = Model.CicloAvaliacaoSelecionadoID }, new { @class = "btn btn-default" })
-                        <input type="submit" value="Salvar" class="btn btn-default" />
+                        @if (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
+                        {
+                            <input type="submit" value="Salvar" class="btn btn-default" />
+                        }
                     </div>
                 </div>
             }

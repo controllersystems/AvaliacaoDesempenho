@@ -10,9 +10,13 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public int? CicloAvaliacaoSelecionadoID { get; set; }
 
-        public DateTime? DataInicioAutoAvaliacao { get; set; }
+        public DateTime? DataInicioAvaliacaoGestor { get; set; }
 
-        public DateTime? DataTerminoAutoAvaliacao { get; set; }
+        public DateTime? DataTerminoAvaliacaoGestor { get; set; }
+
+        public DateTime? DataInicioVigencia { get; set; }
+
+        public DateTime? DataTerminoVigencia { get; set; }
 
         public int? SituacaoCicloAvaliaoID { get; set; }
 

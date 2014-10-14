@@ -666,7 +666,7 @@ namespace AvaliacaoDesempenho.Controllers
         {
             var cicloAvaliacao = new CicloAvaliacaoDAO().Obter(cicloID);
             EnvioEmailsViewModel model = new EnvioEmailsViewModel();
-            model.CicloAvaliacaoID=cicloID;
+            model.CicloAvaliacaoID = cicloID;
 
             if (cicloAvaliacao != null)
             {
@@ -683,26 +683,38 @@ namespace AvaliacaoDesempenho.Controllers
         {
             if (ModelState.IsValid)
             {
+                List<Usuario> gestores;
                 if (model.Gestores)
                 {
-                    var gestores = new UsuarioDAO().ListarGestoresPorCicloAvaliacao(model.CicloAvaliacaoID.Value);
-                    model.Email.ListaDeEmails = new List<string>();
-
-                    if (gestores != null)
-                    {
-                        foreach (var item in gestores)
-                        {
-                            model.Email.ListaDeEmails.Add(item.Email);
-                        }
-                    }
-                    EnviarEmail(model.Email);
+                    gestores = new UsuarioDAO().ListarGestoresPorCicloAvaliacao(model.CicloAvaliacaoID.Value);
                 }
                 else
                 {
-                    var gestores = new UsuarioDAO().ListarGestoresPorCicloAvaliacao(model.CicloAvaliacaoID.Value);
+                    gestores = new UsuarioDAO().ListarColaboradoresPorCicloAvaliacao(model.CicloAvaliacaoID.Value);
                 }
+
+                model.Email.ListaDeEmails = new List<string>();
+
+                if (gestores != null && gestores.Any())
+                {
+                    foreach (var item in gestores)
+                    {
+                        model.Email.ListaDeEmails.Add(item.Email);
+                    }
+
+                    EnviarEmail(model.Email);
+                }
+
                 return View("~/Views/CiclosAvaliacao/EmailEnviado.cshtml");
             }
+            return View("~/Views/CiclosAvaliacao/EnvioEmails.cshtml", model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult VerEmail(EnvioEmailsViewModel model)
+        {
+            model.VerEmail = true;
             return View("~/Views/CiclosAvaliacao/EnvioEmails.cshtml", model);
         }
 

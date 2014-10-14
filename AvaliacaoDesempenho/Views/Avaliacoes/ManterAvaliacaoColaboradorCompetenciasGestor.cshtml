@@ -72,14 +72,27 @@
                             <td class="col-md-1">
                                 @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
                                 {
-                                    @Html.DropDownListFor(model => Model.ListaCompetenciasCorporativas[i].NivelGestor,
-                                    new SelectList(Model.ListaNivelAvaliacao,
+                                    if (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today)
+                                    {
+                                        @Html.DropDownListFor(model => Model.ListaCompetenciasCorporativas[i].NivelGestor,
+                                        new SelectList(Model.ListaNivelAvaliacao,
                                                    "Value",
                                                    "Text",
                                                    Model.ListaCompetenciasCorporativas[i].NivelGestor),
                                                    " ",
                                                    new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => Model.ListaCompetenciasCorporativas[i].NivelGestor, string.Empty, new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => Model.ListaCompetenciasCorporativas[i].NivelGestor, string.Empty, new { @class = "text-danger" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(model => Model.ListaCompetenciasCorporativas[i].NivelGestor,
+                                         new SelectList(Model.ListaNivelAvaliacao,
+                                                   "Value",
+                                                   "Text",
+                                                   Model.ListaCompetenciasCorporativas[i].NivelGestor),
+                                                   " ",
+                                                        new { @class = "form-control", @readonly = "readonly" })
+                                    }
 
                                 }
                                 else
@@ -96,8 +109,15 @@
                             <td class="col-md-3">
                                 @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
                                 {
-                                    @Html.TextAreaFor(model => Model.ListaCompetenciasCorporativas[i].ComentarioGestor, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => Model.ListaCompetenciasCorporativas[i].ComentarioGestor, string.Empty, new { @class = "text-danger" })
+                                    if (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today)
+                                    {
+                                        @Html.TextAreaFor(model => Model.ListaCompetenciasCorporativas[i].ComentarioGestor, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => Model.ListaCompetenciasCorporativas[i].ComentarioGestor, string.Empty, new { @class = "text-danger" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextAreaFor(model => Model.ListaCompetenciasCorporativas[i].ComentarioGestor, new { @class = "form-control", @readonly = "readonly" })
+                                    }
                                 }
                                 else
                                 {
@@ -155,14 +175,27 @@
                             <td class="col-md-1">
                                 @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
                                 {
-                                    @Html.DropDownListFor(model => Model.ListaCompetenciasLideranca[i].NivelGestor,
+                                    if (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today)
+                                    {
+                                        @Html.DropDownListFor(model => Model.ListaCompetenciasLideranca[i].NivelGestor,
                                     new SelectList(Model.ListaNivelAvaliacao,
                                                    "Value",
                                                    "Text",
                                                    Model.ListaCompetenciasLideranca[i].NivelGestor),
                                                    " ",
                                                    new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => Model.ListaCompetenciasLideranca[i].NivelGestor, string.Empty, new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => Model.ListaCompetenciasLideranca[i].NivelGestor, string.Empty, new { @class = "text-danger" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(model => Model.ListaCompetenciasLideranca[i].NivelGestor,
+                                    new SelectList(Model.ListaNivelAvaliacao,
+                                                   "Value",
+                                                   "Text",
+                                                   Model.ListaCompetenciasLideranca[i].NivelGestor),
+                                                   " ",
+                                                        new { @class = "form-control", @readonly = "readonly" })
+                                    }
                                 }
                                 else
                                 {
@@ -178,8 +211,15 @@
                             <td class="col-md-3">
                                 @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
                                 {
-                                    @Html.TextAreaFor(model => Model.ListaCompetenciasLideranca[i].ComentarioGestor, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => Model.ListaCompetenciasLideranca[i].ComentarioGestor, string.Empty, new { @class = "text-danger" })
+                                    if (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today)
+                                    {
+                                        @Html.TextAreaFor(model => Model.ListaCompetenciasLideranca[i].ComentarioGestor, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => Model.ListaCompetenciasLideranca[i].ComentarioGestor, string.Empty, new { @class = "text-danger" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextAreaFor(model => Model.ListaCompetenciasLideranca[i].ComentarioGestor, new { @class = "form-control", @readonly = "readonly" })
+                                    }
                                 }
                                 else
                                 {
@@ -236,14 +276,27 @@
                             <td class="col-md-1">
                                 @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
                                 {
-                                    @Html.DropDownListFor(model => Model.ListaCompetenciasFuncionais[i].NivelGestor,
-                                    new SelectList(Model.ListaNivelAvaliacao,
+                                    if (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today)
+                                    {
+                                        @Html.DropDownListFor(model => Model.ListaCompetenciasFuncionais[i].NivelGestor,
+                                        new SelectList(Model.ListaNivelAvaliacao,
                                                    "Value",
                                                    "Text",
                                                    Model.ListaCompetenciasFuncionais[i].NivelGestor),
                                                    " ",
                                                    new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => Model.ListaCompetenciasFuncionais[i].NivelGestor, string.Empty, new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => Model.ListaCompetenciasFuncionais[i].NivelGestor, string.Empty, new { @class = "text-danger" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(model => Model.ListaCompetenciasFuncionais[i].NivelGestor,
+                                         new SelectList(Model.ListaNivelAvaliacao,
+                                                   "Value",
+                                                   "Text",
+                                                   Model.ListaCompetenciasFuncionais[i].NivelGestor),
+                                                   " ",
+                                                        new { @class = "form-control", @readonly = "readonly" })
+                                    }
                                 }
                                 else
                                 {
@@ -259,8 +312,15 @@
                             <td class="col-md-3">
                                 @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
                                 {
-                                    @Html.TextAreaFor(model => Model.ListaCompetenciasFuncionais[i].ComentarioGestor, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => Model.ListaCompetenciasFuncionais[i].ComentarioGestor, string.Empty, new { @class = "text-danger" })
+                                    if (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today)
+                                    {
+                                        @Html.TextAreaFor(model => Model.ListaCompetenciasFuncionais[i].ComentarioGestor, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => Model.ListaCompetenciasFuncionais[i].ComentarioGestor, string.Empty, new { @class = "text-danger" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextAreaFor(model => Model.ListaCompetenciasFuncionais[i].ComentarioGestor, new { @class = "form-control", @readonly = "readonly" })
+                                    }
                                 }
                                 else
                                 {
@@ -280,7 +340,10 @@
 
             @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
             {
-                <input type="submit" value="Salvar" class="btn btn-default" />
+                if (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today)
+                {
+                    <input type="submit" value="Salvar" class="btn btn-default" />
+                }
                 if (Model.ProximaEtapa)
                 {
                     @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorPerformance", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })

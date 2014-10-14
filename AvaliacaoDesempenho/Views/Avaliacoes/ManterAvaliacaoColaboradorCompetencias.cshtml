@@ -55,14 +55,27 @@
                             <td class="col-md-1">
                                 @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao))
                                 {
-                                    @Html.DropDownListFor(model => Model.ListaCompetenciasCorporativas[i].NivelColaborador,
+                                    if (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
+                                    {
+                                        @Html.DropDownListFor(model => Model.ListaCompetenciasCorporativas[i].NivelColaborador,
                                        new SelectList(Model.ListaNivelAvaliacao,
                                                       "Value",
                                                       "Text",
                                                       Model.ListaCompetenciasCorporativas[i].NivelColaborador),
                                                       " ",
                                                       new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => Model.ListaCompetenciasCorporativas[i].NivelColaborador, string.Empty, new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => Model.ListaCompetenciasCorporativas[i].NivelColaborador, string.Empty, new { @class = "text-danger" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(model => Model.ListaCompetenciasCorporativas[i].NivelColaborador,
+                                       new SelectList(Model.ListaNivelAvaliacao,
+                                                      "Value",
+                                                      "Text",
+                                                      Model.ListaCompetenciasCorporativas[i].NivelColaborador),
+                                                      " ",
+                                                           new { @class = "form-control", @readonly = "readonly" })
+                                    }
                                 }
                                 else
                                 {
@@ -111,14 +124,27 @@
                             <td class="col-md-1">
                                 @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao))
                                 {
-                                    @Html.DropDownListFor(model => Model.ListaCompetenciasLideranca[i].NivelColaborador,
+                                    if (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
+                                    {
+                                        @Html.DropDownListFor(model => Model.ListaCompetenciasLideranca[i].NivelColaborador,
                                        new SelectList(Model.ListaNivelAvaliacao,
                                                       "Value",
                                                       "Text",
                                                       Model.ListaCompetenciasLideranca[i].NivelColaborador),
                                                       " ",
                                                       new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => Model.ListaCompetenciasLideranca[i].NivelColaborador, string.Empty, new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => Model.ListaCompetenciasLideranca[i].NivelColaborador, string.Empty, new { @class = "text-danger" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(model => Model.ListaCompetenciasLideranca[i].NivelColaborador,
+                                       new SelectList(Model.ListaNivelAvaliacao,
+                                                      "Value",
+                                                      "Text",
+                                                      Model.ListaCompetenciasLideranca[i].NivelColaborador),
+                                                      " ",
+                                                           new { @class = "form-control", @readonly = "readonly" })
+                                    }
                                 }
                                 else
                                 {
@@ -166,14 +192,27 @@
                             <td class="col-md-1">
                                 @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao))
                                 {
-                                    @Html.DropDownListFor(model => Model.ListaCompetenciasFuncionais[i].NivelColaborador,
+                                    if (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
+                                    {
+                                        @Html.DropDownListFor(model => Model.ListaCompetenciasFuncionais[i].NivelColaborador,
                                        new SelectList(Model.ListaNivelAvaliacao,
                                                       "Value",
                                                       "Text",
                                                       Model.ListaCompetenciasFuncionais[i].NivelColaborador),
                                                       " ",
                                                       new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => Model.ListaCompetenciasFuncionais[i].NivelColaborador, string.Empty, new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => Model.ListaCompetenciasFuncionais[i].NivelColaborador, string.Empty, new { @class = "text-danger" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(model => Model.ListaCompetenciasFuncionais[i].NivelColaborador,
+                                       new SelectList(Model.ListaNivelAvaliacao,
+                                                      "Value",
+                                                      "Text",
+                                                      Model.ListaCompetenciasFuncionais[i].NivelColaborador),
+                                                      " ",
+                                                           new { @class = "form-control", @readonly = "readonly" })
+                                    }
                                 }
                                 else
                                 {
@@ -199,10 +238,13 @@
 
             @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao)
             {
-                <input type="submit" value="Salvar" class="btn btn-default" />
-                if (Model.LiberadoPraSubmeterAoGestor)
+                if (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
                 {
-                    @Html.ActionLink("Submeter ao Gestor", "SubmeterAutoAvaliacaoColaboradorAvaliacaoGestor", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, avaliacaoColaboradorID = Model.AvaliacaoColaboradorID }, new { @class = "btn btn-default" })
+                    <input type="submit" value="Salvar" class="btn btn-default" />
+                    if (Model.LiberadoPraSubmeterAoGestor)
+                    {
+                        @Html.ActionLink("Submeter ao Gestor", "SubmeterAutoAvaliacaoColaboradorAvaliacaoGestor", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, avaliacaoColaboradorID = Model.AvaliacaoColaboradorID }, new { @class = "btn btn-default" })
+                    }
                 }
             }
         </div>

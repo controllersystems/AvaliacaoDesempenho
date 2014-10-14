@@ -11,5 +11,7 @@ namespace AvaliacaoDesempenho.Models.CiclosAvaliacao
         public bool Gestores { get; set; }
 
         public EmailInformativo Email { get; set; }
+
+        public bool VerEmail { get; set; }
     }
 }

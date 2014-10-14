@@ -82,10 +82,42 @@
             @Html.ValidationMessageFor(model => model.Email.RodapeHTML, string.Empty, new { @class = "text-danger" })
         </div>
     </div>
-    <div class="row top40">
+    <div class="row top40 pull-right">
         <div class="col-md-100">
-            @Html.ActionLink("Visualizar", "", null, new { @class = "btn btn-default" })
+            <input type="submit" formaction="/CiclosAvaliacao/VerEmail" value="Visualizar" class="btn btn-default" />
             <input type="submit" value="Enviar" class="btn btn-default" />
         </div>
     </div>
+
+    if (Model.VerEmail)
+    {
+        <div id="pop-up" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">
+                            @Model.Email.Assunto
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        @Model.Email.CabecalhoHTML 
+                        <br />
+                        @Model.Email.Mensagem
+                        <br />
+                        @Model.Email.RodapeHTML
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#pop-up').modal('show');
+            });
+        </script>
+    }
 }
