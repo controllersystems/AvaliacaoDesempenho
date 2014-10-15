@@ -176,9 +176,12 @@
             </div>
         </div>
 
-        <div class="row top30">
+        <div class="row top30 pull-right">
             <div class="col-md-100">
-                @Html.ActionLink("Copiar último ciclo", "Index", "Relatorios", null, new { @class = "btn btn-default" })
+                @if (Model.ExisteUltimoCiclo)
+                {
+                    @Html.ActionLink("Copiar último ciclo", "Index", "Relatorios", null, new { @class = "btn btn-default" })
+                }
                 <input type="submit" value="Salvar" class="btn btn-default" />
             </div>
         </div>

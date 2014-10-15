@@ -41,6 +41,12 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         public string DataCriacaoPDI { get; set; }
 
         public string StatusPDINome { get; set; }
+
+        public bool ExibirObjetivosMetas { get; set; }
+
+        public bool ExibirAutoAvaliacao { get; set; }
+
+        public bool ExibirAvaliacaoGestor { get; set; }
     }
 
     public class ItemListaGestaoAvaliacaoColaboradorViewModel

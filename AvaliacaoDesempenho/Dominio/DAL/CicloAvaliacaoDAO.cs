@@ -23,6 +23,16 @@ namespace AvaliacaoDesempenho.Dominio.DAL
             }
         }
 
+        public bool ExisteCicloAnteriorEncerrado(int cicloReferencia, DateTime inicio)
+        {
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                var query = db.CicloAvaliacao.Where(x => x.SituacaoCicloAvaliacao_ID == 7 && x.ID != cicloReferencia && x.DataFimVigencia <= inicio);
+
+                return query.Any();
+            }
+        }
+
         public List<CicloAvaliacao> ListarCiclosDisponiveis(int cargoID, int areaID, int setorID, int gestorID)
         {
             using (var db = new AvaliacaoDesempenhoContextEntities())

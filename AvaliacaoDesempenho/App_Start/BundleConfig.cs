@@ -14,7 +14,8 @@ namespace AvaliacaoDesempenho
                             .Include("~/Content/Styles/bootstrap.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery")
-                            .Include("~/Content/Scripts/jquery-{version}.js"));
+                            .Include("~/Content/Scripts/jquery-{version}.js")
+                            .Include("~/Content/Scripts/jquery.cookie.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui")
                             .Include("~/Content/Scripts/jquery-ui-{version}.js"));

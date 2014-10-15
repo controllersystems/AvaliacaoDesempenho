@@ -289,6 +289,13 @@ namespace AvaliacaoDesempenho.Controllers
 
             model.Pagina = pagina.Value;
 
+            var ciclo = new CicloAvaliacaoDAO().Obter(id.Value);
+
+            if (ciclo != null)
+            {
+                model.ExisteUltimoCiclo = new CicloAvaliacaoDAO().ExisteCicloAnteriorEncerrado(id.Value, ciclo.DataInicioVigencia);
+            }
+
             CarregarAssociacoesCargoCompetencias(model);
 
             return View(model);

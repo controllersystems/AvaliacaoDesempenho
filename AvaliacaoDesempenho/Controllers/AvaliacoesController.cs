@@ -415,6 +415,12 @@ namespace AvaliacaoDesempenho.Controllers
 
             model.CicloAvaliacaoSelecionadoID = cicloAvaliacaoSelecionadoID;
 
+            model.ExibirAutoAvaliacao = this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("ExibirAutoAvaliao" + model.CicloAvaliacaoSelecionadoID.Value);
+
+            model.ExibirAvaliacaoGestor = this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("ExibirAvaliacaoGestor" + model.CicloAvaliacaoSelecionadoID.Value);
+
+            model.ExibirObjetivosMetas = this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("ExibirObjetivosMetas" + model.CicloAvaliacaoSelecionadoID.Value);
+
             return View("~/Views/Avaliacoes/GestaoAvaliacaoColaborador.cshtml", model);
         }
 

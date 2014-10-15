@@ -220,54 +220,117 @@
     !Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosRH) &&
     !Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.ObjetivosMetasDefinidos))
 {
-    <div id="pop-up" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title">
+    if ((Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.DefinicaoObjetivosMetas) && !Model.ExibirObjetivosMetas) ||
+        (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.AutoAvaliacao) && !Model.ExibirAutoAvaliacao) ||
+        (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosGestores) && !Model.ExibirAvaliacaoGestor))
+    {
+        <div id="pop-up" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">
+                            @if (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.DefinicaoObjetivosMetas))
+                            {
+                                @Model.TituloOrientacaoObjetivosMetas
+                            }
+                            else if (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.AutoAvaliacao))
+                            {
+                                @Model.TituloOrientacaoAutoAvaliacao
+                            }
+                            else if (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosGestores))
+                            {
+                                @Model.TituloOrientacaoAvaliacaoGestor
+                            }
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        @Html.HiddenFor(model => model.CicloAvaliacaoSelecionadoID.Value)
                         @if (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.DefinicaoObjetivosMetas))
                         {
-                            @Model.TituloOrientacaoObjetivosMetas
+                            @Html.TextAreaFor(model => Model.TextoOrientacaoObjetivosMetas, new { @class = "form-control", @rows = "20" })
                         }
                         else if (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.AutoAvaliacao))
                         {
-                            @Model.TituloOrientacaoAutoAvaliacao
+                            @Html.TextAreaFor(model => Model.TextoOrientacaoAutoAvaliacao, new { @class = "form-control", @rows = "20" })
                         }
                         else if (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosGestores))
                         {
-                            @Model.TituloOrientacaoAvaliacaoGestor
+                            @Html.TextAreaFor(model => Model.TextoOrientacaoAvaliacaoGestor, new { @class = "form-control", @rows = "20" })
                         }
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    @if(Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.DefinicaoObjetivosMetas))
-                    {
-                        @Html.TextAreaFor(model => Model.TextoOrientacaoObjetivosMetas, new { @class = "form-control", @rows = "20" })
-                    }
-                    else if (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.AutoAvaliacao))
-                    {
-                        @Html.TextAreaFor(model => Model.TextoOrientacaoAutoAvaliacao, new { @class = "form-control", @rows = "20" })
-                    }
-                    else if (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosGestores))
-                    {
-                        @Html.TextAreaFor(model => Model.TextoOrientacaoAvaliacaoGestor, new { @class = "form-control", @rows = "20" })
-                    }
-                    @if (!string.IsNullOrEmpty(Model.URLCompetencia))
-                    {
-                        <a href="@Model.URLCompetencia" target="_blank">Baixe aqui o guia de competências</a>
-                    }
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                        @if (!string.IsNullOrEmpty(Model.URLCompetencia))
+                        {
+                            <a href="@Model.URLCompetencia" target="_blank">Baixe aqui o guia de competências</a>
+                        }
+                        @if (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.DefinicaoObjetivosMetas))
+                        {
+                            <br />
+                            <h5>
+                                @Html.CheckBox("chkExibirObjetivosMetas", new { @class = "chk-style" })
+                                Não exibir novamente
+                            </h5>
+                            <script type="text/javascript">
+                                $(document).ready(function () {
+                                    $('#chkExibirObjetivosMetas').change(function () {
+                                        if ($("#chkExibirObjetivosMetas").prop('checked')) {
+                                            $.cookie("ExibirObjetivosMetas" + $('#CicloAvaliacaoSelecionadoID').val(), 'true');
+                                        } else {
+                                            $.cookie("ExibirObjetivosMetas" + $('#CicloAvaliacaoSelecionadoID').val(), null);
+                                        }
+                                    });
+                                });
+                            </script>
+                        }
+                        else if (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.AutoAvaliacao))
+                        {
+                            <br />
+                            <h5>
+                                @Html.CheckBox("chkExibirAutoAvaliacao", new { @class = "chk-style" })
+                                Não exibir novamente
+                            </h5>
+                            <script type="text/javascript">
+                                $(document).ready(function () {
+                                    $('#chkExibirAutoAvaliacao').change(function () {
+                                        if ($("#chkExibirAutoAvaliacao").prop('checked')) {
+                                            $.cookie("ExibirAutoAvaliao" + $('#CicloAvaliacaoSelecionadoID').val(), 'true');
+                                        } else {
+                                            $.cookie("ExibirAutoAvaliao" + $('#CicloAvaliacaoSelecionadoID').val(), null);
+                                        }
+                                    });
+                                });
+                            </script>
+                        }
+                        else if (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosGestores))
+                        {
+                            <br />
+                            <h5>
+                                @Html.CheckBox("chkExibirAvaliacaoGestor", new { @class = "chk-style" })
+                                Não exibir novamente
+                            </h5>
+                            <script type="text/javascript">
+                                $(document).ready(function () {
+                                    $('#chkExibirAvaliacaoGestor').change(function () {
+                                        if ($("#chkExibirAvaliacaoGestor").prop('checked')) {
+                                            $.cookie("ExibirAvaliacaoGestor" + $('#CicloAvaliacaoSelecionadoID').val(), 'true');
+                                        } else {
+                                            $.cookie("ExibirAvaliacaoGestor" + $('#CicloAvaliacaoSelecionadoID').val(), null);
+                                        }
+                                    });
+                                });
+                            </script>
+                        }
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#pop-up').modal('show');
-        });
-    </script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#pop-up').modal('show');
+            });
+        </script>
+    }
 }
