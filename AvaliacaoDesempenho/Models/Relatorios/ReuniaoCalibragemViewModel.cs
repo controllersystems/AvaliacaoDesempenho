@@ -8,7 +8,7 @@ namespace AvaliacaoDesempenho.Models.Relatorios
     public class ReuniaoCalibragemViewModel
     {
         public int AnoReferencia { get; set; }
-        public List<ItemReuniaoCalibragemViewModel> ListaAcompanhamentoGeral { get; set; }
+        public List<ItemReuniaoCalibragemViewModel> ListaReuniaoCalibragem { get; set; }
     }
 
     public class ItemReuniaoCalibragemViewModel

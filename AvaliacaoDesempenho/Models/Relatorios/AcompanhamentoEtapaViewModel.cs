@@ -9,6 +9,6 @@ namespace AvaliacaoDesempenho.Models.Relatorios
     {
         public int AnoReferencia { get; set; }
         public int EtapaSelecionada { get; set; }
-        public List<ItemAcompanhamentoGeralViewModel> ListaAcompanhamentoGeral { get; set; }
+        public List<ItemAcompanhamentoGeralViewModel> ListaAcompanhamentoEtapa { get; set; }
     }
 }
