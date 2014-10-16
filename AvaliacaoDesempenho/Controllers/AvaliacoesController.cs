@@ -1551,7 +1551,7 @@ namespace AvaliacaoDesempenho.Controllers
 
                             itemListaAdd.ID = (competenciasColaborador == null) ? 0 : competenciasColaborador.ID;
                             itemListaAdd.NivelColaborador = (competenciasColaborador == null) ? null : competenciasColaborador.NivelColaborador;
-                            itemListaAdd.Competencia = (string.IsNullOrEmpty(item.descricao_comp)) ? item.titulo_comp : item.descricao_comp;
+                            itemListaAdd.Competencia = (string.IsNullOrEmpty(item.descricao_comp)) ? item.titulo_comp :  item.titulo_comp + " - " + item.descricao_comp;
                             itemListaAdd.CompentenciaID = item.id_comp;
 
                             switch (item.id_tipo_comp)
@@ -1810,7 +1810,7 @@ namespace AvaliacaoDesempenho.Controllers
 
                             itemListaAdd.ID = (competenciasColaborador == null) ? 0 : competenciasColaborador.ID;
                             itemListaAdd.NivelColaborador = (competenciasColaborador == null) ? null : competenciasColaborador.NivelColaborador;
-                            itemListaAdd.Competencia = (string.IsNullOrEmpty(item.descricao_comp)) ? item.titulo_comp : item.descricao_comp;
+                            itemListaAdd.Competencia = (string.IsNullOrEmpty(item.descricao_comp)) ? item.titulo_comp : item.titulo_comp + " - " + item.descricao_comp;
                             itemListaAdd.CompentenciaID = item.id_comp;
                             int nivelRequerido;
                             if (Int32.TryParse(item.proeficiencia_cp, out nivelRequerido))
@@ -2474,6 +2474,7 @@ namespace AvaliacaoDesempenho.Controllers
         [ValidateAntiForgeryToken]
         [CriacaoMapeamento(typeof(DeObjetivoColaboradorParaObjetivoMetaResultadoAtingidoViewModel))]
         [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
+        [CriacaoMapeamento(typeof(DeStatusAvaliacaoColaboradorParaSelectListItem))]
         public ActionResult ManterAvaliacaoColaboradorRecomendacaoRH(ManterAvaliacaoColaboradorRecomendacaoRHViewModel model)
         {
             if (ModelState.IsValid)
@@ -2524,7 +2525,7 @@ namespace AvaliacaoDesempenho.Controllers
 
                 model.CicloAvaliacaoSelecionadoID = model.CicloAvaliacaoSelecionadoID.Value;
 
-                return ManterAvaliacaoColaboradorRecomendacaoRH(model.CicloAvaliacaoSelecionadoID, model.ColaboradorID);
+                return GestaoAvaliacoesColaboradores(model.CicloAvaliacaoSelecionadoID);
             }
 
             var listaAval = new List<SelectListItem>();

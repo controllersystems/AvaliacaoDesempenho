@@ -61,10 +61,31 @@
                                 @Html.HiddenFor(model => Model.ListaCompetenciasCorporativas[i].ID)
                                 @Html.HiddenFor(model => Model.ListaCompetenciasCorporativas[i].CompentenciaID)
                                 @Html.TextAreaFor(model => Model.ListaCompetenciasCorporativas[i].Competencia, new { @class = "form-control", @readonly = "readonly" })
-
                             </td>
                             <td class="col-md-1">
-                                @Html.TextBoxFor(model => Model.ListaCompetenciasCorporativas[i].NivelColaborador, new { @class = "form-control", @readonly = "readonly" })
+                                @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
+                                {
+                                    if (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today)
+                                    {
+                                        @Html.TextBoxFor(model => Model.ListaCompetenciasCorporativas[i].NivelColaborador, new { @class = "form-control", @readonly = "readonly" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBox(Model.ListaCompetenciasCorporativas[i].NivelColaborador.ToString(), "", new { @class = "form-control", @readonly = "readonly" })
+                                    }
+                                }
+                                else
+                                {
+                                    if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH) ||
+                                        Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada))
+                                    {
+                                        @Html.TextBoxFor(model => Model.ListaCompetenciasCorporativas[i].NivelColaborador, new { @class = "form-control", @readonly = "readonly" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBox(Model.ListaCompetenciasCorporativas[i].NivelColaborador.ToString(), "", new { @class = "form-control", @readonly = "readonly" })
+                                    }
+                                }
                             </td>
                             <td class="col-md-1">
                                 @Html.TextBoxFor(model => Model.ListaCompetenciasCorporativas[i].NivelRequerido, new { @class = "form-control", @readonly = "readonly" })
@@ -167,7 +188,29 @@
                                 @Html.TextAreaFor(model => Model.ListaCompetenciasLideranca[i].Competencia, new { @class = "form-control", @readonly = "readonly" })
                             </td>
                             <td class="col-md-1">
-                                @Html.TextBoxFor(model => Model.ListaCompetenciasLideranca[i].NivelColaborador, new { @class = "form-control", @readonly = "readonly" })
+                                @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
+                                {
+                                    if (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today)
+                                    {
+                                        @Html.TextBoxFor(model => Model.ListaCompetenciasLideranca[i].NivelColaborador, new { @class = "form-control", @readonly = "readonly" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBox(Model.ListaCompetenciasLideranca[i].NivelColaborador.ToString(), "", new { @class = "form-control", @readonly = "readonly" })
+                                    }
+                                }
+                                else
+                                {
+                                    if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH) ||
+                                        Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada))
+                                    {
+                                        @Html.TextBoxFor(model => Model.ListaCompetenciasLideranca[i].NivelColaborador, new { @class = "form-control", @readonly = "readonly" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBox(Model.ListaCompetenciasLideranca[i].NivelColaborador.ToString(), "", new { @class = "form-control", @readonly = "readonly" })
+                                    }
+                                }
                             </td>
                             <td class="col-md-1">
                                 @Html.TextBoxFor(model => Model.ListaCompetenciasLideranca[i].NivelRequerido, new { @class = "form-control", @readonly = "readonly" })
@@ -268,7 +311,29 @@
                                 @Html.TextAreaFor(model => Model.ListaCompetenciasFuncionais[i].Competencia, new { @class = "form-control", @readonly = "readonly" })
                             </td>
                             <td class="col-md-1">
-                                @Html.TextBoxFor(model => Model.ListaCompetenciasFuncionais[i].NivelColaborador, new { @class = "form-control", @readonly = "readonly" })
+                                @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
+                                {
+                                    if (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today)
+                                    {
+                                        @Html.TextBoxFor(model => Model.ListaCompetenciasFuncionais[i].NivelColaborador, new { @class = "form-control", @readonly = "readonly" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBox(Model.ListaCompetenciasFuncionais[i].NivelColaborador.ToString(), "", new { @class = "form-control", @readonly = "readonly" })
+                                    }
+                                }
+                                else
+                                {
+                                    if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH) ||
+                                        Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada))
+                                    {
+                                        @Html.TextBoxFor(model => Model.ListaCompetenciasFuncionais[i].NivelColaborador, new { @class = "form-control", @readonly = "readonly" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBox(Model.ListaCompetenciasFuncionais[i].NivelColaborador.ToString(), "", new { @class = "form-control", @readonly = "readonly" })
+                                    }
+                                }
                             </td>
                             <td class="col-md-1">
                                 @Html.TextBoxFor(model => Model.ListaCompetenciasFuncionais[i].NivelRequerido, new { @class = "form-control", @readonly = "readonly" })
