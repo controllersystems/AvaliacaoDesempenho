@@ -5,4 +5,71 @@
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
 }
 
-<h2>AcompanhamentoEtapa</h2>
+<h2>Ano de Referência: @Model.AnoReferencia</h2>
+<h2>Etapa: @Model.EtapaSelecionada</h2>
+
+<div class="row top30">
+    <div class="col-md-12">
+        <table class="table">
+            <tr>
+                <th>
+                    Diretoria
+                </th>
+                <th>
+                    Area
+                </th>
+                <th>
+                    Gestor
+                </th>
+                <th>
+                    Nome do Colaborador
+                </th>
+                <th>
+                    Matrícula
+                </th>
+                <th>
+                    Cargo
+                </th>
+                <th>
+                    Status do Processo
+                </th>
+                <th>
+                    Data da última alteração
+                </th>
+            </tr>
+            @if (Model.ListaAcompanhamentoEtapa != null &&
+                Model.ListaAcompanhamentoEtapa.Any())
+            {
+                @for (int i = 0; i < Model.ListaAcompanhamentoEtapa.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            @Model.ListaAcompanhamentoEtapa[i].Diretoria
+                        </td>
+                        <td>
+                            @Model.ListaAcompanhamentoEtapa[i].Area
+                        </td>
+                        <td>
+                            @Model.ListaAcompanhamentoEtapa[i].Gestor
+                        </td>
+                        <td>
+                            @Model.ListaAcompanhamentoEtapa[i].NomeColaborador
+                        </td>
+                        <td>
+                            @Model.ListaAcompanhamentoEtapa[i].Matricula
+                        </td>
+                        <td>
+                            @Model.ListaAcompanhamentoEtapa[i].Cargo
+                        </td>
+                        <td>
+                            @Model.ListaAcompanhamentoEtapa[i].StatusAvaliacao
+                        </td>
+                        <td>
+                            @Model.ListaAcompanhamentoEtapa[i].UltimaAlteracao
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+</div>
