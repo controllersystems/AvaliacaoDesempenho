@@ -311,7 +311,9 @@
     <Compile Include="Models\CiclosAvaliacao\SituacaoCicloAvaliacaoViewModel.cs" />
     <Compile Include="Models\Home\HomeViewModel.cs" />
     <Compile Include="Models\Avaliacoes\ManterAvaliacaoColaboradorRecomendacaoViewModel.cs" />
+    <Compile Include="Models\Relatorios\AcompanhamentoEtapaViewModel.cs" />
     <Compile Include="Models\Relatorios\AcompanhamentoGeralViewModel.cs" />
+    <Compile Include="Models\Relatorios\ReuniaoCalibragemViewModel.cs" />
     <Compile Include="Models\Usuarios\CabecalhoColaboradorViewModel.cs" />
     <Compile Include="Models\Usuarios\GestaoAdministradoresViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -452,6 +454,8 @@
     <Content Include="Views\Avaliacoes\ManterAvaliacaoColaboradorRecomendacaoRH.cshtml" />
     <Content Include="Views\CiclosAvaliacao\EmailEnviado.cshtml" />
     <Content Include="Views\Relatorios\AcompanhamentoGeral.cshtml" />
+    <Content Include="Views\Relatorios\AcompanhamentoEtapa.cshtml" />
+    <Content Include="Views\Relatorios\ReuniaoCalibragem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_GlobalResources\" />
