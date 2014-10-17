@@ -75,7 +75,6 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         [Display(Name = "Avaliação do Gestor")]
         [DataType(DataType.Text, ErrorMessage = "A {0} é inválido.")]
         [StringLength(400, ErrorMessage = "A {0} deve ter o tamanho máximo de 400 caracteres.")]
-        [Required(ErrorMessage = "A {0} é obrigatória.")]
         public string AvaliacaoGestor { get; set; }
 
         public bool AutoAvaliacao { get; set; }
@@ -90,7 +89,6 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         [Display(Name = "Avaliação do Gestor")]
         [DataType(DataType.Text, ErrorMessage = "A {0} é inválido.")]
         [StringLength(600, ErrorMessage = "A {0} deve ter o tamanho máximo de 600 caracteres.")]
-        [Required(ErrorMessage = "A {0} é obrigatória.")]
         public string AvaliacaoGestor { get; set; }
     }
 }
