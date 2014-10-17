@@ -536,8 +536,21 @@ namespace AvaliacaoDesempenho.Controllers
             }
 
             return GestaoCompetenciasCargos(model.CicloAvaliacaoSelecionadoID, model.Pagina);
+        }
 
-            //return View("/Views/CiclosAvaliacao/GestaoCompetenciasCargos/" + model.CicloAvaliacaoSelecionadoID + "?pagina=" + model.Pagina );
+        [HttpPost]
+        [Authorize]
+        public ActionResult SobrescreverUltimoCiclo(int? id)
+        {
+            var ciclo = new CicloAvaliacaoDAO().Obter(id.Value);
+
+            if (ciclo != null)
+            {
+                //Pegar ultimoCiclo
+                var ultimoCiclo = new CicloAvaliacaoDAO().ObterUltimoCiclo(id.Value, ciclo.DataInicioVigencia);
+            }
+
+            return GestaoCompetenciasCargos(id, 1);
         }
 
         private void CarregarAssociacoesCargoCompetencias(GestaoCompentenciasCargosViewModel model)
@@ -729,26 +742,27 @@ namespace AvaliacaoDesempenho.Controllers
         {
             MailMessage msg = new MailMessage();
 
-            msg.From = new MailAddress(ConfigurationManager.AppSettings["smtpUser"].ToString());
+            msg.From = new MailAddress(ConfigurationManager.AppSettings["mailFrom"].ToString());
 
             foreach (var item in email.ListaDeEmails)
             {
                 msg.Bcc.Add(item);
             }
 
-            //msg.To.Add();
             msg.Subject = email.Assunto;
-            msg.Body = email.CabecalhoHTML + email.Mensagem + email.RodapeHTML;
+            msg.Body = email.CabecalhoHTML + "<br />" + email.Mensagem + "<br />" + email.RodapeHTML;
             msg.Priority = MailPriority.High;
+            msg.IsBodyHtml = true;
 
             SmtpClient client = new SmtpClient();
 
-            client.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["smtpUser"].ToString(), ConfigurationManager.AppSettings["smtpPass"].ToString(), ConfigurationManager.AppSettings["smtpServer"].ToString());
+            client.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["smtpUser"].ToString(), ConfigurationManager.AppSettings["smtpPass"].ToString());
             client.Host = ConfigurationManager.AppSettings["smtpServer"].ToString();
             client.Port = int.Parse(ConfigurationManager.AppSettings["smtpPort"].ToString());
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.EnableSsl = bool.Parse(ConfigurationManager.AppSettings["EnableSsl"].ToString());
-            client.UseDefaultCredentials = true;
+            client.UseDefaultCredentials = false;
+            //client.Timeout = 100000;
 
             client.Send(msg);
         }

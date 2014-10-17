@@ -101,11 +101,11 @@
                         </h4>
                     </div>
                     <div class="modal-body">
-                        @Model.Email.CabecalhoHTML 
+                        @Html.Raw(Model.Email.CabecalhoHTML)
                         <br />
-                        @Model.Email.Mensagem
+                        @Html.Raw(Model.Email.Mensagem)
                         <br />
-                        @Model.Email.RodapeHTML
+                        @Html.Raw(Model.Email.RodapeHTML)
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>

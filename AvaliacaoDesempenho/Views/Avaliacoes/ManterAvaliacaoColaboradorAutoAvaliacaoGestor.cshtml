@@ -111,18 +111,21 @@
                 </div>
                 for (int i = 0; i < Model.ListaObjetivosMetasResultadosatingidosGestorViewModel.Count; i++)
                 {
-                    @Html.HiddenFor(model => Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].ID)
-                    <div class="row top30">
-                        <div class="col-md-050">
-                            @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].Objetivo, new { @class = "form-control", @readonly = "readonly" })
+                    if (!Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].AutoAvaliacao)
+                    {
+                        @Html.HiddenFor(model => Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].ID)
+                        <div class="row top30">
+                            <div class="col-md-050">
+                                @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].Objetivo, new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                            <div class="col-md-050">
+                                @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].MetaColaboradorMeta, new { @class = "form-control", @readonly = "readonly" })
+                            </div>
                         </div>
-                        <div class="col-md-050">
-                            @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].MetaColaboradorMeta, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                    </div>
+                    }
                 }
             }
-      }
+        }
 
     <hr />
     <div class="row top20">

@@ -33,6 +33,17 @@ namespace AvaliacaoDesempenho.Dominio.DAL
             }
         }
 
+        public CicloAvaliacao ObterUltimoCiclo(int cicloReferencia, DateTime inicio)
+        {
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                return db.CicloAvaliacao.Where(x => x.SituacaoCicloAvaliacao_ID == 7
+                                                    && x.ID != cicloReferencia 
+                                                    && x.DataFimVigencia <= inicio)
+                                              .OrderByDescending(x => x.DataInicioVigencia).FirstOrDefault();
+            }
+        }
+
         public List<CicloAvaliacao> ListarCiclosDisponiveis(int cargoID, int areaID, int setorID, int gestorID)
         {
             using (var db = new AvaliacaoDesempenhoContextEntities())
