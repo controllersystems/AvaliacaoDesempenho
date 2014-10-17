@@ -313,6 +313,12 @@
     <Compile Include="Models\Avaliacoes\ManterAvaliacaoColaboradorRecomendacaoViewModel.cs" />
     <Compile Include="Models\Relatorios\AcompanhamentoEtapaViewModel.cs" />
     <Compile Include="Models\Relatorios\AcompanhamentoGeralViewModel.cs" />
+    <Compile Include="Models\Relatorios\EngajamentoViewModel.cs" />
+    <Compile Include="Models\Relatorios\GapCompetenciasViewModel.cs" />
+    <Compile Include="Models\Relatorios\RatingFinalColaboradorViewModel.cs" />
+    <Compile Include="Models\Relatorios\RatingFinalGestorViewModel.cs" />
+    <Compile Include="Models\Relatorios\RatingFinalRHViewModel.cs" />
+    <Compile Include="Models\Relatorios\RelatorioPDIViewModel.cs" />
     <Compile Include="Models\Relatorios\ReuniaoCalibragemViewModel.cs" />
     <Compile Include="Models\Usuarios\CabecalhoColaboradorViewModel.cs" />
     <Compile Include="Models\Usuarios\GestaoAdministradoresViewModel.cs" />
@@ -456,6 +462,11 @@
     <Content Include="Views\Relatorios\AcompanhamentoGeral.cshtml" />
     <Content Include="Views\Relatorios\AcompanhamentoEtapa.cshtml" />
     <Content Include="Views\Relatorios\ReuniaoCalibragem.cshtml" />
+    <Content Include="Views\Relatorios\RatingFinalGestor.cshtml" />
+    <Content Include="Views\Relatorios\RatingFinalColaborador.cshtml" />
+    <Content Include="Views\Relatorios\RatingFinalRH.cshtml" />
+    <Content Include="Views\Relatorios\GapCompetencias.cshtml" />
+    <Content Include="Views\Relatorios\RelatorioPDI.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_GlobalResources\" />

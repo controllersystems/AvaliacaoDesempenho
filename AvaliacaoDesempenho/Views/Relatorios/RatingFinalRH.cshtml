@@ -1,11 +1,9 @@
-﻿
-@model AvaliacaoDesempenho.Models.Relatorios.ReuniaoCalibragemViewModel
-
+﻿@model AvaliacaoDesempenho.Models.Relatorios.RatingFinalRHViewModel
 @{
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
 }
 
-<h2>Ano de ReferÊncia: @Model.AnoReferencia</h2>
+<h2>Ano de Referência: @Model.AnoReferencia</h2>
 
 <div class="row top30">
     <div class="col-md-12">
@@ -33,62 +31,56 @@
                     Localidade
                 </th>
                 <th>
-                    Data de admissão
+                    Data de Admissão 
                 </th>
                 <th>
                     Tempo de Casa
                 </th>
                 <th>
-                    Recomendação de Rating
+                    Rating Final 
                 </th>
                 <th>
-                    Indicação de Promoção
-                </th>
-                <th>
-                    Performance Geral
+                    Indicação Final a Promoção
                 </th>
             </tr>
-            @if (Model.ListaReuniaoCalibragem != null &&
-                Model.ListaReuniaoCalibragem.Any())
+            @if (Model.ListaRatingFinalRH != null &&
+                Model.ListaRatingFinalRH.Any())
             {
-                for (int i = 0; i < Model.ListaReuniaoCalibragem.Count; i++)
+                for (int i = 0; i < Model.ListaRatingFinalRH.Count; i++)
                 {
                     <tr>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].Diretoria
+                            @Model.ListaRatingFinalRH[i].Diretoria
                         </td>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].Area
+                            @Model.ListaRatingFinalRH[i].Area
                         </td>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].Gestor
+                            @Model.ListaRatingFinalRH[i].Gestor
                         </td>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].NomeColaborador
+                            @Model.ListaRatingFinalRH[i].NomeColaborador
                         </td>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].Matricula
+                            @Model.ListaRatingFinalRH[i].Matricula
                         </td>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].Cargo
+                            @Model.ListaRatingFinalRH[i].Cargo
                         </td>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].Localidade
+                            @Model.ListaRatingFinalRH[i].Localidade
                         </td>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].DataAdmissao
+                            @Model.ListaRatingFinalRH[i].DataAdmissao
                         </td>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].TempoDeCasa
+                            @Model.ListaRatingFinalRH[i].TempoCasa
                         </td>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].RecomendacaoDeRating
+                            @Model.ListaRatingFinalRH[i].RatingFinal
                         </td>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].IndicacaoDePromocao
-                        </td>
-                        <td>
-                            @Model.ListaReuniaoCalibragem[i].PerformanceGeral
+                            @Model.ListaRatingFinalRH[i].IndicacaoFinalPromocao
                         </td>
                     </tr>
                 }

@@ -1,6 +1,4 @@
-﻿
-@model AvaliacaoDesempenho.Models.Relatorios.AcompanhamentoGeralViewModel
-
+﻿@model AvaliacaoDesempenho.Models.Relatorios.RatingFinalGestorViewModel
 @{
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
 }
@@ -30,41 +28,41 @@
                     Cargo
                 </th>
                 <th>
-                    Status do Processo
+                    Rating Final
                 </th>
                 <th>
-                    Data da última alteração
+                    Indicação Final a Promoção
                 </th>
             </tr>
-            @if(Model.ListaAcompanhamentoGeral != null &&
-                Model.ListaAcompanhamentoGeral.Any())
+            @if (Model.ListaRatingFinalGestor != null &&
+                Model.ListaRatingFinalGestor.Any())
             {
-                for (int i = 0; i < Model.ListaAcompanhamentoGeral.Count; i++)
+                for (int i = 0; i < Model.ListaRatingFinalGestor.Count; i++)
                 {
                     <tr>
                         <td>
-                            @Model.ListaAcompanhamentoGeral[i].Diretoria
+                            @Model.ListaRatingFinalGestor[i].Diretoria
                         </td>
                         <td>
-                            @Model.ListaAcompanhamentoGeral[i].Area
+                            @Model.ListaRatingFinalGestor[i].Area
                         </td>
                         <td>
-                            @Model.ListaAcompanhamentoGeral[i].Gestor
+                            @Model.ListaRatingFinalGestor[i].Gestor
                         </td>
                         <td>
-                            @Model.ListaAcompanhamentoGeral[i].NomeColaborador
+                            @Model.ListaRatingFinalGestor[i].NomeColaborador
                         </td>
                         <td>
-                            @Model.ListaAcompanhamentoGeral[i].Matricula
+                            @Model.ListaRatingFinalGestor[i].Matricula
                         </td>
                         <td>
-                            @Model.ListaAcompanhamentoGeral[i].Cargo
+                            @Model.ListaRatingFinalGestor[i].Cargo
                         </td>
                         <td>
-                            @Model.ListaAcompanhamentoGeral[i].StatusAvaliacao
+                            @Model.ListaRatingFinalGestor[i].RatingFinal
                         </td>
                         <td>
-                            @Model.ListaAcompanhamentoGeral[i].UltimaAlteracao
+                            @Model.ListaRatingFinalGestor[i].IndicacaoDePromocao
                         </td>
                     </tr>
                 }
@@ -72,4 +70,3 @@
         </table>
     </div>
 </div>
-

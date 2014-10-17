@@ -1,6 +1,4 @@
-﻿
-@model AvaliacaoDesempenho.Models.Relatorios.AcompanhamentoGeralViewModel
-
+﻿@model AvaliacaoDesempenho.Models.Relatorios.RelatorioPDIViewModel
 @{
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
 }
@@ -30,41 +28,47 @@
                     Cargo
                 </th>
                 <th>
-                    Status do Processo
+                    Idiomas
                 </th>
                 <th>
-                    Data da última alteração
+                    Graduação 
+                </th>
+                <th>
+                    Ações de Desenvolvimento
                 </th>
             </tr>
-            @if(Model.ListaAcompanhamentoGeral != null &&
-                Model.ListaAcompanhamentoGeral.Any())
+            @if (Model.ListaRelatorioPDI != null &&
+                Model.ListaRelatorioPDI.Any())
             {
-                for (int i = 0; i < Model.ListaAcompanhamentoGeral.Count; i++)
+                for (int i = 0; i < Model.ListaRelatorioPDI.Count; i++)
                 {
                     <tr>
                         <td>
-                            @Model.ListaAcompanhamentoGeral[i].Diretoria
+                            @Model.ListaRelatorioPDI[i].Diretoria
                         </td>
                         <td>
-                            @Model.ListaAcompanhamentoGeral[i].Area
+                            @Model.ListaRelatorioPDI[i].Area
                         </td>
                         <td>
-                            @Model.ListaAcompanhamentoGeral[i].Gestor
+                            @Model.ListaRelatorioPDI[i].Gestor
                         </td>
                         <td>
-                            @Model.ListaAcompanhamentoGeral[i].NomeColaborador
+                            @Model.ListaRelatorioPDI[i].NomeColaborador
                         </td>
                         <td>
-                            @Model.ListaAcompanhamentoGeral[i].Matricula
+                            @Model.ListaRelatorioPDI[i].Matricula
                         </td>
                         <td>
-                            @Model.ListaAcompanhamentoGeral[i].Cargo
+                            @Model.ListaRelatorioPDI[i].Cargo
                         </td>
                         <td>
-                            @Model.ListaAcompanhamentoGeral[i].StatusAvaliacao
+                            @Model.ListaRelatorioPDI[i].Idiomas
                         </td>
                         <td>
-                            @Model.ListaAcompanhamentoGeral[i].UltimaAlteracao
+                            @Model.ListaRelatorioPDI[i].Graduacao
+                        </td>
+                        <td>
+                            @Model.ListaRelatorioPDI[i].AcoesDesenvolvimento
                         </td>
                     </tr>
                 }
@@ -72,4 +76,3 @@
         </table>
     </div>
 </div>
-

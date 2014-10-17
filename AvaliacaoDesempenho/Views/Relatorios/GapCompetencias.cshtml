@@ -1,11 +1,9 @@
-﻿
-@model AvaliacaoDesempenho.Models.Relatorios.ReuniaoCalibragemViewModel
-
+﻿@model AvaliacaoDesempenho.Models.Relatorios.GapCompetenciasViewModel
 @{
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
 }
 
-<h2>Ano de ReferÊncia: @Model.AnoReferencia</h2>
+<h2>Ano de Referência: @Model.AnoReferencia</h2>
 
 <div class="row top30">
     <div class="col-md-12">
@@ -30,65 +28,59 @@
                     Cargo
                 </th>
                 <th>
-                    Localidade
+                    Tipo de Competência 
                 </th>
                 <th>
-                    Data de admissão
+                    Nome da Competência 
                 </th>
                 <th>
-                    Tempo de Casa
+                    Nível Requerido 
                 </th>
                 <th>
-                    Recomendação de Rating
+                    Nível Avaliado pelo Gestor
                 </th>
                 <th>
-                    Indicação de Promoção
-                </th>
-                <th>
-                    Performance Geral
+                    Campo Gap
                 </th>
             </tr>
-            @if (Model.ListaReuniaoCalibragem != null &&
-                Model.ListaReuniaoCalibragem.Any())
+            @if (Model.ListaGapCompetencias != null &&
+                Model.ListaGapCompetencias.Any())
             {
-                for (int i = 0; i < Model.ListaReuniaoCalibragem.Count; i++)
+                for (int i = 0; i < Model.ListaGapCompetencias.Count; i++)
                 {
                     <tr>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].Diretoria
+                            @Model.ListaGapCompetencias[i].Diretoria
                         </td>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].Area
+                            @Model.ListaGapCompetencias[i].Area
                         </td>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].Gestor
+                            @Model.ListaGapCompetencias[i].Gestor
                         </td>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].NomeColaborador
+                            @Model.ListaGapCompetencias[i].NomeColaborador
                         </td>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].Matricula
+                            @Model.ListaGapCompetencias[i].Matricula
                         </td>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].Cargo
+                            @Model.ListaGapCompetencias[i].Cargo
                         </td>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].Localidade
+                            @Model.ListaGapCompetencias[i].TipoCompetencia
                         </td>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].DataAdmissao
+                            @Model.ListaGapCompetencias[i].NomeCompetencia
                         </td>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].TempoDeCasa
+                            @Model.ListaGapCompetencias[i].NivelRequirido
                         </td>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].RecomendacaoDeRating
+                            @Model.ListaGapCompetencias[i].NivelAvaliadoGestor
                         </td>
                         <td>
-                            @Model.ListaReuniaoCalibragem[i].IndicacaoDePromocao
-                        </td>
-                        <td>
-                            @Model.ListaReuniaoCalibragem[i].PerformanceGeral
+                            @Model.ListaGapCompetencias[i].CampoGap
                         </td>
                     </tr>
                 }
