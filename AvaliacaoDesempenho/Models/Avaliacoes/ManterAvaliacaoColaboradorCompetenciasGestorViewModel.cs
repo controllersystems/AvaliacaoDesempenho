@@ -66,7 +66,6 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         [Display(Name = "Comentário gestor")]
         [DataType(DataType.Text, ErrorMessage = "O {0} é inválido.")]
         [StringLength(600, ErrorMessage = "O {0} deve ter o tamanho máximo de 600 caracteres.")]
-        [Required(ErrorMessage = "O {0} é obrigatório.")]
         public string ComentarioGestor { get; set; }
     }
 }

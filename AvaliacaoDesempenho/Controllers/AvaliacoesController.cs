@@ -1877,6 +1877,30 @@ namespace AvaliacaoDesempenho.Controllers
         [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
         public ActionResult ManterAvaliacaoColaboradorCompetenciasGestor(ManterAvaliacaoColaboradorCompetenciasGestorViewModel model)
         {
+            for (int i = 0; i < model.ListaCompetenciasCorporativas.Count; i++)
+            {
+                if(model.ListaCompetenciasCorporativas[i].NivelColaborador != model.ListaCompetenciasCorporativas[i].NivelGestor
+                    && string.IsNullOrEmpty(model.ListaCompetenciasCorporativas[i].ComentarioGestor))
+                {
+                    ModelState.AddModelError("model.ListaCompetenciasCorporativas[" + i.ToString() + "].ComentarioGestor", "O comentário do gestor é obrigatório");
+                } 
+            }
+            for (int i = 0; i < model.ListaCompetenciasFuncionais.Count; i++)
+            {
+                if (model.ListaCompetenciasFuncionais[i].NivelColaborador != model.ListaCompetenciasFuncionais[i].NivelGestor
+                    && string.IsNullOrEmpty(model.ListaCompetenciasFuncionais[i].ComentarioGestor))
+                {
+                    ModelState.AddModelError("model.ListaCompetenciasFuncionais[" + i.ToString() + "].ComentarioGestor", "O comentário do gestor é obrigatório");
+                }
+            }
+            for (int i = 0; i < model.ListaCompetenciasLideranca.Count; i++)
+            {
+                if (model.ListaCompetenciasLideranca[i].NivelColaborador != model.ListaCompetenciasLideranca[i].NivelGestor
+                    && string.IsNullOrEmpty(model.ListaCompetenciasLideranca[i].ComentarioGestor))
+                {
+                    ModelState.AddModelError("model.ListaCompetenciasLideranca[" + i.ToString() + "].ComentarioGestor", "O comentário do gestor é obrigatório");
+                }
+            }
             if (ModelState.IsValid)
             {
                 var identidade = new Identidade();
