@@ -76,25 +76,25 @@
             }
             @if(Model.AcessoGestor || Model.PapelID.Equals((int)Enumeradores.CodigoPapeis.Administrador))
             {
-                if(Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
-                {
-                    if(Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral != null
-                       && Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral != "")
-                    {
-                         @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorRecomendacao", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
-                    }
-                }
-                else
-                {
+                //if(Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
+                //{
+                    //if(Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral != null
+                    //   && Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral != "")
+                    //{
+                         @*@Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorRecomendacao", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })*@
+                    //}
+                //}
+                //else
+                //{
                     @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorRecomendacao", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
-                }
+                //}
             }
             else
             {
-                if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada))
-                {
+                //if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada))
+                //{
                     @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorRecomendacaoRH", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
-                }
+                //}
             }
         </div>
     </div>

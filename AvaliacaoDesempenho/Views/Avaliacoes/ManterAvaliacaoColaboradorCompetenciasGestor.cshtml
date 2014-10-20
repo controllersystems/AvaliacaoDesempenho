@@ -27,6 +27,8 @@
     @Html.HiddenFor(model => Model.ProximaEtapa)
     @Html.HiddenFor(model => Model.StatusAvaliacaoColaboradorID)
     @Html.HiddenFor(model => Model.StatusCicloAvaliacaoID)
+    @Html.HiddenFor(model => Model.DataInicioAvaliacaoGestor)
+    @Html.HiddenFor(model => Model.DataTerminoAvaliacaoGestor)
 
     if (Model.ListaCompetenciasCorporativas != null && Model.ListaCompetenciasCorporativas.Any())
     {
@@ -52,10 +54,10 @@
                     </tr>
                     @for (int i = 0; i < Model.ListaCompetenciasCorporativas.Count; i++)
                     {
-                        if (Model.ListaCompetenciasCorporativas[i].ComentarioGestor == null || Model.ListaCompetenciasCorporativas[i].ComentarioGestor == "")
-                        {
-                            Model.ProximaEtapa = false;
-                        }
+                        //if (Model.ListaCompetenciasCorporativas[i].ComentarioGestor == null || Model.ListaCompetenciasCorporativas[i].ComentarioGestor == "")
+                        //{
+                        //    Model.ProximaEtapa = false;
+                        //}
                         <tr>
                             <td class="col-md-6">
                                 @Html.HiddenFor(model => Model.ListaCompetenciasCorporativas[i].ID)
@@ -177,10 +179,10 @@
 
                     @for (int i = 0; i < Model.ListaCompetenciasLideranca.Count; i++)
                     {
-                        if (Model.ListaCompetenciasLideranca[i].ComentarioGestor == null || Model.ListaCompetenciasLideranca[i].ComentarioGestor == "")
-                        {
-                            Model.ProximaEtapa = false;
-                        }
+                        //if (Model.ListaCompetenciasLideranca[i].ComentarioGestor == null || Model.ListaCompetenciasLideranca[i].ComentarioGestor == "")
+                        //{
+                        //    Model.ProximaEtapa = false;
+                        //}
                         <tr>
                             <td class="col-md-6">
                                 @Html.HiddenFor(model => Model.ListaCompetenciasLideranca[i].ID)
@@ -300,10 +302,10 @@
                     </tr>
                     @for (int i = 0; i < Model.ListaCompetenciasFuncionais.Count; i++)
                     {
-                        if (Model.ListaCompetenciasFuncionais[i].ComentarioGestor == null || Model.ListaCompetenciasFuncionais[i].ComentarioGestor == "")
-                        {
-                            Model.ProximaEtapa = false;
-                        }
+                        //if (Model.ListaCompetenciasFuncionais[i].ComentarioGestor == null || Model.ListaCompetenciasFuncionais[i].ComentarioGestor == "")
+                        //{
+                        //    Model.ProximaEtapa = false;
+                        //}
                         <tr>
                             <td class="col-md-6">
                                 @Html.HiddenFor(model => Model.ListaCompetenciasFuncionais[i].ID)

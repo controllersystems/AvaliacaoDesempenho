@@ -15,10 +15,8 @@ namespace AvaliacaoDesempenho
 
             bundles.Add(new ScriptBundle("~/bundles/jquery")
                             .Include("~/Content/Scripts/jquery-{version}.js")
+                            .Include("~/Content/Scripts/jquery-ui-{version}.js")
                             .Include("~/Content/Scripts/jquery.cookie.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/jqueryui")
-                            .Include("~/Content/Scripts/jquery-ui-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval")
                             .Include("~/Content/Scripts/jquery.unobtrusive*",

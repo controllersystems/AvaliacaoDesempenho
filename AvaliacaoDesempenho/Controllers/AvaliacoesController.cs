@@ -807,6 +807,32 @@ namespace AvaliacaoDesempenho.Controllers
 
             var avaliacaoColaborador = avaliacaoColaboradorDAO.Obter(avaliacaoColaboradorID.Value);
 
+            //Se tiver objetivos sem avaliacao, não deixar submeter ao RH.
+            if (new ObjetivoColaboradorDAO().ExisteObjetivoSemAvaliacaoGestor(avaliacaoColaboradorID.Value))
+            {
+                return ManterAvaliacaoColaboradorAutoAvaliacaoGestor(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID);
+            }
+
+            //Se tiver competencias sem avaliacao do gestor, não deixar submeter ao RH.
+            if (new CompetenciaColaboradorDAO().ExisteCompetenciaSemAvaliacaoGestor(avaliacaoColaboradorID.Value))
+            {
+                return ManterAvaliacaoColaboradorCompetenciasGestor(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID);
+            }
+
+            //Se não tiver perfomance, não deixar submeter ao RH.
+            var performance = new PerformanceColaboradorDAO().Obter(avaliacaoColaboradorID.Value);
+            if (performance == null)
+            {
+                return ManterAvaliacaoColaboradorPerformance(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID);
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(performance.AvaliacaoPerformance))
+                {
+                    return ManterAvaliacaoColaboradorPerformance(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID);
+                }
+            }
+
             avaliacaoColaborador.StatusAvaliacaoColaborador_ID = (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH;
 
             avaliacaoColaboradorDAO.Editar(avaliacaoColaborador);
@@ -1410,7 +1436,15 @@ namespace AvaliacaoDesempenho.Controllers
                         {
                             contribuicao.AvaliacaoGestor = new AvaliacaoGestor();
                         }
-                        contribuicao.AvaliacaoGestor.Avaliacao = item.AvaliacaoGestor;
+                        if (item.AvaliacaoGestor == null)
+                        {
+                            contribuicao.AvaliacaoGestor.Avaliacao = "";
+                        }
+                        else
+                        {
+                            contribuicao.AvaliacaoGestor.Avaliacao = item.AvaliacaoGestor;
+                        }
+                        
 
                         contribuicaoColaboradorDAO.Editar(contribuicao);
                     }
@@ -1610,39 +1644,6 @@ namespace AvaliacaoDesempenho.Controllers
         [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
         public ActionResult ManterAvaliacaoColaboradorCompetencias(ManterAvaliacaoColaboradorCompetenciasViewModel model)
         {
-            //if (model.ListaCompetenciasCorporativas != null)
-            //{
-            //    for (int i = 0; i < model.ListaCompetenciasCorporativas.Count; i++)
-            //    {
-            //        if (model.ListaCompetenciasCorporativas[i].ID == 0)
-            //        {
-            //            ModelState.AddModelError("ListaCompetenciasCorporativas[" + i + "].NivelColaborador", "O Nível do colaborador é obrigatório.");
-            //        }
-            //    }
-            //}
-
-            //if (model.ListaCompetenciasFuncionais != null)
-            //{
-            //    for (int i = 0; i < model.ListaCompetenciasFuncionais.Count; i++)
-            //    {
-            //        if (model.ListaCompetenciasFuncionais[i].ID == 0)
-            //        {
-            //            ModelState.AddModelError("ListaCompetenciasFuncionais[" + i + "].NivelColaborador", "O Nível do colaborador é obrigatório.");
-            //        }
-            //    }
-            //}
-
-            //if (model.ListaCompetenciasLideranca != null)
-            //{
-            //    for (int i = 0; i < model.ListaCompetenciasLideranca.Count; i++)
-            //    {
-            //        if (model.ListaCompetenciasLideranca[i].ID == 0)
-            //        {
-            //            ModelState.AddModelError("ListaCompetenciasLideranca[" + i + "].NivelColaborador", "O Nível do colaborador é obrigatório.");
-            //        }
-            //    }
-            //}
-
             if (ModelState.IsValid)
             {
                 var identidade = new Identidade();
@@ -1877,30 +1878,42 @@ namespace AvaliacaoDesempenho.Controllers
         [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
         public ActionResult ManterAvaliacaoColaboradorCompetenciasGestor(ManterAvaliacaoColaboradorCompetenciasGestorViewModel model)
         {
-            for (int i = 0; i < model.ListaCompetenciasCorporativas.Count; i++)
+            if (model.ListaCompetenciasCorporativas != null)
             {
-                if(model.ListaCompetenciasCorporativas[i].NivelColaborador != model.ListaCompetenciasCorporativas[i].NivelGestor
-                    && string.IsNullOrEmpty(model.ListaCompetenciasCorporativas[i].ComentarioGestor))
+                for (int i = 0; i < model.ListaCompetenciasCorporativas.Count; i++)
                 {
-                    ModelState.AddModelError("model.ListaCompetenciasCorporativas[" + i.ToString() + "].ComentarioGestor", "O comentário do gestor é obrigatório");
-                } 
-            }
-            for (int i = 0; i < model.ListaCompetenciasFuncionais.Count; i++)
-            {
-                if (model.ListaCompetenciasFuncionais[i].NivelColaborador != model.ListaCompetenciasFuncionais[i].NivelGestor
-                    && string.IsNullOrEmpty(model.ListaCompetenciasFuncionais[i].ComentarioGestor))
-                {
-                    ModelState.AddModelError("model.ListaCompetenciasFuncionais[" + i.ToString() + "].ComentarioGestor", "O comentário do gestor é obrigatório");
+                    if (model.ListaCompetenciasCorporativas[i].NivelColaborador != model.ListaCompetenciasCorporativas[i].NivelGestor
+                        && string.IsNullOrEmpty(model.ListaCompetenciasCorporativas[i].ComentarioGestor))
+                    {
+                        ModelState.AddModelError("ListaCompetenciasCorporativas[" + i.ToString() + "].ComentarioGestor", "O comentário do gestor é obrigatório");
+                    }
                 }
             }
-            for (int i = 0; i < model.ListaCompetenciasLideranca.Count; i++)
+
+            if (model.ListaCompetenciasFuncionais != null)
             {
-                if (model.ListaCompetenciasLideranca[i].NivelColaborador != model.ListaCompetenciasLideranca[i].NivelGestor
-                    && string.IsNullOrEmpty(model.ListaCompetenciasLideranca[i].ComentarioGestor))
+                for (int i = 0; i < model.ListaCompetenciasFuncionais.Count; i++)
                 {
-                    ModelState.AddModelError("model.ListaCompetenciasLideranca[" + i.ToString() + "].ComentarioGestor", "O comentário do gestor é obrigatório");
+                    if (model.ListaCompetenciasFuncionais[i].NivelColaborador != model.ListaCompetenciasFuncionais[i].NivelGestor
+                        && string.IsNullOrEmpty(model.ListaCompetenciasFuncionais[i].ComentarioGestor))
+                    {
+                        ModelState.AddModelError("ListaCompetenciasFuncionais[" + i.ToString() + "].ComentarioGestor", "O comentário do gestor é obrigatório");
+                    }
                 }
             }
+
+            if (model.ListaCompetenciasLideranca != null)
+            {
+                for (int i = 0; i < model.ListaCompetenciasLideranca.Count; i++)
+                {
+                    if (model.ListaCompetenciasLideranca[i].NivelColaborador != model.ListaCompetenciasLideranca[i].NivelGestor
+                        && string.IsNullOrEmpty(model.ListaCompetenciasLideranca[i].ComentarioGestor))
+                    {
+                        ModelState.AddModelError("ListaCompetenciasLideranca[" + i.ToString() + "].ComentarioGestor", "O comentário do gestor é obrigatório");
+                    }
+                }
+            }
+            
             if (ModelState.IsValid)
             {
                 var identidade = new Identidade();
@@ -2328,7 +2341,7 @@ namespace AvaliacaoDesempenho.Controllers
                         recomendacaoColaborador = new RecomendacaoColaborador();
                         recomendacaoColaborador.AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value;
                         recomendacaoColaborador.RecomendacaoDeRating = model.ItemRecomendacaoColaborador.RecomendacaoDeRating;
-                        recomendacaoColaborador.RecomendacaoDePromocao = model.ItemRecomendacaoColaborador.RecomendacaoDePromocao;
+                        recomendacaoColaborador.RecomendacaoDePromocao = model.ItemRecomendacaoColaborador.RecomendacaoDePromocao.Value;
                         recomendacaoColaborador.Justificativa = model.ItemRecomendacaoColaborador.Justificativa;
                         recomendacaoColaborador.JustificativaDaJustificativa = model.ItemRecomendacaoColaborador.JustificativaDaJustificativa;
 
@@ -2346,7 +2359,7 @@ namespace AvaliacaoDesempenho.Controllers
                     else
                     {
                         recomendacaoColaborador.RecomendacaoDeRating = model.ItemRecomendacaoColaborador.RecomendacaoDeRating;
-                        recomendacaoColaborador.RecomendacaoDePromocao = model.ItemRecomendacaoColaborador.RecomendacaoDePromocao;
+                        recomendacaoColaborador.RecomendacaoDePromocao = model.ItemRecomendacaoColaborador.RecomendacaoDePromocao.Value;
                         recomendacaoColaborador.Justificativa = model.ItemRecomendacaoColaborador.Justificativa;
                         recomendacaoColaborador.JustificativaDaJustificativa = model.ItemRecomendacaoColaborador.JustificativaDaJustificativa;
 
@@ -2527,7 +2540,7 @@ namespace AvaliacaoDesempenho.Controllers
 
                     if (recomendacaoColaborador != null)
                     {
-                        recomendacaoColaborador.RecomendacaoDeRating = model.ItemRecomendacaoColaborador.RecomendacaoDeRating;
+                        recomendacaoColaborador.RecomendacaoDeRating = model.ItemRecomendacaoColaborador.RecomendacaoDeRating.Value;
                         recomendacaoColaborador.RecomendacaoDePromocao = model.ItemRecomendacaoColaborador.RecomendacaoDePromocao;
                         recomendacaoColaborador.Justificativa = model.ItemRecomendacaoColaborador.Justificativa;
                         recomendacaoColaborador.JustificativaDaJustificativa = model.ItemRecomendacaoColaborador.JustificativaDaJustificativa;
@@ -2542,6 +2555,26 @@ namespace AvaliacaoDesempenho.Controllers
                         }
 
                         recomendacaoColaboradorDAO.Editar(recomendacaoColaborador);
+                    }
+                    else
+                    {
+                        recomendacaoColaborador = new RecomendacaoColaborador();
+                        recomendacaoColaborador.AvaliacaoColaborador_ID = avaliacaoColaborador.ID;
+                        recomendacaoColaborador.RecomendacaoDeRating = model.ItemRecomendacaoColaborador.RecomendacaoDeRating;
+                        recomendacaoColaborador.RecomendacaoDePromocao = model.ItemRecomendacaoColaborador.RecomendacaoDePromocao;
+                        recomendacaoColaborador.Justificativa = model.ItemRecomendacaoColaborador.Justificativa;
+                        recomendacaoColaborador.JustificativaDaJustificativa = model.ItemRecomendacaoColaborador.JustificativaDaJustificativa;
+
+                        if (model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH ||
+                            model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.Encerrada)
+                        {
+                            recomendacaoColaborador.RatingFinalPosCalibragem = model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem;
+                            recomendacaoColaborador.IndicacaoPromocaoPosCalibragem = model.ItemRecomendacaoColaborador.IndicacaoPromocaoPosCalibragem;
+                            recomendacaoColaborador.JustificativaRatingFinalPosCalibragem = model.ItemRecomendacaoColaborador.JustificativaRatingFinalPosCalibragem;
+                            recomendacaoColaborador.JustificativaIndicacaoPromocaoPosCalibragem = model.ItemRecomendacaoColaborador.JustificativaIndicacaoPromocaoPosCalibragem;
+                        }
+
+                        recomendacaoColaboradorDAO.Incluir(recomendacaoColaborador);
                     }
                 }
                 else

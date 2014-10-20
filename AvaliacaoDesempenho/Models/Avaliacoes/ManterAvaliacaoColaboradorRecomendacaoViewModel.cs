@@ -51,9 +51,12 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         [Display(Name = "Recomendação de Rating")]
         [DataType(DataType.Text, ErrorMessage = "A {0} é inválida.")]
         [Required(ErrorMessage = "A {0} é obrigatória.")]
-        public int RecomendacaoDeRating { get; set; }
+        public int? RecomendacaoDeRating { get; set; }
 
-        public bool RecomendacaoDePromocao { get; set; }
+        [Display(Name = "Recomendação de Promoção")]
+        [DataType(DataType.Text, ErrorMessage = "A {0} é inválida.")]
+        [Required(ErrorMessage = "A {0} é obrigatória.")]
+        public Nullable<bool> RecomendacaoDePromocao { get; set; }
 
         [Display(Name = "Justificativa")]
         [DataType(DataType.Text, ErrorMessage = "A {0} é inválida.")]

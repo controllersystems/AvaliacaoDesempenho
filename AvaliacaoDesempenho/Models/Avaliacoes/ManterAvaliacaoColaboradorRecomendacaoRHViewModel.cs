@@ -48,9 +48,9 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
     {
         public int? ID { get; set; }
 
-        public int RecomendacaoDeRating { get; set; }
+        public int? RecomendacaoDeRating { get; set; }
 
-        public bool RecomendacaoDePromocao { get; set; }
+        public Nullable<bool> RecomendacaoDePromocao { get; set; }
 
         public string Justificativa { get; set; }
 

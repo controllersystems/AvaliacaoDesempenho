@@ -16,8 +16,8 @@ namespace AvaliacaoDesempenho.Dominio
     {
         public int ID { get; set; }
         public int AvaliacaoColaborador_ID { get; set; }
-        public int RecomendacaoDeRating { get; set; }
-        public bool RecomendacaoDePromocao { get; set; }
+        public Nullable<int> RecomendacaoDeRating { get; set; }
+        public Nullable<bool> RecomendacaoDePromocao { get; set; }
         public string Justificativa { get; set; }
         public string JustificativaDaJustificativa { get; set; }
         public Nullable<int> RatingFinalPosCalibragem { get; set; }

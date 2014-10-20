@@ -298,7 +298,7 @@ namespace AvaliacaoDesempenho.Controllers
 
             CarregarAssociacoesCargoCompetencias(model);
 
-            return View(model);
+            return View("/Views/CiclosAvaliacao/GestaoCompetenciasCargos.cshtml", model);
         }
 
         [HttpGet]
@@ -540,7 +540,7 @@ namespace AvaliacaoDesempenho.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult SobrescreverUltimoCiclo(int? id)
+        public ActionResult SobrescreverPeloUltimoCiclo(int? id)
         {
             var ciclo = new CicloAvaliacaoDAO().Obter(id.Value);
 
@@ -548,6 +548,41 @@ namespace AvaliacaoDesempenho.Controllers
             {
                 //Pegar ultimoCiclo
                 var ultimoCiclo = new CicloAvaliacaoDAO().ObterUltimoCiclo(id.Value, ciclo.DataInicioVigencia);
+
+                //Pegar as associacoes do ultimoCiclo
+                var associacoes = new AssociacaoCargoCompetenciaDAO().ListarPorCicloAvaliacao(ultimoCiclo.ID);
+
+                AssociacaoCargoCompetenciaDAO associacaoCargoCompetenciaDAO = new AssociacaoCargoCompetenciaDAO();
+
+                if (associacoes != null)
+                {
+                    foreach (var item in associacoes)
+                    {
+                        var associacaoCargoCompetencia = new AssociacaoCargoCompetenciaDAO().Obter(id.Value, item.CargoRubiID, item.AreaRubiID, item.SetorRubiID.Value);
+                        if (associacaoCargoCompetencia == null)
+                        {
+                            associacaoCargoCompetencia = new AssociacaoCargoCompetencia();
+                            associacaoCargoCompetencia.CicloAvaliacao_ID = id.Value;
+                            associacaoCargoCompetencia.AreaRubiID = item.AreaRubiID;
+                            associacaoCargoCompetencia.AreaRubi = item.AreaRubi;
+                            associacaoCargoCompetencia.CargoRubiID = item.CargoRubiID;
+                            associacaoCargoCompetencia.CargoRubi = item.CargoRubi;
+                            associacaoCargoCompetencia.SetorRubiID = item.SetorRubiID;
+                            associacaoCargoCompetencia.SetorRubi = item.SetorRubi;
+                            associacaoCargoCompetencia.AreaCompetenciaID = item.AreaCompetenciaID;
+                            associacaoCargoCompetencia.CargoCompetenciaID = item.CargoCompetenciaID;
+                            associacaoCargoCompetencia.SetorCompetenciaID = item.SetorCompetenciaID;
+                            associacaoCargoCompetenciaDAO.Incluir(associacaoCargoCompetencia);
+                        }
+                        else
+                        {
+                            associacaoCargoCompetencia.AreaCompetenciaID = item.AreaCompetenciaID;
+                            associacaoCargoCompetencia.CargoCompetenciaID = item.CargoCompetenciaID;
+                            associacaoCargoCompetencia.SetorCompetenciaID = item.SetorCompetenciaID;
+                            associacaoCargoCompetenciaDAO.Editar(associacaoCargoCompetencia);
+                        }
+                    }
+                }
             }
 
             return GestaoCompetenciasCargos(id, 1);
@@ -587,11 +622,13 @@ namespace AvaliacaoDesempenho.Controllers
                         SetorRubi = item.SetorRubi,
                         SetorRubiID = item.SetorRubiID
                     });
+
+                    if (item.CargoCompetenciaID.HasValue || item.SetorCompetenciaID.HasValue || item.AreaCompetenciaID.HasValue)
+                    {
+                        model.ExisteRelacaoSalva = true;
+                    }
                 }
             }
-
-            //if (!model.AssociacoesCargosCompetencias.Any())
-            //    CarregarInformacoesRubi(model);
 
             CarregarInformacoesSistemaCompentencias(model);
         }
@@ -744,6 +781,7 @@ namespace AvaliacaoDesempenho.Controllers
 
             msg.From = new MailAddress(ConfigurationManager.AppSettings["mailFrom"].ToString());
 
+
             foreach (var item in email.ListaDeEmails)
             {
                 msg.Bcc.Add(item);
@@ -756,13 +794,13 @@ namespace AvaliacaoDesempenho.Controllers
 
             SmtpClient client = new SmtpClient();
 
-            client.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["smtpUser"].ToString(), ConfigurationManager.AppSettings["smtpPass"].ToString());
             client.Host = ConfigurationManager.AppSettings["smtpServer"].ToString();
             client.Port = int.Parse(ConfigurationManager.AppSettings["smtpPort"].ToString());
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            //client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.EnableSsl = bool.Parse(ConfigurationManager.AppSettings["EnableSsl"].ToString());
             client.UseDefaultCredentials = false;
-            //client.Timeout = 100000;
+            client.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["smtpUser"].ToString(), ConfigurationManager.AppSettings["smtpPass"].ToString());
+            //client.Timeout = 20000;
 
             client.Send(msg);
         }

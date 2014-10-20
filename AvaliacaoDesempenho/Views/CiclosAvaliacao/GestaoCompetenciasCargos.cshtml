@@ -22,7 +22,7 @@
     <div class="col-md-100">
         @Html.ActionLink("Consolidar Cargos Rubi", "ConsolidarCargosRubi", new { id = Model.CicloAvaliacaoSelecionadoID }, new { @class = "btn btn-default" })
 
-        @Html.ActionLink("Importar Competências", "", null, new { @class = "btn btn-default" })
+        @*@Html.ActionLink("Importar Competências", "", null, new { @class = "btn btn-default" })*@
     </div>
 </div>
 
@@ -39,7 +39,7 @@
     using (Html.BeginForm("GestaoCompetenciasCargos",
                            "CiclosAvaliacao",
                            FormMethod.Post,
-                           new { @class = "form-horizontal", role = "form" }))
+                           new { @class = "form-horizontal", role = "form", id = "frmAssociacoes" }))
     {
         @Html.AntiForgeryToken()
 
@@ -180,7 +180,31 @@
             <div class="col-md-100">
                 @if (Model.ExisteUltimoCiclo)
                 {
-                    @Html.ActionLink("Copiar último ciclo", "Index", "Relatorios", null, new { @class = "btn btn-default" })
+                    <input id="copiarUltimoCiclo" type="button" value="Copiar último ciclo" class="btn btn-default" />
+                    if (Model.ExisteRelacaoSalva)
+                    {
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                $('#copiarUltimoCiclo').click(function () {
+                                    if (confirm("Esta operação irá sobrescrever as associações existentes, deseja continuar?")) {
+                                        $('#frmAssociacoes').attr('action', '/CiclosAvaliacao/SobrescreverPeloUltimoCiclo/' + $("#CicloAvaliacaoSelecionadoID").val());
+                                        $('#frmAssociacoes').submit();
+                                    }
+                                });
+                            });
+                        </script>
+                    }
+                    else
+                    {
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                $('#copiarUltimoCiclo').click(function () {
+                                    $('#frmAssociacoes').attr('action', '/CiclosAvaliacao/SobrescreverPeloUltimoCiclo/' + $("#CicloAvaliacaoSelecionadoID").val());
+                                    $('#frmAssociacoes').submit();
+                                });
+                            });
+                        </script>
+                    }
                 }
                 <input type="submit" value="Salvar" class="btn btn-default" />
             </div>

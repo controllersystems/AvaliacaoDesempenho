@@ -7,7 +7,7 @@
 
 }
 
-@Html.Action("CabecalhoColaborador", "Usuarios", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID })
+@Html.Action("CabecalhoColaborador", "Usuarios", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID })
 
 <label>Auto-avaliação</label>
 <hr />
@@ -24,6 +24,12 @@
         @Html.HiddenFor(model => model.GestorRubiID)
         @Html.HiddenFor(model => model.UsuarioRubiID)
         @Html.HiddenFor(model => model.ProximaEtapa)
+        @Html.HiddenFor(model => model.DataInicioAvaliacaoGestor)
+        @Html.HiddenFor(model => model.DataTerminoAvaliacaoGestor)
+        @Html.HiddenFor(model => model.DataInicioVigencia)
+        @Html.HiddenFor(model => model.DataTerminoVigencia)
+        @Html.HiddenFor(model => model.SituacaoCicloAvaliaoID)
+
 
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
@@ -54,12 +60,12 @@
 
                 for (int i = 0; i < Model.ListaObjetivosMetasResultadosatingidosGestorViewModel.Count; i++)
                 {
-                    if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
-                        && (Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].AvaliacaoGestor == null ||
-                            Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].AvaliacaoGestor == ""))
-                    {
-                        Model.ProximaEtapa = false;
-                    }
+                    //if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
+                    //    && (Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].AvaliacaoGestor == null ||
+                    //        Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].AvaliacaoGestor == ""))
+                    //{
+                    //    Model.ProximaEtapa = false;
+                    //}
 
                     <div class="row top30">
                         <div class="col-md-025">
@@ -142,11 +148,11 @@
         {
             for (int i = 0; i < Model.ListaOutrasContribuicoesGestorViewModel.Count; i++)
             {
-                if (Model.ListaOutrasContribuicoesGestorViewModel[i].AvaliacaoGestor == "" ||
-                    Model.ListaOutrasContribuicoesGestorViewModel[i].AvaliacaoGestor == null)
-                {
-                    Model.ProximaEtapa = false;
-                }
+                //if (Model.ListaOutrasContribuicoesGestorViewModel[i].AvaliacaoGestor == "" ||
+                //    Model.ListaOutrasContribuicoesGestorViewModel[i].AvaliacaoGestor == null)
+                //{
+                //    Model.ProximaEtapa = false;
+                //}
                 @Html.HiddenFor(model => Model.ListaOutrasContribuicoesGestorViewModel[i].ID)
 
                 if (Model.AcessoGestor)

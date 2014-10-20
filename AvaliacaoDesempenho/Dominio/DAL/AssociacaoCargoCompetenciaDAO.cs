@@ -22,6 +22,24 @@ namespace AvaliacaoDesempenho.Dominio.DAL
             return resultado;
         }
 
+        public void Incluir(AssociacaoCargoCompetencia associacoesCargosCompetencias)
+        {
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                db.AssociacaoCargoCompetencia.Add(associacoesCargosCompetencias);
+                db.SaveChanges();
+            }
+        }
+
+        public void Editar(AssociacaoCargoCompetencia associacoesCargosCompetencias)
+        {
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                db.Entry(associacoesCargosCompetencias).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+        }
+
         public void PersistirColecao(List<AssociacaoCargoCompetencia> associacoesCargosCompetencias)
         {
             using (var db = new AvaliacaoDesempenhoContextEntities())

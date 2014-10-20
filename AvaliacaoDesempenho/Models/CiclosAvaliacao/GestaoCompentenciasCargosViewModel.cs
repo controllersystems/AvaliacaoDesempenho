@@ -18,6 +18,8 @@ namespace AvaliacaoDesempenho.Models.CiclosAvaliacao
         public int Pagina { get; set; }
 
         public bool ExisteUltimoCiclo { get; set; }
+
+        public bool ExisteRelacaoSalva { get; set; }
     }
 
     public class ItemListaGestaoCompetenciasCargosViewModel

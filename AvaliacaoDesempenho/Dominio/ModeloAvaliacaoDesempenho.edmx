@@ -165,8 +165,8 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AvaliacaoColaborador_ID" Type="int" Nullable="false" />
-          <Property Name="RecomendacaoDeRating" Type="int" Nullable="false" />
-          <Property Name="RecomendacaoDePromocao" Type="bit" Nullable="false" />
+          <Property Name="RecomendacaoDeRating" Type="int" />
+          <Property Name="RecomendacaoDePromocao" Type="bit" />
           <Property Name="Justificativa" Type="nvarchar(max)" />
           <Property Name="JustificativaDaJustificativa" Type="nvarchar(max)" />
           <Property Name="RatingFinalPosCalibragem" Type="int" />
@@ -734,8 +734,8 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AvaliacaoColaborador_ID" Type="Int32" Nullable="false" />
-          <Property Name="RecomendacaoDeRating" Type="Int32" Nullable="false" />
-          <Property Name="RecomendacaoDePromocao" Type="Boolean" Nullable="false" />
+          <Property Name="RecomendacaoDeRating" Type="Int32" />
+          <Property Name="RecomendacaoDePromocao" Type="Boolean" />
           <Property Name="Justificativa" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="JustificativaDaJustificativa" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="RatingFinalPosCalibragem" Type="Int32" />
