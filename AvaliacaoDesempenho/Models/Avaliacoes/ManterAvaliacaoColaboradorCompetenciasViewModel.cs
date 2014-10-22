@@ -56,7 +56,6 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         [Display(Name = "Nível colaborador")]
         [DataType(DataType.Text, ErrorMessage = "O {0} é inválido.")]
-        [Required(ErrorMessage = "O {0} é obrigatório.")]
         public int? NivelColaborador { get; set; }
     }
 }

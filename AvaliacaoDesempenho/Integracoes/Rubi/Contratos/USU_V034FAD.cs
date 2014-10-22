@@ -19,7 +19,7 @@ namespace AvaliacaoDesempenho.Integracoes.Rubi.Contratos
 
         public string TITRED { get; set; }
 
-        public short? USU_CODDIR { get; set; }
+        public string USU_CODDIR { get; set; }
 
         public string CODCCU { get; set; }
 
@@ -40,5 +40,7 @@ namespace AvaliacaoDesempenho.Integracoes.Rubi.Contratos
         public DateTime? DATADM { get; set; }
 
         public byte[] FOTEMP { get; set; }
+
+        public DateTime? DATCAR { get; set; }
     }
 }

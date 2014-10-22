@@ -2,6 +2,7 @@
 using AvaliacaoDesempenho.Integracoes.Rubi.Contratos;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 
 namespace AvaliacaoDesempenho.Rubi.Integracoes
@@ -15,7 +16,7 @@ namespace AvaliacaoDesempenho.Rubi.Integracoes
             using (db = new RubiContext())
             {
                 //return db.Database.SqlQuery<USU_V034FAD>("SELECT CAST(ROW_NUMBER() OVER (ORDER BY NUMEMP, NUMCAD) AS INT) USU_V034FADID, NUMEMP,NUMCAD,NOMFUN,EMACOM,CODCAR,TITRED,USU_CODDIR,CODCCU,NOMCCU,NUMLOC,NOMLOC,USU_LD1EMP,USU_LD1TIP,USU_LD1CAD,LD1NOM,DATADM,FOTEMP FROM USU_V034FAD").ToList();
-                return db.Database.SqlQuery<USU_V034FAD>("SELECT ROWNUM USU_V034FADID, NUMEMP,NUMCAD,NOMFUN,EMACOM,CODCAR,TITRED,USU_CODDIR,CODCCU,NOMCCU,NUMLOC,NOMLOC,USU_LD1EMP,USU_LD1TIP,USU_LD1CAD,LD1NOM,DATADM,FOTEMP FROM USU_V034FAD").ToList();
+                return db.Database.SqlQuery<USU_V034FAD>(string.Format("SELECT ROWNUM USU_V034FADID, NUMEMP,NUMCAD,NOMFUN,EMACOM,CODCAR,TITRED,USU_CODDIR,CODCCU,NOMCCU,NUMLOC,NOMLOC,USU_LD1EMP,USU_LD1TIP,USU_LD1CAD,LD1NOM,DATADM,FOTEMP,DATCAR FROM {0}.USU_V034FAD", ConfigurationManager.AppSettings["schemaRubi"].ToString())).ToList();
             }
         }
 
@@ -33,7 +34,7 @@ namespace AvaliacaoDesempenho.Rubi.Integracoes
             using (db = new RubiContext())
             {
                 //return db.Database.SqlQuery<USU_V034FAD>(string.Format("SELECT CAST(ROW_NUMBER() OVER (ORDER BY NUMEMP, NUMCAD) AS INT) USU_V034FADID, NUMEMP,NUMCAD,NOMFUN,EMACOM,CODCAR,TITRED,USU_CODDIR,CODCCU,NOMCCU,NUMLOC,NOMLOC,USU_LD1EMP,USU_LD1TIP,USU_LD1CAD,LD1NOM,DATADM,FOTEMP FROM USU_V034FAD WHERE EMACOM = '{0}'", email)).FirstOrDefault();
-                return db.Database.SqlQuery<USU_V034FAD>(string.Format("SELECT ROWNUM USU_V034FADID, NUMEMP,NUMCAD,NOMFUN,EMACOM,CODCAR,TITRED,USU_CODDIR,CODCCU,NOMCCU,NUMLOC,NOMLOC,USU_LD1EMP,USU_LD1TIP,USU_LD1CAD,LD1NOM,DATADM,FOTEMP FROM USU_V034FAD WHERE EMACOM = '{0}'", email)).FirstOrDefault();
+                return db.Database.SqlQuery<USU_V034FAD>(string.Format("SELECT ROWNUM USU_V034FADID, NUMEMP,NUMCAD,NOMFUN,EMACOM,CODCAR,TITRED,USU_CODDIR,CODCCU,NOMCCU,NUMLOC,NOMLOC,USU_LD1EMP,USU_LD1TIP,USU_LD1CAD,LD1NOM,DATADM,FOTEMP,DATCAR FROM {1}.USU_V034FAD WHERE EMACOM = '{0}'", email, ConfigurationManager.AppSettings["schemaRubi"].ToString())).FirstOrDefault();
             }
         }
 
@@ -42,7 +43,7 @@ namespace AvaliacaoDesempenho.Rubi.Integracoes
             using (db = new RubiContext())
             {
                 //return db.Database.SqlQuery<USU_V034FAD>(string.Format("SELECT CAST(ROW_NUMBER() OVER (ORDER BY NUMEMP, NUMCAD) AS INT) USU_V034FADID, NUMEMP,NUMCAD,NOMFUN,EMACOM,CODCAR,TITRED,USU_CODDIR,CODCCU,NOMCCU,NUMLOC,NOMLOC,USU_LD1EMP,USU_LD1TIP,USU_LD1CAD,LD1NOM,DATADM,FOTEMP FROM USU_V034FAD WHERE NUMEMP = {0} AND NUMCAD = {1}", numEmp, numCad)).FirstOrDefault();
-                return db.Database.SqlQuery<USU_V034FAD>(string.Format("SELECT ROWNUM USU_V034FADID, NUMEMP,NUMCAD,NOMFUN,EMACOM,CODCAR,TITRED,USU_CODDIR,CODCCU,NOMCCU,NUMLOC,NOMLOC,USU_LD1EMP,USU_LD1TIP,USU_LD1CAD,LD1NOM,DATADM,FOTEMP FROM USU_V034FAD WHERE NUMEMP = {0} AND NUMCAD = {1}", numEmp, numCad)).FirstOrDefault();
+                return db.Database.SqlQuery<USU_V034FAD>(string.Format("SELECT ROWNUM USU_V034FADID, NUMEMP,NUMCAD,NOMFUN,EMACOM,CODCAR,TITRED,USU_CODDIR,CODCCU,NOMCCU,NUMLOC,NOMLOC,USU_LD1EMP,USU_LD1TIP,USU_LD1CAD,LD1NOM,DATADM,FOTEMP,DATCAR,DATCAR FROM {2}.USU_V034FAD WHERE NUMEMP = {0} AND NUMCAD = {1}", numEmp, numCad, ConfigurationManager.AppSettings["schemaRubi"].ToString())).FirstOrDefault();
             }
         }
 
@@ -50,7 +51,7 @@ namespace AvaliacaoDesempenho.Rubi.Integracoes
         {
             using (db = new RubiContext())
             {
-                return db.Database.SqlQuery<USU_V034FAD>(string.Format("SELECT ROWNUM USU_V034FADID, NUMEMP,NUMCAD,NOMFUN,EMACOM,CODCAR,TITRED,USU_CODDIR,CODCCU,NOMCCU,NUMLOC,NOMLOC,USU_LD1EMP,USU_LD1TIP,USU_LD1CAD,LD1NOM,DATADM,FOTEMP FROM USU_V034FAD WHERE CODCAR = {0} AND CODCCU = {1} AND NUMLOC = {2}", cargo, area, setor)).ToList();
+                return db.Database.SqlQuery<USU_V034FAD>(string.Format("SELECT ROWNUM USU_V034FADID, NUMEMP,NUMCAD,NOMFUN,EMACOM,CODCAR,TITRED,USU_CODDIR,CODCCU,NOMCCU,NUMLOC,NOMLOC,USU_LD1EMP,USU_LD1TIP,USU_LD1CAD,LD1NOM,DATADM,FOTEMP,DATCAR FROM {3}.USU_V034FAD WHERE CODCAR = {0} AND CODCCU = {1} AND NUMLOC = {2}", cargo, area, setor, ConfigurationManager.AppSettings["schemaRubi"].ToString())).ToList();
             }
         }
 

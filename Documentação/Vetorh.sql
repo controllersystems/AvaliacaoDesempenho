@@ -5632,11 +5632,32 @@ Insert into VETORH_TMP.R034FUN (NUMEMP,TIPCOL,NUMCAD,NOMFUN,DATADM,SITAFA,ESTCAR
 --  DAL for View USU_V034FAD
 --------------------------------------------------------
 
-  CREATE OR REPLACE FORCE VIEW "VETORH_TMP"."USU_V034FAD" ("NUMEMP", "NUMCAD", "NOMFUN", "EMACOM", "CODCAR", "TITRED", "USU_CODDIR", "CODCCU", "NOMCCU", "NUMLOC", "NOMLOC", "USU_LD1EMP", "USU_LD1TIP", "USU_LD1CAD", "LD1NOM", "DATADM", "FOTEMP") AS 
-  Select r034fun.NumEmp, r034fun.NumCad, r034fun.Nomfun, r034cpl.emacom, r034fun.codcar, R024car.titred, R034FUN.USU_CODDIR,     
-        R034fun.Codccu, r018ccu.nomccu, r034fun.NumLoc, r016orn.nomloc,
-        r034fun.usu_ld1emp, r034fun.usu_ld1tip, r034fun.usu_ld1cad, R034LD1.nomfun LD1Nom, 
-        r034fun.DAtadm, r034fot.fotemp 
+  CREATE OR REPLACE FORCE VIEW "VETORH_TMP"."USU_V034FAD" ("NUMEMP", "NUMCAD", "NOMFUN", "EMACOM", "CODCAR", "TITRED", "USU_CODDIR", "CODCCU", "NOMCCU", "NUMLOC", "NOMLOC", "USU_LD1EMP", "USU_LD1TIP", "USU_LD1CAD", "LD1NOM", "DATADM", "FOTEMP", "DATCAR") AS 
+  Select r034fun.NumEmp, r034fun.NumCad, r034fun.Nomfun, r034cpl.emacom, r034fun.codcar, R024car.titred,
+       case when R034FUN.USU_CoDDir = 1
+          then 'Diregco Geral'
+       else case when R034FUN.USU_CoDDir = 2
+          then 'Diretoria Financeira'
+       else case when R034FUN.USU_CoDDir = 3
+          then 'Diretoria de Recursos Humanos'
+       else case when R034FUN.USU_CoDDir = 4
+          then 'Diretoria de Engenharia e Manutengco'
+       else case when R034FUN.USU_CoDDir = 5
+          then 'Diretoria de Operagues'
+       else case when R034FUN.USU_CoDDir = 6
+          then 'Diretoria de Supply Chain'
+       else case when R034FUN.USU_CoDDir = 7
+          then 'Diretoria Comercial'
+       else ' '
+       end
+       end
+       end
+       end
+       end
+       end
+       end as USU_CoDDir,
+       R034fun.Codccu, r018ccu.nomccu, r034fun.NumLoc, r016orn.nomloc, r034fun.usu_ld1emp, r034fun.usu_ld1tip, 
+       r034fun.usu_ld1cad, R034LD1.nomfun LD1Nom, r034fun.DAtadm, r034fot.fotemp, R034FUN.DatCar 
    from r034fun, r034cpl, r024car, r018ccu, r016orn, r034fun R034LD1, r034fot
   where r034fun.numemp = 1
     and r034fun.tipcol = 1

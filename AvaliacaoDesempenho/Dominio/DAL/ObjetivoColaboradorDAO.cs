@@ -42,6 +42,20 @@ namespace AvaliacaoDesempenho.Dominio.DAL
             }
         }
 
+        public bool ExisteObjetivoSemResultadoAtingido(int idAvaliacao)
+        {
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                var query = db.ObjetivoColaborador
+                            .Include("MetaColaborador")
+                            .Include("MetaColaborador.ResultadoAtingidoColaborador")
+                            .Where(p => p.AvaliacaoColaborador_ID == idAvaliacao
+                                   && (p.MetaColaborador.ResultadoAtingidoColaborador.ResultadoAtingido == "" ||
+                                       p.MetaColaborador.ResultadoAtingidoColaborador.ResultadoAtingido == null));
+                return query.Any();
+            }
+        }
+
         public ObjetivoColaborador Obter(int objetivoColaboradorID)
         {
             using (var db = new AvaliacaoDesempenhoContextEntities())

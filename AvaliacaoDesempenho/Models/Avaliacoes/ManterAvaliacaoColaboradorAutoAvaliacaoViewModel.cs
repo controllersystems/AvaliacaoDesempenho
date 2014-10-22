@@ -58,14 +58,21 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
     {
         public int ID { get; set; }
 
+        [Display(Name = "Objetivo")]
+        [DataType(DataType.Text, ErrorMessage = "O {0} é inválido.")]
+        [StringLength(400, ErrorMessage = "A {0} deve ter o tamanho máximo de 400 caracteres.")]
+        [Required(ErrorMessage = "O {0} é obrigatório.")]
         public string Objetivo { get; set; }
 
+        [Display(Name = "Meta")]
+        [DataType(DataType.Text, ErrorMessage = "A {0} é inválida.")]
+        [StringLength(400, ErrorMessage = "A {0} deve ter o tamanho máximo de 400 caracteres.")]
+        [Required(ErrorMessage = "A {0} é obrigatória.")]
         public string MetaColaboradorMeta { get; set; }
 
         [Display(Name = "Resultado atingido")]
         [DataType(DataType.Text, ErrorMessage = "O {0} é inválido.")]
         [StringLength(400, ErrorMessage = "O {0} deve ter o tamanho máximo de 400 caracteres.")]
-        [Required(ErrorMessage = "O {0} é obrigatório.")]
         public string MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido { get; set; }
 
         public bool AutoAvaliacao { get; set; }

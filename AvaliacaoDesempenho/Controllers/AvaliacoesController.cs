@@ -852,6 +852,18 @@ namespace AvaliacaoDesempenho.Controllers
 
             var avaliacaoColaborador = avaliacaoColaboradorDAO.Obter(avaliacaoColaboradorID.Value);
 
+            //Se tiver objetivo/meta sem resultado atingido, não deixar submeter ao gestor.
+            if (new ObjetivoColaboradorDAO().ExisteObjetivoSemResultadoAtingido(avaliacaoColaboradorID.Value))
+            {
+                return ManterAvaliacaoColaboradorAutoAvaliacao(cicloAvaliacaoSelecionadoID, false, false, avaliacaoColaborador.Colaborador_ID);
+            }
+
+            //Se tiver competencias sem avaliacao do colaborador, não deixar submeter ao gestor.
+            if (new CompetenciaColaboradorDAO().ExisteCompetenciaSemAvaliacao(avaliacaoColaboradorID.Value))
+            {
+                return ManterAvaliacaoColaboradorCompetencias(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID);
+            }
+
             avaliacaoColaborador.StatusAvaliacaoColaborador_ID = (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores;
 
             avaliacaoColaboradorDAO.Editar(avaliacaoColaborador);

@@ -179,7 +179,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ResultadoAtingido" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ResultadoAtingido" Type="nvarchar(max)" />
           <Property Name="AvaliacaoGestor_ID" Type="int" />
         </EntityType>
         <EntityType Name="SituacaoCicloAvaliacao">
@@ -749,7 +749,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ResultadoAtingido" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ResultadoAtingido" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="AvaliacaoGestor_ID" Type="Int32" />
           <NavigationProperty Name="AvaliacaoGestor" Relationship="Self.FK_dbo_ResultadoAtingidoColaborador_dbo_AvaliacaoGestor_AvaliacaoGestor_ID" FromRole="ResultadoAtingidoColaborador" ToRole="AvaliacaoGestor" />
           <NavigationProperty Name="MetaColaborador" Relationship="Self.FK_dbo_MetaColaborador_dbo_ResultadoAtingidoColaborador_ResultadoAtingidoColaborador_ID" FromRole="ResultadoAtingidoColaborador" ToRole="MetaColaborador" />

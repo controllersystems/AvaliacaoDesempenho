@@ -24,6 +24,8 @@ namespace AvaliacaoDesempenho.Seguranca
 
         public string DataAdmissao { get; private set; }
 
+        public string DataCargo { get; private set; }
+
         public string Cargo { get; private set; }
 
         public int CodigoEmpresaRubiUD { get; set; }
@@ -32,13 +34,13 @@ namespace AvaliacaoDesempenho.Seguranca
         {
             get
             {
-                DateTime dataAdmissao;
+                DateTime dataCargo;
 
-                if (DateTime.TryParse(DataAdmissao, out dataAdmissao))
+                if (DateTime.TryParse(DataCargo, out dataCargo))
                 {
-                    var diferencaAnosEmMeses = (DateTime.Today.Year - dataAdmissao.Year) * 12;
-                    var diferencaMeses = (DateTime.Today.Month - dataAdmissao.Month);
-                    var diferencaCompletudeMes = DateTime.Today.Day < dataAdmissao.Day ? -1 : 0;
+                    var diferencaAnosEmMeses = (DateTime.Today.Year - dataCargo.Year) * 12;
+                    var diferencaMeses = (DateTime.Today.Month - dataCargo.Month);
+                    var diferencaCompletudeMes = DateTime.Today.Day < dataCargo.Day ? -1 : 0;
 
                     var numeroMeses = diferencaAnosEmMeses + diferencaMeses + diferencaCompletudeMes;
 
@@ -141,9 +143,10 @@ namespace AvaliacaoDesempenho.Seguranca
             {
                 NomeGestor = informacoesRubi.LD1NOM;
                 DataAdmissao = informacoesRubi.DATADM.HasValue ? informacoesRubi.DATADM.Value.ToShortDateString() : "?????";
+                DataCargo = informacoesRubi.DATCAR.HasValue ? informacoesRubi.DATCAR.Value.ToShortDateString() : "?????";
                 CargoRubiID = int.Parse(informacoesRubi.CODCAR);
                 AreaRubiID = int.Parse(informacoesRubi.CODCCU);
-                Diretoria = informacoesRubi.USU_CODDIR.ToString();
+                Diretoria = informacoesRubi.USU_CODDIR;
                 Localidade = informacoesRubi.NOMLOC;
                 FOTEMP = informacoesRubi.FOTEMP;
                 Cargo = informacoesRubi.TITRED;

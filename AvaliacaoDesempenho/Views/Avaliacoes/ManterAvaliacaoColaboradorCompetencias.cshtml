@@ -26,6 +26,9 @@
     @Html.HiddenFor(model => Model.ColaboradorID)
     @Html.HiddenFor(model => Model.LiberadoPraSubmeterAoGestor)
     @Html.HiddenFor(model => Model.StatusAvaliacaoColaboradorID)
+    @Html.HiddenFor(model => model.StatusCicloAvaliacaoID)
+    @Html.HiddenFor(model => model.DataInicioAutoAvaliacao)
+    @Html.HiddenFor(model => model.DataTerminoAutoAvaliacao)
 
     if (Model.ListaCompetenciasCorporativas != null && Model.ListaCompetenciasCorporativas.Any())
     {

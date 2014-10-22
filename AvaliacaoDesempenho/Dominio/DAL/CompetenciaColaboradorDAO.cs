@@ -27,6 +27,17 @@ namespace AvaliacaoDesempenho.Dominio.DAL
             }
         }
 
+        public bool ExisteCompetenciaSemAvaliacao(int idAvaliacao)
+        {
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                var query = db.CompetenciaColaborador
+                            .Where(p => p.AvaliacaoColaborador_ID == idAvaliacao
+                                   && p.NivelColaborador == null);
+                return query.Any();
+            }
+        }
+
         public bool ExisteCompetenciaSemAvaliacaoGestor(int idAvaliacao)
         {
             using (var db = new AvaliacaoDesempenhoContextEntities())
