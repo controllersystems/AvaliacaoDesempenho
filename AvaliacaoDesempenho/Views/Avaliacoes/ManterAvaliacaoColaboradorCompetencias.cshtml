@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
 }
 
-@Html.Action("CabecalhoColaborador", "Usuarios", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID })
+@Html.Action("CabecalhoColaborador", "Usuarios", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID })
 
 
 

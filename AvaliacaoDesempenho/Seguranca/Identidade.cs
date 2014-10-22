@@ -116,7 +116,7 @@ namespace AvaliacaoDesempenho.Seguranca
             if (usuarioCompetencias != null)
             {
                 Email = usuarioCompetencias.email_user;
-                Cargo = usuarioCompetencias.cargo_user;
+                //Cargo = usuarioCompetencias.cargo_user;
                 //Diretoria = "?????";
                 //Localidade = "?????";
 
@@ -146,6 +146,7 @@ namespace AvaliacaoDesempenho.Seguranca
                 Diretoria = informacoesRubi.USU_CODDIR.ToString();
                 Localidade = informacoesRubi.NOMLOC;
                 FOTEMP = informacoesRubi.FOTEMP;
+                Cargo = informacoesRubi.TITRED;
                 
                 if (informacoesRubi.NUMLOC.HasValue)
                     SetorRubiID = informacoesRubi.NUMLOC.Value;

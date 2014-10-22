@@ -60,7 +60,6 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         [Display(Name = "Nível gestor")]
         [DataType(DataType.Text, ErrorMessage = "O {0} é inválido.")]
-        [Required(ErrorMessage = "O {0} é obrigatório.")]
         public int? NivelGestor { get; set; }
 
         [Display(Name = "Comentário gestor")]
