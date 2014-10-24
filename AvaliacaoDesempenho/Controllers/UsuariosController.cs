@@ -27,7 +27,7 @@ namespace AvaliacaoDesempenho.Controllers
                 Mapper.Map<List<Usuario>, List<ItemListaAdministradorViewModel>>
                     (new UsuarioDAO().ListarPorPapel(Enumeradores.CodigoPapeis.Administrador));
 
-            return View(model);
+            return View("~/Views/Usuarios/GestaoAdministradores.cshtml", model);
         }
 
         [Authorize]
@@ -59,7 +59,7 @@ namespace AvaliacaoDesempenho.Controllers
                 Mapper.Map<List<Usuario>, List<ItemListaAdministradorViewModel>>
                     (new UsuarioDAO().ListarPorPapel(Enumeradores.CodigoPapeis.Administrador));
 
-            return View(model);
+            return View("~/Views/Usuarios/GestaoAdministradores.cshtml", model);
         }
 
         [Authorize]
@@ -79,7 +79,7 @@ namespace AvaliacaoDesempenho.Controllers
 
                 DirectorySearcher directorySearcher = new DirectorySearcher(principalContext.ConnectedServer);
 
-                directorySearcher.Filter = "(&(sAMAccountName=" + model.NomeUsuarioPesquisa + "*)|(name=" + model.NomeUsuarioPesquisa + "))" + System.Configuration.ConfigurationManager.ConnectionStrings["ADFilterConnectionString"].ConnectionString + ")";
+                directorySearcher.Filter = "(&(|(sAMAccountName=" + model.NomeUsuarioPesquisa + ")(name=" + model.NomeUsuarioPesquisa + "))" + System.Configuration.ConfigurationManager.ConnectionStrings["ADFilterConnectionString"].ConnectionString + ")";
 
                 SearchResultCollection searchResult = directorySearcher.FindAll();
 

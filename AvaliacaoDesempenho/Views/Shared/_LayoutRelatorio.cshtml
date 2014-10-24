@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>OMNI - Sistema de Avaliação de Desempenho</title>
+    @Styles.Render("~/Styles/css")
+    @Styles.Render("~/Styles/bootstrap")
+
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</head>
+<body>
+    <div class="container body-content">
+        <div class="navbar navbar-fixed-top fundoAzul">
+            <div class="container">
+                <div class="navbar-header">
+                    @ViewBag.Title
+                </div>
+            </div>
+        </div>
+        <div class="span12 content-area top100">
+            @RenderBody()
+        </div>
+        <footer class="top100">
+            <hr />
+            <div class="row">
+                <div class="col-md-4 text-left">
+                    <img src="~/Content/Images/logo_rh.png" alt="Transformação RH" />
+                </div>
+                <div class="col-md-4 text-center">
+                    <p>Todos os direitos reservados a Omni Táxi Aéreo</p>
+                    <p>&copy; @DateTime.Now.Year - Desenvolvido por #####</p>
+                </div>
+                <div class="col-md-4 text-right">
+                    <img src="~/Content/Images/logo_omni.png" alt="Transformação RH" />
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

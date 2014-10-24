@@ -467,6 +467,7 @@
     <Content Include="Views\Relatorios\RatingFinalRH.cshtml" />
     <Content Include="Views\Relatorios\GapCompetencias.cshtml" />
     <Content Include="Views\Relatorios\RelatorioPDI.cshtml" />
+    <Content Include="Views\Shared\_LayoutRelatorio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_GlobalResources\" />

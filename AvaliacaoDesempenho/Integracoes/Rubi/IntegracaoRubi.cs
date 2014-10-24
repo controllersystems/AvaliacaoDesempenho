@@ -25,7 +25,7 @@ namespace AvaliacaoDesempenho.Rubi.Integracoes
             using (db = new RubiContext())
             {
                 //return db.Database.SqlQuery<USU_V092EST>("SELECT CAST(ROW_NUMBER() OVER (ORDER BY CODCAR,CODCCU,NUMLOC) AS INT) USU_V092ESTID,CODCAR,TITRED,CODCCU,NOMCCU,NUMLOC,NOMLOC FROM USU_V092EST").ToList();
-                return db.Database.SqlQuery<USU_V092EST>("SELECT ROWNUM USU_V092ESTID,CODCAR,TITRED,CODCCU,NOMCCU,NUMLOC,NOMLOC FROM USU_V092EST ORDER BY NOMLOC, NOMCCU, TITRED ").ToList();
+                return db.Database.SqlQuery<USU_V092EST>(string.Format("SELECT ROWNUM USU_V092ESTID,CODCAR,TITRED,CODCCU,NOMCCU,NUMLOC,NOMLOC FROM {0}.USU_V092EST ORDER BY NOMLOC, NOMCCU, TITRED ", ConfigurationManager.AppSettings["schemaRubi"].ToString())).ToList();
             }
         }
 
