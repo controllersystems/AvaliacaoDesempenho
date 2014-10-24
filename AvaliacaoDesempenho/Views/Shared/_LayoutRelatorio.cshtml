@@ -19,7 +19,16 @@
                    <h3>@ViewBag.Title</h3>
             </div>
         </div>
+        
         <div class="span12 content-area top100">
+            <section id="bread">
+                <ul class="breadcrumb">
+                    <li>@Html.ActionLink("Administração", "Index", "Home")<span class="divider"></span></li>
+                    <li>@Html.ActionLink("Relatórios", "Index", "Relatorios")<span class="divider"></span></li>
+                    <li class="active">@ViewBag.Title</li>
+                    <li class="pull-right">@Html.ActionLink("Sair", "LogOff", "Autenticacao")</li>
+                </ul>
+            </section>
             @RenderBody()
         </div>
         <footer class="top100">

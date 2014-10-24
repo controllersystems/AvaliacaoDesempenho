@@ -3,6 +3,13 @@
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
 }
 
+<section id="bread">
+    <ul class="breadcrumb">
+        <li>@Html.ActionLink("Administração", "Index", "Home")<span class="divider"></span></li>
+        <li class="active">Relatórios</li>
+        <li class="pull-right">@Html.ActionLink("Sair", "LogOff", "Autenticacao")</li>
+    </ul>
+</section>
 <div class="row">
     <div class="col-md-12">
         @Html.ActionLink("Acompanhamento Geral", "AcompanhamentoGeral", "Relatorios")
