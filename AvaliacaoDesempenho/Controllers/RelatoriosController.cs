@@ -27,5 +27,47 @@ namespace AvaliacaoDesempenho.Controllers
 
             return View(model);
         }
+        public ActionResult Engajamento()
+        {
+            EngajamentoViewModel model = new EngajamentoViewModel();
+
+            return View(model);
+        }
+        public ActionResult GapCompetencias()
+        {
+            GapCompetenciasViewModel model = new GapCompetenciasViewModel();
+
+            return View(model);
+        }
+        public ActionResult RatingFinalColaborador()
+        {
+            RatingFinalColaboradorViewModel model = new RatingFinalColaboradorViewModel();
+
+            return View(model);
+        }
+        public ActionResult RatingFinalGestor()
+        {
+            RatingFinalGestorViewModel model = new RatingFinalGestorViewModel();
+
+            return View(model);
+        }
+        public ActionResult RatingFinalRH()
+        {
+            RatingFinalRHViewModel model = new RatingFinalRHViewModel();
+
+            return View(model);
+        }
+        public ActionResult RelatorioPDI()
+        {
+            RelatorioPDIViewModel model = new RelatorioPDIViewModel();
+
+            return View(model);
+        }
+        public ActionResult ReuniaoCalibragem()
+        {
+            ReuniaoCalibragemViewModel model = new ReuniaoCalibragemViewModel();
+
+            return View(model);
+        }
     }
 }

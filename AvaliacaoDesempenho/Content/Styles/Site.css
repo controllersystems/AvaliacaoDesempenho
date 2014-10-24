@@ -115,11 +115,35 @@ textarea {
     margin-top: 100px;
 }
 
-.fundoAzul {
+.fundoAzul{
     background-image: url(../Images/topo.png);
     height: 93px;
     border-bottom: 0;
+    text-align:center;  
 }
+.titulo{
+    /*background: red; 
+    margin: auto;
+    height: 93px;
+    te: absolute;*/
+    text-align:center;
+    color: white;
+}
+
+/*.fundoAzul .titulo{
+    color: white;
+    text-align:center;
+}*/
+   /*.tituloRelatorio{
+ margin-left: 80%;
+    margin:0 auto;
+    width: 50%;
+    
+    position: absolute;
+   margin-right: 100%;
+   color: white;
+   text-align:center
+}*/
 
 
 .col-md-005, .col-md-010, .col-md-012, .col-md-015, .col-md-020, .col-md-027, .col-md-025, .col-md-030, .col-md-035, .col-md-040, .col-md-045, .col-md-050, .col-md-055, .col-md-060, .col-md-065, .col-md-070, .col-md-073, .col-md-075, .col-md-080, .col-md-085, .col-md-090, .col-md-095, .col-md-100 {
