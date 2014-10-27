@@ -7,6 +7,7 @@ namespace AvaliacaoDesempenho.Models.Relatorios
 {
     public class RatingFinalGestorViewModel
     {
+        public int? CicloSelecionado { get; set; }
         public int AnoReferencia { get; set; }
         public List<ItemRatingFinalGestorViewModel> ListaRatingFinalGestor { get; set; }
     }

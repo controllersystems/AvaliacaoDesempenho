@@ -7,6 +7,7 @@ namespace AvaliacaoDesempenho.Models.Relatorios
 {
     public class RatingFinalColaboradorViewModel
     {
+        public int? CicloSelecionado { get; set; }
         public List<ItemRatingFinalColaboradorViewModel> ListaRatingFinalColaborador { get; set; }
     }
     public class ItemRatingFinalColaboradorViewModel

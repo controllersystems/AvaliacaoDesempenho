@@ -7,6 +7,7 @@ namespace AvaliacaoDesempenho.Models.Relatorios
 {
     public class AcompanhamentoGeralViewModel
     {
+        public int? CicloSelecionado { get; set; }
         public int AnoReferencia { get; set; }
         public List<ItemAcompanhamentoGeralViewModel> ListaAcompanhamentoGeral { get; set; }
     }

@@ -7,6 +7,7 @@ namespace AvaliacaoDesempenho.Models.Relatorios
 {
     public class GapCompetenciasViewModel
     {
+        public int? CicloSelecionado { get; set; }
         public int AnoReferencia { get; set; }
         public List<ItemGapCompetenciasViewModel> ListaGapCompetencias { get; set; }
     }

@@ -1,10 +1,11 @@
 ﻿@model AvaliacaoDesempenho.Models.Relatorios.RelatorioPDIViewModel
 @{
     ViewBag.Title = "Relatório PDI";
+    ViewBag.Ciclo = Model.CicloSelecionado;
     Layout = "~/Views/Shared/_LayoutRelatorio.cshtml";
 }
 
-<h2>Ano de Referência: @Model.AnoReferencia</h2>
+<h4>Ano de Referência: @Model.AnoReferencia</h4>
 
 <div class="row top30">
     <div class="col-md-12">

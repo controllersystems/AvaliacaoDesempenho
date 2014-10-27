@@ -1,4 +1,7 @@
-﻿@{
+﻿
+@model AvaliacaoDesempenho.Models.Relatorios.RelatoriosViewModel
+
+@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
 }
@@ -12,42 +15,42 @@
 </section>
 <div class="row">
     <div class="col-md-12">
-        @Html.ActionLink("Acompanhamento Geral", "AcompanhamentoGeral", "Relatorios")
+        @Html.ActionLink("Acompanhamento Geral", "AcompanhamentoGeral", "Relatorios", new { cicloSelecionado = Model.CicloSelecionado }, null)
     </div>
 </div>
 <div class="row">
     <div class="col-md-12">
-        @Html.ActionLink("Acompanhamento Etapa", "AcompanhamentoEtapa", "Relatorios")
+        @Html.ActionLink("Acompanhamento Etapa", "AcompanhamentoEtapa", "Relatorios", new { cicloSelecionado = Model.CicloSelecionado }, null)
     </div>
 </div>
 <div class="row">
      <div class="col-md-12">
-          @Html.ActionLink("Relatório para Reunião de Calibragem", "ReuniaoCalibragem", "Relatorios")
+          @Html.ActionLink("Relatório para Reunião de Calibragem", "ReuniaoCalibragem", "Relatorios", new { cicloSelecionado = Model.CicloSelecionado }, null)
      </div>
 </div>
 <div class="row">
     <div class="col-md-12">
-        @Html.ActionLink("Relatório de Rating Final - ao Gestor", "RatingFinalGestor", "Relatorios")
+        @Html.ActionLink("Relatório de Rating Final - ao Gestor", "RatingFinalGestor", "Relatorios", new { cicloSelecionado = Model.CicloSelecionado }, null)
     </div>
 </div>
 <div class="row">
     <div class="col-md-12">
-        @Html.ActionLink("Relatório de Rating Final - ao Colaborador", "RatingFinalColaborador", "Relatorios")
+        @Html.ActionLink("Relatório de Rating Final - ao Colaborador", "RatingFinalColaborador", "Relatorios", new { cicloSelecionado = Model.CicloSelecionado }, null)
     </div>
 </div>
 <div class="row">
     <div class="col-md-12">
-        @Html.ActionLink("Relatório de Rating Final e Indicação de Promoção - RH", "RatingFinalRH", "Relatorios")
+        @Html.ActionLink("Relatório de Rating Final e Indicação de Promoção - RH", "RatingFinalRH", "Relatorios", new { cicloSelecionado = Model.CicloSelecionado }, null)
     </div>
 </div>
 <div class="row">
     <div class="col-md-12">
-        @Html.ActionLink("Relatório Gap de Competências", "GapCompetencias", "Relatorios")
+        @Html.ActionLink("Relatório Gap de Competências", "GapCompetencias", "Relatorios", new { cicloSelecionado = Model.CicloSelecionado }, null)
     </div>
 </div>
 <div class="row">
     <div class="col-md-12">
-        @Html.ActionLink("Relatório PDI", "RelatorioPDI", "Relatorios")
+        @Html.ActionLink("Relatório PDI", "RelatorioPDI", "Relatorios", new { cicloSelecionado = Model.CicloSelecionado }, null)
     </div>
 </div>
 

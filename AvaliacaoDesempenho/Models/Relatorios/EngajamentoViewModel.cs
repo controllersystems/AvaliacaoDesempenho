@@ -7,6 +7,7 @@ namespace AvaliacaoDesempenho.Models.Relatorios
 {
     public class EngajamentoViewModel
     {
+        public int? CicloSelecionado { get; set; }
         public int AnoReferencia { get; set; }
         public List<ItemEngajamentoViewModel> ListaEngajamento { get; set; }
     }

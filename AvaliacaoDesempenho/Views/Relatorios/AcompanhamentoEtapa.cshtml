@@ -3,11 +3,12 @@
 
 @{
     ViewBag.Title = "Relatório de Acompanhamento do Processo AD";
+    ViewBag.Ciclo = Model.CicloSelecionado;
     Layout = "~/Views/Shared/_LayoutRelatorio.cshtml";
 }
 
-<h2>Ano de Referência: @Model.AnoReferencia</h2>
-<h2>Etapa: @Model.EtapaSelecionada</h2>
+<h4>Ano de Referência: @Model.AnoReferencia</h4>
+<h4>Etapa: @Model.EtapaSelecionada</h4>
 
 <div class="row top30">
     <div class="col-md-12">

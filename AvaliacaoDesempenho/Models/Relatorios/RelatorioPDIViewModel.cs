@@ -7,6 +7,7 @@ namespace AvaliacaoDesempenho.Models.Relatorios
 {
     public class RelatorioPDIViewModel
     {
+        public int? CicloSelecionado { get; set; }
         public int AnoReferencia { get; set; }
         public List<ItemRelatorioPDIViewModel> ListaRelatorioPDI { get; set; }
     }

@@ -197,7 +197,7 @@
             </div>
             <div class="row top20">
                 <div class="col-md-12 text-right">
-                    @Html.ActionLink("Relatórios", "Index", "Relatorios", null, new { @class = "btn btn-default" })
+                    @Html.ActionLink("Relatórios", "Index", "Relatorios", new { CicloSelecionado = Model.CicloAvaliacaoSelecionadoID }, new { @class = "btn btn-default" })
                     <input type="submit" value="Alterar" class="btn btn-default" />
                 </div>
             </div>
