@@ -22,6 +22,13 @@ namespace AvaliacaoDesempenho.Controllers
         {
             AcompanhamentoGeralViewModel model = new AcompanhamentoGeralViewModel();
 
+            var ciclo = new CicloAvaliacaoDAO().Obter(cicloSelecionado.Value);
+
+            if (ciclo != null)
+            {
+                model.AnoReferencia = ciclo.DataFimVigencia.Year;
+            }
+
             model.CicloSelecionado = cicloSelecionado;
 
             var avaliacoes = new AvaliacaoColaboradorDAO().Listar(cicloSelecionado.Value);
