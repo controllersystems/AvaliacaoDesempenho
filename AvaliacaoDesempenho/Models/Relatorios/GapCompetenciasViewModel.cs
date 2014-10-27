@@ -21,8 +21,8 @@ namespace AvaliacaoDesempenho.Models.Relatorios
         public string Cargo { get; set; }
         public string TipoCompetencia { get; set; }
         public string NomeCompetencia { get; set; }
-        public int NivelRequirido  {get; set;}
-        public int NivelAvaliadoGestor { get; set; }
+        public int? NivelRequirido  {get; set;}
+        public int? NivelAvaliadoGestor { get; set; }
         public int CampoGap { get; set; }
     }
 }

@@ -42,7 +42,19 @@ namespace AvaliacaoDesempenho.Integracoes.SistemaCompetencias
                 return db.tbl_setor_scc.OrderBy(x => x.titulo_setor).ToList();
             }
         }
+        public tbl_competencia_scc Obter(int idComp)
+        {
+            StringBuilder sb = new StringBuilder();
 
+            sb.Append("select * ");
+            sb.Append("from tbl_competencia_scc cp ");
+            sb.Append(string.Format("where id_comp = {0}", idComp));
+
+            using (db = new SistemaCompetenciasContext())
+            {
+                return db.Database.SqlQuery<tbl_competencia_scc>(sb.ToString()).FirstOrDefault();
+            }
+        }
         public List<tbl_competencia_scc> ListarCompentenciasCargo(int cargoID, int areaID, int setorID)
         {
             StringBuilder sb = new StringBuilder();

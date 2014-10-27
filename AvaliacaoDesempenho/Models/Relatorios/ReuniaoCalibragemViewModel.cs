@@ -21,8 +21,8 @@ namespace AvaliacaoDesempenho.Models.Relatorios
         public int Matricula { get; set; }
         public string Cargo { get; set; }
         public string Localidade { get; set; }
-        public DateTime DataAdmissao { get; set; }
-        public int TempoDeCasa { get; set; }
+        public string DataAdmissao { get; set; }
+        public string TempoDeCasa { get; set; }
         public string RecomendacaoDeRating { get; set; }
         public string IndicacaoDePromocao { get; set; }
         public string PerformanceGeral { get; set; }
