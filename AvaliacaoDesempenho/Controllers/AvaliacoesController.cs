@@ -2555,7 +2555,7 @@ namespace AvaliacaoDesempenho.Controllers
 
                     if (recomendacaoColaborador != null)
                     {
-                        recomendacaoColaborador.RecomendacaoDeRating = model.ItemRecomendacaoColaborador.RecomendacaoDeRating.Value;
+                        recomendacaoColaborador.RecomendacaoDeRating = model.ItemRecomendacaoColaborador.RecomendacaoDeRating;
                         recomendacaoColaborador.RecomendacaoDePromocao = model.ItemRecomendacaoColaborador.RecomendacaoDePromocao;
                         recomendacaoColaborador.Justificativa = model.ItemRecomendacaoColaborador.Justificativa;
                         recomendacaoColaborador.JustificativaDaJustificativa = model.ItemRecomendacaoColaborador.JustificativaDaJustificativa;
