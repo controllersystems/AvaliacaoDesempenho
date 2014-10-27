@@ -268,7 +268,7 @@ namespace AvaliacaoDesempenho.Controllers
                             Cargo = informacoesRubi.TITRED,
                             Localidade = informacoesRubi.NOMLOC,
                             DataAdmissao = (informacoesRubi.DATADM.HasValue) ? informacoesRubi.DATADM.Value.ToShortDateString() : "?????",
-                            TempoCasa = (ano > 0 && mes != 0) ? ano + "ano(s) e " + mes + " mês(es)" : ((ano > 0 && mes == 0) ? ano + " ano(s)" : mes + " mês(es)"),
+                            TempoCasa = (ano > 0 && mes != 0) ? ano + " ano(s) e " + mes + " mes(es)" : ((ano > 0 && mes == 0) ? ano + " ano(s)" : mes + " mes(es)"),
                             RatingFinal = (recomendacao.RatingFinalPosCalibragem == 1) ? "Excepcional" : ((recomendacao.RatingFinalPosCalibragem == 2) ? "Excede as Expectativas" : ((recomendacao.RatingFinalPosCalibragem == 3) ? "Atende as Expectativas" : "Abaixo das Expectativas"))
                         });
                     }
@@ -360,7 +360,7 @@ namespace AvaliacaoDesempenho.Controllers
                             Cargo = informacoesRubi.TITRED,
                             Localidade =  informacoesRubi.NOMLOC, 
                             DataAdmissao = (informacoesRubi.DATADM.HasValue) ? informacoesRubi.DATADM.Value.ToShortDateString() : "?????",
-                            TempoDeCasa = (ano > 0 && mes != 0) ? ano + "ano(s) e " + mes + " mês(es)" : ((ano > 0 && mes == 0) ? ano + " ano(s)" : mes + " mês(es)"),
+                            TempoDeCasa = (ano > 0 && mes != 0) ? ano + " ano(s) e " + mes + " mes(es)" : ((ano > 0 && mes == 0) ? ano + " ano(s)" : mes + " mes(es)"),
                             RecomendacaoDeRating = (recomendacao.RecomendacaoDeRating == 1) ? "Excepcional" : ((recomendacao.RecomendacaoDeRating == 2) ? "Excede as Expectativas" : ((recomendacao.RecomendacaoDeRating == 3) ? "Atende as Expectativas" : "Abaixo das Expectativas")),
                             IndicacaoDePromocao = (recomendacao.IndicacaoPromocaoPosCalibragem.HasValue) ? "Sim" : "Não",
                             PerformanceGeral = perfomance.AvaliacaoPerformance
