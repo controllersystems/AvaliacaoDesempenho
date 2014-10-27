@@ -47,7 +47,16 @@
             </div>
         </footer>
     </div>
-
+    <div class="row top50">
+        <div class="col-md-095 col-md-offset-005 text-right">
+             <input type="button" value="Imprimir" id="btnImprimir"class="btn btn-default" />
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#btnImprimir').click(function () { window.print();});
+        });
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

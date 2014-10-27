@@ -166,7 +166,40 @@ namespace AvaliacaoDesempenho.Controllers
         public ActionResult RatingFinalGestor(int? cicloSelecionado)
         {
             RatingFinalGestorViewModel model = new RatingFinalGestorViewModel();
+
+            var ciclo = new CicloAvaliacaoDAO().Obter(cicloSelecionado.Value);
+
+            if (ciclo != null)
+            {
+                model.AnoReferencia = ciclo.DataFimVigencia.Year;
+            }
+
             model.CicloSelecionado = cicloSelecionado;
+            var avaliacoes = new AvaliacaoColaboradorDAO().Listar(cicloSelecionado.Value);
+
+            if (avaliacoes != null)
+            {
+                model.ListaRatingFinalGestor = new List<ItemRatingFinalGestorViewModel>();
+                foreach (var item in avaliacoes)
+                {
+                    var informacoesRubi = new IntegracaoRubi().ObterUSU_V034FAD(item.Usuario.CodigoEmpresaRubiUD, item.Usuario.UsuarioRubiID);
+                    var recomendacao = new RecomendacaoColaboradorDAO().Obter(item.ID);
+                    if (informacoesRubi != null)
+                    {
+                        model.ListaRatingFinalGestor.Add(new ItemRatingFinalGestorViewModel
+                        {
+                            Diretoria = informacoesRubi.USU_CODDIR,
+                            Area = informacoesRubi.CODCCU,
+                            Gestor = informacoesRubi.LD1NOM,
+                            NomeColaborador = item.Usuario.Nome,
+                            Matricula = item.Usuario.UsuarioRubiID,
+                            Cargo = informacoesRubi.TITRED,
+                            RatingFinal = (recomendacao.RatingFinalPosCalibragem == 1) ? "Excepcional" : ((recomendacao.RatingFinalPosCalibragem == 2) ? "Excede as Expectativas" : ((recomendacao.RatingFinalPosCalibragem == 3) ? "Atende as Expectativas" : "Abaixo das Expectativas")),
+                            IndicacaoDePromocao = (recomendacao.IndicacaoPromocaoPosCalibragem.HasValue) ? "Sim":"Não"
+                        });
+                    }
+                }
+            }
             return View(model);
         }
         public ActionResult RatingFinalRH(int? cicloSelecionado)
