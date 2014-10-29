@@ -110,7 +110,7 @@ namespace AvaliacaoDesempenho.Controllers
         {
             GapCompetenciasViewModel model = new GapCompetenciasViewModel();
             var ciclo = new CicloAvaliacaoDAO().Obter(cicloSelecionado.Value);
-            
+
 
             if (ciclo != null)
             {
@@ -124,34 +124,31 @@ namespace AvaliacaoDesempenho.Controllers
             {
                 model.ListaGapCompetencias = new List<ItemGapCompetenciasViewModel>();
                 foreach (var item in avaliacoes)
-                {   
-                    
-                    
+                {
                     var informacoesRubi = new IntegracaoRubi().ObterUSU_V034FAD(item.Usuario.CodigoEmpresaRubiUD, item.Usuario.UsuarioRubiID);
 
                     if (informacoesRubi != null)
-                    { 
+                    {
                         var competenciaColaborador = new CompetenciaColaboradorDAO().Listar(item.ID);
-                    foreach (var j in competenciaColaborador)
-	{
-                        var competencias = new Integracoes.SistemaCompetencias.IntegracaoSistemaCompetencias().Obter(j.CompetenciaID);
-                       
-        model.ListaGapCompetencias.Add(new ItemGapCompetenciasViewModel
+                        foreach (var j in competenciaColaborador)
                         {
-                            Diretoria = informacoesRubi.USU_CODDIR,
-                            Area = informacoesRubi.CODCCU,
-                            Gestor = informacoesRubi.LD1NOM,
-                            NomeColaborador = item.Usuario.Nome,
-                            Matricula = item.Usuario.UsuarioRubiID,
-                            Cargo = informacoesRubi.TITRED,
-                            TipoCompetencia = (competencias.id_tipo_comp == 1) ? "Funcionais" : (competencias.id_tipo_comp == 2) ? "Corporativa" : "Liderança",
-                            NomeCompetencia = competencias.descricao_comp,
-                            NivelRequirido = j.NivelRequerido,
-                            NivelAvaliadoGestor = j.NivelGestor,
-                            CampoGap = (j.NivelGestor !=null && j.NivelRequerido != null) ? (j.NivelGestor.Value - j.NivelRequerido.Value) : 0
-                        });
-	}
-                        
+                            var competencias = new Integracoes.SistemaCompetencias.IntegracaoSistemaCompetencias().Obter(j.CompetenciaID);
+
+                            model.ListaGapCompetencias.Add(new ItemGapCompetenciasViewModel
+                                            {
+                                                Diretoria = informacoesRubi.USU_CODDIR,
+                                                Area = informacoesRubi.CODCCU,
+                                                Gestor = informacoesRubi.LD1NOM,
+                                                NomeColaborador = item.Usuario.Nome,
+                                                Matricula = item.Usuario.UsuarioRubiID,
+                                                Cargo = informacoesRubi.TITRED,
+                                                TipoCompetencia = (competencias.id_tipo_comp == 1) ? "Funcionais" : (competencias.id_tipo_comp == 2) ? "Corporativa" : "Liderança",
+                                                NomeCompetencia = competencias.descricao_comp,
+                                                NivelRequirido = j.NivelRequerido,
+                                                NivelAvaliadoGestor = j.NivelGestor,
+                                                CampoGap = (j.NivelGestor != null && j.NivelRequerido != null) ? (j.NivelGestor.Value - j.NivelRequerido.Value) : 0
+                                            });
+                        }
                     }
                 }
             }

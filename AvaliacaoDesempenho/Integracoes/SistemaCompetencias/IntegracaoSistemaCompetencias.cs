@@ -46,9 +46,10 @@ namespace AvaliacaoDesempenho.Integracoes.SistemaCompetencias
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.Append("select * ");
-            sb.Append("from tbl_competencia_scc cp ");
-            sb.Append(string.Format("where id_comp = {0}", idComp));
+            sb.Append("select distinct [id_comp],[titulo_comp],[id_area_comp],[status_comp],[sigla_comp],[id_setor_comp],[id_nivel_comp],[id_tipo_comp],[descricao_comp],[proeficiencia_cp]");
+            sb.Append("from tbl_cargo_competencia_scc cc,tbl_competencia_scc cp,tbl_cargo_scc c, tbl_competencia_proeficiencia_scc cpp ");
+            sb.Append("where cc.id_comp_ccomp = cp.id_comp and cc.id_nivel_ccomp = cp.id_nivel_comp and cc.id_cargo_ccomp = c.id_cargo and cpp.id_comp_cp = cp.id_comp ");
+            sb.Append(string.Format("and cc.id_nivel_ccomp = c.id_nivel_cargo and cp.id_comp = {0} ", idComp));
 
             using (db = new SistemaCompetenciasContext())
             {
