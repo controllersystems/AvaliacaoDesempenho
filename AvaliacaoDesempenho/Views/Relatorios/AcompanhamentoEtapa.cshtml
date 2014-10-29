@@ -9,7 +9,59 @@
 
 <h4>Ano de Referência: @Model.AnoReferencia</h4>
 <h4>Etapa: @Model.EtapaSelecionada</h4>
+@using (Html.BeginForm("PesquisarAcompanhamentoEtapa",
+                       "Relatorios",
+                       FormMethod.Post,
+                       new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
 
+    @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.CicloSelecionado)
+
+    <div class="row top20">
+        <div class="col-md-015">
+            @Html.LabelFor(model => model.DiretoriaPesquisada, new { @class = "control-label" })
+        </div>
+        <div class="col-md-035">
+            @Html.EditorFor(model => model.DiretoriaPesquisada, new { @class = "form-control" })
+        </div>
+        <div class="col-md-015">
+            @Html.LabelFor(model => model.AreaPesquisada, new { @class = "control-label" })
+        </div>
+        <div class="col-md-035">
+            @Html.EditorFor(model => model.AreaPesquisada, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-015">
+            @Html.LabelFor(model => model.GestorPesquisado, new { @class = "control-label" })
+        </div>
+        <div class="col-md-035">
+            @Html.EditorFor(model => model.GestorPesquisado, new { @class = "form-control" })
+        </div>
+        <div class="col-md-015">
+            @Html.LabelFor(model => model.ColaboradorPesquisado, new { @class = "control-label" })
+        </div>
+        <div class="col-md-035">
+            @Html.EditorFor(model => model.ColaboradorPesquisado, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-015">
+            @Html.LabelFor(model => model.CargoPesquisado, new { @class = "control-label" })
+        </div>
+        <div class="col-md-035">
+            @Html.EditorFor(model => model.CargoPesquisado, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-095 col-md-offset-005 text-right">
+            <input type="submit" value="Pesquisar" class="btn btn-default" />
+        </div>
+    </div>
+}
 <div class="row top30">
     <div class="col-md-12">
         <table class="table">
