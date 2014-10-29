@@ -59,6 +59,90 @@ namespace AvaliacaoDesempenho.Controllers
             return View(model);
         }
 
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PesquisarAcompanhamentoGeral(AcompanhamentoGeralViewModel model)
+        {
+            var ciclo = new CicloAvaliacaoDAO().Obter(model.CicloSelecionado.Value);
+
+            if (ciclo != null)
+            {
+                model.AnoReferencia = ciclo.DataFimVigencia.Year;
+            }
+
+            var avaliacoes = new AvaliacaoColaboradorDAO().Listar(model.CicloSelecionado.Value);
+
+            if (avaliacoes != null)
+            {
+                model.ListaAcompanhamentoGeral = new List<ItemAcompanhamentoGeralViewModel>();
+                foreach (var item in avaliacoes)
+                {
+                    var informacoesRubi = new IntegracaoRubi().ObterUSU_V034FAD(item.Usuario.CodigoEmpresaRubiUD, item.Usuario.UsuarioRubiID);
+
+                    if (informacoesRubi != null)
+                    {
+                        bool restringe = false;
+                        if (model.DiretoriaPesquisada != null)
+                        {
+                            if (!informacoesRubi.USU_CODDIR.ToUpper().Contains(model.DiretoriaPesquisada.ToUpper()))
+                            {
+                                restringe = true;
+                            }
+                        }
+
+                        if (model.AreaPesquisada != null)
+                        {
+                            if (!informacoesRubi.CODCCU.ToUpper().Contains(model.AreaPesquisada.ToUpper()))
+                            {
+                                restringe = true;
+                            }
+                        }
+
+                        if (model.GestorPesquisado != null)
+                        {
+                            if (!informacoesRubi.LD1NOM.ToUpper().Contains(model.GestorPesquisado.ToUpper()))
+                            {
+                                restringe = true;
+                            }
+                        }
+
+                        if (model.ColaboradorPesquisado != null)
+                        {
+                            if (!item.Usuario.Nome.ToUpper().Contains(model.ColaboradorPesquisado.ToUpper()))
+                            {
+                                restringe = true;
+                            }
+                        }
+
+                        if (model.CargoPesquisado != null)
+                        {
+                            if (!informacoesRubi.TITRED.ToUpper().Contains(model.CargoPesquisado.ToUpper()))
+                            {
+                                restringe = true;
+                            }
+                        }
+
+                        if (!restringe)
+                        {
+                            model.ListaAcompanhamentoGeral.Add(new ItemAcompanhamentoGeralViewModel
+                            {
+                                Diretoria = informacoesRubi.USU_CODDIR,
+                                Area = informacoesRubi.CODCCU,
+                                Gestor = informacoesRubi.LD1NOM,
+                                NomeColaborador = item.Usuario.Nome,
+                                Matricula = item.Usuario.UsuarioRubiID,
+                                Cargo = informacoesRubi.TITRED,
+                                StatusAvaliacao = item.StatusAvaliacaoColaborador.Nome
+                            });
+                        }
+                    }
+                }
+            }
+
+            return View("~/Views/Relatorios/AcompanhamentoGeral.cshtml", model);
+        }
+
         public ActionResult AcompanhamentoEtapa(int? cicloSelecionado)
         {
             AcompanhamentoEtapaViewModel model = new AcompanhamentoEtapaViewModel();

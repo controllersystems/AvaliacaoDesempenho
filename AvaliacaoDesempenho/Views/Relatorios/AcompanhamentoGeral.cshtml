@@ -7,13 +7,13 @@
     Layout = "~/Views/Shared/_LayoutRelatorio.cshtml";
 }
 
-<h4>Ano de Referência: @Model.AnoReferencia</h4>
-
 @using (Html.BeginForm("PesquisarAcompanhamentoGeral",
                        "Relatorios",
                        FormMethod.Post,
                        new { @class = "form-horizontal", role = "form" }))
 {
+    <h4>Ano de Referência: @Model.AnoReferencia</h4>
+    
     @Html.AntiForgeryToken()
 
     @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
@@ -61,71 +61,70 @@
             <input type="submit" value="Pesquisar" class="btn btn-default" />
         </div>
     </div>
-}
 
-<div class="row top30">
-    <div class="col-md-12">
-        <table class="table">
-            <tr>
-                <th>
-                    Diretoria
-                </th>
-                <th>
-                    Area
-                </th>
-                <th>
-                    Gestor
-                </th>
-                <th>
-                    Nome do Colaborador
-                </th>
-                <th>
-                    Matrícula
-                </th>
-                <th>
-                    Cargo
-                </th>
-                <th>
-                    Status do Processo
-                </th>
-                <th>
-                    Data da última alteração
-                </th>
-            </tr>
-            @if(Model.ListaAcompanhamentoGeral != null &&
+    <div class="row top30">
+        <div class="col-md-12">
+            <table class="table">
+                <tr>
+                    <th>
+                        Diretoria
+                    </th>
+                    <th>
+                        Area
+                    </th>
+                    <th>
+                        Gestor
+                    </th>
+                    <th>
+                        Nome do Colaborador
+                    </th>
+                    <th>
+                        Matrícula
+                    </th>
+                    <th>
+                        Cargo
+                    </th>
+                    <th>
+                        Status do Processo
+                    </th>
+                    <th>
+                        Data da última alteração
+                    </th>
+                </tr>
+                @if (Model.ListaAcompanhamentoGeral != null &&
                 Model.ListaAcompanhamentoGeral.Any())
-            {
-                for (int i = 0; i < Model.ListaAcompanhamentoGeral.Count; i++)
                 {
-                    <tr>
-                        <td>
-                            @Model.ListaAcompanhamentoGeral[i].Diretoria
-                        </td>
-                        <td>
-                            @Model.ListaAcompanhamentoGeral[i].Area
-                        </td>
-                        <td>
-                            @Model.ListaAcompanhamentoGeral[i].Gestor
-                        </td>
-                        <td>
-                            @Model.ListaAcompanhamentoGeral[i].NomeColaborador
-                        </td>
-                        <td>
-                            @Model.ListaAcompanhamentoGeral[i].Matricula
-                        </td>
-                        <td>
-                            @Model.ListaAcompanhamentoGeral[i].Cargo
-                        </td>
-                        <td>
-                            @Model.ListaAcompanhamentoGeral[i].StatusAvaliacao
-                        </td>
-                        <td>
-                            @Model.ListaAcompanhamentoGeral[i].UltimaAlteracao
-                        </td>
-                    </tr>
+                    for (int i = 0; i < Model.ListaAcompanhamentoGeral.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Model.ListaAcompanhamentoGeral[i].Diretoria
+                            </td>
+                            <td>
+                                @Model.ListaAcompanhamentoGeral[i].Area
+                            </td>
+                            <td>
+                                @Model.ListaAcompanhamentoGeral[i].Gestor
+                            </td>
+                            <td>
+                                @Model.ListaAcompanhamentoGeral[i].NomeColaborador
+                            </td>
+                            <td>
+                                @Model.ListaAcompanhamentoGeral[i].Matricula
+                            </td>
+                            <td>
+                                @Model.ListaAcompanhamentoGeral[i].Cargo
+                            </td>
+                            <td>
+                                @Model.ListaAcompanhamentoGeral[i].StatusAvaliacao
+                            </td>
+                            <td>
+                                @Model.ListaAcompanhamentoGeral[i].UltimaAlteracao
+                            </td>
+                        </tr>
+                    }
                 }
-            }
-        </table>
+            </table>
+        </div>
     </div>
-</div>
-
+}
