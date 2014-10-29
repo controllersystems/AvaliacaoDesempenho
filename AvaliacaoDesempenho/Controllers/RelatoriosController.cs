@@ -157,7 +157,33 @@ namespace AvaliacaoDesempenho.Controllers
         public ActionResult RatingFinalColaborador(int? cicloSelecionado)
         {
             RatingFinalColaboradorViewModel model = new RatingFinalColaboradorViewModel();
+            var ciclo = new CicloAvaliacaoDAO().Obter(cicloSelecionado.Value);
+
             model.CicloSelecionado = cicloSelecionado;
+            var avaliacoes = new AvaliacaoColaboradorDAO().Listar(cicloSelecionado.Value);
+
+            if (avaliacoes != null)
+            {
+                model.ListaRatingFinalColaborador = new List<ItemRatingFinalColaboradorViewModel>();
+                foreach (var item in avaliacoes)
+                {
+                    var informacoesRubi = new IntegracaoRubi().ObterUSU_V034FAD(item.Usuario.CodigoEmpresaRubiUD, item.Usuario.UsuarioRubiID);
+                    var recomendacao = new RecomendacaoColaboradorDAO().Obter(item.ID);
+                    var gestor = new UsuarioDAO().Obter(item.Usuario.UsuarioRubiID, item.GestorRubiEmp_ID.Value);
+                    if (informacoesRubi != null)
+                    {
+                        model.ListaRatingFinalColaborador.Add(new ItemRatingFinalColaboradorViewModel
+                        {
+                            //Data =
+                            Nome = item.Usuario.Nome,
+                            Matricula = item.Usuario.UsuarioRubiID,
+                            NomeCiclo = ciclo.Descricao,
+                            RatingFinalAposCalibragem = (recomendacao.RatingFinalPosCalibragem == 1) ? "Excepcional" : ((recomendacao.RatingFinalPosCalibragem == 2) ? "Excede as Expectativas" : ((recomendacao.RatingFinalPosCalibragem == 3) ? "Atende as Expectativas" : "Abaixo das Expectativas")),
+                            Gestor = gestor.Nome 
+                        });
+                    }
+                }
+            }
             return View(model);
         }
         public ActionResult RatingFinalGestor(int? cicloSelecionado)
@@ -202,13 +228,93 @@ namespace AvaliacaoDesempenho.Controllers
         public ActionResult RatingFinalRH(int? cicloSelecionado)
         {
             RatingFinalRHViewModel model = new RatingFinalRHViewModel();
+            var ciclo = new CicloAvaliacaoDAO().Obter(cicloSelecionado.Value);
+
+            if (ciclo != null)
+            {
+                model.AnoReferencia = ciclo.DataFimVigencia.Year;
+            }
+
             model.CicloSelecionado = cicloSelecionado;
+            var avaliacoes = new AvaliacaoColaboradorDAO().Listar(cicloSelecionado.Value);
+            if (avaliacoes != null)
+            {
+                model.ListaRatingFinalRH = new List<ItemRatingFinalRHViewModel>();
+                foreach (var item in avaliacoes)
+                {
+                    var informacoesRubi = new IntegracaoRubi().ObterUSU_V034FAD(item.Usuario.CodigoEmpresaRubiUD, item.Usuario.UsuarioRubiID);
+
+                    if (informacoesRubi != null)
+                    {
+                        DateTime dataAtual = DateTime.Now;
+                        TimeSpan ts = dataAtual.Subtract(informacoesRubi.DATADM.Value);
+                        double tempo = ts.TotalDays;
+                        int ano = Convert.ToInt32(tempo) / 365;
+                        double resto = tempo % 365;
+                        int mes = Convert.ToInt32(resto) / 30;
+                        var recomendacao = new RecomendacaoColaboradorDAO().Obter(item.ID);
+                        var perfomance = new PerformanceColaboradorDAO().Obter(item.ID);
+                        model.ListaRatingFinalRH.Add(new ItemRatingFinalRHViewModel
+                        {
+
+                            Diretoria = informacoesRubi.USU_CODDIR,
+                            Area = informacoesRubi.CODCCU,
+                            Gestor = informacoesRubi.LD1NOM,
+                            NomeColaborador = item.Usuario.Nome,
+                            Matricula = item.Usuario.UsuarioRubiID,
+                            Cargo = informacoesRubi.TITRED,
+                            Localidade = informacoesRubi.NOMLOC,
+                            DataAdmissao = (informacoesRubi.DATADM.HasValue) ? informacoesRubi.DATADM.Value.ToShortDateString() : "?????",
+                            TempoCasa = (ano > 0 && mes != 0) ? ano + " ano(s) e " + mes + " mes(es)" : ((ano > 0 && mes == 0) ? ano + " ano(s)" : mes + " mes(es)"),
+                            RatingFinal = (recomendacao.RatingFinalPosCalibragem == 1) ? "Excepcional" : ((recomendacao.RatingFinalPosCalibragem == 2) ? "Excede as Expectativas" : ((recomendacao.RatingFinalPosCalibragem == 3) ? "Atende as Expectativas" : "Abaixo das Expectativas"))
+                        });
+                    }
+                }
+            }
             return View(model);
         }
         public ActionResult RelatorioPDI(int? cicloSelecionado)
         {
             RelatorioPDIViewModel model = new RelatorioPDIViewModel();
+            var ciclo = new CicloAvaliacaoDAO().Obter(cicloSelecionado.Value);
+
+            if (ciclo != null)
+            {
+                model.AnoReferencia = ciclo.DataFimVigencia.Year;
+            }
+
             model.CicloSelecionado = cicloSelecionado;
+            var avaliacoes = new AvaliacaoPDIColaboradorDAO().Listar(cicloSelecionado.Value);
+
+            if (avaliacoes != null)
+            {
+                model.ListaRelatorioPDI = new List<ItemRelatorioPDIViewModel>();
+                foreach (var item in avaliacoes)
+                {
+                    var informacoesRubi = new IntegracaoRubi().ObterUSU_V034FAD(item.Usuario.CodigoEmpresaRubiUD, item.Usuario.UsuarioRubiID);
+                    var recomendacao = new RecomendacaoColaboradorDAO().Obter(item.ID);
+                    if (informacoesRubi != null)
+                    {
+                        var acoesDesenvolvimento = new DesenvolvimentoCompetenciaDAO().Listar(item.ID);
+                        foreach (var j in acoesDesenvolvimento)
+                        {
+                           model.ListaRelatorioPDI.Add(new ItemRelatorioPDIViewModel
+                        {
+                            Diretoria = informacoesRubi.USU_CODDIR,
+                            Area = informacoesRubi.CODCCU,
+                            Gestor = informacoesRubi.LD1NOM,
+                            NomeColaborador = item.Usuario.Nome,
+                            Matricula = item.Usuario.UsuarioRubiID,
+                            Cargo = informacoesRubi.TITRED,
+                            Idiomas = item.Idiomas, 
+                            Graduacao = item.Graduacao, 
+                            AcoesDesenvolvimento = j.AcaoDesenvolvimento 
+                        });  
+                        }
+                       
+                    }
+                }
+            }
             return View(model);
         }
         public ActionResult ReuniaoCalibragem(int? cicloSelecionado)
@@ -251,7 +357,7 @@ namespace AvaliacaoDesempenho.Controllers
                             Cargo = informacoesRubi.TITRED,
                             Localidade =  informacoesRubi.NOMLOC, 
                             DataAdmissao = (informacoesRubi.DATADM.HasValue) ? informacoesRubi.DATADM.Value.ToShortDateString() : "?????",
-                            TempoDeCasa = (ano > 0 && mes != 0) ? ano + "ano(s) e " + mes + " mês(es)" : ((ano > 0 && mes == 0) ? ano + " ano(s)" : mes + " mês(es)"),
+                            TempoDeCasa = (ano > 0 && mes != 0) ? ano + " ano(s) e " + mes + " mes(es)" : ((ano > 0 && mes == 0) ? ano + " ano(s)" : mes + " mes(es)"),
                             RecomendacaoDeRating = (recomendacao.RecomendacaoDeRating == 1) ? "Excepcional" : ((recomendacao.RecomendacaoDeRating == 2) ? "Excede as Expectativas" : ((recomendacao.RecomendacaoDeRating == 3) ? "Atende as Expectativas" : "Abaixo das Expectativas")),
                             IndicacaoDePromocao = (recomendacao.IndicacaoPromocaoPosCalibragem.HasValue) ? "Sim" : "Não",
                             PerformanceGeral = perfomance.AvaliacaoPerformance
