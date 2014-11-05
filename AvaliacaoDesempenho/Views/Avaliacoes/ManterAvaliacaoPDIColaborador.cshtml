@@ -37,6 +37,7 @@
             @Html.HiddenFor(model => Model.AreaRubiID)
             @Html.HiddenFor(model => Model.SetorRubiID)
             @Html.HiddenFor(model => Model.CargoRubiID)
+            @Html.HiddenFor(model => Model.IncluirDesenvolvimentoCompetencia)
 
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
@@ -312,13 +313,7 @@ else
                         && Model.AvaliacaoPDIColaboradorID.HasValue
                         && !Model.AcessoGestor)
                     {
-                        @Html.ActionLink("Submeter à aprovação do seu gestor",
-                                     "SubmeterPDIColaboradorAvaliacaoGestor",
-                                     new
-                                     {
-                                         cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID
-                                     },
-                                     new { @class = "btn btn-default" })
+                        <input type="submit" value="Submeter à aprovação do seu gestor" formaction="/Avaliacoes/SubmeterPDIColaboradorAvaliacaoGestor" class="btn btn-default" />
                     }
                 </div>
             </div>

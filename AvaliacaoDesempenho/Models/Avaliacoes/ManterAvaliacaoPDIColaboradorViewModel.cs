@@ -13,31 +13,26 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         [Display(Name = "Idiomas")]
         [DataType(DataType.Text, ErrorMessage = "O {0} é inválido.")]
         [StringLength(400, ErrorMessage = "O {0} deve ter o tamanho máximo de 400 caracteres.")]
-        [Required(ErrorMessage = "O {0} é obrigatório.")]
         public string Idiomas { get; set; }
 
         [Display(Name = "Graduação (Ano / Curso / Nível / Instituição de Ensino)")]
         [DataType(DataType.Text, ErrorMessage = "A {0} é inválido.")]
         [StringLength(400, ErrorMessage = "A {0} deve ter o tamanho máximo de 400 caracteres.")]
-        [Required(ErrorMessage = "A {0} é obrigatório.")]
         public string Graduacao { get; set; }
 
         [Display(Name = "Pontos fortes (competências)")]
         [DataType(DataType.Text, ErrorMessage = "O {0} é inválido.")]
         [StringLength(400, ErrorMessage = "O {0} deve ter o tamanho máximo de 400 caracteres.")]
-        [Required(ErrorMessage = "O {0} é obrigatório.")]
         public string PontosFortes { get; set; }
 
         [Display(Name = "Pontos para desenvolvimento (conhecimento, habilidades, competências, relacionamento interpessoal) - Cite 2 a 3")]
         [DataType(DataType.Text, ErrorMessage = "O Ponto para desenvolvimento é inválido.")]
         [StringLength(400, ErrorMessage = "O Ponto para desenvolvimento deve ter o tamanho máximo de 400 caracteres.")]
-        [Required(ErrorMessage = "O Ponto para desenvolvimento é obrigatório.")]
         public string PontosDesenvolvimento { get; set; }
 
         [Display(Name = "Comentários do Colaborador")]
         [DataType(DataType.Text, ErrorMessage = "O {0} é inválido.")]
         [StringLength(400, ErrorMessage = "O {0} deve ter o tamanho máximo de 400 caracteres.")]
-        [Required(ErrorMessage = "O {0} é obrigatório.")]
         public string ComentariosColaborador { get; set; }
 
         [Display(Name = "Comentários do Gestor")]
@@ -85,13 +80,11 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         [Display(Name="Ações de desenvolvimento para alavancar pontos fortes ou para desenvolver outras competências (atividades, projetos, feedback, coaching/mentoring, treinamento/estudo, leitura, etc.")]
         [DataType(DataType.Text, ErrorMessage = "As ações de desenvolvimento é inválida.")]
         [StringLength(600, ErrorMessage = "A ação de desenvolvimento deve ter o tamanho máximo de 600 caracteres.")]
-        [Required(ErrorMessage = "A ação de desenvolvimento é obrigatório.")]
         public string AcaoDesenvolvimento { get; set; }
 
         [Display(Name="Resurso/suporte necessários para atingir o resultado")]
         [DataType(DataType.Text, ErrorMessage = "O Resurso/suporte é inválido.")]
         [StringLength(600, ErrorMessage = "O Resurso/suporte deve ter o tamanho máximo de 600 caracteres.")]
-        [Required(ErrorMessage = "O Resurso/suporte é obrigatório.")]
         public string RecursoSuporte { get; set; }
     }
 }

@@ -54,11 +54,11 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DataCriacao" Type="date" Nullable="false" />
-          <Property Name="Idiomas" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Graduacao" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="PontosFortes" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="PontosDesenvolvimento" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ComentariosColaborador" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Idiomas" Type="nvarchar(max)" />
+          <Property Name="Graduacao" Type="nvarchar(max)" />
+          <Property Name="PontosFortes" Type="nvarchar(max)" />
+          <Property Name="PontosDesenvolvimento" Type="nvarchar(max)" />
+          <Property Name="ComentariosColaborador" Type="nvarchar(max)" />
           <Property Name="ComentariosGestor" Type="nvarchar(max)" />
           <Property Name="Aprovada" Type="bit" Nullable="false" />
           <Property Name="CicloAvaliacao_ID" Type="int" Nullable="false" />
@@ -122,8 +122,8 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="AcaoDesenvolvimento" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="RecursoSuporte" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AcaoDesenvolvimento" Type="nvarchar(max)" />
+          <Property Name="RecursoSuporte" Type="nvarchar(max)" />
           <Property Name="AvaliacaoPDIColaborador_ID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="MetaColaborador">
@@ -605,11 +605,11 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DataCriacao" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Idiomas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Graduacao" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PontosFortes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PontosDesenvolvimento" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ComentariosColaborador" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Idiomas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Graduacao" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PontosFortes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PontosDesenvolvimento" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ComentariosColaborador" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ComentariosGestor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Aprovada" Type="Boolean" Nullable="false" />
           <Property Name="CicloAvaliacao_ID" Type="Int32" Nullable="false" />
@@ -684,8 +684,8 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AcaoDesenvolvimento" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="RecursoSuporte" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AcaoDesenvolvimento" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RecursoSuporte" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="AvaliacaoPDIColaborador_ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AvaliacaoPDIColaborador" Relationship="Self.FK_dbo_DesenvolvimentoCompetencia_dbo_AvaliacaoPDIColaborador_AvaliacaoPDIColaborador_ID" FromRole="DesenvolvimentoCompetencia" ToRole="AvaliacaoPDIColaborador" />
         </EntityType>

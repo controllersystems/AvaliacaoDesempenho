@@ -111,7 +111,7 @@ else
             </div>
         </div>
 
-        if (Model.PapelID == (int)Enumeradores.CodigoPapeis.Administrador)
+        if (Model.PapelID == (int)Enumeradores.CodigoPapeis.Administrador || Model.AcessoGestor)
         {
             if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada))
             {
@@ -158,50 +158,53 @@ else
             }
             else
             {
-                <div class="row top20">
-                    <div class="col-md-025">
-                        <label>Rating Final pós Calibragem</label>
-                    </div>
-                    <div class="col-md-025">
-                        @Html.DropDownListFor(model => Model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem,
+                if (Model.PapelID == (int)Enumeradores.CodigoPapeis.Administrador)
+                {
+                    <div class="row top20">
+                        <div class="col-md-025">
+                            <label>Rating Final pós Calibragem</label>
+                        </div>
+                        <div class="col-md-025">
+                            @Html.DropDownListFor(model => Model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem,
                                                    new SelectList(Model.ListaRecomendacaoDeRating,
                                                              "Value",
                                                              "Text",
                                                    Model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem),
                                                              " ",
                                                    new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => Model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem, string.Empty, new { @class = "text-danger" })
-                    </div>
-                    <div class="col-md-025">
-                        <label>Indicação a promoção após calibragem</label>
-                    </div>
-                    <div class="col-md-025">
-                        @Html.DropDownListFor(model => Model.ItemRecomendacaoColaborador.IndicacaoPromocaoPosCalibragem,
+                            @Html.ValidationMessageFor(model => Model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem, string.Empty, new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-025">
+                            <label>Indicação a promoção após calibragem</label>
+                        </div>
+                        <div class="col-md-025">
+                            @Html.DropDownListFor(model => Model.ItemRecomendacaoColaborador.IndicacaoPromocaoPosCalibragem,
                                                    new SelectList(Model.ListaSimNao,
                                                              "Value",
                                                              "Text",
                                                    Model.ItemRecomendacaoColaborador.IndicacaoPromocaoPosCalibragem),
                                                              " ",
                                                      new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => Model.ItemRecomendacaoColaborador.IndicacaoPromocaoPosCalibragem, string.Empty, new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => Model.ItemRecomendacaoColaborador.IndicacaoPromocaoPosCalibragem, string.Empty, new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
-                <div class="row top20">
-                    <div class="col-md-050">
-                        <label>Justificativa</label>
+                    <div class="row top20">
+                        <div class="col-md-050">
+                            <label>Justificativa</label>
+                        </div>
+                        <div class="col-md-050">
+                            <label>Justificativa</label>
+                        </div>
+                        <div class="col-md-050">
+                            @Html.TextAreaFor(model => Model.ItemRecomendacaoColaborador.JustificativaRatingFinalPosCalibragem, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => Model.ItemRecomendacaoColaborador.JustificativaRatingFinalPosCalibragem, string.Empty, new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-050">
+                            @Html.TextAreaFor(model => Model.ItemRecomendacaoColaborador.JustificativaIndicacaoPromocaoPosCalibragem, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => Model.ItemRecomendacaoColaborador.JustificativaIndicacaoPromocaoPosCalibragem, string.Empty, new { @class = "text-danger" })
+                        </div>
                     </div>
-                    <div class="col-md-050">
-                        <label>Justificativa</label>
-                    </div>
-                    <div class="col-md-050">
-                        @Html.TextAreaFor(model => Model.ItemRecomendacaoColaborador.JustificativaRatingFinalPosCalibragem, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => Model.ItemRecomendacaoColaborador.JustificativaRatingFinalPosCalibragem, string.Empty, new { @class = "text-danger" })
-                    </div>
-                    <div class="col-md-050">
-                        @Html.TextAreaFor(model => Model.ItemRecomendacaoColaborador.JustificativaIndicacaoPromocaoPosCalibragem, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => Model.ItemRecomendacaoColaborador.JustificativaIndicacaoPromocaoPosCalibragem, string.Empty, new { @class = "text-danger" })
-                    </div>
-                </div>
+                }
             }
         }
 

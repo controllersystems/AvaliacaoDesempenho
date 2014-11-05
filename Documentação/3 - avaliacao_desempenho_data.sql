@@ -17,9 +17,10 @@ INSERT INTO [dbo].[SituacaoCicloAvaliacao] ([Nome]) VALUES ('Em avaliação pelos 
 GO
 INSERT INTO [dbo].[SituacaoCicloAvaliacao] ([Nome]) VALUES ('Em calibragem de rating e recomendação')
 GO
+INSERT INTO [dbo].[SituacaoCicloAvaliacao] ([Nome]) VALUES ('PDI')
+GO
 INSERT INTO [dbo].[SituacaoCicloAvaliacao] ([Nome]) VALUES ('Encerrada')
 GO
-
 
 /****************************************************************************************************
 * StatusAvaliacaoColaborador

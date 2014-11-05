@@ -29,6 +29,7 @@
     @Html.HiddenFor(model => model.StatusCicloAvaliacaoID)
     @Html.HiddenFor(model => model.DataInicioAutoAvaliacao)
     @Html.HiddenFor(model => model.DataTerminoAutoAvaliacao)
+    @Html.HiddenFor(model => model.AvaliacaoColaboradorID)
 
     if (Model.ListaCompetenciasCorporativas != null && Model.ListaCompetenciasCorporativas.Any())
     {
@@ -246,7 +247,7 @@
                     <input type="submit" value="Salvar" class="btn btn-default" />
                     if (Model.LiberadoPraSubmeterAoGestor)
                     {
-                        @Html.ActionLink("Submeter ao Gestor", "SubmeterAutoAvaliacaoColaboradorAvaliacaoGestor", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, avaliacaoColaboradorID = Model.AvaliacaoColaboradorID }, new { @class = "btn btn-default" })
+                        <input type="submit" value="Submeter ao Gestor" formaction="/Avaliacoes/SubmeterAutoAvaliacaoColaboradorAvaliacaoGestor" class="btn btn-default" />
                     }
                 }
             }

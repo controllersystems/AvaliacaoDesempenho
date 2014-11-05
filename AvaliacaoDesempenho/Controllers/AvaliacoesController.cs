@@ -813,6 +813,12 @@ namespace AvaliacaoDesempenho.Controllers
                 return ManterAvaliacaoColaboradorAutoAvaliacaoGestor(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID);
             }
 
+            //Se tiver outras contribuicoes sem avaliacao, não deixar submeter ao RH.
+            if (new ContribuicaoColaboradorDAO().ExisteContribuicaoSemAvaliacaoGestor(avaliacaoColaboradorID.Value))
+            {
+                return ManterAvaliacaoColaboradorAutoAvaliacaoGestor(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID);
+            }
+
             //Se tiver competencias sem avaliacao do gestor, não deixar submeter ao RH.
             if (new CompetenciaColaboradorDAO().ExisteCompetenciaSemAvaliacaoGestor(avaliacaoColaboradorID.Value))
             {
@@ -842,53 +848,247 @@ namespace AvaliacaoDesempenho.Controllers
         }
 
         [Authorize]
+        [HttpPost]
         [CriacaoMapeamento(typeof(DeAvaliacaoColaboradorParaGestaoAvaliacaoColaboradorViewModel))]
         [CriacaoMapeamento(typeof(DeAvaliacaoColaboradorParaItemListaGestaoAvaliacaoColaboradorViewModel))]
-        public ActionResult SubmeterAutoAvaliacaoColaboradorAvaliacaoGestor(int? cicloAvaliacaoSelecionadoID,
-                                                                            int? avaliacaoColaboradorID,
-                                                                            [ModelBinder(typeof(IdentidadeModelBinder))] Identidade identidade)
+        public ActionResult SubmeterAutoAvaliacaoColaboradorAvaliacaoGestor(ManterAvaliacaoColaboradorCompetenciasViewModel model)
         {
-            AvaliacaoColaboradorDAO avaliacaoColaboradorDAO = new AvaliacaoColaboradorDAO();
-
-            var avaliacaoColaborador = avaliacaoColaboradorDAO.Obter(avaliacaoColaboradorID.Value);
-
             //Se tiver objetivo/meta sem resultado atingido, não deixar submeter ao gestor.
-            if (new ObjetivoColaboradorDAO().ExisteObjetivoSemResultadoAtingido(avaliacaoColaboradorID.Value))
+            if (new ObjetivoColaboradorDAO().ExisteObjetivoSemResultadoAtingido(model.AvaliacaoColaboradorID.Value))
             {
-                return ManterAvaliacaoColaboradorAutoAvaliacao(cicloAvaliacaoSelecionadoID, false, false, avaliacaoColaborador.Colaborador_ID);
+                return ManterAvaliacaoColaboradorAutoAvaliacao(model.CicloAvaliacaoSelecionadoID, false, false, model.ColaboradorID);
             }
 
             //Se tiver competencias sem avaliacao do colaborador, não deixar submeter ao gestor.
-            if (new CompetenciaColaboradorDAO().ExisteCompetenciaSemAvaliacao(avaliacaoColaboradorID.Value))
+            if (model.ListaCompetenciasCorporativas != null)
             {
-                return ManterAvaliacaoColaboradorCompetencias(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID);
+                for (int i = 0; i < model.ListaCompetenciasCorporativas.Count; i++)
+                {
+                    if (model.ListaCompetenciasCorporativas[i].NivelColaborador == null)
+                    {
+                        ModelState.AddModelError("ListaCompetenciasCorporativas[" + i + "].NivelColaborador", "O nível é obrigatório");
+                    }
+                }
             }
 
-            avaliacaoColaborador.StatusAvaliacaoColaborador_ID = (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores;
+            //Se tiver competencias sem avaliacao do colaborador, não deixar submeter ao gestor.
+            if (model.ListaCompetenciasFuncionais != null)
+            {
+                for (int i = 0; i < model.ListaCompetenciasFuncionais.Count; i++)
+                {
+                    if (model.ListaCompetenciasFuncionais[i].NivelColaborador == null)
+                    {
+                        ModelState.AddModelError("ListaCompetenciasFuncionais[" + i + "].NivelColaborador", "O nível é obrigatório");
+                    }
+                }
+            }
 
-            avaliacaoColaboradorDAO.Editar(avaliacaoColaborador);
+            //Se tiver competencias sem avaliacao do colaborador, não deixar submeter ao gestor.
+            if (model.ListaCompetenciasLideranca != null)
+            {
+                for (int i = 0; i < model.ListaCompetenciasLideranca.Count; i++)
+                {
+                    if (model.ListaCompetenciasLideranca[i].NivelColaborador == null)
+                    {
+                        ModelState.AddModelError("ListaCompetenciasLideranca[" + i + "].NivelColaborador", "O nível é obrigatório");
+                    }
+                }
+            }
 
-            return CarregarGestaoAvaliacaoColaborador(cicloAvaliacaoSelecionadoID,
-                                                      identidade);
+            if (ModelState.IsValid)
+            {
+                AvaliacaoColaboradorDAO avaliacaoColaboradorDAO = new AvaliacaoColaboradorDAO();
+
+                var avaliacaoColaborador = new AvaliacaoColaboradorDAO().Obter(model.CicloAvaliacaoSelecionadoID.Value, model.ColaboradorID.Value);
+
+                var identidade = new Identidade();
+
+                int usuarioID = identidade.UsuarioID;
+
+                model.UsuarioRubiID = identidade.UsuarioRubiID;
+
+                if (avaliacaoColaborador != null)
+                {
+                    model.GestorRubiID = avaliacaoColaborador.GestorRubi_ID;
+                    model.GestorRubiEmpID = avaliacaoColaborador.GestorRubiEmp_ID;
+
+                    model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;
+
+                    model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
+
+                    var competenciasCorporativas = new List<CompetenciaColaborador>();
+
+                    if (model.ListaCompetenciasCorporativas != null)
+                    {
+                        foreach (var item in model.ListaCompetenciasCorporativas)
+                        {
+                            competenciasCorporativas.Add(new CompetenciaColaborador
+                            {
+                                ID = item.ID.Value,
+                                CompetenciaID = item.CompentenciaID,
+                                AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value,
+                                NivelColaborador = item.NivelColaborador
+                            });
+                        }
+
+                        new CompetenciaColaboradorDAO().PersistirColecao(competenciasCorporativas);
+                    }
+
+                    competenciasCorporativas = new List<CompetenciaColaborador>();
+
+                    if (model.ListaCompetenciasFuncionais != null)
+                    {
+                        foreach (var item in model.ListaCompetenciasFuncionais)
+                        {
+                            competenciasCorporativas.Add(new CompetenciaColaborador
+                            {
+                                ID = item.ID.Value,
+                                CompetenciaID = item.CompentenciaID,
+                                AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value,
+                                NivelColaborador = item.NivelColaborador
+                            });
+                        }
+
+                        new CompetenciaColaboradorDAO().PersistirColecao(competenciasCorporativas);
+                    }
+
+                    competenciasCorporativas = new List<CompetenciaColaborador>();
+
+                    if (model.ListaCompetenciasLideranca != null)
+                    {
+                        foreach (var item in model.ListaCompetenciasLideranca)
+                        {
+                            competenciasCorporativas.Add(new CompetenciaColaborador
+                            {
+                                ID = item.ID.Value,
+                                CompetenciaID = item.CompentenciaID,
+                                AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value,
+                                NivelColaborador = item.NivelColaborador
+                            });
+                        }
+
+                        new CompetenciaColaboradorDAO().PersistirColecao(competenciasCorporativas);
+                    }
+
+                    avaliacaoColaborador.StatusAvaliacaoColaborador = new StatusAvaliacaoColaboradorDAO().Obter((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores);
+
+                    avaliacaoColaborador.StatusAvaliacaoColaborador_ID = (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores;
+
+                    avaliacaoColaboradorDAO.Editar(avaliacaoColaborador);
+                }
+                else
+                    model.GestorRubiID = identidade.GestorRubiID;
+
+                model.CicloAvaliacaoSelecionadoID = model.CicloAvaliacaoSelecionadoID.Value;
+
+                return CarregarGestaoAvaliacaoColaborador(model.CicloAvaliacaoSelecionadoID, identidade);
+            }
+
+            var listaAval = new List<SelectListItem>();
+
+            for (int i = 0; i < 5; i++)
+            {
+                listaAval.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
+            }
+
+            model.ListaNivelAvaliacao = listaAval;
+
+            return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorCompetencias.cshtml", model);
         }
 
         [Authorize]
+        [HttpPost]
         [CriacaoMapeamento(typeof(DeAvaliacaoColaboradorParaGestaoAvaliacaoColaboradorViewModel))]
         [CriacaoMapeamento(typeof(DeAvaliacaoColaboradorParaItemListaGestaoAvaliacaoColaboradorViewModel))]
-        public ActionResult SubmeterPDIColaboradorAvaliacaoGestor(int? cicloAvaliacaoSelecionadoID,
-                                                                  [ModelBinder(typeof(IdentidadeModelBinder))] Identidade identidade)
+        public ActionResult SubmeterPDIColaboradorAvaliacaoGestor(ManterAvaliacaoPDIColaboradorViewModel model)
         {
-            AvaliacaoPDIColaboradorDAO avaliacaoPDIColaboradorDAO = new AvaliacaoPDIColaboradorDAO();
+            if (model.Idiomas == null)
+            {
+                ModelState.AddModelError("Idiomas", "O Idioma é obrigatório");
+            }
+            if (model.Graduacao == null)
+            {
+                ModelState.AddModelError("Graduacao", "A Graduação é obrigatória");
+            }
+            if (model.PontosFortes == null)
+            {
+                ModelState.AddModelError("PontosFortes", "Os Pontos Fortes são obrigatórios");
+            }
+            if (model.PontosDesenvolvimento == null)
+            {
+                ModelState.AddModelError("PontosDesenvolvimento", "Os Pontos de Desenvolvimento são obrigatórios");
+            }
+            if (model.ComentariosColaborador == null)
+            {
+                ModelState.AddModelError("ComentariosColaborador", "O Comentário do Colaborador é obrigatório");
+            }
+            if (model.ListaDesenvolvimentoCompetenciaViewModel != null && model.ListaDesenvolvimentoCompetenciaViewModel.Any())
+            {
+                for (int i = 0; i < model.ListaDesenvolvimentoCompetenciaViewModel.Count; i++)
+                {
+                    if (model.ListaDesenvolvimentoCompetenciaViewModel[i].AcaoDesenvolvimento == null)
+                    {
+                        ModelState.AddModelError("ListaDesenvolvimentoCompetenciaViewModel[" + i + "].AcaoDesenvolvimento", "A Ação de Desenvolvimento é obrigatória");
+                    }
 
-            var avaliacaoPDIColaborador = avaliacaoPDIColaboradorDAO.Obter(cicloAvaliacaoSelecionadoID.Value, identidade.UsuarioID);
+                    if (model.ListaDesenvolvimentoCompetenciaViewModel[i].RecursoSuporte == null)
+                    {
+                        ModelState.AddModelError("ListaDesenvolvimentoCompetenciaViewModel[" + i + "].RecursoSuporte", "O Recurso Suporte é obrigatório");
+                    }
+                }
+            }
 
-            avaliacaoPDIColaborador.StatusPDI = new StatusPDIDAO().Obter((int)Enumeradores.StatusPDI.AprovacaoGestor);
-            avaliacaoPDIColaborador.StatusPDI_ID = (int)Enumeradores.StatusPDI.AprovacaoGestor;
+            if (ModelState.IsValid)
+            {
+                var identidade = new Identidade();
 
-            avaliacaoPDIColaboradorDAO.Editar(avaliacaoPDIColaborador);
+                AvaliacaoPDIColaboradorDAO avaliacaoPDIColaboradorDAO = new AvaliacaoPDIColaboradorDAO();
 
-            return CarregarGestaoAvaliacaoColaborador(cicloAvaliacaoSelecionadoID,
-                                                      identidade);
+                var avaliacaoPDIColaborador = avaliacaoPDIColaboradorDAO.Obter(model.CicloAvaliacaoSelecionadoID.Value, model.ColaboradorID.Value);
+
+                avaliacaoPDIColaborador.StatusPDI = new StatusPDIDAO().Obter((int)Enumeradores.StatusPDI.AprovacaoGestor);
+                avaliacaoPDIColaborador.StatusPDI_ID = (int)Enumeradores.StatusPDI.AprovacaoGestor;
+
+                avaliacaoPDIColaborador.Idiomas = model.Idiomas;
+                avaliacaoPDIColaborador.Graduacao = model.Graduacao;
+                avaliacaoPDIColaborador.PontosFortes = model.PontosFortes;
+                avaliacaoPDIColaborador.PontosDesenvolvimento = model.PontosDesenvolvimento;
+                avaliacaoPDIColaborador.ComentariosColaborador = model.ComentariosColaborador;
+
+                avaliacaoPDIColaboradorDAO.Editar(avaliacaoPDIColaborador);
+
+                DesenvolvimentoCompetenciaDAO desenvolvimentoCompetenciaDAO = new DesenvolvimentoCompetenciaDAO();
+
+                if (model.DesenvolvimentoCompetenciaCadastro != null)
+                {
+                    DesenvolvimentoCompetencia desenvolvimentoCompetencia = new DesenvolvimentoCompetencia();
+
+                    desenvolvimentoCompetencia.AvaliacaoPDIColaborador_ID = model.AvaliacaoPDIColaboradorID.Value;
+                    desenvolvimentoCompetencia.AcaoDesenvolvimento = model.DesenvolvimentoCompetenciaCadastro.AcaoDesenvolvimento;
+                    desenvolvimentoCompetencia.RecursoSuporte = model.DesenvolvimentoCompetenciaCadastro.RecursoSuporte;
+
+                    desenvolvimentoCompetenciaDAO.Incluir(desenvolvimentoCompetencia);
+                }
+
+                if (model.ListaDesenvolvimentoCompetenciaViewModel != null)
+                {
+                    foreach (var item in model.ListaDesenvolvimentoCompetenciaViewModel)
+                    {
+                        var desenvolvimentoCompetencia = desenvolvimentoCompetenciaDAO.Obter(item.ID);
+
+                        desenvolvimentoCompetencia.AcaoDesenvolvimento = item.AcaoDesenvolvimento;
+                        desenvolvimentoCompetencia.RecursoSuporte = item.RecursoSuporte;
+
+                        desenvolvimentoCompetenciaDAO.Editar(desenvolvimentoCompetencia);
+                    }
+                }
+
+                return CarregarGestaoAvaliacaoColaborador(model.CicloAvaliacaoSelecionadoID, identidade);
+            }
+            else
+            {
+                return View("~/Views/Avaliacoes/ManterAvaliacaoPDIColaborador.cshtml", model);
+            }
         }
 
         [Authorize]
@@ -2714,6 +2914,18 @@ namespace AvaliacaoDesempenho.Controllers
         [CriacaoMapeamento(typeof(DeObjetivoColaboradorParaObjetivoMetaViewModel))]
         public ActionResult ManterAvaliacaoPDIColaborador(ManterAvaliacaoPDIColaboradorViewModel model)
         {
+            if (model.IncluirDesenvolvimentoCompetencia)
+            {
+                if (model.DesenvolvimentoCompetenciaCadastro.AcaoDesenvolvimento == null || model.DesenvolvimentoCompetenciaCadastro.AcaoDesenvolvimento == "")
+                {
+                    ModelState.AddModelError("DesenvolvimentoCompetenciaCadastro.AcaoDesenvolvimento", "A ação de desenvolvimento é obrigatório.");
+                }
+                if (model.DesenvolvimentoCompetenciaCadastro.RecursoSuporte == null || model.DesenvolvimentoCompetenciaCadastro.RecursoSuporte == "")
+                {
+                    ModelState.AddModelError("DesenvolvimentoCompetenciaCadastro.RecursoSuporte", "O Resurso/suporte é obrigatório.");
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 AvaliacaoPDIColaboradorDAO avaliacaoPDIColaboradorDAO = new AvaliacaoPDIColaboradorDAO();

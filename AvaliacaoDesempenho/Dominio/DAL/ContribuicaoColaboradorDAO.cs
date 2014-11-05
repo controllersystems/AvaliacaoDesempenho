@@ -67,5 +67,18 @@ namespace AvaliacaoDesempenho.Dominio.DAL
                 }
             }
         }
+
+        public bool ExisteContribuicaoSemAvaliacaoGestor(int idAvaliacao)
+        {
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                var query = db.ContribuicaoColaborador
+                            .Include("ContribuicaoColaborador.AvaliacaoGestor")
+                            .Where(p => p.AvaliacaoColaborador_ID == idAvaliacao
+                                   && (p.AvaliacaoGestor.Avaliacao == "" ||
+                                       p.AvaliacaoGestor.Avaliacao == null));
+                return query.Any();
+            }
+        }
     }
 }

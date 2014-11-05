@@ -14,6 +14,7 @@ namespace AvaliacaoDesempenho.Dominio.DAL
             {
                 var query = db.AvaliacaoPDIColaborador
                                     .Include("StatusPDI")
+                                    .Include("DesenvolvimentoCompetencia")
                                     .Where(p => p.CicloAvaliacao_ID == cicloAvaliacaoID
                                                         && p.Colaborador_ID == usuarioID);
 
