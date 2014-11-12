@@ -918,20 +918,30 @@ namespace AvaliacaoDesempenho.Controllers
 
                     var competenciasCorporativas = new List<CompetenciaColaborador>();
 
+                    CompetenciaColaboradorDAO competenciaColaboradorDAO = new CompetenciaColaboradorDAO();
+
                     if (model.ListaCompetenciasCorporativas != null)
                     {
                         foreach (var item in model.ListaCompetenciasCorporativas)
                         {
-                            competenciasCorporativas.Add(new CompetenciaColaborador
-                            {
-                                ID = item.ID.Value,
-                                CompetenciaID = item.CompentenciaID,
-                                AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value,
-                                NivelColaborador = item.NivelColaborador
-                            });
-                        }
+                            var competenciaColaborador = competenciaColaboradorDAO.Obter(model.AvaliacaoColaboradorID.Value, item.CompentenciaID);
 
-                        new CompetenciaColaboradorDAO().PersistirColecao(competenciasCorporativas);
+                            if (competenciaColaborador == null)
+                            {
+                                competenciaColaborador = new CompetenciaColaborador();
+                                competenciaColaborador.CompetenciaID = item.CompentenciaID;
+                                competenciaColaborador.AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value;
+                                competenciaColaborador.NivelColaborador = item.NivelColaborador;
+                            }
+                            else
+                            {
+                                competenciaColaborador.CompetenciaID = item.CompentenciaID;
+                                competenciaColaborador.AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value;
+                                competenciaColaborador.NivelColaborador = item.NivelColaborador;
+                            }
+
+                            competenciaColaboradorDAO.Persistir(competenciaColaborador);
+                        }
                     }
 
                     competenciasCorporativas = new List<CompetenciaColaborador>();
@@ -940,16 +950,24 @@ namespace AvaliacaoDesempenho.Controllers
                     {
                         foreach (var item in model.ListaCompetenciasFuncionais)
                         {
-                            competenciasCorporativas.Add(new CompetenciaColaborador
-                            {
-                                ID = item.ID.Value,
-                                CompetenciaID = item.CompentenciaID,
-                                AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value,
-                                NivelColaborador = item.NivelColaborador
-                            });
-                        }
+                            var competenciaColaborador = competenciaColaboradorDAO.Obter(model.AvaliacaoColaboradorID.Value, item.CompentenciaID);
 
-                        new CompetenciaColaboradorDAO().PersistirColecao(competenciasCorporativas);
+                            if (competenciaColaborador == null)
+                            {
+                                competenciaColaborador = new CompetenciaColaborador();
+                                competenciaColaborador.CompetenciaID = item.CompentenciaID;
+                                competenciaColaborador.AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value;
+                                competenciaColaborador.NivelColaborador = item.NivelColaborador;
+                            }
+                            else
+                            {
+                                competenciaColaborador.CompetenciaID = item.CompentenciaID;
+                                competenciaColaborador.AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value;
+                                competenciaColaborador.NivelColaborador = item.NivelColaborador;
+                            }
+
+                            competenciaColaboradorDAO.Persistir(competenciaColaborador);
+                        }
                     }
 
                     competenciasCorporativas = new List<CompetenciaColaborador>();
@@ -958,16 +976,24 @@ namespace AvaliacaoDesempenho.Controllers
                     {
                         foreach (var item in model.ListaCompetenciasLideranca)
                         {
-                            competenciasCorporativas.Add(new CompetenciaColaborador
-                            {
-                                ID = item.ID.Value,
-                                CompetenciaID = item.CompentenciaID,
-                                AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value,
-                                NivelColaborador = item.NivelColaborador
-                            });
-                        }
+                            var competenciaColaborador = competenciaColaboradorDAO.Obter(model.AvaliacaoColaboradorID.Value, item.CompentenciaID);
 
-                        new CompetenciaColaboradorDAO().PersistirColecao(competenciasCorporativas);
+                            if (competenciaColaborador == null)
+                            {
+                                competenciaColaborador = new CompetenciaColaborador();
+                                competenciaColaborador.CompetenciaID = item.CompentenciaID;
+                                competenciaColaborador.AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value;
+                                competenciaColaborador.NivelColaborador = item.NivelColaborador;
+                            }
+                            else
+                            {
+                                competenciaColaborador.CompetenciaID = item.CompentenciaID;
+                                competenciaColaborador.AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value;
+                                competenciaColaborador.NivelColaborador = item.NivelColaborador;
+                            }
+
+                            competenciaColaboradorDAO.Persistir(competenciaColaborador);
+                        }
                     }
 
                     avaliacaoColaborador.StatusAvaliacaoColaborador = new StatusAvaliacaoColaboradorDAO().Obter((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores);
@@ -983,17 +1009,19 @@ namespace AvaliacaoDesempenho.Controllers
 
                 return CarregarGestaoAvaliacaoColaborador(model.CicloAvaliacaoSelecionadoID, identidade);
             }
-
-            var listaAval = new List<SelectListItem>();
-
-            for (int i = 0; i < 5; i++)
+            else
             {
-                listaAval.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
+                var listaAval = new List<SelectListItem>();
+
+                for (int i = 0; i < 5; i++)
+                {
+                    listaAval.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
+                }
+
+                model.ListaNivelAvaliacao = listaAval;
+
+                return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorCompetencias.cshtml", model);
             }
-
-            model.ListaNivelAvaliacao = listaAval;
-
-            return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorCompetencias.cshtml", model);
         }
 
         [Authorize]
@@ -1725,7 +1753,6 @@ namespace AvaliacaoDesempenho.Controllers
         #region Competências
 
         [Authorize]
-        [HttpGet]
         [CriacaoMapeamento(typeof(DeObjetivoColaboradorParaObjetivoMetaResultadoAtingidoViewModel))]
         [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
         public ActionResult ManterAvaliacaoColaboradorCompetencias(int? id,
@@ -1795,7 +1822,11 @@ namespace AvaliacaoDesempenho.Controllers
 
                             ItemListaCompetenciasColaborador itemListaAdd = new ItemListaCompetenciasColaborador();
 
-                            itemListaAdd.ID = (competenciasColaborador == null) ? 0 : competenciasColaborador.ID;
+                            if (competenciasColaborador != null)
+                            {
+                                itemListaAdd.ID = competenciasColaborador.ID;
+                            }
+                            //itemListaAdd.ID = (competenciasColaborador == null) ? null : competenciasColaborador.ID;
                             itemListaAdd.NivelColaborador = (competenciasColaborador == null) ? null : competenciasColaborador.NivelColaborador;
                             itemListaAdd.Competencia = (string.IsNullOrEmpty(item.descricao_comp)) ? item.titulo_comp :  item.titulo_comp + " - " + item.descricao_comp;
                             itemListaAdd.CompentenciaID = item.id_comp;
@@ -1846,7 +1877,7 @@ namespace AvaliacaoDesempenho.Controllers
 
             model.LiberadoPraSubmeterAoGestor = false;
 
-            return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorCompetencias.cshtml", model);
+            return View("ManterAvaliacaoColaboradorCompetencias", model);
         }
 
         [Authorize]
@@ -1876,78 +1907,87 @@ namespace AvaliacaoDesempenho.Controllers
 
                     model.StatusAvaliacaoColaboradorID = avaliacaoColaborador.StatusAvaliacaoColaborador_ID;
 
-                    var competenciasCorporativas = new List<CompetenciaColaborador>();
+                    CompetenciaColaboradorDAO competenciaColaboradorDAO = new CompetenciaColaboradorDAO();
 
                     if (model.ListaCompetenciasCorporativas != null)
                     {
-                        foreach (var item in model.ListaCompetenciasCorporativas)
+                        for (int i = 0; i < model.ListaCompetenciasCorporativas.Count; i++)
                         {
-                            competenciasCorporativas.Add(new CompetenciaColaborador
-                                {
-                                    ID = item.ID.Value,
-                                    CompetenciaID = item.CompentenciaID,
-                                    AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value,
-                                    NivelColaborador = item.NivelColaborador
-                                });
+                            var competenciaColaborador = competenciaColaboradorDAO.Obter(model.AvaliacaoColaboradorID.Value, model.ListaCompetenciasCorporativas[i].CompentenciaID);
+
+                            if (competenciaColaborador == null)
+                            {
+                                competenciaColaborador = new CompetenciaColaborador();
+                                competenciaColaborador.CompetenciaID = model.ListaCompetenciasCorporativas[i].CompentenciaID;
+                                competenciaColaborador.AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value;
+                                competenciaColaborador.NivelColaborador = model.ListaCompetenciasCorporativas[i].NivelColaborador;
+                            }
+                            else
+                            {
+                                competenciaColaborador.CompetenciaID = model.ListaCompetenciasCorporativas[i].CompentenciaID;
+                                competenciaColaborador.AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value;
+                                competenciaColaborador.NivelColaborador = model.ListaCompetenciasCorporativas[i].NivelColaborador;
+                            }
+
+                            competenciaColaboradorDAO.Persistir(competenciaColaborador);
                         }
-
-                        new CompetenciaColaboradorDAO().PersistirColecao(competenciasCorporativas);
                     }
-
-                    competenciasCorporativas = new List<CompetenciaColaborador>();
 
                     if (model.ListaCompetenciasFuncionais != null)
                     {
                         foreach (var item in model.ListaCompetenciasFuncionais)
                         {
-                            competenciasCorporativas.Add(new CompetenciaColaborador
-                                {
-                                    ID = item.ID.Value,
-                                    CompetenciaID = item.CompentenciaID,
-                                    AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value,
-                                    NivelColaborador = item.NivelColaborador
-                                });
+                            var competenciaColaborador = competenciaColaboradorDAO.Obter(model.AvaliacaoColaboradorID.Value, item.CompentenciaID);
+
+                            if (competenciaColaborador == null)
+                            {
+                                competenciaColaborador = new CompetenciaColaborador();
+                                competenciaColaborador.CompetenciaID = item.CompentenciaID;
+                                competenciaColaborador.AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value;
+                                competenciaColaborador.NivelColaborador = item.NivelColaborador;
+                            }
+                            else
+                            {
+                                competenciaColaborador.CompetenciaID = item.CompentenciaID;
+                                competenciaColaborador.AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value;
+                                competenciaColaborador.NivelColaborador = item.NivelColaborador;
+                            }
+
+                            competenciaColaboradorDAO.Persistir(competenciaColaborador);
                         }
-
-                        new CompetenciaColaboradorDAO().PersistirColecao(competenciasCorporativas);
                     }
-
-                    competenciasCorporativas = new List<CompetenciaColaborador>();
 
                     if (model.ListaCompetenciasLideranca != null)
                     {
                         foreach (var item in model.ListaCompetenciasLideranca)
                         {
-                            competenciasCorporativas.Add(new CompetenciaColaborador
-                                {
-                                    ID = item.ID.Value,
-                                    CompetenciaID = item.CompentenciaID,
-                                    AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value,
-                                    NivelColaborador = item.NivelColaborador
-                                });
-                        }
+                            var competenciaColaborador = competenciaColaboradorDAO.Obter(model.AvaliacaoColaboradorID.Value, item.CompentenciaID);
 
-                        new CompetenciaColaboradorDAO().PersistirColecao(competenciasCorporativas);
+                            if (competenciaColaborador == null)
+                            {
+                                competenciaColaborador = new CompetenciaColaborador();
+                                competenciaColaborador.CompetenciaID = item.CompentenciaID;
+                                competenciaColaborador.AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value;
+                                competenciaColaborador.NivelColaborador = item.NivelColaborador;
+                            }
+                            else
+                            {
+                                competenciaColaborador.CompetenciaID = item.CompentenciaID;
+                                competenciaColaborador.AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value;
+                                competenciaColaborador.NivelColaborador = item.NivelColaborador;
+                            }
+
+                            competenciaColaboradorDAO.Persistir(competenciaColaborador);
+                        }
                     }
                 }
                 else
                     model.GestorRubiID = identidade.GestorRubiID;
 
                 model.CicloAvaliacaoSelecionadoID = model.CicloAvaliacaoSelecionadoID.Value;
-
-                return ManterAvaliacaoColaboradorCompetencias(model.CicloAvaliacaoSelecionadoID, model.ColaboradorID);
             }
 
-            var listaAval = new List<SelectListItem>();
-
-            for (int i = 0; i < 5; i++)
-            {
-                listaAval.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
-            }
-
-            model.ListaNivelAvaliacao = listaAval;
-
-            return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorCompetencias.cshtml", model);
+            return ManterAvaliacaoColaboradorCompetencias(model.CicloAvaliacaoSelecionadoID, model.ColaboradorID);
         }
 
         [Authorize]
@@ -2930,45 +2970,42 @@ namespace AvaliacaoDesempenho.Controllers
             {
                 AvaliacaoPDIColaboradorDAO avaliacaoPDIColaboradorDAO = new AvaliacaoPDIColaboradorDAO();
 
-                if (!model.AvaliacaoPDIColaboradorID.HasValue)
+                var avaliacaoPDIColaborador = avaliacaoPDIColaboradorDAO.Obter(model.CicloAvaliacaoSelecionadoID.Value, model.ColaboradorID.Value);
+
+                if (avaliacaoPDIColaborador == null)
                 {
-                    var avaliacaoPDI = new AvaliacaoPDIColaborador();
+                    avaliacaoPDIColaborador = new AvaliacaoPDIColaborador();
 
                     var identidade = new Identidade();
 
-                    avaliacaoPDI.DataCriacao = DateTime.Today;
-                    avaliacaoPDI.CicloAvaliacao_ID = model.CicloAvaliacaoSelecionadoID.Value;
-                    avaliacaoPDI.Colaborador_ID = identidade.UsuarioID;
-                    avaliacaoPDI.GestorRubi_ID = identidade.GestorRubiID;
-                    avaliacaoPDI.GestorRubiEmp_ID = identidade.CodigoEmpresaRubiUD;
-                    avaliacaoPDI.StatusPDI_ID = (int)Enumeradores.StatusPDI.Criada;
-                    avaliacaoPDI.Idiomas = model.Idiomas;
-                    avaliacaoPDI.Graduacao = model.Graduacao;
-                    avaliacaoPDI.PontosFortes = model.PontosFortes;
-                    avaliacaoPDI.PontosDesenvolvimento = model.PontosDesenvolvimento;
-                    avaliacaoPDI.ComentariosColaborador = model.ComentariosColaborador;
-                    avaliacaoPDI.AreaRubiID = identidade.AreaRubiID;
-                    avaliacaoPDI.CargoRubiID = identidade.CargoRubiID;
-                    avaliacaoPDI.SetorRubiID = identidade.SetorRubiID;
+                    avaliacaoPDIColaborador.DataCriacao = DateTime.Today;
+                    avaliacaoPDIColaborador.CicloAvaliacao_ID = model.CicloAvaliacaoSelecionadoID.Value;
+                    avaliacaoPDIColaborador.Colaborador_ID = identidade.UsuarioID;
+                    avaliacaoPDIColaborador.GestorRubi_ID = identidade.GestorRubiID;
+                    avaliacaoPDIColaborador.GestorRubiEmp_ID = identidade.CodigoEmpresaRubiUD;
+                    avaliacaoPDIColaborador.StatusPDI_ID = (int)Enumeradores.StatusPDI.Criada;
+                    avaliacaoPDIColaborador.Idiomas = model.Idiomas;
+                    avaliacaoPDIColaborador.Graduacao = model.Graduacao;
+                    avaliacaoPDIColaborador.PontosFortes = model.PontosFortes;
+                    avaliacaoPDIColaborador.PontosDesenvolvimento = model.PontosDesenvolvimento;
+                    avaliacaoPDIColaborador.ComentariosColaborador = model.ComentariosColaborador;
+                    avaliacaoPDIColaborador.AreaRubiID = identidade.AreaRubiID;
+                    avaliacaoPDIColaborador.CargoRubiID = identidade.CargoRubiID;
+                    avaliacaoPDIColaborador.SetorRubiID = identidade.SetorRubiID;
 
-                    avaliacaoPDIColaboradorDAO.Incluir(avaliacaoPDI);
+                    avaliacaoPDIColaboradorDAO.Incluir(avaliacaoPDIColaborador);
 
-                    model.AvaliacaoPDIColaboradorID = avaliacaoPDI.ID;
+                    model.AvaliacaoPDIColaboradorID = avaliacaoPDIColaborador.ID;
                 }
                 else
                 {
-                    var avaliacaoPDI = avaliacaoPDIColaboradorDAO.Obter(model.CicloAvaliacaoSelecionadoID.Value, new Identidade().UsuarioID);
+                    avaliacaoPDIColaborador.Idiomas = model.Idiomas;
+                    avaliacaoPDIColaborador.Graduacao = model.Graduacao;
+                    avaliacaoPDIColaborador.PontosFortes = model.PontosFortes;
+                    avaliacaoPDIColaborador.PontosDesenvolvimento = model.PontosDesenvolvimento;
+                    avaliacaoPDIColaborador.ComentariosColaborador = model.ComentariosColaborador;
 
-                    if (avaliacaoPDI != null)
-                    {
-                        avaliacaoPDI.Idiomas = model.Idiomas;
-                        avaliacaoPDI.Graduacao = model.Graduacao;
-                        avaliacaoPDI.PontosFortes = model.PontosFortes;
-                        avaliacaoPDI.PontosDesenvolvimento = model.PontosDesenvolvimento;
-                        avaliacaoPDI.ComentariosColaborador = model.ComentariosColaborador;
-
-                        avaliacaoPDIColaboradorDAO.Editar(avaliacaoPDI);
-                    }
+                    avaliacaoPDIColaboradorDAO.Editar(avaliacaoPDIColaborador);
                 }
 
                 DesenvolvimentoCompetenciaDAO desenvolvimentoCompetenciaDAO = new DesenvolvimentoCompetenciaDAO();

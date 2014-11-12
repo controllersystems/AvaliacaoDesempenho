@@ -79,7 +79,8 @@
             AutoAvaliacao = 4,
             EmAvaliacaoPelosGestores = 5,
             EmAvaliacaoPelosRH = 6,
-            Encerrada = 7
+            Pdi = 7,
+            Encerrada = 8
         }
     }
 }

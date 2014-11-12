@@ -64,5 +64,18 @@ namespace AvaliacaoDesempenho.Dominio.DAL
                 db.SaveChanges();
             }
         }
+
+        public void Persistir(CompetenciaColaborador competenciaColaborador)
+        {
+            using (var db = new AvaliacaoDesempenhoContextEntities())
+            {
+                if (competenciaColaborador.ID > 0)
+                    db.Entry(competenciaColaborador).State = EntityState.Modified;
+                else
+                    db.CompetenciaColaborador.Add(competenciaColaborador);
+
+                db.SaveChanges();
+            }
+        }
     }
 }

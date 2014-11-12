@@ -27,32 +27,32 @@ namespace AvaliacaoDesempenho.Controllers
 
                 //if (usuario != null && Membership.ValidateUser(model.Login, model.Senha))
                 //{
-                //    FormsAuthentication.SetAuthCookie(model.Login, false);
+                    //FormsAuthentication.SetAuthCookie(model.Login, false);
 
-                //    if (!VerificarExistenciaUsuario(model.Login))
-                //    {
-                //        PrincipalContext principalContext = new PrincipalContext(ContextType.Domain);
+                    //if (!VerificarExistenciaUsuario(model.Login))
+                    //{
+                    //    PrincipalContext principalContext = new PrincipalContext(ContextType.Domain);
 
-                //        DirectorySearcher directorySearcher = new DirectorySearcher(principalContext.ConnectedServer);
+                    //    DirectorySearcher directorySearcher = new DirectorySearcher(principalContext.ConnectedServer);
 
-                //        directorySearcher.Filter = "(&(sAMAccountName=" + model.Login + ")" + System.Configuration.ConfigurationManager.ConnectionStrings["ADFilterConnectionString"].ConnectionString + ")";
+                    //    directorySearcher.Filter = "(&(sAMAccountName=" + model.Login + ")" + System.Configuration.ConfigurationManager.ConnectionStrings["ADFilterConnectionString"].ConnectionString + ")";
 
-                //        SearchResult searchResult = directorySearcher.FindOne();
+                    //    SearchResult searchResult = directorySearcher.FindOne();
 
-                //        DirectoryEntry directoryEntry = searchResult.GetDirectoryEntry();
+                    //    DirectoryEntry directoryEntry = searchResult.GetDirectoryEntry();
 
-                //        if (directoryEntry.Properties.Count > 0)
-                //        {
-                //            int numEmp = int.Parse(directoryEntry.Properties["company"][0].ToString());
-                //            int numCad = int.Parse(directoryEntry.Properties["department"][0].ToString());
+                    //    if (directoryEntry.Properties.Count > 0)
+                    //    {
+                    //        int numEmp = int.Parse(directoryEntry.Properties["company"][0].ToString());
+                    //        int numCad = int.Parse(directoryEntry.Properties["department"][0].ToString());
 
-                //            CadastrarUsuario(model.Login, numEmp, numCad);
-                //        }
-                //        else
-                //        {
-                //            model.Validado = false;
-                //        }
-                //    }
+                    //        CadastrarUsuario(model.Login, numEmp, numCad);
+                    //    }
+                    //    else
+                    //    {
+                    //        model.Validado = false;
+                    //    }
+                    //}
 
                 //    if (Url.IsLocalUrl(URLRetorno)
                 //        && URLRetorno.Length > 1
