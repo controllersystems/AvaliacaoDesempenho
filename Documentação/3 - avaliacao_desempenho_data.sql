@@ -13,7 +13,7 @@ INSERT INTO [dbo].[SituacaoCicloAvaliacao] ([Nome]) VALUES ('Objetivos e metas d
 GO
 INSERT INTO [dbo].[SituacaoCicloAvaliacao] ([Nome]) VALUES ('Em realização das auto-avaliações')
 GO
-INSERT INTO [dbo].[SituacaoCicloAvaliacao] ([Nome]) VALUES ('Em avaliação pelos gestores')
+INSERT INTO [dbo].[SituacaoCicloAvaliacao] ([Nome]) VALUES ('Em avaliação pelo gestor')
 GO
 INSERT INTO [dbo].[SituacaoCicloAvaliacao] ([Nome]) VALUES ('Em calibragem de rating e recomendação')
 GO
@@ -41,7 +41,7 @@ GO
 INSERT INTO [dbo].[StatusAvaliacaoColaborador] ([Nome]) VALUES ('Realização de auto-avaliação')
 GO
 
-INSERT INTO [dbo].[StatusAvaliacaoColaborador] ([Nome]) VALUES ('Em avaliação pelos gestores')
+INSERT INTO [dbo].[StatusAvaliacaoColaborador] ([Nome]) VALUES ('Em avaliação pelo gestor')
 GO
 
 INSERT INTO [dbo].[StatusAvaliacaoColaborador] ([Nome]) VALUES ('Em avaliação pelo RH')

@@ -28,6 +28,7 @@
     @Html.HiddenFor(model => Model.GestorRubiID)
     @Html.HiddenFor(model => Model.UsuarioRubiID)
     @Html.HiddenFor(model => Model.StatusAvaliacaoColaboradorID)
+    @Html.HiddenFor(model => Model.StatusCicloAvaliacaoID)
     @Html.HiddenFor(model => Model.DataInicioAvaliacaoGestor)
     @Html.HiddenFor(model => Model.DataTerminoAvaliacaoGestor)
 
@@ -52,7 +53,8 @@
                 {
                     if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
                     {
-                        if (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today)
+                        if (Model.StatusCicloAvaliacaoID == (int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosGestores
+                            && (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today))
                         {
                             @Html.DropDownListFor(model => Model.ItemRecomendacaoColaborador.RecomendacaoDeRating,
                                                new SelectList(Model.ListaRecomendacaoDeRating,
@@ -106,7 +108,8 @@
                 {
                     if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
                     {
-                        if (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today)
+                        if (Model.StatusCicloAvaliacaoID == (int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosGestores
+                            && (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today))
                         {
                             @Html.DropDownListFor(model => Model.ItemRecomendacaoColaborador.RecomendacaoDePromocao,
                                                new SelectList(Model.ListaSimNao,
@@ -155,7 +158,8 @@
         <div class="col-md-050">
             @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
             {
-                if (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today)
+                if (Model.StatusCicloAvaliacaoID == (int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosGestores
+                    && (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today))
                 {
                     @Html.TextAreaFor(model => Model.ItemRecomendacaoColaborador.Justificativa, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => Model.ItemRecomendacaoColaborador.Justificativa, string.Empty, new { @class = "text-danger" })
@@ -174,7 +178,8 @@
         <div class="col-md-050">
             @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
             {
-                if (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today)
+                if (Model.StatusCicloAvaliacaoID == (int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosGestores
+                    && (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today))
                 {
                     @Html.TextAreaFor(model => Model.ItemRecomendacaoColaborador.JustificativaDaJustificativa, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => Model.ItemRecomendacaoColaborador.JustificativaDaJustificativa, string.Empty, new { @class = "text-danger" })
@@ -196,7 +201,8 @@
             @Html.ActionLink("Anterior", "ManterAvaliacaoColaboradorPerformance", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID, etapaAutoAvaliacao = 1 }, new { @class = "btn btn-default" })
             @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
             {
-                if (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today)
+                if (Model.StatusCicloAvaliacaoID == (int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosGestores
+                    && (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today))
                 {
                     <input type="submit" value="Salvar" class="btn btn-default" />
                     if (Model.ItemRecomendacaoColaborador.Justificativa != null

@@ -58,24 +58,20 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         [Display(Name = "Rating final pós calibragem")]
         [DataType(DataType.Text, ErrorMessage = "O {0} é inválido.")]
-        [Required(ErrorMessage = "O {0} é obrigatório.")]
         public int? RatingFinalPosCalibragem { get; set; }
 
         [Display(Name = "Justificativa")]
         [DataType(DataType.Text, ErrorMessage = "A {0} é inválida.")]
         [StringLength(600, ErrorMessage = "A {0} deve ter o tamanho máximo de 600 caracteres.")]
-        [Required(ErrorMessage = "A {0} é obrigatória.")]
         public string JustificativaRatingFinalPosCalibragem { get; set; }
 
         [Display(Name = "Indicação promoção pós calibragem")]
         [DataType(DataType.Text, ErrorMessage = "A {0} é inválida.")]
-        [Required(ErrorMessage = "A {0} é obrigatória.")]
         public bool? IndicacaoPromocaoPosCalibragem { get; set; }
 
         [Display(Name = "Justificativa")]
         [DataType(DataType.Text, ErrorMessage = "A {0} é inválida.")]
         [StringLength(600, ErrorMessage = "A {0} deve ter o tamanho máximo de 600 caracteres.")]
-        [Required(ErrorMessage = "A {0} é obrigatória.")]
         public string JustificativaIndicacaoPromocaoPosCalibragem { get; set; }
     }
 }

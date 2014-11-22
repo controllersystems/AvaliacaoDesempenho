@@ -248,15 +248,15 @@
                         @Html.HiddenFor(model => model.CicloAvaliacaoSelecionadoID.Value)
                         @if (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.DefinicaoObjetivosMetas))
                         {
-                            @Html.TextAreaFor(model => Model.TextoOrientacaoObjetivosMetas, new { @class = "form-control", @rows = "20" })
+                            @Html.TextAreaFor(model => Model.TextoOrientacaoObjetivosMetas, new { @class = "form-control", @rows = "20", @readonly = "readonly" })
                         }
                         else if (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.AutoAvaliacao))
                         {
-                            @Html.TextAreaFor(model => Model.TextoOrientacaoAutoAvaliacao, new { @class = "form-control", @rows = "20" })
+                            @Html.TextAreaFor(model => Model.TextoOrientacaoAutoAvaliacao, new { @class = "form-control", @rows = "20", @readonly = "readonly" })
                         }
                         else if (Model.SituacaoCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosGestores))
                         {
-                            @Html.TextAreaFor(model => Model.TextoOrientacaoAvaliacaoGestor, new { @class = "form-control", @rows = "20" })
+                            @Html.TextAreaFor(model => Model.TextoOrientacaoAvaliacaoGestor, new { @class = "form-control", @rows = "20", @readonly = "readonly" })
                         }
                         @if (!string.IsNullOrEmpty(Model.URLCompetencia))
                         {

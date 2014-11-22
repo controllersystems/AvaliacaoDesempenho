@@ -825,6 +825,12 @@ namespace AvaliacaoDesempenho.Controllers
                 return ManterAvaliacaoColaboradorCompetenciasGestor(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID);
             }
 
+            //Se tiver competencias avaliada diferente do colaborador sem comentário do gestor, não deixar submeter ao RH.
+            if (new CompetenciaColaboradorDAO().ExisteCompetenciaAvaliadaDiferenteSemComentarioGestor(avaliacaoColaboradorID.Value))
+            {
+                return ManterAvaliacaoColaboradorCompetenciasGestor(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID);
+            }
+
             //Se não tiver perfomance, não deixar submeter ao RH.
             var performance = new PerformanceColaboradorDAO().Obter(avaliacaoColaboradorID.Value);
             if (performance == null)
@@ -2130,44 +2136,44 @@ namespace AvaliacaoDesempenho.Controllers
         [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
         public ActionResult ManterAvaliacaoColaboradorCompetenciasGestor(ManterAvaliacaoColaboradorCompetenciasGestorViewModel model)
         {
-            if (model.ListaCompetenciasCorporativas != null)
-            {
-                for (int i = 0; i < model.ListaCompetenciasCorporativas.Count; i++)
-                {
-                    if (model.ListaCompetenciasCorporativas[i].NivelGestor != null
-                        && model.ListaCompetenciasCorporativas[i].NivelColaborador != model.ListaCompetenciasCorporativas[i].NivelGestor
-                        && string.IsNullOrEmpty(model.ListaCompetenciasCorporativas[i].ComentarioGestor))
-                    {
-                        ModelState.AddModelError("ListaCompetenciasCorporativas[" + i.ToString() + "].ComentarioGestor", "O comentário do gestor é obrigatório");
-                    }
-                }
-            }
+            //if (model.ListaCompetenciasCorporativas != null)
+            //{
+            //    for (int i = 0; i < model.ListaCompetenciasCorporativas.Count; i++)
+            //    {
+            //        if (model.ListaCompetenciasCorporativas[i].NivelGestor != null
+            //            && model.ListaCompetenciasCorporativas[i].NivelColaborador != model.ListaCompetenciasCorporativas[i].NivelGestor
+            //            && string.IsNullOrEmpty(model.ListaCompetenciasCorporativas[i].ComentarioGestor))
+            //        {
+            //            ModelState.AddModelError("ListaCompetenciasCorporativas[" + i.ToString() + "].ComentarioGestor", "O comentário do gestor é obrigatório");
+            //        }
+            //    }
+            //}
 
-            if (model.ListaCompetenciasFuncionais != null)
-            {
-                for (int i = 0; i < model.ListaCompetenciasFuncionais.Count; i++)
-                {
-                    if (model.ListaCompetenciasFuncionais[i].NivelGestor != null
-                        && model.ListaCompetenciasFuncionais[i].NivelColaborador != model.ListaCompetenciasFuncionais[i].NivelGestor
-                        && string.IsNullOrEmpty(model.ListaCompetenciasFuncionais[i].ComentarioGestor))
-                    {
-                        ModelState.AddModelError("ListaCompetenciasFuncionais[" + i.ToString() + "].ComentarioGestor", "O comentário do gestor é obrigatório");
-                    }
-                }
-            }
+            //if (model.ListaCompetenciasFuncionais != null)
+            //{
+            //    for (int i = 0; i < model.ListaCompetenciasFuncionais.Count; i++)
+            //    {
+            //        if (model.ListaCompetenciasFuncionais[i].NivelGestor != null
+            //            && model.ListaCompetenciasFuncionais[i].NivelColaborador != model.ListaCompetenciasFuncionais[i].NivelGestor
+            //            && string.IsNullOrEmpty(model.ListaCompetenciasFuncionais[i].ComentarioGestor))
+            //        {
+            //            ModelState.AddModelError("ListaCompetenciasFuncionais[" + i.ToString() + "].ComentarioGestor", "O comentário do gestor é obrigatório");
+            //        }
+            //    }
+            //}
 
-            if (model.ListaCompetenciasLideranca != null)
-            {
-                for (int i = 0; i < model.ListaCompetenciasLideranca.Count; i++)
-                {
-                    if (model.ListaCompetenciasLideranca[i].NivelGestor != null
-                        && model.ListaCompetenciasLideranca[i].NivelColaborador != model.ListaCompetenciasLideranca[i].NivelGestor
-                        && string.IsNullOrEmpty(model.ListaCompetenciasLideranca[i].ComentarioGestor))
-                    {
-                        ModelState.AddModelError("ListaCompetenciasLideranca[" + i.ToString() + "].ComentarioGestor", "O comentário do gestor é obrigatório");
-                    }
-                }
-            }
+            //if (model.ListaCompetenciasLideranca != null)
+            //{
+            //    for (int i = 0; i < model.ListaCompetenciasLideranca.Count; i++)
+            //    {
+            //        if (model.ListaCompetenciasLideranca[i].NivelGestor != null
+            //            && model.ListaCompetenciasLideranca[i].NivelColaborador != model.ListaCompetenciasLideranca[i].NivelGestor
+            //            && string.IsNullOrEmpty(model.ListaCompetenciasLideranca[i].ComentarioGestor))
+            //        {
+            //            ModelState.AddModelError("ListaCompetenciasLideranca[" + i.ToString() + "].ComentarioGestor", "O comentário do gestor é obrigatório");
+            //        }
+            //    }
+            //}
             
             if (ModelState.IsValid)
             {
@@ -2596,7 +2602,7 @@ namespace AvaliacaoDesempenho.Controllers
                         recomendacaoColaborador = new RecomendacaoColaborador();
                         recomendacaoColaborador.AvaliacaoColaborador_ID = model.AvaliacaoColaboradorID.Value;
                         recomendacaoColaborador.RecomendacaoDeRating = model.ItemRecomendacaoColaborador.RecomendacaoDeRating;
-                        recomendacaoColaborador.RecomendacaoDePromocao = model.ItemRecomendacaoColaborador.RecomendacaoDePromocao.Value;
+                        recomendacaoColaborador.RecomendacaoDePromocao = model.ItemRecomendacaoColaborador.RecomendacaoDePromocao;
                         recomendacaoColaborador.Justificativa = model.ItemRecomendacaoColaborador.Justificativa;
                         recomendacaoColaborador.JustificativaDaJustificativa = model.ItemRecomendacaoColaborador.JustificativaDaJustificativa;
 
@@ -2614,7 +2620,7 @@ namespace AvaliacaoDesempenho.Controllers
                     else
                     {
                         recomendacaoColaborador.RecomendacaoDeRating = model.ItemRecomendacaoColaborador.RecomendacaoDeRating;
-                        recomendacaoColaborador.RecomendacaoDePromocao = model.ItemRecomendacaoColaborador.RecomendacaoDePromocao.Value;
+                        recomendacaoColaborador.RecomendacaoDePromocao = model.ItemRecomendacaoColaborador.RecomendacaoDePromocao;
                         recomendacaoColaborador.Justificativa = model.ItemRecomendacaoColaborador.Justificativa;
                         recomendacaoColaborador.JustificativaDaJustificativa = model.ItemRecomendacaoColaborador.JustificativaDaJustificativa;
 

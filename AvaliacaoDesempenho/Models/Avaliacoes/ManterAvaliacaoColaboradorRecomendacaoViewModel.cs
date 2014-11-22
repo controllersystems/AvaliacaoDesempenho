@@ -50,24 +50,24 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         [Display(Name = "Recomendação de Rating")]
         [DataType(DataType.Text, ErrorMessage = "A {0} é inválida.")]
-        [Required(ErrorMessage = "A {0} é obrigatória.")]
+        //[Required(ErrorMessage = "A {0} é obrigatória.")]
         public int? RecomendacaoDeRating { get; set; }
 
         [Display(Name = "Recomendação de Promoção")]
         [DataType(DataType.Text, ErrorMessage = "A {0} é inválida.")]
-        [Required(ErrorMessage = "A {0} é obrigatória.")]
+        //[Required(ErrorMessage = "A {0} é obrigatória.")]
         public Nullable<bool> RecomendacaoDePromocao { get; set; }
 
         [Display(Name = "Justificativa")]
         [DataType(DataType.Text, ErrorMessage = "A {0} é inválida.")]
         [StringLength(600, ErrorMessage = "A {0} deve ter o tamanho máximo de 600 caracteres.")]
-        [Required(ErrorMessage = "A {0} é obrigatória.")]
+        //[Required(ErrorMessage = "A {0} é obrigatória.")]
         public string Justificativa { get; set; }
 
         [Display(Name = "Justificativa")]
         [DataType(DataType.Text, ErrorMessage = "A {0} é inválida.")]
         [StringLength(600, ErrorMessage = "A {0} deve ter o tamanho máximo de 600 caracteres.")]
-        [Required(ErrorMessage = "A {0} é obrigatória.")]
+        //[Required(ErrorMessage = "A {0} é obrigatória.")]
         public string JustificativaDaJustificativa { get; set; }
     }
 }

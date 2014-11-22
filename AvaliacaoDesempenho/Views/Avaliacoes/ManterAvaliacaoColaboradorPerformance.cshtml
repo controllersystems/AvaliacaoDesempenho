@@ -19,69 +19,71 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
 
-    
+
     <div class="row top20">
-            <div class="col-md-100">
-                <table class="table">
-                    <tr>
-                        <th>
-                            Avaliação da performance Geral
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>
-                            @Html.HiddenFor(model => Model.AvaliacaoPerformanceGerais.ID)
-                            @Html.HiddenFor(model => Model.CicloAvaliacaoSelecionadoID)
-                            @Html.HiddenFor(model => Model.AvaliacaoColaboradorID)
-                            @Html.HiddenFor(model => Model.ColaboradorID)
-                            @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH
+        <div class="col-md-100">
+            <table class="table">
+                <tr>
+                    <th>
+                        Avaliação da performance Geral
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.HiddenFor(model => Model.AvaliacaoPerformanceGerais.ID)
+                        @Html.HiddenFor(model => Model.CicloAvaliacaoSelecionadoID)
+                        @Html.HiddenFor(model => Model.AvaliacaoColaboradorID)
+                        @Html.HiddenFor(model => Model.ColaboradorID)
+                        @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH
                                 || Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada))
+                        {
+                            @Html.TextAreaFor(model => Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral, new { @class = "form-control", @readonly = "readonly" })
+                        }
+                        else
+                        {
+                            if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
                             {
-                                @Html.TextAreaFor(model => Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral, new { @class = "form-control", @readonly = "readonly" })
-                            }
-                            else 
-                            { 
-                                if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
+                                if (Model.StatusCicloAvaliacaoID == (int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosGestores
+                                    && (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today))
                                 {
-                                    if (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today)
-                                    {
-                                        @Html.TextAreaFor(model => Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral, string.Empty, new { @class = "text-danger" })
-                                    }
-                                    else
-                                    {
-                                        @Html.TextAreaFor(model => Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral, new { @class = "form-control", @readonly = "readonly" })
-                                    }
+                                    @Html.TextAreaFor(model => Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral, string.Empty, new { @class = "text-danger" })
                                 }
                                 else
                                 {
                                     @Html.TextAreaFor(model => Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral, new { @class = "form-control", @readonly = "readonly" })
                                 }
                             }
-                        </td>
-                    </tr>
-                </table>
-            </div>
-   </div>
+                            else
+                            {
+                                @Html.TextAreaFor(model => Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral, new { @class = "form-control", @readonly = "readonly" })
+                            }
+                        }
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 
     <div class="row top20">
         <div class="col-md-095 col-md-offset-005 text-right">
             @Html.ActionLink("Anterior", "ManterAvaliacaoColaboradorCompetenciasGestor", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
             @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
             {
-                if (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today)
+                if (Model.StatusCicloAvaliacaoID == (int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosGestores
+                    && (Model.DataInicioAvaliacaoGestor <= DateTime.Today && Model.DataTerminoAvaliacaoGestor >= DateTime.Today))
                 {
                     <input type="submit" value="Salvar" class="btn btn-default" />
                 }
             }
-            @if(Model.AcessoGestor || Model.PapelID.Equals((int)Enumeradores.CodigoPapeis.Administrador))
+            @if (Model.AcessoGestor || Model.PapelID.Equals((int)Enumeradores.CodigoPapeis.Administrador))
             {
-                if(Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
+                if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
                 {
                     //if(Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral != null
                     //   && Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral != "")
                     //{
-                         @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorRecomendacao", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorRecomendacao", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
                     //}
                 }
                 else

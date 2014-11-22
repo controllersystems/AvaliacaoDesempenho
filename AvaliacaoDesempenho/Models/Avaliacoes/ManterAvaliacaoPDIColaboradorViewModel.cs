@@ -77,7 +77,7 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
     {
         public int ID { get; set; }
 
-        [Display(Name="Ações de desenvolvimento para alavancar pontos fortes ou para desenvolver outras competências (atividades, projetos, feedback, coaching/mentoring, treinamento/estudo, leitura, etc.")]
+        [Display(Name="Ações de desenvolvimento para alavancar pontos fortes ou para desenvolver outras competências (atividades, projetos, feedback, coaching/mentoring, treinamento/estudo, leitura, etc.)")]
         [DataType(DataType.Text, ErrorMessage = "As ações de desenvolvimento é inválida.")]
         [StringLength(600, ErrorMessage = "A ação de desenvolvimento deve ter o tamanho máximo de 600 caracteres.")]
         public string AcaoDesenvolvimento { get; set; }

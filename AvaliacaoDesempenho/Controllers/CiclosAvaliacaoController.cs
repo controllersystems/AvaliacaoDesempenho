@@ -467,7 +467,7 @@ namespace AvaliacaoDesempenho.Controllers
                                         }
                                     }
 
-                                    //Caso exista usuário cadastrado no sistema ou no AD, prosseguir pra criar a sua avaliação.
+                                    //Caso exista usuário cadastrado no sistema ou no AD, prosseguir pra criar a sua avaliação e o seu pdi.
                                     if (usuarioCompetencia != null)
                                     {
                                         //Verificar se existe seu gestor cadastrado no competencias, caso não exista cadastrar.
@@ -524,6 +524,32 @@ namespace AvaliacaoDesempenho.Controllers
                                                 avaliacao.SetorRubiID = item.SetorRubiID;
 
                                                 avaliacaoColaboradorDAO.Incluir(avaliacao);
+                                            }
+                                        }
+
+                                        //Para cada usuario no competencia verificar se existe um pdi criado dentro desse ciclo
+                                        var avaliacaoPdiColaborador = new AvaliacaoPDIColaboradorDAO().Obter(model.CicloAvaliacaoSelecionadoID.Value, usuarioCompetencia.ID);
+
+                                        if (avaliacaoPdiColaborador == null)
+                                        {
+                                            if (ciclo.SituacaoCicloAvaliacao_ID.Value < 8)
+                                            {
+                                                AvaliacaoPDIColaborador avaliacaoPdi = new AvaliacaoPDIColaborador();
+
+                                                AvaliacaoPDIColaboradorDAO avaliacaoPDIColaboradorDAO = new AvaliacaoPDIColaboradorDAO();
+
+                                                avaliacaoPdi.DataCriacao = DateTime.Today;
+                                                avaliacaoPdi.CicloAvaliacao_ID = model.CicloAvaliacaoSelecionadoID.Value;
+                                                avaliacaoPdi.Colaborador_ID = usuarioCompetencia.ID;
+                                                avaliacaoPdi.GestorRubi_ID = usuarioRubi.USU_LD1CAD;
+                                                avaliacaoPdi.GestorRubiEmp_ID = usuarioRubi.USU_LD1EMP;
+                                                avaliacaoPdi.StatusPDI_ID = (int)Enumeradores.StatusPDI.Criada;
+
+                                                avaliacaoPdi.CargoRubiID = item.CargoRubiID;
+                                                avaliacaoPdi.AreaRubiID = item.AreaRubiID;
+                                                avaliacaoPdi.SetorRubiID = item.SetorRubiID;
+
+                                                avaliacaoPDIColaboradorDAO.Incluir(avaliacaoPdi);
                                             }
                                         }
                                     }
