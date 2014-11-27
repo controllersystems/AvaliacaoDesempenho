@@ -232,6 +232,7 @@ namespace AvaliacaoDesempenho.Controllers
                      ID = avaliacao.ID,
                      JustificativaReprovacao = avaliacao.JustificativaReprovacao,
                      SetorRubiID = avaliacao.SetorRubiID,
+                     DataUltimaAlteracao = avaliacao.DataUltimaAlteracao,
                      StatusAvaliacaoColaborador_ID = avaliacaoAlteracao.StatusAvaliacaoColaboradorID
                  }).ToList();
 
@@ -682,11 +683,11 @@ namespace AvaliacaoDesempenho.Controllers
         {
             if (ModelState.IsValid)
             {
+                AvaliacaoColaboradorDAO avaliacaoColaboradorDAO = new AvaliacaoColaboradorDAO();
+
                 if (!model.AvaliacaoColaboradorID.HasValue)
                 {
                     AvaliacaoColaborador avaliacao = new AvaliacaoColaborador();
-
-                    AvaliacaoColaboradorDAO avaliacaoColaboradorDAO = new AvaliacaoColaboradorDAO();
 
                     var ciclo = new CicloAvaliacaoDAO().Obter(model.CicloAvaliacaoSelecionadoID.Value);
 
@@ -718,6 +719,7 @@ namespace AvaliacaoDesempenho.Controllers
                         avaliacao.CargoRubiID = identidade.CargoRubiID;
                         avaliacao.AreaRubiID = identidade.AreaRubiID;
                         avaliacao.SetorRubiID = identidade.SetorRubiID;
+                        avaliacao.DataUltimaAlteracao = DateTime.Now;
 
                         avaliacaoColaboradorDAO.Incluir(avaliacao);
 
@@ -750,6 +752,13 @@ namespace AvaliacaoDesempenho.Controllers
 
                         objetivoColaboradorDAO.Editar(objetivo);
                     }
+                }
+
+                var avaliacaoColaborador = avaliacaoColaboradorDAO.Obter(model.AvaliacaoColaboradorID.Value);
+                if (avaliacaoColaborador != null)
+                {
+                    avaliacaoColaborador.DataUltimaAlteracao = DateTime.Now;
+                    avaliacaoColaboradorDAO.Editar(avaliacaoColaborador);
                 }
 
                 return ManterAvaliacaoColaboradorObjetivosMetas(model.CicloAvaliacaoSelecionadoID);
@@ -789,6 +798,8 @@ namespace AvaliacaoDesempenho.Controllers
             var avaliacaoColaborador = avaliacaoColaboradorDAO.Obter(avaliacaoColaboradorObjetivosMetasID.Value);
 
             avaliacaoColaborador.StatusAvaliacaoColaborador_ID = (int)Enumeradores.StatusAvaliacaoColaborador.AprovacaoDefinicaoObjetivosMetas;
+
+            avaliacaoColaborador.DataUltimaAlteracao = DateTime.Now;
 
             avaliacaoColaboradorDAO.Editar(avaliacaoColaborador);
 
@@ -846,6 +857,8 @@ namespace AvaliacaoDesempenho.Controllers
             }
 
             avaliacaoColaborador.StatusAvaliacaoColaborador_ID = (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH;
+
+            avaliacaoColaborador.DataUltimaAlteracao = DateTime.Now;
 
             avaliacaoColaboradorDAO.Editar(avaliacaoColaborador);
 
@@ -1006,6 +1019,8 @@ namespace AvaliacaoDesempenho.Controllers
 
                     avaliacaoColaborador.StatusAvaliacaoColaborador_ID = (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores;
 
+                    avaliacaoColaborador.DataUltimaAlteracao = DateTime.Now;
+
                     avaliacaoColaboradorDAO.Editar(avaliacaoColaborador);
                 }
                 else
@@ -1018,6 +1033,8 @@ namespace AvaliacaoDesempenho.Controllers
             else
             {
                 var listaAval = new List<SelectListItem>();
+
+                //listaAval.Add(new SelectListItem() { Text = "N/A", Value = "-1" });
 
                 for (int i = 0; i < 5; i++)
                 {
@@ -1171,6 +1188,7 @@ namespace AvaliacaoDesempenho.Controllers
                 avaliacao.StatusAvaliacaoColaborador_ID = (int)Enumeradores.StatusAvaliacaoColaborador.ObjetivosMetasDefinidos;
                 avaliacao.JustificativaReprovacao = string.Empty;
             }
+            avaliacao.DataUltimaAlteracao = DateTime.Now;
 
             avaliacaoColaboradorDAO.Editar(avaliacao);
 
@@ -1422,6 +1440,14 @@ namespace AvaliacaoDesempenho.Controllers
 
                         contribuicaoColaboradorDAO.Editar(contribuicao);
                     }
+                }
+
+                AvaliacaoColaboradorDAO avaliacaoColaboradorDAO = new AvaliacaoColaboradorDAO();
+                var avaliacao = avaliacaoColaboradorDAO.Obter(model.AvaliacaoColaboradorID.Value);
+                if (avaliacao != null)
+                {
+                    avaliacao.DataUltimaAlteracao = DateTime.Now;
+                    avaliacaoColaboradorDAO.Editar(avaliacao);
                 }
 
                 return ManterAvaliacaoColaboradorAutoAvaliacao(model.CicloAvaliacaoSelecionadoID, model.IncluirMeta, false, model.ColaboradorID);
@@ -1696,6 +1722,14 @@ namespace AvaliacaoDesempenho.Controllers
                     }
                 }
 
+                AvaliacaoColaboradorDAO avaliacaoColaboradorDAO = new AvaliacaoColaboradorDAO();
+                var avaliacao = avaliacaoColaboradorDAO.Obter(model.AvaliacaoColaboradorID.Value);
+                if (avaliacao != null)
+                {
+                    avaliacao.DataUltimaAlteracao = DateTime.Now;
+                    avaliacaoColaboradorDAO.Editar(avaliacao);
+                }
+
                 return ManterAvaliacaoColaboradorAutoAvaliacaoGestor(model.CicloAvaliacaoSelecionadoID, model.ColaboradorID);
             }
 
@@ -1864,6 +1898,8 @@ namespace AvaliacaoDesempenho.Controllers
 
                     var listaAval = new List<SelectListItem>();
 
+                    //listaAval.Add(new SelectListItem() { Text = "N/A", Value = "-1" });
+
                     for (int i = 0; i < 5; i++)
                     {
                         listaAval.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
@@ -1901,8 +1937,8 @@ namespace AvaliacaoDesempenho.Controllers
 
                 model.UsuarioRubiID = identidade.UsuarioRubiID;
 
-                var avaliacaoColaborador =
-                    new AvaliacaoColaboradorDAO().Obter(model.CicloAvaliacaoSelecionadoID.Value, model.ColaboradorID.Value);
+                AvaliacaoColaboradorDAO avaliacaoColaboradorDAO = new AvaliacaoColaboradorDAO();
+                var avaliacaoColaborador = avaliacaoColaboradorDAO.Obter(model.CicloAvaliacaoSelecionadoID.Value, model.ColaboradorID.Value);
 
                 if (avaliacaoColaborador != null)
                 {
@@ -1986,6 +2022,9 @@ namespace AvaliacaoDesempenho.Controllers
                             competenciaColaboradorDAO.Persistir(competenciaColaborador);
                         }
                     }
+
+                    avaliacaoColaborador.DataUltimaAlteracao = DateTime.Now;
+                    avaliacaoColaboradorDAO.Editar(avaliacaoColaborador);
                 }
                 else
                     model.GestorRubiID = identidade.GestorRubiID;
@@ -2107,6 +2146,8 @@ namespace AvaliacaoDesempenho.Controllers
 
                     var listaAval = new List<SelectListItem>();
 
+                    //listaAval.Add(new SelectListItem() { Text = "N/A", Value = "-1" });
+
                     for (int i = 0; i < 5; i++)
                     {
                         listaAval.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
@@ -2136,45 +2177,6 @@ namespace AvaliacaoDesempenho.Controllers
         [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
         public ActionResult ManterAvaliacaoColaboradorCompetenciasGestor(ManterAvaliacaoColaboradorCompetenciasGestorViewModel model)
         {
-            //if (model.ListaCompetenciasCorporativas != null)
-            //{
-            //    for (int i = 0; i < model.ListaCompetenciasCorporativas.Count; i++)
-            //    {
-            //        if (model.ListaCompetenciasCorporativas[i].NivelGestor != null
-            //            && model.ListaCompetenciasCorporativas[i].NivelColaborador != model.ListaCompetenciasCorporativas[i].NivelGestor
-            //            && string.IsNullOrEmpty(model.ListaCompetenciasCorporativas[i].ComentarioGestor))
-            //        {
-            //            ModelState.AddModelError("ListaCompetenciasCorporativas[" + i.ToString() + "].ComentarioGestor", "O comentário do gestor é obrigatório");
-            //        }
-            //    }
-            //}
-
-            //if (model.ListaCompetenciasFuncionais != null)
-            //{
-            //    for (int i = 0; i < model.ListaCompetenciasFuncionais.Count; i++)
-            //    {
-            //        if (model.ListaCompetenciasFuncionais[i].NivelGestor != null
-            //            && model.ListaCompetenciasFuncionais[i].NivelColaborador != model.ListaCompetenciasFuncionais[i].NivelGestor
-            //            && string.IsNullOrEmpty(model.ListaCompetenciasFuncionais[i].ComentarioGestor))
-            //        {
-            //            ModelState.AddModelError("ListaCompetenciasFuncionais[" + i.ToString() + "].ComentarioGestor", "O comentário do gestor é obrigatório");
-            //        }
-            //    }
-            //}
-
-            //if (model.ListaCompetenciasLideranca != null)
-            //{
-            //    for (int i = 0; i < model.ListaCompetenciasLideranca.Count; i++)
-            //    {
-            //        if (model.ListaCompetenciasLideranca[i].NivelGestor != null
-            //            && model.ListaCompetenciasLideranca[i].NivelColaborador != model.ListaCompetenciasLideranca[i].NivelGestor
-            //            && string.IsNullOrEmpty(model.ListaCompetenciasLideranca[i].ComentarioGestor))
-            //        {
-            //            ModelState.AddModelError("ListaCompetenciasLideranca[" + i.ToString() + "].ComentarioGestor", "O comentário do gestor é obrigatório");
-            //        }
-            //    }
-            //}
-            
             if (ModelState.IsValid)
             {
                 var identidade = new Identidade();
@@ -2183,8 +2185,8 @@ namespace AvaliacaoDesempenho.Controllers
 
                 model.UsuarioRubiID = identidade.UsuarioRubiID;
 
-                var avaliacaoColaborador =
-                    new AvaliacaoColaboradorDAO().Obter(model.CicloAvaliacaoSelecionadoID.Value, model.ColaboradorID.Value);
+                AvaliacaoColaboradorDAO avaliacaoColaboradorDAO = new AvaliacaoColaboradorDAO();
+                var avaliacaoColaborador = avaliacaoColaboradorDAO.Obter(model.CicloAvaliacaoSelecionadoID.Value, model.ColaboradorID.Value);
 
                 if (avaliacaoColaborador != null)
                 {
@@ -2296,6 +2298,9 @@ namespace AvaliacaoDesempenho.Controllers
 
                         new CompetenciaColaboradorDAO().PersistirColecao(competenciasCorporativas);
                     }
+
+                    avaliacaoColaborador.DataUltimaAlteracao = DateTime.Now;
+                    avaliacaoColaboradorDAO.Editar(avaliacaoColaborador);
                 }
                 else
                     model.GestorRubiID = identidade.GestorRubiID;
@@ -2306,6 +2311,8 @@ namespace AvaliacaoDesempenho.Controllers
             }
 
             var listaAval = new List<SelectListItem>();
+
+            //listaAval.Add(new SelectListItem() { Text = "N/A", Value = "-1" });
 
             for (int i = 0; i < 5; i++)
             {
@@ -2412,8 +2419,8 @@ namespace AvaliacaoDesempenho.Controllers
 
                 model.UsuarioRubiID = identidade.UsuarioRubiID;
 
-                var avaliacaoColaborador =
-                    new AvaliacaoColaboradorDAO().Obter(model.CicloAvaliacaoSelecionadoID.Value, model.ColaboradorID.Value);
+                AvaliacaoColaboradorDAO avaliacaoColaboradorDAO = new AvaliacaoColaboradorDAO();
+                var avaliacaoColaborador = avaliacaoColaboradorDAO.Obter(model.CicloAvaliacaoSelecionadoID.Value, model.ColaboradorID.Value);
 
                 if (avaliacaoColaborador != null)
                 {
@@ -2444,6 +2451,8 @@ namespace AvaliacaoDesempenho.Controllers
 
                         performanceColaboradorDAO.Editar(performanceColaborador);
                     }
+                    avaliacaoColaborador.DataUltimaAlteracao = DateTime.Now;
+                    avaliacaoColaboradorDAO.Editar(avaliacaoColaborador);
                 }
                 else
                     model.GestorRubiID = identidade.GestorRubiID;
@@ -2581,8 +2590,8 @@ namespace AvaliacaoDesempenho.Controllers
 
                 model.UsuarioRubiID = identidade.UsuarioRubiID;
 
-                var avaliacaoColaborador =
-                    new AvaliacaoColaboradorDAO().Obter(model.CicloAvaliacaoSelecionadoID.Value, model.ColaboradorID.Value);
+                AvaliacaoColaboradorDAO avaliacaoColaboradorDAO = new AvaliacaoColaboradorDAO();
+                var avaliacaoColaborador = avaliacaoColaboradorDAO.Obter(model.CicloAvaliacaoSelecionadoID.Value, model.ColaboradorID.Value);
 
                 if (avaliacaoColaborador != null)
                 {
@@ -2635,6 +2644,9 @@ namespace AvaliacaoDesempenho.Controllers
 
                         recomendacaoColaboradorDAO.Editar(recomendacaoColaborador);
                     }
+
+                    avaliacaoColaborador.DataUltimaAlteracao = DateTime.Now;
+                    avaliacaoColaboradorDAO.Editar(avaliacaoColaborador);
                 }
                 else
                     model.GestorRubiID = identidade.GestorRubiID;
@@ -2783,8 +2795,8 @@ namespace AvaliacaoDesempenho.Controllers
 
                 model.UsuarioRubiID = identidade.UsuarioRubiID;
 
-                var avaliacaoColaborador =
-                    new AvaliacaoColaboradorDAO().Obter(model.CicloAvaliacaoSelecionadoID.Value, model.ColaboradorID.Value);
+                AvaliacaoColaboradorDAO avaliacaoColaboradorDAO = new AvaliacaoColaboradorDAO();
+                var avaliacaoColaborador = avaliacaoColaboradorDAO.Obter(model.CicloAvaliacaoSelecionadoID.Value, model.ColaboradorID.Value);
 
                 if (avaliacaoColaborador != null)
                 {
@@ -2837,6 +2849,9 @@ namespace AvaliacaoDesempenho.Controllers
 
                         recomendacaoColaboradorDAO.Incluir(recomendacaoColaborador);
                     }
+
+                    avaliacaoColaborador.DataUltimaAlteracao = DateTime.Now;
+                    avaliacaoColaboradorDAO.Editar(avaliacaoColaborador);
                 }
                 else
                     model.GestorRubiID = identidade.GestorRubiID;
@@ -2950,6 +2965,14 @@ namespace AvaliacaoDesempenho.Controllers
 
             model.CicloAvaliacaoSelecionadoID = id.Value;
             model.IncluirDesenvolvimentoCompetencia = incluirDesenvolvimentoCompetencia;
+
+            var cicloSelecionado = new CicloAvaliacaoDAO().Obter(id.Value);
+            if (cicloSelecionado != null)
+            {
+                model.StatusCicloAvaliacaoID = cicloSelecionado.SituacaoCicloAvaliacao_ID;
+                model.DataInicioGerenciamentoPDI = cicloSelecionado.DataInicioGerenciamentoPDI;
+                model.DataTerminoGerenciamentoPDI = cicloSelecionado.DataTerminoGerenciamentoPDI;
+            }
 
             return View("~/Views/Avaliacoes/ManterAvaliacaoPDIColaborador.cshtml", model);
         }

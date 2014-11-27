@@ -60,7 +60,8 @@
                             <td class="col-md-1">
                                 @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao))
                                 {
-                                    if (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
+                                    if (Model.StatusCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.AutoAvaliacao) && 
+                                        Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
                                     {
                                         @Html.DropDownListFor(model => model.ListaCompetenciasCorporativas[i].NivelColaborador,
                                        new SelectList(Model.ListaNivelAvaliacao,
@@ -73,24 +74,14 @@
                                     }
                                     else
                                     {
-                                        @Html.DropDownListFor(model => model.ListaCompetenciasCorporativas[i].NivelColaborador,
-                                       new SelectList(Model.ListaNivelAvaliacao,
-                                                      "Value",
-                                                      "Text",
-                                                      Model.ListaCompetenciasCorporativas[i].NivelColaborador),
-                                                      " ",
-                                                           new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.TextBoxFor(model => model.ListaNivelAvaliacao.FirstOrDefault(x => x.Value == model.ListaCompetenciasCorporativas[i].NivelColaborador.ToString()).Text,
+                                                new { @class = "form-control", @readonly = "readonly" })
                                     }
                                 }
                                 else
                                 {
-                                    @Html.DropDownListFor(model => model.ListaCompetenciasCorporativas[i].NivelColaborador,
-                                       new SelectList(Model.ListaNivelAvaliacao,
-                                                      "Value",
-                                                      "Text",
-                                                      Model.ListaCompetenciasCorporativas[i].NivelColaborador),
-                                                      " ",
-                                                      new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.TextBoxFor(model => model.ListaNivelAvaliacao.FirstOrDefault(x => x.Value == model.ListaCompetenciasCorporativas[i].NivelColaborador.ToString()).Text,
+                                                new { @class = "form-control", @readonly = "readonly" })
                                 }
                             </td>
                         </tr>
@@ -129,7 +120,8 @@
                             <td class="col-md-1">
                                 @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao))
                                 {
-                                    if (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
+                                    if (Model.StatusCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.AutoAvaliacao) && 
+                                        Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
                                     {
                                         @Html.DropDownListFor(model => model.ListaCompetenciasLideranca[i].NivelColaborador,
                                        new SelectList(Model.ListaNivelAvaliacao,
@@ -142,24 +134,14 @@
                                     }
                                     else
                                     {
-                                        @Html.DropDownListFor(model => model.ListaCompetenciasLideranca[i].NivelColaborador,
-                                       new SelectList(Model.ListaNivelAvaliacao,
-                                                      "Value",
-                                                      "Text",
-                                                      Model.ListaCompetenciasLideranca[i].NivelColaborador),
-                                                      " ",
-                                                           new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.TextBoxFor(model => model.ListaNivelAvaliacao.FirstOrDefault(x => x.Value == model.ListaCompetenciasLideranca[i].NivelColaborador.ToString()).Text,
+                                                new { @class = "form-control", @readonly = "readonly" })
                                     }
                                 }
                                 else
                                 {
-                                    @Html.DropDownListFor(model => model.ListaCompetenciasLideranca[i].NivelColaborador,
-                                       new SelectList(Model.ListaNivelAvaliacao,
-                                                      "Value",
-                                                      "Text",
-                                                      Model.ListaCompetenciasLideranca[i].NivelColaborador),
-                                                      " ",
-                                                      new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.TextBoxFor(model => model.ListaNivelAvaliacao.FirstOrDefault(x => x.Value == model.ListaCompetenciasLideranca[i].NivelColaborador.ToString()).Text,
+                                                new { @class = "form-control", @readonly = "readonly" })
                                 }
                             </td>
                        </tr>
@@ -197,7 +179,8 @@
                             <td class="col-md-1">
                                 @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao))
                                 {
-                                    if (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
+                                    if (Model.StatusCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.AutoAvaliacao) && 
+                                        Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
                                     {
                                         @Html.DropDownListFor(model => model.ListaCompetenciasFuncionais[i].NivelColaborador,
                                        new SelectList(Model.ListaNivelAvaliacao,
@@ -210,24 +193,14 @@
                                     }
                                     else
                                     {
-                                        @Html.DropDownListFor(model => model.ListaCompetenciasFuncionais[i].NivelColaborador,
-                                       new SelectList(Model.ListaNivelAvaliacao,
-                                                      "Value",
-                                                      "Text",
-                                                      Model.ListaCompetenciasFuncionais[i].NivelColaborador),
-                                                      " ",
-                                                           new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.TextBoxFor(model => model.ListaNivelAvaliacao.FirstOrDefault(x => x.Value == model.ListaCompetenciasFuncionais[i].NivelColaborador.ToString()).Text,
+                                                new { @class = "form-control", @readonly = "readonly" })
                                     }
                                 }
                                 else
                                 {
-                                    @Html.DropDownListFor(model => model.ListaCompetenciasFuncionais[i].NivelColaborador,
-                                       new SelectList(Model.ListaNivelAvaliacao,
-                                                      "Value",
-                                                      "Text",
-                                                      Model.ListaCompetenciasFuncionais[i].NivelColaborador),
-                                                      " ",
-                                                          new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.TextBoxFor(model => model.ListaNivelAvaliacao.FirstOrDefault(x => x.Value == model.ListaCompetenciasFuncionais[i].NivelColaborador.ToString()).Text,
+                                                new { @class = "form-control", @readonly = "readonly" })
                                 }
                             </td>
                         </tr>
@@ -243,7 +216,8 @@
 
             @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao)
             {
-                if (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
+                if (Model.StatusCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.AutoAvaliacao) &&
+                    Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
                 {
                     <input type="submit" value="Salvar" class="btn btn-default" />
                     if (Model.LiberadoPraSubmeterAoGestor)

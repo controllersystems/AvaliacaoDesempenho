@@ -16,7 +16,7 @@
 </div>
 <hr />
 
-@if (Model.AcessoGestor || 
+@if (Model.AcessoGestor ||
      Model.StatusPDIID.Equals((int)Enumeradores.StatusPDI.AprovacaoGestor) ||
      Model.StatusPDIID.Equals((int)Enumeradores.StatusPDI.Aprovada))
 {
@@ -38,10 +38,13 @@
             @Html.HiddenFor(model => Model.SetorRubiID)
             @Html.HiddenFor(model => Model.CargoRubiID)
             @Html.HiddenFor(model => Model.IncluirDesenvolvimentoCompetencia)
+            @Html.HiddenFor(model => model.StatusCicloAvaliacaoID)
+            @Html.HiddenFor(model => model.DataInicioGerenciamentoPDI)
+            @Html.HiddenFor(model => model.DataTerminoGerenciamentoPDI)
 
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
-            
+
             <h3>Formações atuais</h3>
             <div class="row top30">
                 <div class="col-md-030">
@@ -122,19 +125,32 @@
                         @Html.LabelFor(model => Model.ComentariosGestor, new { @class = "control-label" })
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-100">
-                        @Html.TextAreaFor(model => Model.ComentariosGestor, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => Model.ComentariosGestor, string.Empty, new { @class = "text-danger" })
+                if (Model.StatusCicloAvaliacaoID < (int)Enumeradores.SituacaoCicloAvaliacao.Encerrada
+                               && (Model.DataInicioGerenciamentoPDI <= DateTime.Today && Model.DataTerminoGerenciamentoPDI >= DateTime.Today))
+                {
+                    <div class="row">
+                        <div class="col-md-100">
+                            @Html.TextAreaFor(model => Model.ComentariosGestor, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => Model.ComentariosGestor, string.Empty, new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
-                <div class="row top20">
-                    <div class="col-md-095 col-md-offset-005 text-right">
-                        <input type="submit" value="Reprovar" class="btn btn-default" />
-                        <input type="submit" value="Salvar" formaction="/Avaliacoes/SalvarComentarioGestor" class="btn btn-default" />
-                        @Html.ActionLink("Aprovar", "AprovarAvaliacaoPDIColaborador", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, usuarioID = Model.ColaboradorID }, new { @class = "btn btn-default" })
+
+                    <div class="row top20">
+                        <div class="col-md-095 col-md-offset-005 text-right">
+                            <input type="submit" value="Reprovar" class="btn btn-default" />
+                            <input type="submit" value="Salvar" formaction="/Avaliacoes/SalvarComentarioGestor" class="btn btn-default" />
+                            @Html.ActionLink("Aprovar", "AprovarAvaliacaoPDIColaborador", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, usuarioID = Model.ColaboradorID }, new { @class = "btn btn-default" })
+                        </div>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col-md-100">
+                            @Html.TextAreaFor(model => Model.ComentariosGestor, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                }
             }
         }
     }
@@ -154,6 +170,9 @@ else
         @Html.HiddenFor(model => Model.GestorRubiID)
         @Html.HiddenFor(model => Model.StatusPDIID)
         @Html.HiddenFor(model => Model.Aprovada)
+        @Html.HiddenFor(model => model.StatusCicloAvaliacaoID)
+        @Html.HiddenFor(model => model.DataInicioGerenciamentoPDI)
+        @Html.HiddenFor(model => model.DataTerminoGerenciamentoPDI)
 
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
@@ -225,17 +244,21 @@ else
                         @Html.ValidationMessageFor(model => Model.ListaDesenvolvimentoCompetenciaViewModel[i].RecursoSuporte, string.Empty, new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class="row top20">
-                    <div class="col-md-095 col-md-offset-005 text-right">
-                        @Html.ActionLink("Excluir", "DeletarDesenvolvimentoCompetenciaPDIColaborador", 
+                if (Model.StatusCicloAvaliacaoID < (int)Enumeradores.SituacaoCicloAvaliacao.Encerrada
+                   && (Model.DataInicioGerenciamentoPDI <= DateTime.Today && Model.DataTerminoGerenciamentoPDI >= DateTime.Today))
+                {
+                    <div class="row top20">
+                        <div class="col-md-095 col-md-offset-005 text-right">
+                            @Html.ActionLink("Excluir", "DeletarDesenvolvimentoCompetenciaPDIColaborador",
                                      new
                                      {
                                          desenvolvimentoCompetenciaID = Model.ListaDesenvolvimentoCompetenciaViewModel[i].ID,
                                          cicloAvaliacaoID = Model.CicloAvaliacaoSelecionadoID
                                      },
                                      new { @class = "btn btn-default" })
+                        </div>
                     </div>
-                </div>
+                }
             }
             if (Model.IncluirDesenvolvimentoCompetencia)
             {
@@ -263,13 +286,17 @@ else
                     </div>
                 </div>
             }
-            else 
-            { 
-                <div class="row top20">
-                    <div class="col-md-095 col-md-offset-005 text-right">
-                        @Html.ActionLink("Incluir nova ação", "ManterAvaliacaoPDIColaborador", new { IncluirDesenvolvimentoCompetencia = true }, new { @class = "btn btn-default" })
+            else
+            {
+                if (Model.StatusCicloAvaliacaoID < (int)Enumeradores.SituacaoCicloAvaliacao.Encerrada
+                   && (Model.DataInicioGerenciamentoPDI <= DateTime.Today && Model.DataTerminoGerenciamentoPDI >= DateTime.Today))
+                {
+                    <div class="row top20">
+                        <div class="col-md-095 col-md-offset-005 text-right">
+                            @Html.ActionLink("Incluir nova ação", "ManterAvaliacaoPDIColaborador", new { IncluirDesenvolvimentoCompetencia = true }, new { @class = "btn btn-default" })
+                        </div>
                     </div>
-                </div>
+                }
             }
             <div class="row top30">
                 <div class="col-md-100">
@@ -297,18 +324,22 @@ else
                 </div>
             }
             <hr class="top30" />
-            <div class="row top20">
-                <div class="col-md-095 col-md-offset-005 text-right">
-                    <input type="submit" value="Salvar" class="btn btn-default" />
-                    @if (Model.ListaDesenvolvimentoCompetenciaViewModel != null
+            if (Model.StatusCicloAvaliacaoID < (int)Enumeradores.SituacaoCicloAvaliacao.Encerrada
+                && (Model.DataInicioGerenciamentoPDI <= DateTime.Today && Model.DataTerminoGerenciamentoPDI >= DateTime.Today))
+            {
+                <div class="row top20">
+                    <div class="col-md-095 col-md-offset-005 text-right">
+                        <input type="submit" value="Salvar" class="btn btn-default" />
+                        @if (Model.ListaDesenvolvimentoCompetenciaViewModel != null
                         && !Model.IncluirDesenvolvimentoCompetencia
                         && Model.AvaliacaoPDIColaboradorID.HasValue
                         && !Model.AcessoGestor)
-                    {
-                        <input type="submit" value="Submeter à aprovação do seu gestor" formaction="/Avaliacoes/SubmeterPDIColaboradorAvaliacaoGestor" class="btn btn-default" />
-                    }
+                        {
+                            <input type="submit" value="Submeter à aprovação do seu gestor" formaction="/Avaliacoes/SubmeterPDIColaboradorAvaliacaoGestor" class="btn btn-default" />
+                        }
+                    </div>
                 </div>
-            </div>
+            }
         }
         else
         {

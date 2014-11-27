@@ -35,6 +35,7 @@ namespace AvaliacaoDesempenho.Dominio
         public Nullable<int> CargoRubiID { get; set; }
         public Nullable<int> AreaRubiID { get; set; }
         public Nullable<int> SetorRubiID { get; set; }
+        public System.DateTime DataUltimaAlteracao { get; set; }
     
         public virtual ICollection<CompetenciaColaborador> CompetenciaColaborador { get; set; }
         public virtual CicloAvaliacao CicloAvaliacao { get; set; }

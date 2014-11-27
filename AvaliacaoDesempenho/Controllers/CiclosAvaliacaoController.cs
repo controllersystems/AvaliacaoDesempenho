@@ -522,6 +522,7 @@ namespace AvaliacaoDesempenho.Controllers
                                                 avaliacao.CargoRubiID = item.CargoRubiID;
                                                 avaliacao.AreaRubiID = item.AreaRubiID;
                                                 avaliacao.SetorRubiID = item.SetorRubiID;
+                                                avaliacao.DataUltimaAlteracao = DateTime.Now;
 
                                                 avaliacaoColaboradorDAO.Incluir(avaliacao);
                                             }

@@ -40,6 +40,7 @@
           <Property Name="CargoRubiID" Type="int" />
           <Property Name="AreaRubiID" Type="int" />
           <Property Name="SetorRubiID" Type="int" />
+          <Property Name="DataUltimaAlteracao" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="AvaliacaoGestor">
           <Key>
@@ -581,6 +582,7 @@
           <Property Name="CargoRubiID" Type="Int32" />
           <Property Name="AreaRubiID" Type="Int32" />
           <Property Name="SetorRubiID" Type="Int32" />
+          <Property Name="DataUltimaAlteracao" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="CompetenciaColaborador" Relationship="Self.FK_CompetenciaColaborador_AvaliacaoColaborador" FromRole="AvaliacaoColaborador" ToRole="CompetenciaColaborador" />
           <NavigationProperty Name="CicloAvaliacao" Relationship="Self.FK_dbo_AvaliacaoColaborador_dbo_CicloAvaliacao_CicloAvaliacao_ID" FromRole="AvaliacaoColaborador" ToRole="CicloAvaliacao" />
           <NavigationProperty Name="StatusAvaliacaoColaborador" Relationship="Self.FK_dbo_AvaliacaoColaborador_dbo_StatusAvaliacaoColaborador_StatusAvaliacaoColaborador_ID" FromRole="AvaliacaoColaborador" ToRole="StatusAvaliacaoColaborador" />
@@ -1022,7 +1024,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="avaliacao_desempenhoEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AssociacaoCargoCompetencia" EntityType="Self.AssociacaoCargoCompetencia" />
           <EntitySet Name="AvaliacaoColaborador" EntityType="Self.AvaliacaoColaborador" />
           <EntitySet Name="AvaliacaoGestor" EntityType="Self.AvaliacaoGestor" />
@@ -1123,7 +1125,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="avaliacao_desempenhoModelStoreContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="avaliacao_desempenhoModelStoreContainer" CdmEntityContainer="avaliacao_desempenhoEntities">
           <EntitySetMapping Name="AssociacaoCargoCompetencia">
             <EntityTypeMapping TypeName="avaliacao_desempenhoModel.AssociacaoCargoCompetencia">
               <MappingFragment StoreEntitySet="AssociacaoCargoCompetencia">
@@ -1159,6 +1161,7 @@
                 <ScalarProperty Name="CargoRubiID" ColumnName="CargoRubiID" />
                 <ScalarProperty Name="AreaRubiID" ColumnName="AreaRubiID" />
                 <ScalarProperty Name="SetorRubiID" ColumnName="SetorRubiID" />
+                <ScalarProperty Name="DataUltimaAlteracao" ColumnName="DataUltimaAlteracao" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

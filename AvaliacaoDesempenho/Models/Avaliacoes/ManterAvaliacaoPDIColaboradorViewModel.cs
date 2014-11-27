@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AvaliacaoDesempenho.Models.Avaliacoes
@@ -53,6 +54,12 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         public int? SetorRubiID { get; set; }
 
         public int StatusPDIID { get; set; }
+
+        public int? StatusCicloAvaliacaoID { get; set; }
+
+        public DateTime? DataInicioGerenciamentoPDI { get; set; }
+
+        public DateTime? DataTerminoGerenciamentoPDI { get; set; }
 
         public bool IncluirDesenvolvimentoCompetencia { get; set; }
 

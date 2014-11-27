@@ -50,7 +50,8 @@ namespace AvaliacaoDesempenho.Controllers
                             NomeColaborador = item.Usuario.Nome,
                             Matricula = item.Usuario.UsuarioRubiID,
                             Cargo = informacoesRubi.TITRED,
-                            StatusAvaliacao = item.StatusAvaliacaoColaborador.Nome
+                            StatusAvaliacao = item.StatusAvaliacaoColaborador.Nome,
+                            UltimaAlteracao = item.DataUltimaAlteracao
                         });
                     }
                 }
@@ -173,7 +174,8 @@ namespace AvaliacaoDesempenho.Controllers
                             NomeColaborador = item.Usuario.Nome,
                             Matricula = item.Usuario.UsuarioRubiID,
                             Cargo = informacoesRubi.TITRED,
-                            StatusAvaliacao = item.StatusAvaliacaoColaborador.Nome
+                            StatusAvaliacao = item.StatusAvaliacaoColaborador.Nome,
+                            UltimaAlteracao = item.DataUltimaAlteracao
                         });
                     }
                 }
