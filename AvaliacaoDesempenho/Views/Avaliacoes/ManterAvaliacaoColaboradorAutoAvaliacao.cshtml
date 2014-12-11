@@ -210,6 +210,7 @@
                         if (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today)
                         {
                             @Html.TextAreaFor(model => Model.ListaOutrasContribuicoesViewModel[i].Contribuicao, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => Model.ListaOutrasContribuicoesViewModel[i].Contribuicao, string.Empty, new { @class = "text-danger" })
                         }
                         else
                         {
@@ -273,7 +274,16 @@
             <hr />
             <div class="row top20">
                 <div class="col-md-095 col-md-offset-005 text-right">
-                    @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorCompetencias", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
+                    @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao) &&
+                         Model.SituacaoCicloAvaliaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.AutoAvaliacao) &&
+                        (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today))
+                    {
+                        <input type="submit" value="Próxima Etapa" formaction="/Avaliacoes/ProximaEtapaManterAvaliacaoColaboradorAutoAvaliacao" class="btn btn-default" />
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorCompetencias", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
+                    }
                 </div>
             </div>
         }
@@ -337,7 +347,16 @@
         {
             <div class="row top20">
                 <div class="col-md-095 col-md-offset-005 text-right">
-                    @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorCompetencias", new { id = Model.CicloAvaliacaoSelecionadoID }, new { @class = "btn btn-default" })
+                    @if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.AutoAvaliacao) &&
+                         Model.SituacaoCicloAvaliaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.AutoAvaliacao) &&
+                        (Model.DataInicioAutoAvaliacao <= DateTime.Today && Model.DataTerminoAutoAvaliacao >= DateTime.Today))
+                    {
+                        <input type="submit" value="Próxima Etapa" formaction="/Avaliacoes/ProximaEtapaManterAvaliacaoColaboradorAutoAvaliacao" class="btn btn-default" />
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorCompetencias", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
+                    }
                 </div>
             </div>
         }

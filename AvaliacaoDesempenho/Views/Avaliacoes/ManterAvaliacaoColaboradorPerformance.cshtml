@@ -80,11 +80,8 @@
             {
                 if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores))
                 {
-                    //if(Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral != null
-                    //   && Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral != "")
-                    //{
-                    @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorRecomendacao", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
-                    //}
+                    <input type="submit" value="Próxima Etapa" formaction="/Avaliacoes/ProximaEtapaManterAvaliacaoColaboradorPerformance" class="btn btn-default" />
+                    @*@Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorRecomendacao", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })*@
                 }
                 else
                 {

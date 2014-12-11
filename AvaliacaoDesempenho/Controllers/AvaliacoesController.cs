@@ -292,7 +292,7 @@ namespace AvaliacaoDesempenho.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        private ActionResult CarregarGestaoAvaliacaoColaborador(int? cicloAvaliacaoSelecionadoID,
+        public ActionResult CarregarGestaoAvaliacaoColaborador(int? cicloAvaliacaoSelecionadoID,
                                                                 Identidade identidade)
         {
             GestaoAvaliacaoColaboradorViewModel model = new GestaoAvaliacaoColaboradorViewModel();
@@ -821,38 +821,38 @@ namespace AvaliacaoDesempenho.Controllers
             //Se tiver objetivos sem avaliacao, não deixar submeter ao RH.
             if (new ObjetivoColaboradorDAO().ExisteObjetivoSemAvaliacaoGestor(avaliacaoColaboradorID.Value))
             {
-                return ManterAvaliacaoColaboradorAutoAvaliacaoGestor(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID);
+                return ManterAvaliacaoColaboradorAutoAvaliacaoGestor(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID, true);
             }
 
             //Se tiver outras contribuicoes sem avaliacao, não deixar submeter ao RH.
             if (new ContribuicaoColaboradorDAO().ExisteContribuicaoSemAvaliacaoGestor(avaliacaoColaboradorID.Value))
             {
-                return ManterAvaliacaoColaboradorAutoAvaliacaoGestor(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID);
+                return ManterAvaliacaoColaboradorAutoAvaliacaoGestor(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID, true);
             }
 
             //Se tiver competencias sem avaliacao do gestor, não deixar submeter ao RH.
             if (new CompetenciaColaboradorDAO().ExisteCompetenciaSemAvaliacaoGestor(avaliacaoColaboradorID.Value))
             {
-                return ManterAvaliacaoColaboradorCompetenciasGestor(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID);
+                return ManterAvaliacaoColaboradorCompetenciasGestor(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID, true);
             }
 
             //Se tiver competencias avaliada diferente do colaborador sem comentário do gestor, não deixar submeter ao RH.
             if (new CompetenciaColaboradorDAO().ExisteCompetenciaAvaliadaDiferenteSemComentarioGestor(avaliacaoColaboradorID.Value))
             {
-                return ManterAvaliacaoColaboradorCompetenciasGestor(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID);
+                return ManterAvaliacaoColaboradorCompetenciasGestor(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID, true);
             }
 
             //Se não tiver perfomance, não deixar submeter ao RH.
             var performance = new PerformanceColaboradorDAO().Obter(avaliacaoColaboradorID.Value);
             if (performance == null)
             {
-                return ManterAvaliacaoColaboradorPerformance(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID);
+                return ManterAvaliacaoColaboradorPerformance(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID, true);
             }
             else
             {
                 if (string.IsNullOrEmpty(performance.AvaliacaoPerformance))
                 {
-                    return ManterAvaliacaoColaboradorPerformance(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID);
+                    return ManterAvaliacaoColaboradorPerformance(cicloAvaliacaoSelecionadoID, avaliacaoColaborador.Colaborador_ID, true);
                 }
             }
 
@@ -875,7 +875,7 @@ namespace AvaliacaoDesempenho.Controllers
             //Se tiver objetivo/meta sem resultado atingido, não deixar submeter ao gestor.
             if (new ObjetivoColaboradorDAO().ExisteObjetivoSemResultadoAtingido(model.AvaliacaoColaboradorID.Value))
             {
-                return ManterAvaliacaoColaboradorAutoAvaliacao(model.CicloAvaliacaoSelecionadoID, false, false, model.ColaboradorID);
+                return ManterAvaliacaoColaboradorAutoAvaliacao(model.CicloAvaliacaoSelecionadoID, false, false, model.ColaboradorID, true);
             }
 
             //Se tiver competencias sem avaliacao do colaborador, não deixar submeter ao gestor.
@@ -1206,7 +1206,8 @@ namespace AvaliacaoDesempenho.Controllers
         public ActionResult ManterAvaliacaoColaboradorAutoAvaliacao(int? id,
                                                                     bool incluirMeta = false,
                                                                     bool incluirContribuicao = false,
-                                                                    int? colaboradorID = null)
+                                                                    int? colaboradorID = null,
+                                                                    bool? validacao = null)
         {
             ManterAvaliacaoColaboradorAutoAvaliacaoViewModel model =
                 new ManterAvaliacaoColaboradorAutoAvaliacaoViewModel();
@@ -1260,6 +1261,17 @@ namespace AvaliacaoDesempenho.Controllers
                                    List<ObjetivoMetaResultadoAtingidoViewModel>>
                                         (new ObjetivoColaboradorDAO().Listar(avaliacaoColaborador.ID));
 
+                    if (validacao.HasValue && validacao.Value)
+                    {
+                        for (int i = 0; i < model.ListaObjetivosMetasResultadosatingidosViewModel.Count; i++)
+                        {
+                            if (string.IsNullOrEmpty(model.ListaObjetivosMetasResultadosatingidosViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido))
+                            {
+                                ModelState.AddModelError(string.Format("ListaObjetivosMetasResultadosatingidosViewModel[{0}].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido", i), "O Resultado atingido é obrigatório.");
+                            }
+                        }
+                    }
+
                     model.ListaOutrasContribuicoesViewModel =
                         Mapper.Map<List<ContribuicaoColaborador>,
                                    List<OutrasContribuicoesViewModel>>
@@ -1271,6 +1283,7 @@ namespace AvaliacaoDesempenho.Controllers
 
                     if (avaliacaoGestorMetas != null)
                     {
+                        //var count = 0;
                         foreach (var item in avaliacaoGestorMetas)
                         {
                             model.ListaAvaliacaoGestorMetas.Add(new AvaliacaoGestorContribuinte
@@ -1278,6 +1291,14 @@ namespace AvaliacaoDesempenho.Controllers
                                 ID = item.ID,
                                 Avaliacao = item.Avaliacao
                             });
+
+                            //if (validacao.HasValue && validacao.Value)
+                            //{
+                            //    if (string.IsNullOrEmpty(item.Avaliacao))
+                            //    {
+                            //        ModelState.AddModelError("ListaAvaliacaoGestorMetas[" + count + "].Avaliacao", "");
+                            //    }
+                            //}
                         }
                     }
 
@@ -1313,9 +1334,7 @@ namespace AvaliacaoDesempenho.Controllers
                         {
                             model.ListaAvaliacaoGestorOutrasContribuicoes.Add(new Models.Avaliacoes.AvaliacaoGestorContribuinte { ID = item.ID, Avaliacao = string.Empty });
                         }
-
                     }
-
 
                     model.AvaliacaoColaboradorID = avaliacaoColaborador.ID;//avaliacaoColaborador.ID;
 
@@ -1338,6 +1357,21 @@ namespace AvaliacaoDesempenho.Controllers
         public ActionResult ManterAvaliacaoGestor(ManterAvaliacaoColaboradorAutoAvaliacaoViewModel model)
         {
             return ManterAvaliacaoColaboradorAutoAvaliacao(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ProximaEtapaManterAvaliacaoColaboradorAutoAvaliacao(ManterAvaliacaoColaboradorAutoAvaliacaoViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                ManterAvaliacaoColaboradorAutoAvaliacao(model);
+
+                return ManterAvaliacaoColaboradorCompetencias(model.CicloAvaliacaoSelecionadoID, model.ColaboradorID);
+            }
+
+            return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorAutoAvaliacao.cshtml", model);
         }
 
         [Authorize]
@@ -1481,7 +1515,8 @@ namespace AvaliacaoDesempenho.Controllers
         [CriacaoMapeamento(typeof(DeObjetivoColaboradorParaObjetivoMetaResultadoAtingidoGestorViewModel))]
         [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesGestorViewModel))]
         public ActionResult ManterAvaliacaoColaboradorAutoAvaliacaoGestor(int? id,
-                                                                          int? colaboradorID = null)
+                                                                          int? colaboradorID = null,
+            bool? validacao = null)
         {
             ManterAvaliacaoColaboradorAutoAvaliacaoGestorViewModel model =
                 new ManterAvaliacaoColaboradorAutoAvaliacaoGestorViewModel();
@@ -1541,6 +1576,17 @@ namespace AvaliacaoDesempenho.Controllers
                                    List<ObjetivoMetaResultadoAtingidoGestorViewModel>>
                                         (new ObjetivoColaboradorDAO().Listar(avaliacaoColaborador.ID));
 
+                    if (validacao.HasValue && validacao.Value)
+                    {
+                        for (int i = 0; i < model.ListaObjetivosMetasResultadosatingidosGestorViewModel.Count; i++)
+                        {
+                            if (string.IsNullOrEmpty(model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].AvaliacaoGestor))
+                            {
+                                ModelState.AddModelError(string.Format("ListaObjetivosMetasResultadosatingidosGestorViewModel[{0}].AvaliacaoGestor", i), "A avaliação do gestor é obrigatória.");
+                            }
+                        }
+                    }
+
                     Mapper.CreateMap<ContribuicaoColaborador, OutrasContribuicoesGestorViewModel>()
                     .ForMember(dest => dest.AvaliacaoGestor,
                                opt => opt.MapFrom(source => source.AvaliacaoGestor.Avaliacao));
@@ -1549,6 +1595,17 @@ namespace AvaliacaoDesempenho.Controllers
                         Mapper.Map<List<ContribuicaoColaborador>,
                                    List<OutrasContribuicoesGestorViewModel>>
                                        (new ContribuicaoColaboradorDAO().Listar(avaliacaoColaborador.ID));
+
+                    if (validacao.HasValue && validacao.Value)
+                    {
+                        for (int i = 0; i < model.ListaOutrasContribuicoesGestorViewModel.Count; i++)
+                        {
+                            if (string.IsNullOrEmpty(model.ListaOutrasContribuicoesGestorViewModel[i].AvaliacaoGestor))
+                            {
+                                ModelState.AddModelError(string.Format("ListaOutrasContribuicoesGestorViewModel[{0}].AvaliacaoGestor", i), "A avaliação do gestor é obrigatória.");
+                            }
+                        }
+                    }
 
                     model.ListaAvaliacaoGestorMetas = new List<AvaliacaoGestorContribuinte>();
 
@@ -1609,6 +1666,21 @@ namespace AvaliacaoDesempenho.Controllers
             }
 
             model.CicloAvaliacaoSelecionadoID = id.Value;
+
+            return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorAutoAvaliacaoGestor.cshtml", model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ProximaEtapaManterAvaliacaoColaboradorCompetenciasGestor(ManterAvaliacaoColaboradorAutoAvaliacaoGestorViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                ManterAvaliacaoColaboradorAutoAvaliacaoGestor(model);
+
+                return ManterAvaliacaoColaboradorCompetenciasGestor(model.CicloAvaliacaoSelecionadoID, model.ColaboradorID);
+            }
 
             return View("~/Views/Avaliacoes/ManterAvaliacaoColaboradorAutoAvaliacaoGestor.cshtml", model);
         }
@@ -2036,11 +2108,24 @@ namespace AvaliacaoDesempenho.Controllers
         }
 
         [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [CriacaoMapeamento(typeof(DeObjetivoColaboradorParaObjetivoMetaResultadoAtingidoViewModel))]
+        [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
+        public ActionResult ProximaEtapaManterAvaliacaoColaboradorGestorPerfomance(ManterAvaliacaoColaboradorCompetenciasGestorViewModel model)
+        {
+            ManterAvaliacaoColaboradorCompetenciasGestor(model);
+
+            return ManterAvaliacaoColaboradorPerformance(model.CicloAvaliacaoSelecionadoID, model.ColaboradorID);
+        }
+
+        [Authorize]
         [HttpGet]
         [CriacaoMapeamento(typeof(DeObjetivoColaboradorParaObjetivoMetaResultadoAtingidoViewModel))]
         [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
         public ActionResult ManterAvaliacaoColaboradorCompetenciasGestor(int? id,
-                                                                         int? colaboradorID = null)
+                                                                         int? colaboradorID = null,
+            bool? validacao = null)
         {
             ManterAvaliacaoColaboradorCompetenciasGestorViewModel model =
                 new ManterAvaliacaoColaboradorCompetenciasGestorViewModel();
@@ -2117,6 +2202,7 @@ namespace AvaliacaoDesempenho.Controllers
                             }
 
                             itemListaAdd.NivelGestor = (competenciasColaborador == null) ? null : competenciasColaborador.NivelGestor;
+
                             itemListaAdd.ComentarioGestor = (competenciasColaborador == null) ? string.Empty : competenciasColaborador.ComentariosGestor;
 
                             switch (item.id_tipo_comp)
@@ -2124,16 +2210,50 @@ namespace AvaliacaoDesempenho.Controllers
                                 case (int)Enumeradores.TipoCompetencia.Corporativa:
                                     {
                                         model.ListaCompetenciasCorporativas.Add(itemListaAdd);
+                                        if (validacao.HasValue && validacao.Value)
+                                        {
+                                            if (itemListaAdd.NivelGestor == null)
+                                            {
+                                                ModelState.AddModelError(string.Format("ListaCompetenciasCorporativas[{0}].NivelGestor", model.ListaCompetenciasCorporativas.Count - 1), "O nível é obrigatório.");
+                                            }
+
+                                            if (itemListaAdd.NivelGestor != itemListaAdd.NivelColaborador && string.IsNullOrEmpty(itemListaAdd.ComentarioGestor) && itemListaAdd.NivelGestor != null)
+                                            {
+                                                ModelState.AddModelError(string.Format("ListaCompetenciasCorporativas[{0}].ComentarioGestor", model.ListaCompetenciasCorporativas.Count - 1), "O comentário é obrigatório.");
+                                            }
+                                        }
                                         break;
                                     }
                                 case (int)Enumeradores.TipoCompetencia.Funcionais:
                                     {
                                         model.ListaCompetenciasFuncionais.Add(itemListaAdd);
+                                        if (validacao.HasValue && validacao.Value)
+                                        {
+                                            if (itemListaAdd.NivelGestor == null)
+                                            {
+                                                ModelState.AddModelError(string.Format("ListaCompetenciasFuncionais[{0}].NivelGestor", model.ListaCompetenciasFuncionais.Count - 1), "O nível é obrigatório.");
+                                            }
+                                            if (itemListaAdd.NivelGestor != itemListaAdd.NivelColaborador && string.IsNullOrEmpty(itemListaAdd.ComentarioGestor) && itemListaAdd.NivelGestor != null)
+                                            {
+                                                ModelState.AddModelError(string.Format("ListaCompetenciasFuncionais[{0}].ComentarioGestor", model.ListaCompetenciasFuncionais.Count - 1), "O comentário é obrigatório.");
+                                            }
+                                        }
                                         break;
                                     }
                                 case (int)Enumeradores.TipoCompetencia.Lideranca:
                                     {
                                         model.ListaCompetenciasLideranca.Add(itemListaAdd);
+                                        if (validacao.HasValue && validacao.Value)
+                                        {
+                                            if (itemListaAdd.NivelGestor == null)
+                                            {
+                                                ModelState.AddModelError(string.Format("ListaCompetenciasLideranca[{0}].NivelGestor", model.ListaCompetenciasLideranca.Count - 1), "O nível é obrigatório.");
+                                            }
+                                            if (itemListaAdd.NivelGestor != itemListaAdd.NivelColaborador && string.IsNullOrEmpty(itemListaAdd.ComentarioGestor) && itemListaAdd.NivelGestor != null)
+                                            {
+                                                ModelState.AddModelError(string.Format("ListaCompetenciasLideranca[{0}].ComentarioGestor", model.ListaCompetenciasLideranca.Count - 1), "O comentário é obrigatório.");
+                                            }
+                                        }
                                         break;
                                     }
                                 default:
@@ -2332,7 +2452,8 @@ namespace AvaliacaoDesempenho.Controllers
         [CriacaoMapeamento(typeof(DeObjetivoColaboradorParaObjetivoMetaResultadoAtingidoViewModel))]
         [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
         public ActionResult ManterAvaliacaoColaboradorPerformance(int? id,
-                                                                   int? colaboradorID = null)
+                                                                   int? colaboradorID = null,
+            bool? validacao=null)
         {
             ManterAvaliacaoColaboradorPerformanceViewModel model =
                 new ManterAvaliacaoColaboradorPerformanceViewModel();
@@ -2393,6 +2514,21 @@ namespace AvaliacaoDesempenho.Controllers
                     {
                         model.AvaliacaoPerformanceGerais.ID = performanceColaborador.ID;
                         model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral = performanceColaborador.AvaliacaoPerformance;
+
+                        if (validacao.HasValue && validacao.Value)
+                        {
+                            if (string.IsNullOrEmpty(model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral))
+                            {
+                                ModelState.AddModelError("AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral", "A avaliação da performance é obrigatória.");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (validacao.HasValue && validacao.Value)
+                        {
+                            ModelState.AddModelError("AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral", "A avaliação da performance é obrigatória.");
+                        }
                     }
                 }
                 else
@@ -2461,6 +2597,18 @@ namespace AvaliacaoDesempenho.Controllers
             }
 
             return ManterAvaliacaoColaboradorPerformance(model.CicloAvaliacaoSelecionadoID, model.ColaboradorID);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [CriacaoMapeamento(typeof(DeObjetivoColaboradorParaObjetivoMetaResultadoAtingidoViewModel))]
+        [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
+        public ActionResult ProximaEtapaManterAvaliacaoColaboradorPerformance(ManterAvaliacaoColaboradorPerformanceViewModel model)
+        {
+            ManterAvaliacaoColaboradorPerformance(model);
+
+            return ManterAvaliacaoColaboradorRecomendacao(model.CicloAvaliacaoSelecionadoID, model.ColaboradorID);
         }
         #endregion Performance
 

@@ -180,15 +180,19 @@
     <Compile Include="Controllers\RelatoriosController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Dominio\AssociacaoCargoCompetencia.cs">
+      <SubType>Code</SubType>
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\AvaliacaoColaborador.cs">
+      <SubType>Code</SubType>
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\AvaliacaoGestor.cs">
+      <SubType>Code</SubType>
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\AvaliacaoPDIColaborador.cs">
+      <SubType>Code</SubType>
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\BusinessEntities\Area.cs" />
@@ -197,12 +201,15 @@
     <Compile Include="Dominio\BusinessEntities\Enumeradores.cs" />
     <Compile Include="Dominio\BusinessEntities\Setor.cs" />
     <Compile Include="Dominio\CicloAvaliacao.cs">
+      <SubType>Code</SubType>
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\CompetenciaColaborador.cs">
+      <SubType>Code</SubType>
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\ContribuicaoColaborador.cs">
+      <SubType>Code</SubType>
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\DAL\AssociacaoCargoCompetenciaDAO.cs" />
@@ -221,9 +228,11 @@
     <Compile Include="Dominio\DAL\StatusPDIDAO.cs" />
     <Compile Include="Dominio\DAL\UsuarioDAO.cs" />
     <Compile Include="Dominio\DesenvolvimentoCompetencia.cs">
+      <SubType>Code</SubType>
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\MetaColaborador.cs">
+      <SubType>Code</SubType>
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\ModeloAvaliacaoDesempenho.Context.cs">
@@ -242,30 +251,39 @@
       <DependentUpon>ModeloAvaliacaoDesempenho.edmx</DependentUpon>
     </Compile>
     <Compile Include="Dominio\ObjetivoColaborador.cs">
+      <SubType>Code</SubType>
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\Papel.cs">
+      <SubType>Code</SubType>
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\PerformanceColaborador.cs">
+      <SubType>Code</SubType>
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\RecomendacaoColaborador.cs">
+      <SubType>Code</SubType>
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\ResultadoAtingidoColaborador.cs">
+      <SubType>Code</SubType>
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\SituacaoCicloAvaliacao.cs">
+      <SubType>Code</SubType>
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\StatusAvaliacaoColaborador.cs">
+      <SubType>Code</SubType>
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\StatusPDI.cs">
+      <SubType>Code</SubType>
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\Usuario.cs">
+      <SubType>Code</SubType>
       <DependentUpon>ModeloAvaliacaoDesempenho.tt</DependentUpon>
     </Compile>
     <Compile Include="Dominio\Validators\BaseValidator.cs" />

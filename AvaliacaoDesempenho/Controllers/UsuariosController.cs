@@ -170,6 +170,8 @@ namespace AvaliacaoDesempenho.Controllers
 
             model.CicloAvaliacaoDescricao = new CicloAvaliacaoDAO().Obter(cicloAvaliacaoSelecionadoID.Value).Descricao;
 
+            model.CicloAvaliacaoID = cicloAvaliacaoSelecionadoID;
+
             return PartialView("~/Views/Avaliacoes/CabecalhoColaborador.cshtml", model);
         }
 

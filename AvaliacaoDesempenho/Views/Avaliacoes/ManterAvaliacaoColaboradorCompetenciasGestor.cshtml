@@ -393,7 +393,7 @@
                 }
                 if (Model.ProximaEtapa)
                 {
-                    @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorPerformance", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
+                    <input type="submit" value="Próxima Etapa" formaction="/Avaliacoes/ProximaEtapaManterAvaliacaoColaboradorGestorPerfomance" class="btn btn-default" />
                 }
             }
             @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH

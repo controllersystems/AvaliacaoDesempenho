@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using System;
+using System.Globalization;
+using System.Threading;
 
 namespace AvaliacaoDesempenho.Util.Mapeamentos.CriacaoMapeamento
 {
@@ -7,11 +9,16 @@ namespace AvaliacaoDesempenho.Util.Mapeamentos.CriacaoMapeamento
     {
         public string Convert(ResolutionContext context)
         {
+            CultureInfo originalCulture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR");
             var sourceDate = context.SourceValue as DateTime?;
+            string data;
             if (sourceDate.HasValue)
-                return sourceDate.Value.ToShortDateString();
+                data = sourceDate.Value.ToShortDateString();
             else
-                return string.Empty;
+                data = string.Empty;
+            Thread.CurrentThread.CurrentCulture = originalCulture;
+            return data;
         }
     }
 
@@ -19,11 +26,16 @@ namespace AvaliacaoDesempenho.Util.Mapeamentos.CriacaoMapeamento
     {
         public string Convert(ResolutionContext context)
         {
+            CultureInfo originalCulture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR");
             var sourceDate = context.SourceValue as DateTime?;
+            string data;
             if (sourceDate.HasValue)
-                return sourceDate.Value.ToShortDateString();
+                data = sourceDate.Value.ToShortDateString();
             else
-                return string.Empty;
+                data = string.Empty;
+            Thread.CurrentThread.CurrentCulture = originalCulture;
+            return data;
         }
     }
 }

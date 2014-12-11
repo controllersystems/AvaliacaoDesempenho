@@ -47,9 +47,19 @@
             </div>
             <div class="form-group">
                 <div class="col-md-offset-1 col-md-5">
-                    <input type="submit" value="Entrar" class="btn btn-default" />
+                    <button type="button" id="entrar" data-loading-text="Aguarde..." class="btn btn-default">Entrar</button>
                 </div>
             </div>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#entrar").click(function () {
+                        var btn = $(this);
+                        btn.button('loading');
+
+                        $("form").submit();
+                    });
+                });
+            </script>
         }
     </div>
 </div>

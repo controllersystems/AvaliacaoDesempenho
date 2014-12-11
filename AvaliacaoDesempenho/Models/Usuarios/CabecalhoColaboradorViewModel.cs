@@ -2,6 +2,8 @@
 {
     public class CabecalhoColaboradorViewModel
     {
+        public int? CicloAvaliacaoID { get; set; }
+
         public string CicloAvaliacaoDescricao { get; set; }
 
         public int UsuarioID { get; private set; }

@@ -311,7 +311,7 @@ namespace AvaliacaoDesempenho.Controllers
                                                 Matricula = item.Usuario.UsuarioRubiID,
                                                 Cargo = informacoesRubi.TITRED,
                                                 TipoCompetencia = (competencias.id_tipo_comp == 1) ? "Funcionais" : (competencias.id_tipo_comp == 2) ? "Corporativa" : "Liderança",
-                                                NomeCompetencia = competencias.descricao_comp,
+                                                NomeCompetencia = (string.IsNullOrEmpty(competencias.descricao_comp)) ? competencias.titulo_comp : competencias.titulo_comp + " - " + competencias.descricao_comp,
                                                 NivelRequirido = j.NivelRequerido,
                                                 NivelAvaliadoGestor = j.NivelGestor,
                                                 CampoGap = (j.NivelGestor != null && j.NivelRequerido != null) ? (j.NivelGestor.Value - j.NivelRequerido.Value) : 0

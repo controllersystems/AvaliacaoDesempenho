@@ -20,9 +20,17 @@
 
 <div class="row">
     <div class="col-md-100">
-        @Html.ActionLink("Consolidar Cargos Rubi", "ConsolidarCargosRubi", new { id = Model.CicloAvaliacaoSelecionadoID }, new { @class = "btn btn-default" })
-
-        @*@Html.ActionLink("Importar Competências", "", null, new { @class = "btn btn-default" })*@
+        @Html.HiddenFor(model => model.CicloAvaliacaoSelecionadoID)
+        <button type="button" id="consolidarCargosRubi" data-loading-text="Aguarde..." class="btn btn-default">Consolidar Cargos Rubi</button>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#consolidarCargosRubi').click(function () {
+                    var btn = $(this);
+                    btn.button('loading');
+                    location.href = '/CiclosAvaliacao/ConsolidarCargosRubi/' + $("#CicloAvaliacaoSelecionadoID").val();
+                });
+            });
+        </script>
     </div>
 </div>
 
@@ -45,8 +53,8 @@
 
         @Html.HiddenFor(modelCiclo => Model.CicloAvaliacaoSelecionadoID)
         @Html.HiddenFor(modelCiclo => Model.Pagina)
-   
-    for (int i = 0; i < ((Model.AssociacoesCargosCompetencias.Count < Model.Pagina * 20) ? Model.AssociacoesCargosCompetencias.Count : Model.Pagina * 20); i++)
+
+        for (int i = 0; i < ((Model.AssociacoesCargosCompetencias.Count < Model.Pagina * 20) ? Model.AssociacoesCargosCompetencias.Count : Model.Pagina * 20); i++)
         {
             @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].ID)
         }
@@ -89,30 +97,30 @@
                             </td>
                             <td>
                                 @Html.DropDownListFor(modelItem => Model.AssociacoesCargosCompetencias[i].CargoCompetenciaID,
-                                      new SelectList(Model.CargosCompentencia,
-                                                     "Value",
-                                                     "Text",
-                                                     Model.AssociacoesCargosCompetencias[i].CargoCompetenciaID),
-                                                     "Não participa",
-                                                     new { @class = "form-control" })
+                    new SelectList(Model.CargosCompentencia,
+                    "Value",
+                    "Text",
+                    Model.AssociacoesCargosCompetencias[i].CargoCompetenciaID),
+                    "Não participa",
+                    new { @class = "form-control" })
                             </td>
                             <td>
                                 @Html.DropDownListFor(modelItem => Model.AssociacoesCargosCompetencias[i].AreaCompetenciaID,
-                                      new SelectList(Model.AreasCompentencia,
-                                                     "Value",
-                                                     "Text",
-                                                     Model.AssociacoesCargosCompetencias[i].AreaCompetenciaID),
-                                                     "Não participa",
-                                                     new { @class = "form-control" })
+                    new SelectList(Model.AreasCompentencia,
+                    "Value",
+                    "Text",
+                    Model.AssociacoesCargosCompetencias[i].AreaCompetenciaID),
+                    "Não participa",
+                    new { @class = "form-control" })
                             </td>
                             <td>
                                 @Html.DropDownListFor(modelItem => Model.AssociacoesCargosCompetencias[i].SetorCompetenciaID,
-                                      new SelectList(Model.SetoresCompentencia,
-                                                     "Value",
-                                                     "Text",
-                                                     Model.AssociacoesCargosCompetencias[i].SetorCompetenciaID),
-                                                     "Não participa",
-                                                     new { @class = "form-control" })
+                    new SelectList(Model.SetoresCompentencia,
+                    "Value",
+                    "Text",
+                    Model.AssociacoesCargosCompetencias[i].SetorCompetenciaID),
+                    "Não participa",
+                    new { @class = "form-control" })
                             </td>
 
                             @Html.HiddenFor(modelItem => Model.AssociacoesCargosCompetencias[i].ID)
@@ -180,12 +188,14 @@
             <div class="col-md-100">
                 @if (Model.ExisteUltimoCiclo)
                 {
-                    <input id="copiarUltimoCiclo" type="button" value="Copiar último ciclo" class="btn btn-default" />
+                    <button type="button" id="copiarUltimoCiclo" data-loading-text="Aguarde..." class="btn btn-default">Copiar último ciclo</button>
                     if (Model.ExisteRelacaoSalva)
                     {
                         <script type="text/javascript">
                             $(document).ready(function () {
                                 $('#copiarUltimoCiclo').click(function () {
+                                    var btn = $(this);
+                                    btn.button('loading');
                                     if (confirm("Esta operação irá sobrescrever as associações existentes, deseja continuar?")) {
                                         $('#frmAssociacoes').attr('action', '/CiclosAvaliacao/SobrescreverPeloUltimoCiclo/' + $("#CicloAvaliacaoSelecionadoID").val());
                                         $('#frmAssociacoes').submit();
@@ -199,6 +209,8 @@
                         <script type="text/javascript">
                             $(document).ready(function () {
                                 $('#copiarUltimoCiclo').click(function () {
+                                    var btn = $(this);
+                                    btn.button('loading');
                                     $('#frmAssociacoes').attr('action', '/CiclosAvaliacao/SobrescreverPeloUltimoCiclo/' + $("#CicloAvaliacaoSelecionadoID").val());
                                     $('#frmAssociacoes').submit();
                                 });
@@ -206,7 +218,17 @@
                         </script>
                     }
                 }
-                <input type="submit" value="Salvar" class="btn btn-default" />
+                <button type="button" id="salvar" data-loading-text="Aguarde..." class="btn btn-default">Salvar</button>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#salvar').click(function () {
+                            var btn = $(this);
+                            btn.button('loading');
+                            $('form').submit();
+                        });
+                    });
+                </script>
+
             </div>
         </div>
     }

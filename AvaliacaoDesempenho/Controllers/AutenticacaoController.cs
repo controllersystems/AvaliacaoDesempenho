@@ -90,6 +90,10 @@ namespace AvaliacaoDesempenho.Controllers
                         return RedirectToAction("Index", "Home");
                     }
                 }
+                else
+                {
+                    model.Validado = false;
+                }
             }
 
             return View(model);
