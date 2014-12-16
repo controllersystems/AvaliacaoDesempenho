@@ -1,0 +1,328 @@
+﻿@model AvaliacaoDesempenho.Models.Relatorios.ImpressaoEstruturadaIndividualViewModel
+
+@{
+    ViewBag.Title = "Impressão Estruturada";
+    ViewBag.Ciclo = Model.CicloAvaliacaoSelecionadoID;
+    Layout = "~/Views/Shared/_LayoutRelatorio.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-025">
+        <label>Objetivos</label>
+    </div>
+    <div class="col-md-025">
+        <label>Metas</label>
+    </div>
+    <div class="col-md-025">
+        <label>Resultados Atingidos</label>
+    </div>
+    <div class="col-md-025">
+        <label>Avaliação Gestor</label>
+    </div>
+</div>
+
+@for (int i = 0; i < Model.ListaObjetivosMetasResultadosatingidosGestorViewModel.Count; i++)
+{
+
+    <div class="row top30">
+        <div class="col-md-025">
+            @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].Objetivo, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+        <div class="col-md-025">
+            @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].MetaColaboradorMeta, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+        <div class="col-md-025">
+            @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+        <div class="col-md-025">
+            @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].AvaliacaoGestor, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+    </div>
+}
+<hr />
+
+<div class="row top20">
+    <div class="col-md-100">
+        <label>Outras Contribuições</label>
+    </div>
+</div>
+
+@for (int i = 0; i < Model.ListaOutrasContribuicoesGestorViewModel.Count; i++)
+{
+    <div class="row top30">
+        <div class="col-md-050">
+            @Html.TextAreaFor(model => Model.ListaOutrasContribuicoesGestorViewModel[i].Contribuicao, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+        <div class="col-md-050">
+            @Html.TextAreaFor(model => Model.ListaOutrasContribuicoesGestorViewModel[i].AvaliacaoGestor, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+    </div>
+}
+<hr />
+
+@if (Model.ListaCompetenciasCorporativas != null && Model.ListaCompetenciasCorporativas.Any())
+{
+    <div class="row top30">
+        <div class="col-md-100">
+            <table class="table">
+                <tr>
+                    <th>
+                        Competências Corporativas
+                    </th>
+                    <th>
+                        Colaborador
+                    </th>
+                    <th>
+                        Nível Requerido
+                    </th>
+                    <th>
+                        Gestor
+                    </th>
+                    <th>
+                        Comentário do Gestor
+                    </th>
+                </tr>
+                @for (int i = 0; i < Model.ListaCompetenciasCorporativas.Count; i++)
+                {
+                    <tr>
+                        <td class="col-md-6">
+                            @Html.TextAreaFor(model => Model.ListaCompetenciasCorporativas[i].Competencia, new { @class = "form-control", @readonly = "readonly" })
+                        </td>
+                        <td class="col-md-1">
+                            @Html.TextBoxFor(model => Model.ListaCompetenciasCorporativas[i].NivelColaborador, new { @class = "form-control", @readonly = "readonly" })
+                        </td>
+                        <td class="col-md-1">
+                            @Html.TextBoxFor(model => Model.ListaCompetenciasCorporativas[i].NivelRequerido, new { @class = "form-control", @readonly = "readonly" })
+                        </td>
+                        <td class="col-md-1">
+                            @Html.TextBoxFor(model => model.ListaNivelAvaliacao.FirstOrDefault(x => x.Value == model.ListaCompetenciasCorporativas[i].NivelGestor.ToString()).Text,
+                                                new { @class = "form-control", @readonly = "readonly" })
+                        </td>
+                        <td class="col-md-3">
+                            @Html.TextAreaFor(model => Model.ListaCompetenciasCorporativas[i].ComentarioGestor, new { @class = "form-control", @readonly = "readonly" })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+    <hr />
+}
+
+
+@if (Model.ListaCompetenciasLideranca != null && Model.ListaCompetenciasLideranca.Any())
+{
+    <div class="row top20">
+        <div class="col-md-100">
+            <table class="table">
+                <tr>
+                    <th>
+                        Competências de Liderança
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+
+                @for (int i = 0; i < Model.ListaCompetenciasLideranca.Count; i++)
+                {
+                    <tr>
+                        <td class="col-md-6">
+                            @Html.TextAreaFor(model => Model.ListaCompetenciasLideranca[i].Competencia, new { @class = "form-control", @readonly = "readonly" })
+                        </td>
+                        <td class="col-md-1">
+                            @Html.TextBoxFor(model => Model.ListaCompetenciasLideranca[i].NivelColaborador, new { @class = "form-control", @readonly = "readonly" })
+                        </td>
+                        <td class="col-md-1">
+                            @Html.TextBoxFor(model => Model.ListaCompetenciasLideranca[i].NivelRequerido, new { @class = "form-control", @readonly = "readonly" })
+                        </td>
+                        <td class="col-md-1">
+                            @Html.TextBoxFor(model => model.ListaNivelAvaliacao.FirstOrDefault(x => x.Value == model.ListaCompetenciasLideranca[i].NivelGestor.ToString()).Text,
+                                                new { @class = "form-control", @readonly = "readonly" })
+                        </td>
+                        <td class="col-md-3">
+                            @Html.TextAreaFor(model => Model.ListaCompetenciasLideranca[i].ComentarioGestor, new { @class = "form-control", @readonly = "readonly" })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+    <hr />
+}
+
+@if (Model.ListaCompetenciasFuncionais != null && Model.ListaCompetenciasFuncionais.Any())
+{
+    <div class="row top20">
+        <div class="col-md-100">
+            <table class="table">
+                <tr>
+                    <th>
+                        Competências Funcionais
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+                @for (int i = 0; i < Model.ListaCompetenciasFuncionais.Count; i++)
+                {
+                    <tr>
+                        <td class="col-md-6">
+                            @Html.TextAreaFor(model => Model.ListaCompetenciasFuncionais[i].Competencia, new { @class = "form-control", @readonly = "readonly" })
+                        </td>
+                        <td class="col-md-1">
+                            @Html.TextBoxFor(model => Model.ListaCompetenciasFuncionais[i].NivelColaborador, new { @class = "form-control", @readonly = "readonly" })
+                        </td>
+                        <td class="col-md-1">
+                            @Html.TextBoxFor(model => Model.ListaCompetenciasFuncionais[i].NivelRequerido, new { @class = "form-control", @readonly = "readonly" })
+                        </td>
+                        <td class="col-md-1">
+                            @Html.TextBoxFor(model => model.ListaNivelAvaliacao.FirstOrDefault(x => x.Value == model.ListaCompetenciasFuncionais[i].NivelGestor.ToString()).Text,
+                                                new { @class = "form-control", @readonly = "readonly" })
+                        </td>
+                        <td class="col-md-3">
+                            @Html.TextAreaFor(model => model.ListaCompetenciasFuncionais[i].ComentarioGestor, new { @class = "form-control", @readonly = "readonly" })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+    <hr />
+}
+
+<div class="row top20">
+    <div class="col-md-100">
+        <table class="table">
+            <tr>
+                <th>
+                    Avaliação da performance Geral
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    @Html.TextAreaFor(model => Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral, new { @class = "form-control", @readonly = "readonly" })
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<hr />
+
+<label>Recomendação</label>
+
+<div class="row top20">
+    <div class="col-md-050">
+        <label>Classificação de Desempenho</label>
+    </div>
+    <div class="col-md-050">
+        @if (Model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem == null)
+        {
+            @Html.TextBox("Model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem", string.Empty, new { @class = "form-control", @readonly = "readonly" })
+        }
+        else
+        {
+            @Html.TextBoxFor(model => Model.ListaRecomendacaoDeRating.FirstOrDefault(x => x.Value == Model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem.Value.ToString()).Text,
+                                                new { @class = "form-control", @readonly = "readonly" })
+        }
+    </div>
+</div>
+<hr />
+<br />
+<div class="row top20">
+    <div class="col-md-100">
+        <label>PDI - Plano de Desenvolvimento Individual</label>
+    </div>
+</div>
+<hr />
+<h3>Formações atuais</h3>
+<div class="row top30">
+    <div class="col-md-030">
+        @Html.LabelFor(model => model.PDI.Idiomas, new { @class = "control-label" })
+    </div>
+    <div class="col-md-070">
+        @Html.LabelFor(model => model.PDI.Graduacao, new { @class = "control-label" })
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-030">
+        @Html.TextAreaFor(model => model.PDI.Idiomas, new { @class = "form-control", @readonly = "readonly" })
+    </div>
+    <div class="col-md-070">
+        @Html.TextAreaFor(model => model.PDI.Graduacao, new { @class = "form-control", @readonly = "readonly" })
+    </div>
+</div>
+<hr />
+<h3>Plano de Desenvolvimento</h3>
+<div class="row top30">
+    <div class="col-md-100">
+        @Html.LabelFor(model => model.PDI.PontosFortes, new { @class = "control-label" })
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-100">
+        @Html.TextAreaFor(model => model.PDI.PontosFortes, new { @class = "form-control", @readonly = "readonly" })
+    </div>
+</div>
+<div class="row top20">
+    <div class="col-md-100">
+        @Html.LabelFor(model => model.PDI.PontosDesenvolvimento, new { @class = "control-label" })
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-100">
+        @Html.TextAreaFor(model => model.PDI.PontosDesenvolvimento, new { @class = "form-control", @readonly = "readonly" })
+    </div>
+</div>
+<hr />
+@if (Model.PDI.ListaDesenvolvimentoCompetenciaViewModel != null && Model.PDI.ListaDesenvolvimentoCompetenciaViewModel.Any())
+{
+    for (int i = 0; i < Model.PDI.ListaDesenvolvimentoCompetenciaViewModel.Count; i++)
+    {
+        <div class="row top30">
+            <div class="col-md-050">
+                @Html.HiddenFor(model => model.PDI.ListaDesenvolvimentoCompetenciaViewModel[i].ID)
+                @Html.LabelFor(model => model.PDI.ListaDesenvolvimentoCompetenciaViewModel[i].AcaoDesenvolvimento, new { @class = "control-label", @style = "text-align:left" })
+            </div>
+            <div class="col-md-050">
+                @Html.LabelFor(model => model.PDI.ListaDesenvolvimentoCompetenciaViewModel[i].RecursoSuporte, new { @class = "control-label" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-050">
+                @Html.TextAreaFor(model => model.PDI.ListaDesenvolvimentoCompetenciaViewModel[i].AcaoDesenvolvimento, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+            <div class="col-md-050">
+                @Html.TextAreaFor(model => model.PDI.ListaDesenvolvimentoCompetenciaViewModel[i].RecursoSuporte, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+    }
+}
+<div class="row top30">
+    <div class="col-md-100">
+        @Html.LabelFor(model => model.PDI.ComentariosColaborador, new { @class = "control-label" })
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-100">
+        @Html.TextAreaFor(model => model.PDI.ComentariosColaborador, new { @class = "form-control", @readonly = "readonly" })
+    </div>
+</div>

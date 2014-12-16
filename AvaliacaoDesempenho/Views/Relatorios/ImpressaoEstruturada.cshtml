@@ -1,0 +1,107 @@
+﻿@model AvaliacaoDesempenho.Models.Relatorios.ImpressaoEstruturadaViewModel
+
+@{
+    ViewBag.Title = "Impressão Estruturada";
+    ViewBag.Ciclo = Model.CicloSelecionado;
+    Layout = "~/Views/Shared/_LayoutRelatorio.cshtml";
+}
+
+@using (Html.BeginForm("PesquisarImpressaoEstruturada",
+                       "Relatorios",
+                       FormMethod.Post,
+                       new { @class = "form-horizontal", role = "form" }))
+{
+
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.CicloSelecionado)
+
+    <div class="row top20">
+        <div class="col-md-015">
+            @Html.LabelFor(model => model.GestorPesquisado, new { @class = "control-label" })
+        </div>
+        <div class="col-md-035">
+            @Html.EditorFor(model => model.GestorPesquisado, new { @class = "form-control" })
+        </div>
+        <div class="col-md-015">
+            @Html.LabelFor(model => model.AreaPesquisada, new { @class = "control-label" })
+        </div>
+        <div class="col-md-035">
+            @Html.EditorFor(model => model.AreaPesquisada, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-015">
+            @Html.LabelFor(model => model.CargoPesquisado, new { @class = "control-label" })
+        </div>
+        <div class="col-md-035">
+            @Html.EditorFor(model => model.CargoPesquisado, new { @class = "form-control" })
+        </div>
+        <div class="col-md-015">
+            @Html.LabelFor(model => model.ColaboradorPesquisado, new { @class = "control-label" })
+        </div>
+        <div class="col-md-035">
+            @Html.EditorFor(model => model.ColaboradorPesquisado, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-095 col-md-offset-005 text-right">
+            <input type="submit" value="Pesquisar" id="btnPesquisar" class="btn btn-default" />
+        </div>
+    </div>
+
+    <div class="row top20">
+        <div class="col-md-100">
+            <table class="table">
+                <tr>
+                    <th>
+                        Gestor
+                    </th>
+                    <th>
+                        Área
+                    </th>
+                    <th>
+                        Avaliado
+                    </th>
+                    <th>
+                        Cargo
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                </tr>
+
+                @if (Model.ListaImpressaoEstruturada != null && Model.ListaImpressaoEstruturada.Any())
+                {
+                    for (int i = 0; i < Model.ListaImpressaoEstruturada.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.ListaImpressaoEstruturada[i].Gestor)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.ListaImpressaoEstruturada[i].Area)
+                            </td>
+                            <td>
+                                @Html.ActionLink(Model.ListaImpressaoEstruturada[i].NomeColaborador, "ImpressaoEstruturadaIndividual", new { cicloSelecionado = Model.CicloSelecionado, colaboradorID = Model.ListaImpressaoEstruturada[i].ColaboradorID })
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.ListaImpressaoEstruturada[i].Cargo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.ListaImpressaoEstruturada[i].StatusAvaliacao)
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnImprimir").hide();
+        });
+    </script>
+}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace AvaliacaoDesempenho.Models.Relatorios
 {
@@ -21,6 +22,14 @@ namespace AvaliacaoDesempenho.Models.Relatorios
         public string ColaboradorPesquisado { get; set; }
         [Display(Name = "Cargo")]
         public string CargoPesquisado { get; set; }
+        [Display(Name = "Localidade")]
+        public string LocalidadePesquisado { get; set; }
+        [Display(Name = "Recomendação de Rating")]
+        public int? RecomendacaoDeRatingPesquisado { get; set; }
+        [Display(Name = "Indicação de Promoção")]
+        public bool? IndicacaoDePromocaoPesquisado { get; set; }
+        public IEnumerable<SelectListItem> ListaSimNao { get; set; }
+        public IEnumerable<SelectListItem> ListaRecomendacaoDeRating { get; set; }
     }
 
     public class ItemReuniaoCalibragemViewModel

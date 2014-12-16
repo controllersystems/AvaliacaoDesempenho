@@ -1516,10 +1516,14 @@ namespace AvaliacaoDesempenho.Controllers
         [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesGestorViewModel))]
         public ActionResult ManterAvaliacaoColaboradorAutoAvaliacaoGestor(int? id,
                                                                           int? colaboradorID = null,
-            bool? validacao = null)
+                                                                          bool? validacao = null,
+                                                                          bool? administrador = null)
         {
             ManterAvaliacaoColaboradorAutoAvaliacaoGestorViewModel model =
                 new ManterAvaliacaoColaboradorAutoAvaliacaoGestorViewModel();
+
+            if (administrador.HasValue)
+                model.Administrador = administrador.Value;
 
             var identidade = new Identidade();
 

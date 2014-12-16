@@ -333,6 +333,8 @@
     <Compile Include="Models\Relatorios\AcompanhamentoGeralViewModel.cs" />
     <Compile Include="Models\Relatorios\EngajamentoViewModel.cs" />
     <Compile Include="Models\Relatorios\GapCompetenciasViewModel.cs" />
+    <Compile Include="Models\Relatorios\ImpressaoEstruturadaIndividualViewModel.cs" />
+    <Compile Include="Models\Relatorios\ImpressaoEstruturadaViewModel.cs" />
     <Compile Include="Models\Relatorios\RatingFinalColaboradorViewModel.cs" />
     <Compile Include="Models\Relatorios\RatingFinalGestorViewModel.cs" />
     <Compile Include="Models\Relatorios\RatingFinalRHViewModel.cs" />
@@ -392,6 +394,7 @@
     <Content Include="Content\Styles\bootstrap.css" />
     <Content Include="Content\Styles\bootstrap.min.css" />
     <Content Include="Content\Fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\Styles\relatorio.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Styles\Site.css" />
     <Content Include="Content\Fonts\glyphicons-halflings-regular.woff" />
@@ -487,6 +490,8 @@
     <Content Include="Views\Relatorios\GapCompetencias.cshtml" />
     <Content Include="Views\Relatorios\RelatorioPDI.cshtml" />
     <Content Include="Views\Shared\_LayoutRelatorio.cshtml" />
+    <Content Include="Views\Relatorios\ImpressaoEstruturada.cshtml" />
+    <Content Include="Views\Relatorios\ImpressaoEstruturadaIndividual.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_GlobalResources\" />

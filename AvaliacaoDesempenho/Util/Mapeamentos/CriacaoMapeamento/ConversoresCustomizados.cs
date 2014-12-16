@@ -9,15 +9,12 @@ namespace AvaliacaoDesempenho.Util.Mapeamentos.CriacaoMapeamento
     {
         public string Convert(ResolutionContext context)
         {
-            CultureInfo originalCulture = Thread.CurrentThread.CurrentCulture;
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR");
             var sourceDate = context.SourceValue as DateTime?;
             string data;
             if (sourceDate.HasValue)
-                data = sourceDate.Value.ToShortDateString();
+                data = string.Format("{0}/{1}/{2}", sourceDate.Value.Day.ToString("0#"), sourceDate.Value.Month.ToString("0#"), sourceDate.Value.Year.ToString("000#"));
             else
                 data = string.Empty;
-            Thread.CurrentThread.CurrentCulture = originalCulture;
             return data;
         }
     }
@@ -26,15 +23,12 @@ namespace AvaliacaoDesempenho.Util.Mapeamentos.CriacaoMapeamento
     {
         public string Convert(ResolutionContext context)
         {
-            CultureInfo originalCulture = Thread.CurrentThread.CurrentCulture;
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR");
             var sourceDate = context.SourceValue as DateTime?;
             string data;
             if (sourceDate.HasValue)
-                data = sourceDate.Value.ToShortDateString();
+                data = string.Format("{0}/{1}/{2}", sourceDate.Value.Day.ToString("0#"), sourceDate.Value.Month.ToString("0#"), sourceDate.Value.Year.ToString("000#"));
             else
                 data = string.Empty;
-            Thread.CurrentThread.CurrentCulture = originalCulture;
             return data;
         }
     }

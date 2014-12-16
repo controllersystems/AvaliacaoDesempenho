@@ -47,7 +47,7 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
         public List<AvaliacaoGestorContribuinte> ListaAvaliacaoGestorOutrasContribuicoes { get; set; }
 
         public bool ProximaEtapa { get; set; }
-
+        public bool Administrador { get; set; }
 
         public bool AcessoGestor
         {

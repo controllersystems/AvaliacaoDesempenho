@@ -7,7 +7,14 @@
 <section id="bread">
     <ul class="breadcrumb">
         <li>@Html.ActionLink("Administração", "Index", "Home")<span class="divider"></span></li>
-        <li>@Html.ActionLink("Gerenciamento de avaliação", "CarregarGestaoAvaliacaoColaborador", "Avaliacoes", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoID }, null)<span class="divider"></span></li>
+        @if (ViewBag.Administrador != null && ViewBag.Administrador)
+        {
+            <li>@Html.ActionLink("Gerenciamento de avaliações", "GestaoAvaliacoesColaboradores", "Avaliacoes", new { id = Model.CicloAvaliacaoID }, null)<span class="divider"></span></li>
+        }
+        else
+        {
+            <li>@Html.ActionLink("Gerenciamento de avaliação", "CarregarGestaoAvaliacaoColaborador", "Avaliacoes", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoID }, null)<span class="divider"></span></li>
+        }
         <li class="active">Avaliação</li>
         <li class="pull-right">@Html.ActionLink("Sair", "LogOff", "Autenticacao")</li>
     </ul>

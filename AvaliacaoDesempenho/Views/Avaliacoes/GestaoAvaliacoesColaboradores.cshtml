@@ -139,7 +139,7 @@
                                     @Html.DisplayFor(modelItem => Model.AvaliacoesColaboradores[i].Area)
                                 </td>
                                 <td>
-                                    @Html.ActionLink(Model.AvaliacoesColaboradores[i].UsuarioNome, "ManterAvaliacaoColaboradorAutoAvaliacaoGestor", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.AvaliacoesColaboradores[i].ColaboradorID })
+                                    @Html.ActionLink(Model.AvaliacoesColaboradores[i].UsuarioNome, "ManterAvaliacaoColaboradorAutoAvaliacaoGestor", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.AvaliacoesColaboradores[i].ColaboradorID, administrador = true })
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => Model.AvaliacoesColaboradores[i].Cargo)
