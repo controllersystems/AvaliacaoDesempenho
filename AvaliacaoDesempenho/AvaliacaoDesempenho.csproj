@@ -332,6 +332,7 @@
     <Compile Include="Models\Relatorios\AcompanhamentoEtapaViewModel.cs" />
     <Compile Include="Models\Relatorios\AcompanhamentoGeralViewModel.cs" />
     <Compile Include="Models\Relatorios\EngajamentoViewModel.cs" />
+    <Compile Include="Models\Relatorios\EnvioDeEmailRatingFinal.cs" />
     <Compile Include="Models\Relatorios\GapCompetenciasViewModel.cs" />
     <Compile Include="Models\Relatorios\ImpressaoEstruturadaIndividualViewModel.cs" />
     <Compile Include="Models\Relatorios\ImpressaoEstruturadaViewModel.cs" />
@@ -458,6 +459,7 @@
       <DependentUpon>ModeloAvaliacaoDesempenho.edmx</DependentUpon>
       <LastGenOutput>ModeloAvaliacaoDesempenho.cs</LastGenOutput>
     </Content>
+    <Content Include="Views\Relatorios\EmailRatingEnviado.cshtml" />
     <None Include="Properties\PublishProfiles\Teste.pubxml" />
     <Content Include="Views\CiclosAvaliacao\GestaoCompetenciasCargos.cshtml" />
     <Content Include="Views\Avaliacoes\GestaoAvaliacoesColaboradores.cshtml" />
@@ -492,6 +494,7 @@
     <Content Include="Views\Shared\_LayoutRelatorio.cshtml" />
     <Content Include="Views\Relatorios\ImpressaoEstruturada.cshtml" />
     <Content Include="Views\Relatorios\ImpressaoEstruturadaIndividual.cshtml" />
+    <Content Include="Views\Relatorios\EnvioDeEmailRatingFinal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_GlobalResources\" />

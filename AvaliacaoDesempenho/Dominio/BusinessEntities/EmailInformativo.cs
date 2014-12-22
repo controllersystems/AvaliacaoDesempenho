@@ -1,6 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Web.Mvc;
+//using System.Web.Mail;
+using System.Net.Mail;
+using System.Configuration;
+using System.Net;
 
 namespace AvaliacaoDesempenho.Dominio.BusinessEntities
 {
@@ -34,5 +38,40 @@ namespace AvaliacaoDesempenho.Dominio.BusinessEntities
         public string RodapeHTML { get; set; }
 
         public List<string> ListaDeEmails { get; set; }
+
+        public EmailInformativo()
+        {
+            ListaDeEmails = new List<string>();
+        }
+
+        public void Send()
+        {
+            MailMessage msg = new MailMessage();
+
+            msg.From = new MailAddress(ConfigurationManager.AppSettings["mailFrom"].ToString());
+
+
+            foreach (var item in this.ListaDeEmails)
+            {
+                msg.Bcc.Add(item);
+            }
+
+            msg.Subject = this.Assunto;
+            msg.Body = this.CabecalhoHTML + "<br />" + this.Mensagem + "<br />" + this.RodapeHTML;
+            msg.Priority = MailPriority.High;
+            msg.IsBodyHtml = true;
+
+            SmtpClient client = new SmtpClient();
+
+            client.Host = ConfigurationManager.AppSettings["smtpServer"].ToString();
+            client.Port = int.Parse(ConfigurationManager.AppSettings["smtpPort"].ToString());
+            //client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.EnableSsl = bool.Parse(ConfigurationManager.AppSettings["EnableSsl"].ToString());
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["smtpUser"].ToString(), ConfigurationManager.AppSettings["smtpPass"].ToString());
+            //client.Timeout = 20000;
+
+            client.Send(msg);
+        }
     }
 }

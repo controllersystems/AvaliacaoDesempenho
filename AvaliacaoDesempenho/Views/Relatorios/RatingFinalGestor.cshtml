@@ -45,68 +45,81 @@
         </div>
     </div>
 }
-<div class="row top30">
-    <div class="col-md-12">
-        <table class="table">
-            <tr>
-                <th>
-                    Diretoria
-                </th>
-                <th>
-                    Area
-                </th>
-                <th>
-                    Gestor
-                </th>
-                <th>
-                    Nome do Colaborador
-                </th>
-                <th>
-                    Matrícula
-                </th>
-                <th>
-                    Cargo
-                </th>
-                <th>
-                    Rating Final
-                </th>
-                <th>
-                    Indicação Final a Promoção
-                </th>
-            </tr>
-            @if (Model.ListaRatingFinalGestor != null &&
+@using (Html.BeginForm("PrepararEmailRatingFinalGestor",
+                       "Relatorios",
+                       FormMethod.Post,
+                       new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.HiddenFor(model => model.CicloSelecionado)
+    <div class="row top30">
+        <div class="col-md-12">
+            <table class="table">
+                <tr>
+                    <th>
+                        Diretoria
+                    </th>
+                    <th>
+                        Area
+                    </th>
+                    <th>
+                        Gestor
+                    </th>
+                    <th>
+                        Nome do Colaborador
+                    </th>
+                    <th>
+                        Matrícula
+                    </th>
+                    <th>
+                        Cargo
+                    </th>
+                    <th>
+                        Rating Final
+                    </th>
+                    <th>
+                        Indicação Final a Promoção
+                    </th>
+                </tr>
+                @if (Model.ListaRatingFinalGestor != null &&
                 Model.ListaRatingFinalGestor.Any())
-            {
-                for (int i = 0; i < Model.ListaRatingFinalGestor.Count; i++)
                 {
-                    <tr>
-                        <td>
-                            @Model.ListaRatingFinalGestor[i].Diretoria
-                        </td>
-                        <td>
-                            @Model.ListaRatingFinalGestor[i].Area
-                        </td>
-                        <td>
-                            @Model.ListaRatingFinalGestor[i].Gestor
-                        </td>
-                        <td>
-                            @Model.ListaRatingFinalGestor[i].NomeColaborador
-                        </td>
-                        <td>
-                            @Model.ListaRatingFinalGestor[i].Matricula
-                        </td>
-                        <td>
-                            @Model.ListaRatingFinalGestor[i].Cargo
-                        </td>
-                        <td>
-                            @Model.ListaRatingFinalGestor[i].RatingFinal
-                        </td>
-                        <td>
-                            @Model.ListaRatingFinalGestor[i].IndicacaoDePromocao
-                        </td>
-                    </tr>
+                    for (int i = 0; i < Model.ListaRatingFinalGestor.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.HiddenFor(model => model.ListaRatingFinalGestor[i].ColaboradorID)
+                                @Model.ListaRatingFinalGestor[i].Diretoria
+                            </td>
+                            <td>
+                                @Model.ListaRatingFinalGestor[i].Area
+                            </td>
+                            <td>
+                                @Model.ListaRatingFinalGestor[i].Gestor
+                            </td>
+                            <td>
+                                @Model.ListaRatingFinalGestor[i].NomeColaborador
+                            </td>
+                            <td>
+                                @Model.ListaRatingFinalGestor[i].Matricula
+                            </td>
+                            <td>
+                                @Model.ListaRatingFinalGestor[i].Cargo
+                            </td>
+                            <td>
+                                @Model.ListaRatingFinalGestor[i].RatingFinal
+                            </td>
+                            <td>
+                                @Model.ListaRatingFinalGestor[i].IndicacaoDePromocao
+                            </td>
+                        </tr>
+                    }
                 }
-            }
-        </table>
+            </table>
+        </div>
     </div>
-</div>
+    <div class="row top20">
+        <div class="col-md-095 col-md-offset-005 text-right">
+            <input type="submit" value="Enviar email" class="btn btn-default" />
+        </div>
+    </div>
+}

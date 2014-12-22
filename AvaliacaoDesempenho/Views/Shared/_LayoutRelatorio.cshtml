@@ -6,9 +6,7 @@
     <title>OMNI - Sistema de Avaliação de Desempenho</title>
     @Styles.Render("~/Styles/css")
     @Styles.Render("~/Styles/bootstrap")
-
     @Scripts.Render("~/bundles/modernizr")
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
 </head>
@@ -16,15 +14,22 @@
     <div class="container body-content">
         <div class="navbar navbar-fixed-top fundoAzul">
             <div class="container titulo">
-                   <h3>@ViewBag.Title</h3>
+                <h3>@ViewBag.Title</h3>
             </div>
         </div>
-        
+
         <div class="span12 content-area top100">
             <section id="bread">
                 <ul class="breadcrumb">
                     <li>@Html.ActionLink("Administração", "Index", "Home")<span class="divider"></span></li>
-                    <li>@Html.ActionLink("Relatórios", "Index", "Relatorios", new { cicloSelecionado = ViewBag.Ciclo }, null)<span class="divider"></span></li>
+                    @if (ViewBag.AcessoGestor != null && ViewBag.AcessoGestor)
+                    {
+                        <li>@Html.ActionLink("Gerenciamento de avaliação", "CarregarGestaoAvaliacaoColaborador", "Avaliacoes", new { cicloAvaliacaoSelecionadoID = ViewBag.Ciclo }, null)<span class="divider"></span></li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Relatórios", "Index", "Relatorios", new { cicloSelecionado = ViewBag.Ciclo }, null)<span class="divider"></span></li>
+                    }
                     <li class="active">@ViewBag.Title</li>
                     <li class="pull-right">@Html.ActionLink("Sair", "LogOff", "Autenticacao")</li>
                 </ul>
@@ -54,10 +59,9 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#btnImprimir').click(function () { window.print();});
+            $('#btnImprimir').click(function () { window.print(); });
         });
     </script>
-
     <link href="~/Content/Styles/relatorio.css" rel="stylesheet" media="print" />
     @RenderSection("scripts", required: false)
 </body>

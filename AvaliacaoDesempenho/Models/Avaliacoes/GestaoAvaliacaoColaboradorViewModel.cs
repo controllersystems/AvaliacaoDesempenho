@@ -10,6 +10,8 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
 
         public int? AvaliacaoColaboradorID { get; set; }
 
+        public int? ColaboradorID { get; set; }
+
         public string DataCriacao { get; set; }
 
         public string TituloOrientacaoObjetivosMetas { get; set; }

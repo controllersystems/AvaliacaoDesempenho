@@ -786,7 +786,7 @@ namespace AvaliacaoDesempenho.Controllers
                         model.Email.ListaDeEmails.Add(item.Email);
                     }
 
-                    EnviarEmail(model.Email);
+                    model.Email.Send();
                 }
 
                 return View("~/Views/CiclosAvaliacao/EmailEnviado.cshtml");
@@ -800,36 +800,6 @@ namespace AvaliacaoDesempenho.Controllers
         {
             model.VerEmail = true;
             return View("~/Views/CiclosAvaliacao/EnvioEmails.cshtml", model);
-        }
-
-        private void EnviarEmail(EmailInformativo email)
-        {
-            MailMessage msg = new MailMessage();
-
-            msg.From = new MailAddress(ConfigurationManager.AppSettings["mailFrom"].ToString());
-
-
-            foreach (var item in email.ListaDeEmails)
-            {
-                msg.Bcc.Add(item);
-            }
-
-            msg.Subject = email.Assunto;
-            msg.Body = email.CabecalhoHTML + "<br />" + email.Mensagem + "<br />" + email.RodapeHTML;
-            msg.Priority = MailPriority.High;
-            msg.IsBodyHtml = true;
-
-            SmtpClient client = new SmtpClient();
-
-            client.Host = ConfigurationManager.AppSettings["smtpServer"].ToString();
-            client.Port = int.Parse(ConfigurationManager.AppSettings["smtpPort"].ToString());
-            //client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.EnableSsl = bool.Parse(ConfigurationManager.AppSettings["EnableSsl"].ToString());
-            client.UseDefaultCredentials = false;
-            client.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["smtpUser"].ToString(), ConfigurationManager.AppSettings["smtpPass"].ToString());
-            //client.Timeout = 20000;
-
-            client.Send(msg);
         }
     }
 }

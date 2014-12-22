@@ -11,6 +11,8 @@ namespace AvaliacaoDesempenho.Models.Relatorios
     {
         public int? ColaboradorID { get; set; }
 
+        public bool? AcessorGestor { get; set; }
+
         public int? CicloAvaliacaoSelecionadoID { get; set; }
 
         public List<ObjetivoMetaResultadoAtingidoGestorViewModel> ListaObjetivosMetasResultadosatingidosGestorViewModel { get; set; }

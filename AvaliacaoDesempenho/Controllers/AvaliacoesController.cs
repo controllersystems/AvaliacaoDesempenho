@@ -301,6 +301,8 @@ namespace AvaliacaoDesempenho.Controllers
             var avaliacaoPDIColaboradorDAO = new AvaliacaoPDIColaboradorDAO();
             var associacaoCargoCompetenciaDAO = new AssociacaoCargoCompetenciaDAO();
 
+            model.ColaboradorID = identidade.UsuarioID;
+
             var cicloAvaliacao = new CicloAvaliacaoDAO().Obter(cicloAvaliacaoSelecionadoID.Value);
 
             if (cicloAvaliacao != null)

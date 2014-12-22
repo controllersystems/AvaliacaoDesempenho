@@ -27,10 +27,12 @@
     </h4>
     <div class="pull-right">
         @Html.ActionLink("Início", "Index", "Home")
+        <label>&nbsp;&nbsp;|&nbsp;&nbsp;</label>
+        @Html.ActionLink("Impressão estruturada", "ImpressaoEstruturadaIndividual", "Relatorios", new { cicloSelecionado = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID, acessoGestor = true }, null)
         @if (Model.OrientacaoCompetencia != null)
         {
             <label>&nbsp;&nbsp;|&nbsp;&nbsp;</label><a href="@Model.OrientacaoCompetencia" target="_blank">Ajuda</a>
-        }
+        }        
     </div>
     <div class="row top30">
         <div class="col-md-12">

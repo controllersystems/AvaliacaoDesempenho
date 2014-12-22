@@ -546,6 +546,7 @@ namespace AvaliacaoDesempenho.Controllers
                     {
                         model.ListaRatingFinalGestor.Add(new ItemRatingFinalGestorViewModel
                         {
+                            ColaboradorID = item.Usuario.ID,
                             Diretoria = informacoesRubi.USU_CODDIR,
                             Area = informacoesRubi.CODCCU,
                             Gestor = informacoesRubi.LD1NOM,
@@ -572,11 +573,19 @@ namespace AvaliacaoDesempenho.Controllers
                 model.AnoReferencia = ciclo.DataFimVigencia.Year;
             }
 
-            var avaliacoes = new AvaliacaoColaboradorDAO().Listar(model.CicloSelecionado.Value);
+            model.ListaRatingFinalGestor = GetRatinfFinalGestor(model.CicloSelecionado.Value, model.AreaPesquisada, model.GestorPesquisado, model.DiretoriaPesquisada);
+
+            return View("~/Views/Relatorios/RatingFinalGestor.cshtml", model);
+        }
+
+        private List<ItemRatingFinalGestorViewModel> GetRatinfFinalGestor(int cicloID, string areaPesquisada, string gestorPesquisado, string diretoriaPesquisada)
+        {
+            List<ItemRatingFinalGestorViewModel> lista = new List<ItemRatingFinalGestorViewModel>();
+
+            var avaliacoes = new AvaliacaoColaboradorDAO().Listar(cicloID);
 
             if (avaliacoes != null)
             {
-                model.ListaRatingFinalGestor = new List<ItemRatingFinalGestorViewModel>();
                 foreach (var item in avaliacoes)
                 {
                     var informacoesRubi = new IntegracaoRubi().ObterUSU_V034FAD(item.Usuario.CodigoEmpresaRubiUD, item.Usuario.UsuarioRubiID);
@@ -584,40 +593,41 @@ namespace AvaliacaoDesempenho.Controllers
                     if (informacoesRubi != null)
                     {
                         bool restringe = false;
-                        if (model.DiretoriaPesquisada != null)
+                        if (diretoriaPesquisada != null)
                         {
-                            if (!informacoesRubi.USU_CODDIR.ToUpper().Contains(model.DiretoriaPesquisada.ToUpper()))
+                            if (!informacoesRubi.USU_CODDIR.ToUpper().Contains(diretoriaPesquisada.ToUpper()))
                             {
                                 restringe = true;
                             }
                         }
 
-                        if (model.AreaPesquisada != null)
+                        if (areaPesquisada != null)
                         {
-                            if (!informacoesRubi.CODCCU.ToUpper().Contains(model.AreaPesquisada.ToUpper()))
+                            if (!informacoesRubi.CODCCU.ToUpper().Contains(areaPesquisada.ToUpper()))
                             {
                                 restringe = true;
                             }
                         }
 
-                        if (model.GestorPesquisado != null)
+                        if (gestorPesquisado != null)
                         {
-                            if (!informacoesRubi.LD1NOM.ToUpper().Contains(model.GestorPesquisado.ToUpper()))
+                            if (!informacoesRubi.LD1NOM.ToUpper().Contains(gestorPesquisado.ToUpper()))
                             {
                                 restringe = true;
                             }
                         }
                         if (!restringe)
                         {
-                            model.ListaRatingFinalGestor.Add(new ItemRatingFinalGestorViewModel
+                            lista.Add(new ItemRatingFinalGestorViewModel
                             {
                                 Diretoria = informacoesRubi.USU_CODDIR,
                                 Area = informacoesRubi.CODCCU,
                                 Gestor = informacoesRubi.LD1NOM,
                                 NomeColaborador = item.Usuario.Nome,
+                                EmailColaborador = item.Usuario.Email,
                                 Matricula = item.Usuario.UsuarioRubiID,
                                 Cargo = informacoesRubi.TITRED,
-                                RatingFinal = (recomendacao != null ? (recomendacao.RatingFinalPosCalibragem == 1) ? "Excepcional" : ((recomendacao.RatingFinalPosCalibragem == 2) ? "Excede as Expectativas" : ((recomendacao.RatingFinalPosCalibragem == 3) ? "Atende as Expectativas" : "Abaixo das Expectativas")):" "),
+                                RatingFinal = (recomendacao != null ? (recomendacao.RatingFinalPosCalibragem == 1) ? "Excepcional" : ((recomendacao.RatingFinalPosCalibragem == 2) ? "Excede as Expectativas" : ((recomendacao.RatingFinalPosCalibragem == 3) ? "Atende as Expectativas" : "Abaixo das Expectativas")) : " "),
                                 IndicacaoDePromocao = (recomendacao != null ? ((recomendacao.RecomendacaoDePromocao.HasValue) ? (recomendacao.RecomendacaoDePromocao.Value ? "Sim" : "Não") : "") : " "),
                             });
                         }
@@ -625,8 +635,9 @@ namespace AvaliacaoDesempenho.Controllers
                 }
             }
 
-            return View("~/Views/Relatorios/RatingFinalGestor.cshtml", model);
+            return lista;
         }
+
         public ActionResult RatingFinalRH(int? cicloSelecionado)
         {
             RatingFinalRHViewModel model = new RatingFinalRHViewModel();
@@ -1107,7 +1118,19 @@ namespace AvaliacaoDesempenho.Controllers
 
                         var recomendacao = new RecomendacaoColaboradorDAO().Obter(item.ID);
 
-                        if (recomendacao != null)
+                        if (recomendacao == null)
+                        {
+                            if (model.IndicacaoDePromocaoPesquisado.HasValue)
+                            {
+                                restringe = true;
+                            }
+
+                            if (model.RecomendacaoDeRatingPesquisado.HasValue)
+                            {
+                                restringe = true;
+                            }
+                        }
+                        else
                         {
                             if (model.IndicacaoDePromocaoPesquisado.HasValue)
                             {
@@ -1282,7 +1305,7 @@ namespace AvaliacaoDesempenho.Controllers
             return View("~/Views/Relatorios/ImpressaoEstruturada.cshtml", model);
         }
 
-        public ActionResult ImpressaoEstruturadaIndividual(int? cicloSelecionado, int? colaboradorID)
+        public ActionResult ImpressaoEstruturadaIndividual(int? cicloSelecionado, int? colaboradorID, bool? acessoGestor = null)
         {
             var identidade = new Identidade();
 
@@ -1306,7 +1329,9 @@ namespace AvaliacaoDesempenho.Controllers
             }
             #endregion
 
-            ImpressaoEstruturadaIndividualViewModel model=new ImpressaoEstruturadaIndividualViewModel();
+            ImpressaoEstruturadaIndividualViewModel model = new ImpressaoEstruturadaIndividualViewModel();
+            model.AcessorGestor = acessoGestor;
+            model.CicloAvaliacaoSelecionadoID = cicloSelecionado;
 
             var cicloAvaliacao = new CicloAvaliacaoDAO().Obter(cicloSelecionado.Value);
 
@@ -1469,6 +1494,53 @@ namespace AvaliacaoDesempenho.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult PrepararEmailRatingFinalGestor(RatingFinalGestorViewModel model)
+        {
+            EnvioDeEmailRatingFinal newModel=new EnvioDeEmailRatingFinal();
+            newModel.CicloAvaliacaoID = model.CicloSelecionado;
+            newModel.Email.Mensagem = "Nome : {nome_colaborador} </br>";
+            newModel.Email.Mensagem += "Indicação de promoção : {indicacao_promocao} </br>";
+            newModel.Email.Mensagem += "Rating : {rating} </br>";
+            return View("~/Views/Relatorios/EnvioDeEmailRatingFinal.cshtml", newModel);
+        }
+
+        [HttpPost]
+        public ActionResult EnviarEmailRatingFinalGestor(EnvioDeEmailRatingFinal model)
+        {
+            if (ModelState.IsValid)
+            {
+                List<ItemRatingFinalGestorViewModel> lista = GetRatinfFinalGestor(model.CicloAvaliacaoID.Value, model.AreaPesquisada, model.GestorPesquisado, model.DiretoriaPesquisada);
+
+                foreach (var item in lista)
+                {
+                    EmailInformativo email = new EmailInformativo();
+                    email.Assunto = model.Email.Assunto;
+                    email.CabecalhoHTML = model.Email.CabecalhoHTML;
+                    email.Mensagem = model.Email.Mensagem.Replace("{nome_colaborador}", item.NomeColaborador)
+                                                         .Replace("{indicacao_promocao}", item.IndicacaoDePromocao)
+                                                         .Replace("{rating}", item.RatingFinal);
+                    email.RodapeHTML = model.Email.RodapeHTML;
+                    email.ListaDeEmails.Add(item.EmailColaborador);
+                    email.Send();
+                }
+
+                ViewBag.Ciclo = model.CicloAvaliacaoID;
+
+                return View("~/Views/Relatorios/EmailRatingEnviado.cshtml");
+            }
+
+            return View("~/Views/Relatorios/EnvioDeEmailRatingFinal.cshtml", model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult VerEmail(EnvioDeEmailRatingFinal model)
+        {
+            model.VerEmail = true;
+            return View("~/Views/Relatorios/EnvioDeEmailRatingFinal.cshtml", model);
         }
     }
 }

@@ -1,0 +1,107 @@
+﻿@model AvaliacaoDesempenho.Models.Relatorios.EnvioDeEmailRatingFinal
+
+@{
+    ViewBag.Title = "Envio de email Rating Final";
+    ViewBag.Ciclo = Model.CicloAvaliacaoID;
+    Layout = "~/Views/Shared/_LayoutRelatorio.cshtml";
+}
+
+@using (Html.BeginForm("EnviarEmailRatingFinalGestor",
+                       "Relatorios",
+                       FormMethod.Post,
+                       new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.CicloAvaliacaoID)
+    @Html.HiddenFor(model => model.AreaPesquisada)
+    @Html.HiddenFor(model => model.DiretoriaPesquisada)
+    @Html.HiddenFor(model => model.GestorPesquisado)
+
+    <div class="row">
+        <div class="col-md-010">
+            @Html.LabelFor(model => model.Email.Assunto, new { @class = "control-label" })
+        </div>
+        <div class="col-md-090">
+            @Html.EditorFor(model => model.Email.Assunto, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Email.Assunto, string.Empty, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-100">
+            @Html.LabelFor(model => model.Email.CabecalhoHTML, new { @class = "control-label" })
+        </div>
+        <div class="col-md-100">
+            @Html.TextAreaFor(model => model.Email.CabecalhoHTML, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Email.CabecalhoHTML, string.Empty, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-100">
+            @Html.LabelFor(model => model.Email.Mensagem, new { @class = "control-label" })
+        </div>
+        <div class="col-md-100">
+            @Html.TextAreaFor(model => model.Email.Mensagem, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Email.Mensagem, string.Empty, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row top20">
+        <div class="col-md-100">
+            @Html.LabelFor(model => model.Email.RodapeHTML, new { @class = "control-label" })
+        </div>
+        <div class="col-md-100">
+            @Html.TextAreaFor(model => model.Email.RodapeHTML, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Email.RodapeHTML, string.Empty, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row top40 pull-right" style="padding-bottom: 10px;">
+        <div class="col-md-100">
+            <input type="submit" formaction="/Relatorios/VerEmail" value="Visualizar" class="btn btn-default" />
+            <button id="btnEnviar" class="btn btn-default" data-loading-text="Enviando...">Enviar</button>
+        </div>
+    </div>
+
+    if (Model.VerEmail)
+    {
+        <div id="pop-up" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">
+                            @Model.Email.Assunto
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        @Html.Raw(Model.Email.CabecalhoHTML)
+                        <br />
+                        @Html.Raw(Model.Email.Mensagem)
+                        <br />
+                        @Html.Raw(Model.Email.RodapeHTML)
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#pop-up').modal('show');
+            });
+        </script>
+    }
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnEnviar").click(function () {
+                var btn = $(this);
+                btn.button('loading');
+
+                $("form").submit();
+            });
+        });
+    </script>
+}
