@@ -2131,7 +2131,8 @@ namespace AvaliacaoDesempenho.Controllers
         [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
         public ActionResult ManterAvaliacaoColaboradorCompetenciasGestor(int? id,
                                                                          int? colaboradorID = null,
-            bool? validacao = null)
+                                                                         bool? validacao = null,
+                                                                         bool? administrador = null)
         {
             ManterAvaliacaoColaboradorCompetenciasGestorViewModel model =
                 new ManterAvaliacaoColaboradorCompetenciasGestorViewModel();
@@ -2151,6 +2152,9 @@ namespace AvaliacaoDesempenho.Controllers
             model.UsuarioRubiID = identidade.UsuarioRubiID;
 
             model.ColaboradorID = usuarioID;
+
+            if (administrador.HasValue)
+                model.Administrador = administrador.Value;
 
             #region <<<<< Validar permissão de usuário >>>>>
             if (identidade.UsuarioID != usuarioID)
@@ -2458,8 +2462,9 @@ namespace AvaliacaoDesempenho.Controllers
         [CriacaoMapeamento(typeof(DeObjetivoColaboradorParaObjetivoMetaResultadoAtingidoViewModel))]
         [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
         public ActionResult ManterAvaliacaoColaboradorPerformance(int? id,
-                                                                   int? colaboradorID = null,
-            bool? validacao=null)
+                                                                  int? colaboradorID = null,
+                                                                  bool? validacao=null,
+                                                                  bool? administrador = null)
         {
             ManterAvaliacaoColaboradorPerformanceViewModel model =
                 new ManterAvaliacaoColaboradorPerformanceViewModel();
@@ -2478,6 +2483,9 @@ namespace AvaliacaoDesempenho.Controllers
             model.ColaboradorID = usuarioID;
 
             model.PapelID = identidade.PapelID;
+
+            if (administrador.HasValue)
+                model.Administrador = administrador.Value;
 
             #region <<<<< Validar permissão de usuário >>>>>
             if (identidade.UsuarioID != usuarioID)
@@ -2834,7 +2842,8 @@ namespace AvaliacaoDesempenho.Controllers
         [CriacaoMapeamento(typeof(DeObjetivoColaboradorParaObjetivoMetaResultadoAtingidoViewModel))]
         [CriacaoMapeamento(typeof(DeContribuicaoColaboradorParaOutrasContribuicoesViewModel))]
         public ActionResult ManterAvaliacaoColaboradorRecomendacaoRH(int? id,
-                                                                     int? colaboradorID = null)
+                                                                     int? colaboradorID = null,
+                                                                     bool? administrador = null)
         {
             ManterAvaliacaoColaboradorRecomendacaoRHViewModel model =
                 new ManterAvaliacaoColaboradorRecomendacaoRHViewModel();
@@ -2853,6 +2862,9 @@ namespace AvaliacaoDesempenho.Controllers
             model.ColaboradorID = usuarioID;
 
             model.PapelID = identidade.PapelID;
+
+            if (administrador.HasValue)
+                model.Administrador = administrador.Value;
 
             #region <<<<< Validar permissão de usuário >>>>>
             if (identidade.UsuarioID != usuarioID)

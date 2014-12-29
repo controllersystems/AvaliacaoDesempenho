@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
 }
 
-@Html.Action("CabecalhoColaborador", "Usuarios", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID })
+@Html.Action("CabecalhoColaborador", "Usuarios", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID, administrador = Model.Administrador })
 
 <label>Performance</label>
 <hr />
@@ -67,7 +67,7 @@
 
     <div class="row top20">
         <div class="col-md-095 col-md-offset-005 text-right">
-            @Html.ActionLink("Anterior", "ManterAvaliacaoColaboradorCompetenciasGestor", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
+            @Html.ActionLink("Anterior", "ManterAvaliacaoColaboradorCompetenciasGestor", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID, administrador = Model.Administrador }, new { @class = "btn btn-default" })
             @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosGestores)
             {
                 if (Model.StatusCicloAvaliacaoID == (int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosGestores
@@ -85,14 +85,14 @@
                 }
                 else
                 {
-                    @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorRecomendacaoRH", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorRecomendacaoRH", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID, administrador = Model.Administrador }, new { @class = "btn btn-default" })
                 }
             }
             else
             {
                 if (Model.StatusAvaliacaoColaboradorID.Equals((int)Enumeradores.StatusAvaliacaoColaborador.Encerrada))
                 {
-                    @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorRecomendacaoRH", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorRecomendacaoRH", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID, administrador = Model.Administrador }, new { @class = "btn btn-default" })
                 }
             }
         </div>

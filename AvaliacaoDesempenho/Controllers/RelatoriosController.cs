@@ -789,7 +789,7 @@ namespace AvaliacaoDesempenho.Controllers
 
                             if (model.RecomendacaoDeRatingPesquisado.HasValue)
                             {
-                                if (recomendacao.RecomendacaoDeRating != model.RecomendacaoDeRatingPesquisado.Value)
+                                if (recomendacao.RatingFinalPosCalibragem != model.RecomendacaoDeRatingPesquisado.Value)
                                 {
                                     restringe = true;
                                 }
@@ -1309,7 +1309,7 @@ namespace AvaliacaoDesempenho.Controllers
         {
             var identidade = new Identidade();
 
-            int usuarioID;
+            int usuarioID;	
 
             if (colaboradorID.HasValue)
                 usuarioID = colaboradorID.Value;

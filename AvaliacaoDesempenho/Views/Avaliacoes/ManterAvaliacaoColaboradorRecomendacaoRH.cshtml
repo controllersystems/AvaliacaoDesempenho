@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_LayoutInterno.cshtml";
 }
 
-@Html.Action("CabecalhoColaborador", "Usuarios", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID })
+@Html.Action("CabecalhoColaborador", "Usuarios", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID, administrador = Model.Administrador })
 
 
 
@@ -67,8 +67,15 @@ else
                 </div>
                 <div class="col-md-025">
                     @Html.HiddenFor(model => model.ItemRecomendacaoColaborador.RecomendacaoDeRating)
-                    @Html.TextBoxFor(model => model.ListaRecomendacaoDeRating.FirstOrDefault(x => x.Value == Model.ItemRecomendacaoColaborador.RecomendacaoDeRating.Value.ToString()).Text,
+                    @if (Model.ItemRecomendacaoColaborador.RecomendacaoDeRating == null)
+                    {
+                        @Html.TextBox("Model.ItemRecomendacaoColaborador.RecomendacaoDeRating", string.Empty, new { @class = "form-control", @readonly = "readonly" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(model => model.ListaRecomendacaoDeRating.FirstOrDefault(x => x.Value == Model.ItemRecomendacaoColaborador.RecomendacaoDeRating.Value.ToString()).Text,
                                                 new { @class = "form-control", @readonly = "readonly" })
+                    }
                 </div>
                 <div class="col-md-025">
                     <label>Recomendação de Promoção</label>
@@ -118,8 +125,15 @@ else
                     </div>
                     <div class="col-md-025">
                         @Html.HiddenFor(model => model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem)
-                        @Html.TextBoxFor(model => model.ListaRecomendacaoDeRating.FirstOrDefault(x => x.Value == Model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem.Value.ToString()).Text,
+                        @if (Model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem == null)
+                        {
+                            @Html.TextBox("Model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem", string.Empty, new { @class = "form-control", @readonly = "readonly" })
+                        }
+                        else
+                        {
+                         @Html.TextBoxFor(model => model.ListaRecomendacaoDeRating.FirstOrDefault(x => x.Value == Model.ItemRecomendacaoColaborador.RatingFinalPosCalibragem.Value.ToString()).Text,
                                                 new { @class = "form-control", @readonly = "readonly" })
+                        }
                     </div>
                     <div class="col-md-025">
                         <label>Indicação a promoção após calibragem</label>
@@ -263,7 +277,7 @@ else
         <hr />
         <div class="row top20">
             <div class="col-md-095 col-md-offset-005 text-right">
-                @Html.ActionLink("Anterior", "ManterAvaliacaoColaboradorPerformance", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID, etapaAutoAvaliacao = 1 }, new { @class = "btn btn-default" })
+                @Html.ActionLink("Anterior", "ManterAvaliacaoColaboradorPerformance", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID, etapaAutoAvaliacao = 1, administrador = Model.Administrador }, new { @class = "btn btn-default" })
                 @if (Model.StatusAvaliacaoColaboradorID == (int)Enumeradores.StatusAvaliacaoColaborador.EmAvaliacaoPelosRH &&
                      Model.PapelID == (int)Enumeradores.CodigoPapeis.Administrador &&
                      Model.StatusCicloAvaliacaoID.Equals((int)Enumeradores.SituacaoCicloAvaliacao.EmAvaliacaoPelosRH))

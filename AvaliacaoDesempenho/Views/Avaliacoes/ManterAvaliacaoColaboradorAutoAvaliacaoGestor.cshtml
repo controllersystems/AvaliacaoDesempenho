@@ -29,6 +29,7 @@
     @Html.HiddenFor(model => model.DataInicioVigencia)
     @Html.HiddenFor(model => model.DataTerminoVigencia)
     @Html.HiddenFor(model => model.SituacaoCicloAvaliaoID)
+    @Html.HiddenFor(model => model.Administrador)
 
 
     @Html.AntiForgeryToken()
@@ -211,7 +212,7 @@
                 }
                 else
                 {
-                    @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorCompetenciasGestor", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("Próxima Etapa", "ManterAvaliacaoColaboradorCompetenciasGestor", new { id = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID, administrador = Model.Administrador }, new { @class = "btn btn-default" })
                 }
             </div>
         </div>

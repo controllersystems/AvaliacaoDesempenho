@@ -27,5 +27,7 @@
         public string Localidade { get; set; }
 
         public byte[] FOTEMP { get; set; }
+
+        public bool? IsRelatorio { get; set; }
     }
 }

@@ -156,7 +156,7 @@ namespace AvaliacaoDesempenho.Controllers
 
         [Authorize]
         [CriacaoMapeamento(typeof(DeIdentidadeParaCabecalhoColaboradorViewModel))]
-        public ActionResult CabecalhoColaborador(int? cicloAvaliacaoSelecionadoID, int? colaboradorID = null, bool? administrador = null)
+        public ActionResult CabecalhoColaborador(int? cicloAvaliacaoSelecionadoID, int? colaboradorID = null, bool? administrador = null, bool? isRelatorio = null)
         {
             Identidade identidade;
 
@@ -171,6 +171,8 @@ namespace AvaliacaoDesempenho.Controllers
             model.CicloAvaliacaoDescricao = new CicloAvaliacaoDAO().Obter(cicloAvaliacaoSelecionadoID.Value).Descricao;
 
             model.CicloAvaliacaoID = cicloAvaliacaoSelecionadoID;
+
+            model.IsRelatorio = isRelatorio;
 
             if (administrador.HasValue)
                 ViewBag.Administrador = administrador.Value;

@@ -38,6 +38,8 @@ namespace AvaliacaoDesempenho.Models.Avaliacoes
                 return GestorRubiID.HasValue && UsuarioRubiID.HasValue && GestorRubiID.Value.Equals(UsuarioRubiID.Value);
             }
         }
+
+        public bool Administrador { get; set; }
     }
 
     public class ItemListaPerformanceColaborador

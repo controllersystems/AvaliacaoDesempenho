@@ -7,7 +7,9 @@
     Layout = "~/Views/Shared/_LayoutRelatorio.cshtml";
 }
 
-<div class="row">
+@Html.Action("CabecalhoColaborador", "Usuarios", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID, isRelatorio = true })
+
+<div class="row top20">
     <div class="col-md-025">
         <label>Objetivos</label>
     </div>
@@ -27,16 +29,16 @@
 
     <div class="row top30">
         <div class="col-md-025">
-            @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].Objetivo, new { @class = "form-control", @readonly = "readonly" })
+            <div class="text_area_print">@Html.Raw(Html.Encode(Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].Objetivo).Replace("\r\n", "<br />"))</div>
         </div>
         <div class="col-md-025">
-            @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].MetaColaboradorMeta, new { @class = "form-control", @readonly = "readonly" })
+            <div class="text_area_print">@Html.Raw(Html.Encode(Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].MetaColaboradorMeta).Replace("\r\n", "<br />"))</div>
         </div>
         <div class="col-md-025">
-            @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido, new { @class = "form-control", @readonly = "readonly" })
+            <div class="text_area_print">@Html.Raw(Html.Encode(Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido).Replace("\r\n", "<br />"))</div>
         </div>
         <div class="col-md-025">
-            @Html.TextAreaFor(model => Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].AvaliacaoGestor, new { @class = "form-control", @readonly = "readonly" })
+            <div class="text_area_print">@Html.Raw(Html.Encode(Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].AvaliacaoGestor).Replace("\r\n", "<br />"))</div>
         </div>
     </div>
 }
@@ -52,10 +54,10 @@
 {
     <div class="row top30">
         <div class="col-md-050">
-            @Html.TextAreaFor(model => Model.ListaOutrasContribuicoesGestorViewModel[i].Contribuicao, new { @class = "form-control", @readonly = "readonly" })
+            <div class="text_area_print">@Html.Raw(Html.Encode(Model.ListaOutrasContribuicoesGestorViewModel[i].Contribuicao).Replace("\r\n", "<br />"))</div>
         </div>
         <div class="col-md-050">
-            @Html.TextAreaFor(model => Model.ListaOutrasContribuicoesGestorViewModel[i].AvaliacaoGestor, new { @class = "form-control", @readonly = "readonly" })
+            <div class="text_area_print">@Html.Raw(Html.Encode(Model.ListaOutrasContribuicoesGestorViewModel[i].AvaliacaoGestor).Replace("\r\n", "<br />"))</div>
         </div>
     </div>
 }
@@ -87,7 +89,7 @@
                 {
                     <tr>
                         <td class="col-md-6">
-                            @Html.TextAreaFor(model => Model.ListaCompetenciasCorporativas[i].Competencia, new { @class = "form-control", @readonly = "readonly" })
+                            <div class="text_area_print">@Html.Raw(Html.Encode(Model.ListaCompetenciasCorporativas[i].Competencia).Replace("\r\n", "<br />"))</div>
                         </td>
                         <td class="col-md-1">
                             @Html.TextBoxFor(model => Model.ListaCompetenciasCorporativas[i].NivelColaborador, new { @class = "form-control", @readonly = "readonly" })
@@ -100,7 +102,7 @@
                                                 new { @class = "form-control", @readonly = "readonly" })
                         </td>
                         <td class="col-md-3">
-                            @Html.TextAreaFor(model => Model.ListaCompetenciasCorporativas[i].ComentarioGestor, new { @class = "form-control", @readonly = "readonly" })
+                            <div class="text_area_print">@Html.Raw(Html.Encode(Model.ListaCompetenciasCorporativas[i].ComentarioGestor).Replace("\r\n", "<br />"))</div>
                         </td>
                     </tr>
                 }
@@ -138,7 +140,7 @@
                 {
                     <tr>
                         <td class="col-md-6">
-                            @Html.TextAreaFor(model => Model.ListaCompetenciasLideranca[i].Competencia, new { @class = "form-control", @readonly = "readonly" })
+                            <div class="text_area_print">@Html.Raw(Html.Encode(Model.ListaCompetenciasLideranca[i].Competencia).Replace("\r\n", "<br />"))</div>
                         </td>
                         <td class="col-md-1">
                             @Html.TextBoxFor(model => Model.ListaCompetenciasLideranca[i].NivelColaborador, new { @class = "form-control", @readonly = "readonly" })
@@ -151,7 +153,7 @@
                                                 new { @class = "form-control", @readonly = "readonly" })
                         </td>
                         <td class="col-md-3">
-                            @Html.TextAreaFor(model => Model.ListaCompetenciasLideranca[i].ComentarioGestor, new { @class = "form-control", @readonly = "readonly" })
+                            <div class="text_area_print">@Html.Raw(Html.Encode(Model.ListaCompetenciasLideranca[i].ComentarioGestor).Replace("\r\n", "<br />"))</div>
                         </td>
                     </tr>
                 }
@@ -187,7 +189,7 @@
                 {
                     <tr>
                         <td class="col-md-6">
-                            @Html.TextAreaFor(model => Model.ListaCompetenciasFuncionais[i].Competencia, new { @class = "form-control", @readonly = "readonly" })
+                            <div class="text_area_print">@Html.Raw(Html.Encode(Model.ListaCompetenciasFuncionais[i].Competencia).Replace("\r\n", "<br />"))</div>
                         </td>
                         <td class="col-md-1">
                             @Html.TextBoxFor(model => Model.ListaCompetenciasFuncionais[i].NivelColaborador, new { @class = "form-control", @readonly = "readonly" })
@@ -200,7 +202,7 @@
                                                 new { @class = "form-control", @readonly = "readonly" })
                         </td>
                         <td class="col-md-3">
-                            @Html.TextAreaFor(model => model.ListaCompetenciasFuncionais[i].ComentarioGestor, new { @class = "form-control", @readonly = "readonly" })
+                            <div class="text_area_print">@Html.Raw(Html.Encode(Model.ListaCompetenciasFuncionais[i].ComentarioGestor).Replace("\r\n", "<br />"))</div>
                         </td>
                     </tr>
                 }
@@ -220,7 +222,7 @@
             </tr>
             <tr>
                 <td>
-                    @Html.TextAreaFor(model => Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral, new { @class = "form-control", @readonly = "readonly" })
+                    <div class="text_area_print">@Html.Raw(Html.Encode(Model.AvaliacaoPerformanceGerais.AvaliacaoPerformanceGeral).Replace("\r\n", "<br />"))</div>
                 </td>
             </tr>
         </table>
@@ -265,10 +267,10 @@
 </div>
 <div class="row">
     <div class="col-md-030">
-        @Html.TextAreaFor(model => model.PDI.Idiomas, new { @class = "form-control", @readonly = "readonly" })
+        <div class="text_area_print">@Html.Raw(Html.Encode(Model.PDI.Idiomas).Replace("\r\n", "<br />"))</div>
     </div>
     <div class="col-md-070">
-        @Html.TextAreaFor(model => model.PDI.Graduacao, new { @class = "form-control", @readonly = "readonly" })
+        <div class="text_area_print">@Html.Raw(Html.Encode(Model.PDI.Graduacao).Replace("\r\n", "<br />"))</div>
     </div>
 </div>
 <hr />
@@ -280,7 +282,7 @@
 </div>
 <div class="row">
     <div class="col-md-100">
-        @Html.TextAreaFor(model => model.PDI.PontosFortes, new { @class = "form-control", @readonly = "readonly" })
+        <div class="text_area_print">@Html.Raw(Html.Encode(Model.PDI.PontosFortes).Replace("\r\n", "<br />"))</div>
     </div>
 </div>
 <div class="row top20">
@@ -290,7 +292,7 @@
 </div>
 <div class="row">
     <div class="col-md-100">
-        @Html.TextAreaFor(model => model.PDI.PontosDesenvolvimento, new { @class = "form-control", @readonly = "readonly" })
+        <div class="text_area_print">@Html.Raw(Html.Encode(Model.PDI.PontosDesenvolvimento).Replace("\r\n", "<br />"))</div>
     </div>
 </div>
 <hr />
@@ -309,10 +311,10 @@
         </div>
         <div class="row">
             <div class="col-md-050">
-                @Html.TextAreaFor(model => model.PDI.ListaDesenvolvimentoCompetenciaViewModel[i].AcaoDesenvolvimento, new { @class = "form-control", @readonly = "readonly" })
+                <div class="text_area_print">@Html.Raw(Html.Encode(Model.PDI.ListaDesenvolvimentoCompetenciaViewModel[i].AcaoDesenvolvimento).Replace("\r\n", "<br />"))</div>
             </div>
             <div class="col-md-050">
-                @Html.TextAreaFor(model => model.PDI.ListaDesenvolvimentoCompetenciaViewModel[i].RecursoSuporte, new { @class = "form-control", @readonly = "readonly" })
+                <div class="text_area_print">@Html.Raw(Html.Encode(Model.PDI.ListaDesenvolvimentoCompetenciaViewModel[i].RecursoSuporte).Replace("\r\n", "<br />"))</div>
             </div>
         </div>
     }
@@ -324,6 +326,6 @@
 </div>
 <div class="row">
     <div class="col-md-100">
-        @Html.TextAreaFor(model => model.PDI.ComentariosColaborador, new { @class = "form-control", @readonly = "readonly" })
+        <div class="text_area_print">@Html.Raw(Html.Encode(Model.PDI.ComentariosColaborador).Replace("\r\n", "<br />"))</div>
     </div>
 </div>
