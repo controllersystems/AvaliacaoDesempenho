@@ -777,7 +777,19 @@ namespace AvaliacaoDesempenho.Controllers
 
                         var recomendacao = new RecomendacaoColaboradorDAO().Obter(item.ID);
 
-                        if (recomendacao != null)
+                        if (recomendacao == null)
+                        {
+                            if (model.IndicacaoDePromocaoPesquisado.HasValue)
+                            {
+                                restringe = true;
+                            }
+
+                            if (model.RecomendacaoDeRatingPesquisado.HasValue)
+                            {
+                                restringe = true;
+                            }
+                        }
+                        else
                         {
                             if (model.IndicacaoDePromocaoPesquisado.HasValue)
                             {
@@ -1332,6 +1344,7 @@ namespace AvaliacaoDesempenho.Controllers
             ImpressaoEstruturadaIndividualViewModel model = new ImpressaoEstruturadaIndividualViewModel();
             model.AcessorGestor = acessoGestor;
             model.CicloAvaliacaoSelecionadoID = cicloSelecionado;
+            model.ColaboradorID = usuarioID;
 
             var cicloAvaliacao = new CicloAvaliacaoDAO().Obter(cicloSelecionado.Value);
 
