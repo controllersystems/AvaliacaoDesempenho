@@ -1,31 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaliacaoDesempenho", "AvaliacaoDesempenho\AvaliacaoDesempenho.csproj", "{C2D90D20-1014-4C37-A73D-5E4A631522DB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Referencias", "Referencias", "{AEF80A64-A937-4D66-982C-60546CA3FE4E}"
-	ProjectSection(SolutionItems) = preProject
-		Referencias\oci.dll = Referencias\oci.dll
-		Referencias\ociw32.dll = Referencias\ociw32.dll
-		Referencias\Oracle.DataAccess.dll = Referencias\Oracle.DataAccess.dll
-		Referencias\orannzsbb12.dll = Referencias\orannzsbb12.dll
-		Referencias\oraocci12.dll = Referencias\oraocci12.dll
-		Referencias\oraociicus12.dll = Referencias\oraociicus12.dll
-		Referencias\OraOps12.dll = Referencias\OraOps12.dll
-	EndProjectSection
-EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 2
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://abelha.visualstudio.com/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = AvaliacaoDesempenho\\AvaliacaoDesempenho.csproj
-		SccProjectName1 = AvaliacaoDesempenho
-		SccLocalPath1 = AvaliacaoDesempenho
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
