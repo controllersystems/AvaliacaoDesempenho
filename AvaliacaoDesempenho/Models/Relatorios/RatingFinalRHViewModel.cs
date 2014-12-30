@@ -24,9 +24,9 @@ namespace AvaliacaoDesempenho.Models.Relatorios
         public string CargoPesquisado { get; set; }
         [Display(Name = "Localidade")]
         public string LocalidadePesquisado { get; set; }
-        [Display(Name = "Recomendação de Rating")]
+        [Display(Name = "Rating Final")]
         public int? RecomendacaoDeRatingPesquisado { get; set; }
-        [Display(Name = "Indicação de Promoção")]
+        [Display(Name = "Indicação Final a Promoção")]
         public bool? IndicacaoDePromocaoPesquisado { get; set; }
         public IEnumerable<SelectListItem> ListaSimNao { get; set; }
         public IEnumerable<SelectListItem> ListaRecomendacaoDeRating { get; set; }

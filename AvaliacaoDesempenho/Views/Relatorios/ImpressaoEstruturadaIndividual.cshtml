@@ -10,38 +10,34 @@
 @Html.Action("CabecalhoColaborador", "Usuarios", new { cicloAvaliacaoSelecionadoID = Model.CicloAvaliacaoSelecionadoID, colaboradorID = Model.ColaboradorID, isRelatorio = true })
 
 <div class="row top20">
-    <div class="col-md-025">
-        <label>Objetivos</label>
-    </div>
-    <div class="col-md-025">
-        <label>Metas</label>
-    </div>
-    <div class="col-md-025">
-        <label>Resultados Atingidos</label>
-    </div>
-    <div class="col-md-025">
-        <label>Avaliação Gestor</label>
+    <div class="col-md-100">
+        <table class="table">
+            <tr>
+                <th>Objetivos</th>
+                <th>Metas</th>
+                <th>Resultados Atingidos</th>
+                <th>Avaliação Gestor</th>
+            </tr>
+            @for (int i = 0; i < Model.ListaObjetivosMetasResultadosatingidosGestorViewModel.Count; i++)
+            {
+                <tr>
+                    <td class="col-md-3">
+                        <div class="text_area_print">@Html.Raw(Html.Encode(Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].Objetivo).Replace("\r\n", "<br />"))</div>
+                    </td>
+                    <td class="col-md-3">
+                        <div class="text_area_print">@Html.Raw(Html.Encode(Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].MetaColaboradorMeta).Replace("\r\n", "<br />"))</div>
+                    </td>
+                    <td class="col-md-3">
+                        <div class="text_area_print">@Html.Raw(Html.Encode(Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido).Replace("\r\n", "<br />"))</div>
+                    </td>
+                    <td class="col-md-3">
+                        <div class="text_area_print">@Html.Raw(Html.Encode(Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].AvaliacaoGestor).Replace("\r\n", "<br />"))</div>
+                    </td>
+                </tr>
+            }
+        </table>
     </div>
 </div>
-
-@for (int i = 0; i < Model.ListaObjetivosMetasResultadosatingidosGestorViewModel.Count; i++)
-{
-
-    <div class="row top30">
-        <div class="col-md-025">
-            <div class="text_area_print">@Html.Raw(Html.Encode(Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].Objetivo).Replace("\r\n", "<br />"))</div>
-        </div>
-        <div class="col-md-025">
-            <div class="text_area_print">@Html.Raw(Html.Encode(Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].MetaColaboradorMeta).Replace("\r\n", "<br />"))</div>
-        </div>
-        <div class="col-md-025">
-            <div class="text_area_print">@Html.Raw(Html.Encode(Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].MetaColaboradorResultadoAtingidoColaboradorResultadoAtingido).Replace("\r\n", "<br />"))</div>
-        </div>
-        <div class="col-md-025">
-            <div class="text_area_print">@Html.Raw(Html.Encode(Model.ListaObjetivosMetasResultadosatingidosGestorViewModel[i].AvaliacaoGestor).Replace("\r\n", "<br />"))</div>
-        </div>
-    </div>
-}
 <hr />
 
 <div class="row top20">
